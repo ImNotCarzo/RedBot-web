@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidad — RedBot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #ff2e2e;
+      --red-dim: #cc1a1a;
+      --red-glow: rgba(255, 46, 46, 0.1);
+      --bg: #080808;
+      --surface: #111111;
+      --surface2: #181818;
+      --text: #e8e8e8;
+      --muted: #666;
+      --border: rgba(255,255,255,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,46,46,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,46,46,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 18px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(8,8,8,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--red);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo img {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .nav-back {
+      font-size: 0.88rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--text); }
+
+    .page-header {
+      position: relative;
+      z-index: 1;
+      padding: 140px 40px 60px;
+      max-width: 800px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .page-title span { color: var(--red); }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 560px;
+      font-weight: 300;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 40px 120px;
+    }
+
+    .section {
+      margin-bottom: 56px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .section-num {
+      font-size: 0.72rem;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 28px 0 12px;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #aaa;
+      line-height: 1.75;
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0 0 16px;
+    }
+
+    ul li {
+      font-size: 0.95rem;
+      color: #aaa;
+      line-height: 1.75;
+      padding: 8px 0 8px 20px;
+      position: relative;
+      font-weight: 300;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    ul li:last-child { border-bottom: none; }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 18px;
+      width: 5px;
+      height: 5px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .highlight-box {
+      background: var(--red-glow);
+      border: 1px solid rgba(255,46,46,0.15);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+
+    .highlight-box p {
+      color: #cc9999;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      margin-top: 40px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      color: var(--red);
+    }
+
+    .footer-text { font-size: 0.82rem; color: var(--muted); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .page-header { padding: 120px 24px 48px; }
+      .content { padding: 48px 24px 80px; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <img src="redbot-artguru.png" alt="RedBot" onerror="this.style.display='none'">
+      RedBot
+    </a>
+    <a class="nav-back" href="index.html">← Volver al inicio</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-tag">Legal</div>
+    <h1 class="page-title">Política de <span>Privacidad</span></h1>
+    <p class="page-subtitle">Al invitar o usar RedBot, aceptas esta política. Aquí te explicamos exactamente qué hacemos con tus datos, sin letra chica.</p>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-num">01</div>
+      <h2>Información recopilada</h2>
+
+      <h3>Registro del servidor</h3>
+      <p>Cuando RedBot se agrega a un servidor, puede almacenar el <strong>ID del servidor</strong> para propósitos de configuración, como el prefijo personalizado.</p>
+
+      <h3>Uso de comandos</h3>
+      <p>Cuando ejecutas un comando, el bot procesa temporalmente:</p>
+      <ul>
+        <li>ID del usuario</li>
+        <li>ID del servidor y del canal</li>
+        <li>Nombre del comando y sus parámetros</li>
+      </ul>
+      <p>Esta información se usa únicamente para ejecutar la función solicitada y no se almacena.</p>
+
+      <h3>Contenido de mensajes</h3>
+      <div class="highlight-box">
+        <p>RedBot <strong>NO</strong> lee ni almacena todos los mensajes del servidor. El contenido solo se procesa cuando el usuario explícitamente usa un comando.</p>
+      </div>
+      <p>El contenido se procesa únicamente cuando:</p>
+      <ul>
+        <li>Se invoca un comando con prefijo o slash</li>
+        <li>Se responde directamente a un mensaje generado por el comando AI</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-num">02</div>
+      <h2>Procesamiento de IA</h2>
+      <p>Al usar el comando <strong>/ask</strong>, el contenido de tu mensaje se transmite temporalmente a un proveedor de IA externo para generar la respuesta.</p>
+      <ul>
+        <li>El contexto de conversación se guarda <strong>en memoria</strong> y se descarta automáticamente tras 10 minutos de inactividad o al reiniciar el bot</li>
+        <li>RedBot NO usa tu contenido para entrenar modelos propios</li>
+        <li>Tu contenido no se vende, comparte ni monetiza</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-num">03</div>
+      <h2>Almacenamiento de datos</h2>
+      <ul>
+        <li>No hay bases de datos permanentes de contenido de mensajes</li>
+        <li>Los datos de configuración (como prefijo del servidor) se almacenan en base de datos</li>
+        <li>Los datos en memoria se eliminan automáticamente</li>
+        <li>No hay registros a largo plazo de mensajes de usuarios</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-num">04</div>
+      <h2>Compartición de datos</h2>
+      <p>RedBot no vende, alquila ni distribuye datos. Los datos pueden compartirse únicamente con:</p>
+      <ul>
+        <li>API oficial de Discord (requerida para el funcionamiento)</li>
+        <li>Proveedores de IA (solo cuando usás el comando /ask)</li>
+        <li>Autoridades legales si es requerido por ley</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-num">05</div>
+      <h2>Eliminación de datos</h2>
+      <p>Como RedBot no almacena permanentemente contenido de mensajes, la mayoría de datos se eliminan automáticamente.</p>
+      <p>Los administradores pueden eliminar datos de configuración removiendo el bot del servidor. Para solicitudes específicas, contactá al desarrollador:</p>
+      <p><a href="https://discord.gg/sYdyS8Ez3s" target="_blank">Servidor de soporte de RedBot →</a></p>
+    </div>
+
+    <div class="section">
+      <div class="section-num">06</div>
+      <h2>Requisitos y cambios</h2>
+      <p>RedBot no está destinado a usuarios menores de 13 años, de acuerdo con los Términos de Servicio de Discord.</p>
+      <p>Esta política puede actualizarse en cualquier momento. El uso continuado de RedBot implica aceptación de la versión actualizada.</p>
+    </div>
+
+    <a class="back-link" href="index.html">← Volver al inicio</a>
+  </div>
+
+  <footer>
+    <div class="footer-logo">RedBot</div>
+    <div class="footer-text">© 2026 RedBot. Todos los derechos reservados.</div>
+    <div style="display:flex;gap:24px;">
+      <a href="privacy.html" style="font-size:0.78rem;color:var(--muted);text-decoration:none;">Privacidad</a>
+      <a href="tos.html" style="font-size:0.78rem;color:var(--muted);text-decoration:none;">Términos</a>
+      <a href="https://discord.gg/sYdyS8Ez3s" target="_blank" style="font-size:0.78rem;color:var(--muted);text-decoration:none;">Soporte</a>
+    </div>
+  </footer>
+
+</body>
+</html>
