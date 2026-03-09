@@ -213,13 +213,13 @@
     }
 
     .team-role {
-      font-size: 0.75rem;
-      color: var(--red);
-      font-weight: 600;
-      margin-top: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
+  font-size: 0.75rem;
+  color: var(--red);
+  font-weight: 600;
+  margin-top: 6px; /* antes 4px */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
 
     /* ── SKELETON ── */
     .skeleton {
@@ -335,6 +335,7 @@
     const TEAM = [
       { id: "668550027307909162", role: "Owner" },
       { id: "460634087892189185", role: "Director Técnico" },
+      { id: "722930340640981052", role: "Apoyo emocional" },
     ];
 
     async function fetchMember({ id, role }) {
