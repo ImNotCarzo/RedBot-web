@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipo — RedBot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #ff2e2e;
+      --red-dim: #cc1a1a;
+      --red-glow: rgba(255, 46, 46, 0.12);
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.06);
+      --border-red: rgba(255,46,46,0.18);
+      --text: #e8e8e8;
+      --muted: #555;
+      --muted2: #888;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,46,46,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,46,46,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 18px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(8,8,8,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--red);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo img {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .nav-back {
+      font-size: 0.88rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--text); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      position: relative;
+      z-index: 1;
+      padding: 140px 40px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .page-title span { color: var(--red); }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted2);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── TEAM GRID ── */
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 40px 120px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-red), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .team-card:hover {
+      border-color: var(--border-red);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+    }
+
+    .team-card:hover::before { opacity: 1; }
+
+    .team-avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .team-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--surface2);
+      display: block;
+    }
+
+    .team-status {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      border: 2px solid var(--surface);
+    }
+
+    .team-status.online  { background: #23a55a; }
+    .team-status.idle    { background: #f0b132; }
+    .team-status.dnd     { background: #f23f43; }
+    .team-status.offline { background: #747f8d; }
+
+    .team-info { flex: 1; min-width: 0; }
+
+    .team-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .team-role {
+      font-size: 0.75rem;
+      color: var(--red);
+      font-weight: 600;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* ── SKELETON ── */
+    .skeleton {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .skel-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--surface2);
+      animation: shimmer 1.5s infinite;
+      flex-shrink: 0;
+    }
+
+    .skel-lines { flex: 1; }
+
+    .skel-line {
+      height: 12px;
+      border-radius: 6px;
+      background: var(--surface2);
+      animation: shimmer 1.5s infinite;
+      margin-bottom: 8px;
+    }
+
+    .skel-line:last-child { width: 60%; margin-bottom: 0; }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 26px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      color: var(--red);
+      font-size: 1rem;
+    }
+
+    .footer-text { font-size: 0.78rem; color: var(--muted); }
+
+    .footer-links { display: flex; gap: 24px; }
+
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .page-header { padding: 100px 20px 40px; }
+      .content { padding: 40px 20px 80px; }
+      .team-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 14px; text-align: center; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="../index.html">
+      <img src="../redbot-artguru.png" alt="RedBot" onerror="this.style.display='none'">
+      RedBot
+    </a>
+    <a class="nav-back" href="../index.html">← Volver al inicio</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-tag">Equipo</div>
+    <h1 class="page-title">Las personas <span>detrás</span></h1>
+    <p class="page-subtitle">El equipo que hace posible RedBot.</p>
+  </div>
+
+  <div class="content">
+    <div class="team-grid" id="team-grid">
+      <!-- skeletons mientras carga -->
+      <div class="skeleton"><div class="skel-avatar"></div><div class="skel-lines"><div class="skel-line"></div><div class="skel-line"></div></div></div>
+      <div class="skeleton"><div class="skel-avatar"></div><div class="skel-lines"><div class="skel-line"></div><div class="skel-line"></div></div></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">RedBot</div>
+    <div class="footer-text">© 2026 RedBot. Todos los derechos reservados.</div>
+    <div class="footer-links">
+      <a href="../privacy/index.html">Privacidad</a>
+      <a href="../tos/index.html">Términos</a>
+      <a href="https://discord.gg/sYdyS8Ez3s" target="_blank">Soporte</a>
+    </div>
+  </footer>
+
+  <script>
+    const TEAM = [
+      { id: "668550027307909162", role: "Owner" },
+      { id: "460634087892189185", role: "Community Manager" },
+    ];
+
+    async function fetchMember({ id, role }) {
+      try {
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
+        const json = await res.json();
+        if (!json.success) return null;
+        const { discord_user, discord_status } = json.data;
+
+        const avatarUrl = discord_user.avatar
+          ? `https://cdn.discordapp.com/avatars/${id}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
+          : `https://cdn.discordapp.com/embed/avatars/${Number(discord_user.discriminator || 0) % 5}.png`;
+
+        return {
+          name: discord_user.display_name || discord_user.global_name || discord_user.username,
+          avatar: avatarUrl,
+          status: discord_status || "offline",
+          role,
+        };
+      } catch {
+        return null;
+      }
+    }
+
+    async function renderTeam() {
+      const grid = document.getElementById("team-grid");
+      const members = await Promise.all(TEAM.map(fetchMember));
+      grid.innerHTML = "";
+
+      members.forEach(m => {
+        if (!m) return;
+        const card = document.createElement("div");
+        card.className = "team-card";
+        card.innerHTML = `
+          <div class="team-avatar-wrap">
+            <img class="team-avatar" src="${m.avatar}" alt="${m.name}">
+            <span class="team-status ${m.status}"></span>
+          </div>
+          <div class="team-info">
+            <div class="team-name">${m.name}</div>
+            <div class="team-role">${m.role}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    renderTeam();
+  </script>
+
+</body>
+</html>
