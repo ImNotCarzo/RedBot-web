@@ -3,21 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>RedBot</title>
+  <meta name="description" content="RedBot es un bot de Discord simple e intuitivo.">
+  <meta name="theme-color" content="#ff2e2e">
+  <link rel="canonical" href="https://redbot.me/">
+
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#ff0000">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="RedBot" />
-  <meta property="og:description" content="Un bot de Discord simple e intuitivo." />
-  <meta property="og:image" content="https://redbot.me/redbot.png" />
-  <meta property="og:url" content="https://redbot.me" />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#ff2e2e" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:title" content="RedBot — Bot de Discord simple e intuitivo">
+  <meta property="og:description" content="Sin relleno, sin extras. Utilidades, info de servidor y asistentes de IA listos para tu comunidad.">
+  <meta property="og:image" content="https://redbot.me/redbot.png">
+  <meta property="og:url" content="https://redbot.me/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RedBot — Bot de Discord simple e intuitivo">
+  <meta name="twitter:description" content="Sin relleno, sin extras. Utilidades, info de servidor y asistentes de IA para Discord.">
+  <meta name="twitter:image" content="https://redbot.me/redbot.png">
+
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -57,7 +66,24 @@
       z-index: 0;
     }
 
-    /* ── NAV ── */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--red);
+      color: #fff;
+      padding: 10px 14px;
+      z-index: 300;
+      border-radius: 0 0 8px 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .skip-link:focus-visible {
+      left: 12px;
+      top: 0;
+    }
+
     nav {
       position: fixed;
       top: 0;
@@ -78,9 +104,10 @@
       font-size: 1.3rem;
       color: var(--red);
       letter-spacing: -0.5px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
+      text-decoration: none;
     }
 
     .nav-logo img {
@@ -118,17 +145,28 @@
 
     .nav-cta:hover { background: var(--red-dim) !important; }
 
-    /* ── HERO ── */
+    .menu-toggle {
+      display: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
     .hero {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding-top: 80px;
-  overflow: hidden;
-}
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 110px;
+      overflow: hidden;
+    }
+
     .hero > * { position: relative; z-index: 1; }
 
     .badge {
@@ -164,7 +202,7 @@
     h1 {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(4.5rem, 11vw, 9rem);
+      font-size: clamp(4.2rem, 11vw, 9rem);
       letter-spacing: -5px;
       line-height: 0.88;
       margin-bottom: 30px;
@@ -191,7 +229,7 @@
     .subtitle {
       font-size: 1.05rem;
       color: var(--muted2);
-      max-width: 420px;
+      max-width: 560px;
       line-height: 1.75;
       margin-bottom: 52px;
       font-weight: 300;
@@ -207,16 +245,20 @@
       margin-bottom: 80px;
     }
 
-    .btn-primary {
+    .btn-primary,
+    .btn-secondary {
       padding: 13px 30px;
-      background: var(--red);
-      color: white;
-      text-decoration: none;
       border-radius: 8px;
-      font-weight: 600;
       font-size: 0.92rem;
       transition: all 0.25s;
       font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: white;
+      font-weight: 600;
     }
 
     .btn-primary:hover {
@@ -226,16 +268,10 @@
     }
 
     .btn-secondary {
-      padding: 13px 30px;
       background: transparent;
       color: var(--muted2);
-      text-decoration: none;
-      border-radius: 8px;
       font-weight: 500;
-      font-size: 0.92rem;
       border: 1px solid var(--border);
-      transition: all 0.25s;
-      font-family: 'DM Sans', sans-serif;
     }
 
     .btn-secondary:hover {
@@ -244,7 +280,6 @@
       transform: translateY(-2px);
     }
 
-    /* ── STATS ── */
     .stats-wrap {
       position: relative;
       z-index: 1;
@@ -296,7 +331,6 @@
       font-weight: 500;
     }
 
-    /* ── SECTIONS ── */
     .section {
       position: relative;
       z-index: 1;
@@ -333,10 +367,9 @@
       line-height: 1.1;
     }
 
-    /* ── FEATURES ── */
-    .features-grid {
+    .features-grid,
+    .steps-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: var(--border);
       border-radius: 16px;
@@ -344,13 +377,18 @@
       border: 1px solid var(--border);
     }
 
-    .feature-card {
+    .features-grid { grid-template-columns: repeat(3, 1fr); }
+    .steps-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .feature-card,
+    .step-card {
       background: var(--surface);
       padding: 34px 30px;
       transition: background 0.2s;
     }
 
-    .feature-card:hover { background: var(--surface2); }
+    .feature-card:hover,
+    .step-card:hover { background: var(--surface2); }
 
     .feature-card:hover .feature-icon {
       background: rgba(255,46,46,0.15);
@@ -371,7 +409,8 @@
       transition: all 0.2s;
     }
 
-    .feature-title {
+    .feature-title,
+    .step-title {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 1rem;
@@ -379,13 +418,28 @@
       letter-spacing: -0.3px;
     }
 
-    .feature-desc {
+    .feature-desc,
+    .step-desc {
       font-size: 0.84rem;
       color: var(--muted2);
       line-height: 1.65;
     }
 
-    /* ── LEGAL ── */
+    .step-number {
+      display: inline-flex;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      align-items: center;
+      justify-content: center;
+      background: var(--red-glow);
+      border: 1px solid var(--border-red);
+      color: #ff7d7d;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
     .legal-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -441,7 +495,6 @@
       line-height: 1.6;
     }
 
-    /* ── FOOTER ── */
     footer {
       position: relative;
       z-index: 1;
@@ -472,142 +525,249 @@
 
     .footer-links a:hover { color: var(--text); }
 
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: 3px;
+      border-radius: 8px;
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @media (max-width: 920px) {
+      .features-grid,
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 768px) {
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; }
+      nav {
+        padding: 14px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .menu-toggle { display: inline-flex; }
+
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 10px 0 2px;
+      }
+
+      .nav-links.is-open { display: flex; }
+
       h1 { letter-spacing: -3px; }
+
       .stats { flex-direction: column; }
       .stat:not(:last-child)::after { display: none; }
       .stat { border-bottom: 1px solid var(--border); }
-      .features-grid { grid-template-columns: 1fr; }
-      .fun-grid { grid-template-columns: 1fr; }
+
       .legal-grid { grid-template-columns: 1fr; }
       .section { padding: 0 20px 80px; }
-      footer { flex-direction: column; gap: 14px; text-align: center; padding: 20px; }
+
+      footer {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
   <nav>
-    <div class="nav-logo">
-      <img src="redbot-artguru.png" alt="RedBot" onerror="this.style.display='none'">
+    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
+      <img src="/redbot.png" alt="Logo de RedBot">
       RedBot
-    </div>
-    <ul class="nav-links">
+    </a>
+
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú de navegación">
+      Menú
+    </button>
+
+    <ul class="nav-links" id="nav-links">
       <li><a href="#features">Funciones</a></li>
+      <li><a href="#como-empezar">Cómo empezar</a></li>
       <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
-      <li><a href="https://discord.gg/sYdyS8Ez3s" target="_blank" class="nav-cta">Soporte</a></li>
+      <li><a href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer" class="nav-cta">Soporte</a></li>
     </ul>
   </nav>
 
-  <section class="hero">
-    <div class="orb"></div>
-    <div class="badge">
-      <span class="badge-dot"></span>
-      f
-    </div>
-    <h1>Red<span class="accent">Bot</span></h1>
-    <p class="subtitle">Imagina un bot simple e intuitivo. Sin relleno, sin extras.</p>
-    <div class="cta-group">
-      <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank">Agregar al servidor</a>
-      <a class="btn-secondary" href="https://discord.gg/sYdyS8Ez3s" target="_blank">Servidor de soporte</a>
-    </div>
-  </section>
+  <main id="contenido">
+    <section class="hero">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        24/7
+      </div>
+      <h1>Red<span class="accent">Bot</span></h1>
+      <p class="subtitle">Imagina un bot simple e intuitivo. Sin relleno, sin extras.</p>
+      <div class="cta-group">
+        <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">Agregar al servidor</a>
+        <a class="btn-secondary" href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
+      </div>
+    </section>
 
-  <div class="stats-wrap">
-    <div class="stats">
-      <div class="stat">
-        <span class="stat-num">75+</span>
-        <span class="stat-label">Servidores</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">45k</span>
-        <span class="stat-label">Usuarios</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">25+</span>
-        <span class="stat-label">Comandos</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">IA</span>
-        <span class="stat-label">Integrada</span>
+    <div class="stats-wrap" aria-label="Métricas destacadas de RedBot">
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-num">75+</span>
+          <span class="stat-label">Servidores</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">45k</span>
+          <span class="stat-label">Usuarios</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">25+</span>
+          <span class="stat-label">Comandos</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">IA</span>
+          <span class="stat-label">Integrada</span>
+        </div>
       </div>
     </div>
+
+    <section class="section" id="features">
+      <div class="section-eyebrow">Funciones</div>
+      <h2 class="section-title">Todo lo que necesitas</h2>
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">👤</div>
+          <h3 class="feature-title">Información de usuarios</h3>
+          <p class="feature-desc">Avatar, banner, roles, fechas y más. Todo en un solo lugar.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">🏠</div>
+          <h3 class="feature-title">Info del servidor</h3>
+          <p class="feature-desc">Logo, emojis, roles y estadísticas con navegación interactiva.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">🎭</div>
+          <h3 class="feature-title">Gestión de roles</h3>
+          <p class="feature-desc">Asigna, quita y consulta información de roles fácilmente.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">🤖</div>
+          <h3 class="feature-title">IA integrada</h3>
+          <p class="feature-desc">Pregunta lo que quieras. Responde con contexto y memoria de conversación.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">⚡</div>
+          <h3 class="feature-title">Slash & Prefix</h3>
+          <p class="feature-desc">Soporte para comandos slash y de prefijo personalizable por servidor.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">🔧</div>
+          <h3 class="feature-title">Utilidades</h3>
+          <p class="feature-desc">Ping, info del bot, invitación y más comandos de utilidad general.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="como-empezar">
+      <div class="section-eyebrow">Onboarding</div>
+      <h2 class="section-title">Empieza en 3 pasos</h2>
+      <div class="steps-grid">
+        <article class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Invita a RedBot</h3>
+          <p class="step-desc">Usa el botón "Agregar al servidor" y autoriza el bot en tu comunidad.</p>
+        </article>
+        <article class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Prueba comandos</h3>
+          <p class="step-desc">Empieza con utilidades básicas y explora información de usuarios/servidor.</p>
+        </article>
+        <article class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Configura y escala</h3>
+          <p class="step-desc">Ajusta prefijo, modera y consulta soporte cuando lo necesites.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section cta-final">
+  <h2 class="cta-title">¿Listo para empezar?</h2>
+  <p class="cta-subtitle">Añade a <span class="accent">RedBot</span> y siente la mejora.</p>
+
+  <div class="cta-group">
+    <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">
+      Agregar al servidor
+    </a>
   </div>
+</section>
+  </main>
 
-  <section class="section" id="features">
-    <div class="section-eyebrow">Funciones</div>
-    <div class="section-title">Todo lo que necesitas</div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">👤</div>
-        <div class="feature-title">Información de usuarios</div>
-        <div class="feature-desc">Avatar, banner, roles, fechas y más. Todo en un solo lugar.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🏠</div>
-        <div class="feature-title">Info del servidor</div>
-        <div class="feature-desc">Logo, emojis, roles y estadísticas con navegación interactiva.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎭</div>
-        <div class="feature-title">Gestión de roles</div>
-        <div class="feature-desc">Asigna, quita y consulta información de roles fácilmente.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🤖</div>
-        <div class="feature-title">IA integrada</div>
-        <div class="feature-desc">Pregunta lo que quieras. Responde con contexto y memoria de conversación.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title">Slash & Prefix</div>
-        <div class="feature-desc">Soporte completo para comandos slash y de prefijo personalizable por servidor.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔧</div>
-        <div class="feature-title">Utilidades</div>
-        <div class="feature-desc">Ping, info del bot, invitación y más comandos de utilidad general.</div>
-      </div>
+  <footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <div class="footer-logo">RedBot</div>
+      <p class="footer-desc">
+        Un bot de Discord simple, intuitivo y potente.
+      </p>
     </div>
-  </section>
 
-  <section class="section">
-    <div class="section-eyebrow">Legal</div>
-    <div class="section-title">Transparencia</div>
-    <div class="legal-grid">
-      <a class="legal-card" href="/privacy">
-        <span class="legal-arrow">→</span>
-        <div class="legal-icon">🔐</div>
-        <div class="legal-title">Política de Privacidad</div>
-        <div class="legal-desc">Qué datos procesamos, cómo los usamos y por qué. Sin letra chica.</div>
-      </a>
-      <a class="legal-card" href="/tos">
-        <span class="legal-arrow">→</span>
-        <div class="legal-icon">📋</div>
-        <div class="legal-title">Términos de Servicio</div>
-        <div class="legal-desc">Las condiciones de uso de RedBot. Claro, directo y sin vueltas.</div>
-      </a>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-logo">RedBot</div>
-    <div class="footer-text">© 2026 RedBot. Todos los derechos reservados.</div>
-    <div class="footer-links">
+    <div class="footer-section">
+      <h4 class="footer-title">Conócenos</h4>
       <a href="/staff">Staff</a>
+    </div>
+
+    <div class="footer-section">
+      <h4 class="footer-title">Comunidad</h4>
+      <a href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
+    </div>
+
+    <div class="footer-section">
+      <h4 class="footer-title">Legal</h4>
       <a href="/privacy">Privacidad</a>
       <a href="/tos">Términos</a>
-      <a href="https://discord.gg/sYdyS8Ez3s" target="_blank">Soporte</a>
     </div>
-  </footer>
 
+  </div>
+
+  <div class="footer-bottom">
+    © <span id="current-year">2026</span> RedBot. Todos los derechos reservados.
+  </div>
+</footer>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+    });
+
+    document.querySelectorAll('#nav-links a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      });
+    });
+
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
