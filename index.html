@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>RedBot</title>
   <meta name="description" content="RedBot es un bot de Discord simple e intuitivo.">
   <meta name="theme-color" content="#ff2e2e">
   <link rel="canonical" href="https://redbot.me/">
-
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-
   <meta property="og:title" content="RedBot — Bot de Discord simple e intuitivo">
   <meta property="og:description" content="Sin relleno, sin extras. Utilidades, info de servidor y asistentes de IA listos para tu comunidad.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
   <meta property="og:url" content="https://redbot.me/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RedBot — Bot de Discord simple e intuitivo">
   <meta name="twitter:description" content="Sin relleno, sin extras. Utilidades, info de servidor y asistentes de IA para Discord.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
-
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -78,12 +73,9 @@
       text-decoration: none;
       font-size: 0.85rem;
     }
+    .skip-link:focus-visible { left: 12px; }
 
-    .skip-link:focus-visible {
-      left: 12px;
-      top: 0;
-    }
-
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0;
@@ -156,6 +148,7 @@
       cursor: pointer;
     }
 
+    /* ── HERO ── */
     .hero {
       position: relative;
       display: flex;
@@ -245,8 +238,7 @@
       margin-bottom: 80px;
     }
 
-    .btn-primary,
-    .btn-secondary {
+    .btn-primary, .btn-secondary {
       padding: 13px 30px;
       border-radius: 8px;
       font-size: 0.92rem;
@@ -280,6 +272,7 @@
       transform: translateY(-2px);
     }
 
+    /* ── STATS ── */
     .stats-wrap {
       position: relative;
       z-index: 1;
@@ -331,6 +324,7 @@
       font-weight: 500;
     }
 
+    /* ── SECTIONS ── */
     .section {
       position: relative;
       z-index: 1;
@@ -367,9 +361,10 @@
       line-height: 1.1;
     }
 
-    .features-grid,
-    .steps-grid {
+    /* ── FEATURES ── */
+    .features-grid {
       display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: var(--border);
       border-radius: 16px;
@@ -377,19 +372,13 @@
       border: 1px solid var(--border);
     }
 
-    .features-grid { grid-template-columns: repeat(3, 1fr); }
-    .steps-grid { grid-template-columns: repeat(3, 1fr); }
-
-    .feature-card,
-    .step-card {
+    .feature-card {
       background: var(--surface);
       padding: 34px 30px;
       transition: background 0.2s;
     }
 
-    .feature-card:hover,
-    .step-card:hover { background: var(--surface2); }
-
+    .feature-card:hover { background: var(--surface2); }
     .feature-card:hover .feature-icon {
       background: rgba(255,46,46,0.15);
       border-color: rgba(255,46,46,0.3);
@@ -409,8 +398,7 @@
       transition: all 0.2s;
     }
 
-    .feature-title,
-    .step-title {
+    .feature-title {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 1rem;
@@ -418,11 +406,30 @@
       letter-spacing: -0.3px;
     }
 
-    .feature-desc,
-    .step-desc {
+    .feature-desc {
       font-size: 0.84rem;
       color: var(--muted2);
       line-height: 1.65;
+    }
+
+    /* ── STEPS ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 28px;
+      transition: all 0.2s;
+    }
+
+    .step-card:hover {
+      border-color: var(--border-red);
+      transform: translateY(-2px);
     }
 
     .step-number {
@@ -440,93 +447,104 @@
       margin-bottom: 14px;
     }
 
-    .legal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .legal-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 36px;
-      text-decoration: none;
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      transition: all 0.2s;
-      position: relative;
-    }
-
-    .legal-arrow {
-      position: absolute;
-      top: 36px;
-      right: 36px;
-      color: var(--muted);
-      transition: all 0.2s;
-    }
-
-    .legal-card:hover {
-      border-color: var(--border-red);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
-    }
-
-    .legal-card:hover .legal-arrow {
-      color: var(--red);
-      right: 28px;
-    }
-
-    .legal-icon { font-size: 1.3rem; }
-
-    .legal-title {
+    .step-title {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: -0.3px;
-      padding-right: 28px;
+      font-size: 1rem;
+      margin-bottom: 8px;
     }
 
-    .legal-desc {
+    .step-desc {
       font-size: 0.84rem;
       color: var(--muted2);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
+    /* ── CTA FINAL ── */
+    .cta-final { text-align: center; }
+
+    .cta-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 12px;
+    }
+
+    .cta-subtitle {
+      font-size: 1rem;
+      color: var(--muted2);
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .cta-subtitle .accent { color: var(--red); }
+
+    /* ── FOOTER ── */
     footer {
       position: relative;
       z-index: 1;
       border-top: 1px solid var(--border);
-      padding: 26px 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 56px 60px 0;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
     }
 
     .footer-logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       color: var(--red);
-      font-size: 1rem;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
     }
 
-    .footer-text { font-size: 0.78rem; color: var(--muted); }
+    .footer-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 220px;
+    }
 
-    .footer-links { display: flex; gap: 24px; }
+    .footer-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
 
-    .footer-links a {
-      font-size: 0.78rem;
+    .footer-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-section a {
+      font-size: 0.83rem;
       color: var(--muted);
       text-decoration: none;
       transition: color 0.2s;
+      width: fit-content;
     }
 
-    .footer-links a:hover { color: var(--text); }
+    .footer-section a:hover { color: var(--text); }
 
-    a:focus-visible,
-    button:focus-visible {
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 20px 0;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    a:focus-visible, button:focus-visible {
       outline: 2px solid var(--red);
       outline-offset: 3px;
       border-radius: 8px;
@@ -538,19 +556,14 @@
     }
 
     @media (max-width: 920px) {
-      .features-grid,
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
       .steps-grid { grid-template-columns: 1fr; }
+      .footer-container { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
 
     @media (max-width: 768px) {
-      nav {
-        padding: 14px 20px;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
+      nav { padding: 14px 20px; flex-wrap: wrap; gap: 10px; }
       .menu-toggle { display: inline-flex; }
-
       .nav-links {
         display: none;
         width: 100%;
@@ -559,24 +572,19 @@
         gap: 16px;
         padding: 10px 0 2px;
       }
-
       .nav-links.is-open { display: flex; }
-
       h1 { letter-spacing: -3px; }
-
       .stats { flex-direction: column; }
       .stat:not(:last-child)::after { display: none; }
       .stat { border-bottom: 1px solid var(--border); }
-
-      .legal-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
       .section { padding: 0 20px 80px; }
+      footer { padding: 40px 20px 0; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
 
-      footer {
-        flex-direction: column;
-        gap: 14px;
-        text-align: center;
-        padding: 20px;
-      }
+    @media (max-width: 480px) {
+      .footer-container { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -596,11 +604,9 @@
       <img src="/redbot.png" alt="Logo de RedBot">
       RedBot
     </a>
-
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú de navegación">
       Menú
     </button>
-
     <ul class="nav-links" id="nav-links">
       <li><a href="#features">Funciones</a></li>
       <li><a href="#como-empezar">Cómo empezar</a></li>
@@ -694,60 +700,51 @@
         <article class="step-card">
           <div class="step-number">2</div>
           <h3 class="step-title">Prueba comandos</h3>
-          <p class="step-desc">Empieza con utilidades básicas y explora información de usuarios/servidor.</p>
+          <p class="step-desc">Empieza con utilidades básicas y explora información de usuarios y servidor.</p>
         </article>
         <article class="step-card">
           <div class="step-number">3</div>
           <h3 class="step-title">Configura y escala</h3>
-          <p class="step-desc">Ajusta prefijo, modera y consulta soporte cuando lo necesites.</p>
+          <p class="step-desc">Ajusta el prefijo, modera y consulta soporte cuando lo necesites.</p>
         </article>
       </div>
     </section>
 
     <section class="section cta-final">
-  <h2 class="cta-title">¿Listo para empezar?</h2>
-  <p class="cta-subtitle">Añade a <span class="accent">RedBot</span> y siente la mejora.</p>
-
-  <div class="cta-group">
-    <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">
-      Agregar al servidor
-    </a>
-  </div>
-</section>
+      <h2 class="cta-title">¿Listo para empezar?</h2>
+      <p class="cta-subtitle">Añade a <span class="accent">RedBot</span> y siente la mejora.</p>
+      <div class="cta-group">
+        <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">
+          Agregar al servidor
+        </a>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-brand">
-      <div class="footer-logo">RedBot</div>
-      <p class="footer-desc">
-        Un bot de Discord simple, intuitivo y potente.
-      </p>
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">RedBot</div>
+        <p class="footer-desc">Un bot de Discord simple, intuitivo y potente.</p>
+      </div>
+      <div class="footer-section">
+        <h4 class="footer-title">Conócenos</h4>
+        <a href="/staff">Staff</a>
+      </div>
+      <div class="footer-section">
+        <h4 class="footer-title">Comunidad</h4>
+        <a href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
+      </div>
+      <div class="footer-section">
+        <h4 class="footer-title">Legal</h4>
+        <a href="/privacy">Privacidad</a>
+        <a href="/tos">Términos</a>
+      </div>
     </div>
-
-    <div class="footer-section">
-      <h4 class="footer-title">Conócenos</h4>
-      <a href="/staff">Staff</a>
+    <div class="footer-bottom">
+      © <span id="current-year">2026</span> RedBot. Todos los derechos reservados.
     </div>
-
-    <div class="footer-section">
-      <h4 class="footer-title">Comunidad</h4>
-      <a href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
-    </div>
-
-    <div class="footer-section">
-      <h4 class="footer-title">Legal</h4>
-      <a href="/privacy">Privacidad</a>
-      <a href="/tos">Términos</a>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © <span id="current-year">2026</span> RedBot. Todos los derechos reservados.
-  </div>
-</footer>
+  </footer>
 
   <script>
     const menuToggle = document.getElementById('menu-toggle');
@@ -756,14 +753,14 @@
     menuToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+      menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
     });
 
-    document.querySelectorAll('#nav-links a').forEach((link) => {
+    document.querySelectorAll('#nav-links a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
       });
     });
 
