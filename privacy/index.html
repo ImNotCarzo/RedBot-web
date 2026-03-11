@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Política de Privacidad — RedBot</title>
+  <meta name="description" content="Política de privacidad de RedBot. Conoce qué datos recopilamos y cómo los usamos.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="RedBot">
+  <link rel="canonical" href="https://redbot.me/privacy">
+  <meta property="og:title" content="Política de Privacidad — RedBot">
+  <meta property="og:description" content="Política de privacidad de RedBot. Conoce qué datos recopilamos y cómo los usamos.">
+  <meta property="og:image" content="https://redbot.me/redbot.png">
+  <meta property="og:url" content="https://redbot.me/privacy">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Política de Privacidad — RedBot">
+  <meta name="twitter:description" content="Política de privacidad de RedBot. Conoce qué datos recopilamos y cómo los usamos.">
+  <meta name="twitter:image" content="https://redbot.me/redbot.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -13,12 +30,15 @@
       --bg: #080808;
       --surface: #111111;
       --surface2: #181818;
+      --border-red: rgba(255,46,46,0.18);
       --text: #e8e8e8;
-      --muted: #666;
+      --muted: #555;
+      --muted2: #888;
       --border: rgba(255,255,255,0.06);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -27,7 +47,7 @@
       min-height: 100vh;
     }
 
-    body::before {
+    body::after {
       content: '';
       position: fixed;
       inset: 0;
@@ -259,6 +279,17 @@
 
     .footer-text { font-size: 0.82rem; color: var(--muted); }
 
+    .footer-links { display: flex; gap: 24px; }
+
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
     @media (max-width: 768px) {
       nav { padding: 16px 24px; }
       .page-header { padding: 120px 24px 48px; }
@@ -366,11 +397,11 @@
   <footer>
     <div class="footer-logo">RedBot</div>
     <div class="footer-text">© 2026 RedBot. Todos los derechos reservados.</div>
-    <div style="display:flex;gap:24px;">
-      <a href="/privacy" style="font-size:0.78rem;color:var(--muted);text-decoration:none;">Privacidad</a>
-      <a href="/tos" style="font-size:0.78rem;color:var(--muted);text-decoration:none;">Términos</a>
-      <a href="https://discord.gg/sYdyS8Ez3s" target="_blank" style="font-size:0.78rem;color:var(--muted);text-decoration:none;">Soporte</a>
-    </div>
+    <nav class="footer-links" aria-label="Enlaces del pie de página">
+      <a href="/privacy">Privacidad</a>
+      <a href="/tos">Términos</a>
+      <a href="https://discord.gg/sYdyS8Ez3s" target="_blank">Soporte</a>
+    </nav>
   </footer>
 
 </body>

@@ -22,6 +22,11 @@
   <meta name="twitter:title" content="RedBot">
   <meta name="twitter:description" content="Imagina un bot de Discord simple e intuitivo. Modera, consulta información y mucho más. Sin relleno, sin extras.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="RedBot">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -157,6 +162,7 @@
       align-items: center;
       text-align: center;
       padding-top: 110px;
+      padding-bottom: 60px;
       overflow: hidden;
     }
 
@@ -430,6 +436,7 @@
     .step-card:hover {
       border-color: var(--border-red);
       transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     }
 
     .step-number {
@@ -485,7 +492,7 @@
       position: relative;
       z-index: 1;
       border-top: 1px solid var(--border);
-      padding: 56px 60px 0;
+      padding: 56px 60px 32px;
     }
 
     .footer-container {
@@ -579,7 +586,7 @@
       .stat { border-bottom: 1px solid var(--border); }
       .features-grid { grid-template-columns: 1fr; }
       .section { padding: 0 20px 80px; }
-      footer { padding: 40px 20px 0; }
+      footer { padding: 40px 20px 24px; }
       .footer-brand { grid-column: 1 / -1; }
     }
 
@@ -765,7 +772,17 @@
       });
     });
 
-    document.getElementById('current-year').textContent = new Date().getFullYear();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
+        navLinks.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
+        menuToggle.focus();
+      }
+    });
+
+    const yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

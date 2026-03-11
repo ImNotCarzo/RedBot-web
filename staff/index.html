@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Equipo — RedBot</title>
+  <meta name="description" content="Conoce al equipo detrás de RedBot, el bot de Discord simple e intuitivo.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="RedBot">
+  <link rel="canonical" href="https://redbot.me/staff">
+  <meta property="og:title" content="Equipo — RedBot">
+  <meta property="og:description" content="Conoce al equipo detrás de RedBot, el bot de Discord simple e intuitivo.">
+  <meta property="og:image" content="https://redbot.me/redbot.png">
+  <meta property="og:url" content="https://redbot.me/staff">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Equipo — RedBot">
+  <meta name="twitter:description" content="Conoce al equipo detrás de RedBot, el bot de Discord simple e intuitivo.">
+  <meta name="twitter:image" content="https://redbot.me/redbot.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -123,6 +140,7 @@
       color: var(--muted2);
       line-height: 1.7;
       font-weight: 300;
+      margin-top: 12px;
     }
 
     /* ── TEAM GRID ── */
@@ -213,13 +231,13 @@
     }
 
     .team-role {
-  font-size: 0.75rem;
-  color: var(--red);
-  font-weight: 600;
-  margin-top: 6px; /* antes 4px */
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
+        font-size: 0.75rem;
+        color: var(--red);
+        font-weight: 600;
+        margin-top: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
 
     /* ── SKELETON ── */
     .skeleton {
@@ -309,9 +327,10 @@
   </nav>
 
   <div class="page-header">
-  <div class="page-tag">Nuestro equipo</div>
-  <h1 class="page-title">Las personas detrás de <span>RedBot</span></h1>
-</div>
+    <div class="page-tag">Nuestro equipo</div>
+    <h1 class="page-title">Las personas detrás de <span>RedBot</span></h1>
+    <p class="page-subtitle">El equipo que trabaja cada día para que RedBot sea mejor.</p>
+  </div>
 
   <div class="content">
     <div class="team-grid" id="team-grid">
@@ -324,12 +343,12 @@
   <footer>
     <div class="footer-logo">RedBot</div>
     <div class="footer-text">© 2026 RedBot. Todos los derechos reservados.</div>
-    <div class="footer-links">
+    <nav class="footer-links" aria-label="Enlaces del pie de página">
       <a href="/staff">Staff</a>
       <a href="/privacy">Privacidad</a>
       <a href="/tos">Términos</a>
       <a href="https://discord.gg/sYdyS8Ez3s" target="_blank">Soporte</a>
-    </div>
+    </nav>
   </footer>
 
   <script>
@@ -349,13 +368,16 @@
         if (!json.success) return null;
         const { discord_user, discord_status } = json.data;
 
+        const fallbackIndex = Number((BigInt(id) >> 22n) % 6n);
         const avatarUrl = discord_user.avatar
           ? `https://cdn.discordapp.com/avatars/${id}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
-          : `https://cdn.discordapp.com/embed/avatars/${Number(discord_user.discriminator || 0) % 5}.png`;
+          : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`;
 
         return {
+          id,
           name: discord_user.display_name || discord_user.global_name || discord_user.username,
           avatar: avatarUrl,
+          fallbackIndex,
           status: discord_status || "offline",
           role,
         };
@@ -369,13 +391,19 @@
       const members = await Promise.all(TEAM.map(fetchMember));
       grid.innerHTML = "";
 
-      members.forEach(m => {
-        if (!m) return;
+      const valid = members.filter(Boolean);
+
+      if (valid.length === 0) {
+        grid.innerHTML = '<p style="color:var(--muted);font-size:0.9rem;padding:20px 0;">No se pudo cargar el equipo. Intenta de nuevo más tarde.</p>';
+        return;
+      }
+
+      valid.forEach(m => {
         const card = document.createElement("div");
         card.className = "team-card";
         card.innerHTML = `
           <div class="team-avatar-wrap">
-            <img class="team-avatar" src="${m.avatar}" alt="${m.name}">
+            <img class="team-avatar" src="${m.avatar}" alt="${m.name}" onerror="this.onerror=null;this.src='https://cdn.discordapp.com/embed/avatars/${m.fallbackIndex}.png'">
             <span class="team-status ${m.status}"></span>
           </div>
           <div class="team-info">
