@@ -403,7 +403,7 @@
         card.className = "team-card";
         card.innerHTML = `
           <div class="team-avatar-wrap">
-            <img class="team-avatar" src="${m.avatar}" alt="${m.name}" onerror="this.src='https://cdn.discordapp.com/embed/avatars/${m.fallbackIndex}.png'">
+            <img class="team-avatar" src="${m.avatar}" alt="${m.name}" onerror="this.onerror=null;this.src='https://cdn.discordapp.com/embed/avatars/${m.fallbackIndex}.png'">
             <span class="team-status ${m.status}"></span>
           </div>
           <div class="team-info">
