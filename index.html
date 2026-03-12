@@ -230,9 +230,17 @@
       color: var(--muted2);
       max-width: 560px;
       line-height: 1.75;
-      margin-bottom: 52px;
+      margin-bottom: 18px;
       font-weight: 300;
       animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 52px;
+      animation: fadeUp 0.7s 0.25s ease both;
     }
 
     .cta-group {
@@ -467,6 +475,62 @@
       line-height: 1.65;
     }
 
+    /* ── COMMANDS ── */
+    .commands-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .cmd-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 18px;
+      transition: all 0.2s;
+    }
+
+    .cmd-card:hover {
+      border-color: var(--border-red);
+      background: var(--surface2);
+    }
+
+    .cmd-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .cmd-emoji {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .cmd-category {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: -0.3px;
+    }
+
+    .cmd-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .cmd-badge {
+      font-size: 0.7rem;
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--muted2);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 7px;
+      letter-spacing: 0.2px;
+    }
+
     /* ── CTA FINAL ── */
     .cta-final { text-align: center; }
 
@@ -566,6 +630,7 @@
       .features-grid { grid-template-columns: repeat(2, 1fr); }
       .steps-grid { grid-template-columns: 1fr; }
       .footer-container { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .commands-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 768px) {
@@ -585,6 +650,7 @@
       .stat:not(:last-child)::after { display: none; }
       .stat { border-bottom: 1px solid var(--border); }
       .features-grid { grid-template-columns: 1fr; }
+      .commands-grid { grid-template-columns: 1fr; }
       .section { padding: 0 20px 80px; }
       footer { padding: 40px 20px 24px; }
       .footer-brand { grid-column: 1 / -1; }
@@ -616,6 +682,7 @@
     </button>
     <ul class="nav-links" id="nav-links">
       <li><a href="#features">Funciones</a></li>
+      <li><a href="#comandos">Comandos</a></li>
       <li><a href="#como-empezar">Cómo empezar</a></li>
       <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
@@ -627,10 +694,11 @@
     <section class="hero">
       <div class="badge">
         <span class="badge-dot"></span>
-        24/7
+        Bot de Discord en Español
       </div>
       <h1>Red<span class="accent">Bot</span></h1>
       <p class="subtitle">Imagina un bot simple e intuitivo. Sin relleno, sin extras.</p>
+      <p class="hero-meta">IA (Gemini) · Moderación completa · Administración de servidor · Sarcástico por defecto</p>
       <div class="cta-group">
         <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">Agregar al servidor</a>
         <a class="btn-secondary" href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
@@ -660,37 +728,165 @@
 
     <section class="section" id="features">
       <div class="section-eyebrow">Funciones</div>
-      <h2 class="section-title">Todo lo que necesitas</h2>
+      <h2 class="section-title">¿Qué lo diferencia?</h2>
       <div class="features-grid">
         <article class="feature-card">
-          <div class="feature-icon" aria-hidden="true">👤</div>
-          <h3 class="feature-title">Información de usuarios</h3>
-          <p class="feature-desc">Avatar, banner, roles, fechas y más. Todo en un solo lugar.</p>
+          <div class="feature-icon" aria-hidden="true">🧠</div>
+          <h3 class="feature-title">IA con memoria conversacional</h3>
+          <p class="feature-desc">Recuerda el contexto de la conversación. No te hace repetir todo cada mensaje.</p>
         </article>
         <article class="feature-card">
-          <div class="feature-icon" aria-hidden="true">🏠</div>
-          <h3 class="feature-title">Info del servidor</h3>
-          <p class="feature-desc">Logo, emojis, roles y estadísticas con navegación interactiva.</p>
+          <div class="feature-icon" aria-hidden="true">🔍</div>
+          <h3 class="feature-title">Búsqueda inteligente</h3>
+          <p class="feature-desc">Detecta automáticamente si necesita buscar en internet o no. Sabe cuándo sabe.</p>
         </article>
         <article class="feature-card">
-          <div class="feature-icon" aria-hidden="true">🎭</div>
-          <h3 class="feature-title">Gestión de roles</h3>
-          <p class="feature-desc">Asigna, quita y consulta información de roles fácilmente.</p>
+          <div class="feature-icon" aria-hidden="true">🔄</div>
+          <h3 class="feature-title">Sin caídas de IA</h3>
+          <p class="feature-desc">Rotación de claves Gemini para que la IA no se caiga cuando más la necesitás.</p>
         </article>
         <article class="feature-card">
-          <div class="feature-icon" aria-hidden="true">🤖</div>
-          <h3 class="feature-title">IA integrada</h3>
-          <p class="feature-desc">Pregunta lo que quieras. Responde con contexto y memoria de conversación.</p>
+          <div class="feature-icon" aria-hidden="true">⏱️</div>
+          <h3 class="feature-title">Tempbans persistentes</h3>
+          <p class="feature-desc">Si el bot se reinicia, los bans temporales siguen corriendo. No dependen del uptime.</p>
         </article>
         <article class="feature-card">
           <div class="feature-icon" aria-hidden="true">⚡</div>
-          <h3 class="feature-title">Slash & Prefix</h3>
-          <p class="feature-desc">Soporte para comandos slash y de prefijo personalizable por servidor.</p>
+          <h3 class="feature-title">Prefijo personalizable</h3>
+          <p class="feature-desc">Prefijo propio por servidor, o slash commands si sos de los formales. Tú decides.</p>
         </article>
         <article class="feature-card">
-          <div class="feature-icon" aria-hidden="true">🔧</div>
-          <h3 class="feature-title">Utilidades</h3>
-          <p class="feature-desc">Ping, info del bot, invitación y más comandos de utilidad general.</p>
+          <div class="feature-icon" aria-hidden="true">🇪🇸</div>
+          <h3 class="feature-title">Español neutro real</h3>
+          <p class="feature-desc">Sin "¡Claro!", sin "¡Por supuesto!", sin servilismo. Hecho en español desde cero, no traducido.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="comandos">
+      <div class="section-eyebrow">Comandos</div>
+      <h2 class="section-title">Los suficientes para no necesitar otro bot</h2>
+      <div class="commands-grid">
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">🔧</span>
+            <span class="cmd-category">Utilidad</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">ask</span>
+            <span class="cmd-badge">ping</span>
+            <span class="cmd-badge">botinfo</span>
+            <span class="cmd-badge">invite</span>
+            <span class="cmd-badge">setprefix</span>
+            <span class="cmd-badge">askreset</span>
+          </div>
+        </article>
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">👤</span>
+            <span class="cmd-category">Usuario</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">info</span>
+            <span class="cmd-badge">avatar</span>
+            <span class="cmd-badge">banner</span>
+            <span class="cmd-badge">roles</span>
+            <span class="cmd-badge">permissions</span>
+          </div>
+        </article>
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">🛡️</span>
+            <span class="cmd-category">Moderación</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">ban</span>
+            <span class="cmd-badge">unban</span>
+            <span class="cmd-badge">softban</span>
+            <span class="cmd-badge">tempban</span>
+            <span class="cmd-badge">massban</span>
+            <span class="cmd-badge">kick</span>
+            <span class="cmd-badge">mute</span>
+            <span class="cmd-badge">unmute</span>
+            <span class="cmd-badge">purge</span>
+            <span class="cmd-badge">warn</span>
+            <span class="cmd-badge">removewarn</span>
+            <span class="cmd-badge">clearwarns</span>
+            <span class="cmd-badge">warnings</span>
+            <span class="cmd-badge">setlogs</span>
+            <span class="cmd-badge">removelogs</span>
+          </div>
+        </article>
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">🏠</span>
+            <span class="cmd-category">Servidor</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">info</span>
+            <span class="cmd-badge">logo</span>
+            <span class="cmd-badge">banner</span>
+            <span class="cmd-badge">emojis</span>
+            <span class="cmd-badge">roles</span>
+          </div>
+        </article>
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">🎭</span>
+            <span class="cmd-category">Roles</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">info</span>
+            <span class="cmd-badge">icon</span>
+            <span class="cmd-badge">color</span>
+            <span class="cmd-badge">users</span>
+            <span class="cmd-badge">add</span>
+            <span class="cmd-badge">remove</span>
+            <span class="cmd-badge">rename</span>
+            <span class="cmd-badge">hoist</span>
+            <span class="cmd-badge">mentionable</span>
+            <span class="cmd-badge">random</span>
+          </div>
+        </article>
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">📺</span>
+            <span class="cmd-category">Canal</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">info</span>
+            <span class="cmd-badge">rename</span>
+            <span class="cmd-badge">lock</span>
+            <span class="cmd-badge">unlock</span>
+            <span class="cmd-badge">slowmode</span>
+            <span class="cmd-badge">nuke</span>
+            <span class="cmd-badge">clone</span>
+            <span class="cmd-badge">permit</span>
+            <span class="cmd-badge">deny</span>
+            <span class="cmd-badge">hide</span>
+          </div>
+        </article>
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">🎲</span>
+            <span class="cmd-category">Diversión</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">opinion</span>
+            <span class="cmd-badge">critica</span>
+            <span class="cmd-badge">excusa</span>
+            <span class="cmd-badge">teoria</span>
+            <span class="cmd-badge">roast</span>
+          </div>
+        </article>
+        <article class="cmd-card">
+          <div class="cmd-header">
+            <span class="cmd-emoji" aria-hidden="true">❓</span>
+            <span class="cmd-category">Help</span>
+          </div>
+          <div class="cmd-list">
+            <span class="cmd-badge">help</span>
+          </div>
         </article>
       </div>
     </section>
@@ -702,28 +898,29 @@
         <article class="step-card">
           <div class="step-number">1</div>
           <h3 class="step-title">Invita a RedBot</h3>
-          <p class="step-desc">Usa el botón "Agregar al servidor" y autoriza el bot en tu comunidad.</p>
+          <p class="step-desc">Usa el botón "Agregar al servidor" y autorízalo en tu comunidad. No pide permisos innecesarios.</p>
         </article>
         <article class="step-card">
           <div class="step-number">2</div>
-          <h3 class="step-title">Prueba comandos</h3>
-          <p class="step-desc">Empieza con utilidades básicas y explora información de usuarios y servidor.</p>
+          <h3 class="step-title">Usá los comandos</h3>
+          <p class="step-desc">Con <code style="background:rgba(255,46,46,0.08);border-radius:4px;padding:1px 5px;font-size:0.82rem;">/</code> o con prefijo <code style="background:rgba(255,46,46,0.08);border-radius:4px;padding:1px 5px;font-size:0.82rem;">.</code> — como prefieras. Todo funciona desde el primer momento.</p>
         </article>
         <article class="step-card">
           <div class="step-number">3</div>
-          <h3 class="step-title">Configura y escala</h3>
-          <p class="step-desc">Ajusta el prefijo, modera y consulta soporte cuando lo necesites.</p>
+          <h3 class="step-title">Configurá a tu gusto</h3>
+          <p class="step-desc">Cambiá el prefijo, activá logs de moderación y preguntale lo que quieras a la IA.</p>
         </article>
       </div>
     </section>
 
     <section class="section cta-final">
-      <h2 class="cta-title">¿Listo para empezar?</h2>
-      <p class="cta-subtitle">Añade a <span class="accent">RedBot</span> y siente la mejora.</p>
+      <h2 class="cta-title">¿Por qué añadirlo?</h2>
+      <p class="cta-subtitle">La mayoría de los bots en español son traducciones mal hechas. <span class="accent">RedBot</span> no.</p>
       <div class="cta-group">
         <a class="btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">
           Agregar al servidor
         </a>
+        <a class="btn-secondary" href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
       </div>
     </section>
   </main>
