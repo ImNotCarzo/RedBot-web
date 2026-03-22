@@ -675,21 +675,25 @@
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/redbot.png" alt="Logo de RedBot">
-      RedBot
+     <img src="/redbot.png" alt="Logo de RedBot">
+RedBot
+</a>
+<button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú de navegación">
+  Menú
+</button>
+<ul class="nav-links" id="nav-links">
+  <li><a href="#features">Funciones</a></li>
+  <li><a href="#comandos">Comandos</a></li>
+  <li><a href="#como-empezar">Cómo empezar</a></li>
+  <li><a href="/privacy">Privacidad</a></li>
+  <li><a href="/tos">Términos</a></li>
+  <li>
+    <a href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&response_type=code&redirect_uri=https%3A%2F%2Fredbot-api.vercel.app%2Fcallback&scope=identify%20role_connections.write" class="nav-cta">
+      Vincular
     </a>
-    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú de navegación">
-      Menú
-    </button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#features">Funciones</a></li>
-      <li><a href="#comandos">Comandos</a></li>
-      <li><a href="#como-empezar">Cómo empezar</a></li>
-      <li><a href="/privacy">Privacidad</a></li>
-      <li><a href="/tos">Términos</a></li>
-      <li><a href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer" class="nav-cta">Soporte</a></li>
-    </ul>
-  </nav>
+  </li>
+</ul>
+</nav>
 
   <main id="contenido">
     <section class="hero">
