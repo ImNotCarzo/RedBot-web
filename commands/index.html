@@ -25,17 +25,17 @@
     .skip-link{position:absolute;left:-9999px;top:0;background:var(--signal);color:#fff;padding:10px 16px;z-index:300;text-decoration:none;font-size:.85rem;}
     .skip-link:focus-visible{left:12px;top:12px;}
 
-    /* ===== NAV (idéntico al main) ===== */
+    /* NAV GLOBAL */
     nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
     .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:28px;height:28px;object-fit:cover;display:block;}
+    .nav-logo img{width:32px;height:32px;object-fit:cover;display:block;border-radius:4px;}
     .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
     .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
     .nav-links a:hover{color:var(--text);}
     .nav-links a[aria-current="page"]{color:var(--text);font-weight:600;}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;display:inline-block;}
+    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;display:inline-block;border-radius:4px;}
     .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
+    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;border-radius:4px;}
 
     main{max-width:1180px;margin:0 auto;padding:48px 48px 120px;}
 
@@ -43,7 +43,6 @@
     .page-header h1{font-size:clamp(2.5rem,4vw,3.2rem);letter-spacing:-1px;margin-bottom:14px;color:var(--text);}
     .page-header p{color:var(--text-dim);font-size:1.05rem;line-height:1.6;max-width:600px;}
 
-    /* Controles y Filtros */
     .controls{background:var(--surface);border:1px solid var(--line);padding:24px;margin-bottom:32px;display:flex;flex-direction:column;gap:24px;}
     .search-row{display:flex;gap:16px;flex-wrap:wrap;}
 
@@ -62,7 +61,6 @@
     .cat-count{background:var(--surface-2);color:var(--text-dim);padding:2px 6px;font-size:.7rem;font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);}
     .cat-btn.active .cat-count{background:var(--ink);color:var(--text);border-color:transparent;}
 
-    /* Lista de Comandos */
     .cmd-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
     .cmd-item{background:var(--surface);}
 
@@ -94,12 +92,12 @@
 
     .no-results{padding:48px;text-align:center;background:var(--surface);color:var(--text-dim);font-size:1.1rem;display:none;}
 
-    /* ===== FOOTER (idéntico al main) ===== */
+    /* FOOTER GLOBAL */
     footer{border-top:1px solid var(--line);background:var(--ink);}
     .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{display:flex;align-items:center;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
-    .footer-logo img{width:28px;height:28px;object-fit:cover;display:block;}
+    .footer-logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
+    .footer-logo img{width:32px;height:32px;object-fit:cover;display:block;border-radius:4px;}
     .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
     .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
     .footer-section{display:flex;flex-direction:column;gap:12px;}
@@ -136,7 +134,7 @@
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/favicon.ico" alt="RB">
+      <img src="/favicon.ico" alt="RB"> RedBot
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -167,12 +165,10 @@
       </div>
 
       <div class="category-row" id="categoryRow">
-        <!-- Renderizado vía JS -->
       </div>
     </div>
 
     <div class="cmd-list" id="commandList">
-      <!-- Renderizado vía JS -->
     </div>
     <div class="no-results" id="noResults">
       No se encontraron comandos que coincidan con los filtros actuales.
@@ -184,7 +180,7 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/favicon.ico" alt="RB"></div>
+          <div class="footer-logo"><img src="/favicon.ico" alt="RB"> RedBot</div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
@@ -205,27 +201,28 @@
   </footer>
 
   <script>
-    // Configuración del menú móvil
+    // Menú móvil
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('is-open');
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-    document.querySelectorAll('#nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('is-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('is-open');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
       });
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
-        navLinks.classList.remove('is-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
+      document.querySelectorAll('#nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('is-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
+          navLinks.classList.remove('is-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
 
-    // Base de datos de comandos extraída de la documentación
     const rawCommands = [
       { name: "ask", cat: "utilidad", options: "pregunta (optional?=false)", aliases: "ia, ai", desc: "Hazle una pregunta a la IA", example: ".ask cuando te apagan" },
       { name: "help", cat: "utilidad", options: "ninguna", aliases: "ninguno", desc: "Muestra la lista de comandos disponibles", example: ".help" },
@@ -305,7 +302,6 @@
       { name: "comandointervalosupersecretokjj", cat: "admin", options: "ninguna", aliases: "ninguno", desc: "rota foto con emoji 15min", example: ".comandointervalosupersecretokjj", forcePrefixOnly: true }
     ];
 
-    // Procesamiento de datos para identificar tipos (slash, prefijo, ambos)
     const commands = rawCommands.map((cmd, i) => {
       let types = [];
       if (cmd.forcePrefixOnly) {
@@ -327,19 +323,16 @@
       { id: 'diversion', label: 'Diversión' }
     ];
 
-    // Estado global de filtros
     let currentSearch = "";
     let currentType = "todos";
     let currentCategory = "todos";
 
-    // Elementos del DOM
     const categoryRow = document.getElementById('categoryRow');
     const commandList = document.getElementById('commandList');
     const searchInput = document.getElementById('searchInput');
     const typeFilter = document.getElementById('typeFilter');
     const noResults = document.getElementById('noResults');
 
-    // Inicializar Categorías
     function renderCategories() {
       categoryRow.innerHTML = '';
       categories.forEach(cat => {
@@ -361,7 +354,6 @@
       });
     }
 
-    // Formatear opciones
     function formatOptions(optionsString) {
       if (!optionsString || optionsString === "ninguna") return "<span class='opt-tag'>Ninguna</span>";
       const opts = optionsString.split(', ');
@@ -372,8 +364,21 @@
       }).join('');
     }
 
-    // Alternar acordeón (accesible por teclado, sin botones anidados)
+    // Toggle de comandos - Cierra el anterior antes de abrir
     function toggleCommand(uid) {
+      commands.forEach(cmd => {
+        if(cmd.uid !== uid) {
+          const otherItem = document.getElementById(`item-${cmd.uid}`);
+          if(otherItem && otherItem.classList.contains('expanded')) {
+            const otherBtn = document.getElementById(`toggle-${cmd.uid}`);
+            const otherDetails = document.getElementById(`details-${cmd.uid}`);
+            otherBtn.setAttribute('aria-expanded', 'false');
+            otherDetails.hidden = true;
+            otherItem.classList.remove('expanded');
+          }
+        }
+      });
+
       const item = document.getElementById(`item-${uid}`);
       const toggleBtn = document.getElementById(`toggle-${uid}`);
       const details = document.getElementById(`details-${uid}`);
@@ -384,7 +389,6 @@
       item.classList.toggle('expanded', !isExpanded);
     }
 
-    // Renderizar Lista de Comandos
     function renderCommands(filteredCommands) {
       commandList.innerHTML = '';
 
@@ -398,6 +402,17 @@
       noResults.style.display = 'none';
 
       filteredCommands.forEach((cmd) => {
+        // Conversión visual a prefix si corresponde
+        let displayName = cmd.name;
+        if (currentType === 'prefijo' && displayName.startsWith('/')) {
+            const parts = displayName.split(' ');
+            if (parts.length > 1) {
+                displayName = '.' + parts.slice(1).join(' ');
+            } else {
+                displayName = '.' + displayName.substring(1);
+            }
+        }
+
         const div = document.createElement('div');
         div.className = 'cmd-item';
         div.id = `item-${cmd.uid}`;
@@ -405,7 +420,7 @@
           <div class="cmd-header">
             <button type="button" class="cmd-toggle" id="toggle-${cmd.uid}" aria-expanded="false" aria-controls="details-${cmd.uid}" onclick="toggleCommand('${cmd.uid}')">
               <div class="cmd-title-wrap">
-                <span class="cmd-name">${cmd.name}</span>
+                <span class="cmd-name">${displayName}</span>
                 <span class="cmd-cat-tag">${cmd.cat}</span>
               </div>
             </button>
@@ -439,7 +454,6 @@
       });
     }
 
-    // Aplicar Filtros
     function applyFilters() {
       const filtered = commands.filter(cmd => {
         const matchCategory = currentCategory === 'todos'
@@ -462,7 +476,6 @@
       renderCommands(filtered);
     }
 
-    // Función Copiar (copia el ejemplo real, no la etiqueta interna)
     function copyCommand(event, text, btnElement) {
       event.stopPropagation();
       navigator.clipboard.writeText(text).then(() => {
@@ -477,7 +490,6 @@
       });
     }
 
-    // Listeners de los inputs
     searchInput.addEventListener('input', (e) => {
       currentSearch = e.target.value;
       applyFilters();
@@ -488,7 +500,6 @@
       applyFilters();
     });
 
-    // Inicializar la vista
     renderCategories();
     applyFilters();
   </script>
