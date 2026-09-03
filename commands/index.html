@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comandos - RedBot</title>
+  <meta name="description" content="Lista completa de comandos de RedBot. Filtra por categoría y tipo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
+      --line:#333333; --line-strong:#555555;
+      --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
+      --signal:#c9302c; --signal-deep:#a02622;
+      --signal-wash:rgba(201,48,44,0.15);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:auto;}
+    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-weight:700;}
+    .mono{font-family:'IBM Plex Mono',monospace;}
+
+    .skip-link{position:absolute;left:-9999px;top:0;background:var(--signal);color:#fff;padding:10px 16px;z-index:300;text-decoration:none;font-size:.85rem;}
+    .skip-link:focus-visible{left:12px;top:12px;}
+
+    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
+    .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
+    .nav-logo img{width:24px;height:24px;border-radius:0;object-fit:cover;}
+    .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
+    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
+    .nav-links a:hover{color:var(--text);}
+    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;display:inline-block;}
+    .nav-cta:hover{background:var(--signal-deep) !important;}
+    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
+
+    main{max-width:1180px;margin:0 auto;padding:48px 48px 120px;}
+    
+    .page-header{margin-bottom:48px;}
+    .page-header h1{font-size:clamp(2.5rem,4vw,3.2rem);letter-spacing:-1px;margin-bottom:14px;color:var(--text);}
+    .page-header p{color:var(--text-dim);font-size:1.05rem;line-height:1.6;max-width:600px;}
+
+    /* Controles y Filtros */
+    .controls{background:var(--surface);border:1px solid var(--line);padding:24px;margin-bottom:32px;display:flex;flex-direction:column;gap:24px;}
+    .search-row{display:flex;gap:16px;flex-wrap:wrap;}
+    
+    .search-box{position:relative;flex:1;min-width:260px;}
+    .search-box svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:var(--text-mute);}
+    .search-input{width:100%;background:var(--ink);border:1px solid var(--line-strong);color:var(--text);padding:12px 16px 12px 42px;font-family:'IBM Plex Sans',sans-serif;font-size:.95rem;outline:none;border-radius:0;}
+    .search-input:focus{border-color:var(--signal);}
+
+    .type-filter{background:var(--ink);border:1px solid var(--line-strong);color:var(--text);padding:12px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:.95rem;outline:none;border-radius:0;cursor:pointer;min-width:180px;}
+    .type-filter:focus{border-color:var(--signal);}
+
+    .category-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .cat-btn{background:var(--ink);border:1px solid var(--line);color:var(--text-dim);padding:8px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;cursor:pointer;border-radius:0;transition:none;display:flex;align-items:center;gap:8px;}
+    .cat-btn:hover{background:var(--surface-2);color:var(--text);border-color:var(--line-strong);}
+    .cat-btn.active{background:var(--text);color:var(--ink);border-color:var(--text);font-weight:600;}
+    .cat-count{background:var(--surface-2);color:var(--text-dim);padding:2px 6px;font-size:.7rem;font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);}
+    .cat-btn.active .cat-count{background:var(--ink);color:var(--text);border-color:transparent;}
+
+    /* Lista de Comandos */
+    .cmd-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
+    .cmd-item{background:var(--surface);}
+    
+    .cmd-header{padding:18px 24px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;}
+    .cmd-header:hover{background:var(--surface-2);}
+    .cmd-title-wrap{display:flex;align-items:center;gap:16px;}
+    .cmd-name{font-family:'IBM Plex Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--text);}
+    .cmd-cat-tag{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-mute);border:1px solid var(--line);padding:2px 6px;}
+    
+    .cmd-copy{background:transparent;border:1px solid var(--line-strong);color:var(--text-dim);padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:.8rem;cursor:pointer;border-radius:0;display:flex;align-items:center;gap:6px;}
+    .cmd-copy:hover{background:var(--ink);color:var(--text);border-color:var(--text-dim);}
+    .cmd-copy.success{background:var(--signal-wash);color:var(--signal);border-color:var(--signal);}
+
+    .cmd-details{display:none;padding:0 24px 24px;border-top:1px solid var(--line);background:var(--ink);}
+    .cmd-item.expanded .cmd-details{display:block;}
+    .cmd-item.expanded .cmd-header{background:var(--surface-2);border-bottom:1px solid var(--line);}
+
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;}
+    .detail-block h4{font-size:.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-mute);margin-bottom:8px;}
+    .detail-block p{font-size:.95rem;color:var(--text-dim);line-height:1.6;}
+    
+    .code-block{background:var(--surface);border:1px solid var(--line);padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);display:inline-block;margin-top:4px;}
+    
+    .opt-tag{display:inline-block;background:var(--surface);border:1px solid var(--line);padding:4px 8px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text-dim);margin:0 6px 6px 0;}
+    .opt-req{border-left:2px solid var(--signal);color:var(--text);}
+
+    .no-results{padding:48px;text-align:center;background:var(--surface);color:var(--text-dim);font-size:1.1rem;display:none;}
+
+    @media (max-width:768px){
+      nav{padding:16px 24px;}
+      .menu-toggle{display:inline-flex;}
+      .nav-links{display:none;position:absolute;top:65px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
+      .nav-links.is-open{display:flex;}
+      
+      main{padding:32px 24px 80px;}
+      .search-row{flex-direction:column;}
+      .type-filter{width:100%;}
+      .detail-grid{grid-template-columns:1fr;}
+      .cmd-header{flex-direction:column;align-items:flex-start;gap:16px;}
+      .cmd-copy{align-self:flex-start;}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <nav>
+    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
+      <img src="/favicon.ico" alt="RB">
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#features">Infraestructura</a></li>
+      <li><a href="#comandos">Comandos</a></li>
+      <li><a href="#como-empezar">Documentación</a></li>
+      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="/tos">Términos</a></li>
+      <li><a href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" class="nav-cta">Autorizar</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <div class="page-header">
+      <h1>Comandos</h1>
+      <p>Encuentra toda la lista de comandos disponibles del bot. Explora las utilidades y herramientas de administración.</p>
+    </div>
+
+    <div class="controls">
+      <div class="search-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, descripción o alias...">
+        </div>
+        <select id="typeFilter" class="type-filter">
+          <option value="todos">Todos los tipos</option>
+          <option value="slash">Comandos Slash (/)</option>
+          <option value="prefijo">Comandos Prefijo (.)</option>
+        </select>
+      </div>
+      
+      <div class="category-row" id="categoryRow">
+        <!-- Renderizado vía JS -->
+      </div>
+    </div>
+
+    <div class="cmd-list" id="commandList">
+      <!-- Renderizado vía JS -->
+    </div>
+    <div class="no-results" id="noResults">
+      No se encontraron comandos que coincidan con los filtros actuales.
+    </div>
+
+  </main>
+
+  <script>
+    // Configuración del menú móvil
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Base de datos de comandos extraída de la documentación
+    const rawCommands = [
+      { name: "ask", cat: "utilidad", options: "pregunta (optional?=false)", aliases: "ia, ai", desc: "Hazle una pregunta a la IA", example: ".ask cuando te apagan" },
+      { name: "help", cat: "utilidad", options: "ninguna", aliases: "ninguno", desc: "Muestra la lista de comandos disponibles", example: ".help" },
+      { name: "/util ping", cat: "utilidad", options: "ninguna", aliases: "ninguno", desc: "Muestra la latencia del bot", example: ".ping" },
+      { name: "/util botinfo", cat: "utilidad", options: "ninguna", aliases: "bot, info", desc: "Información general del bot", example: ".botinfo" },
+      { name: "/util invite", cat: "utilidad", options: "ninguna", aliases: "inv", desc: "Obtén los links de invitación del bot", example: ".invite" },
+      { name: "/util setprefix", cat: "utilidad", options: "nuevo (optional?=true)", aliases: "prefix", desc: "Cambia o muestra el prefix del bot en este servidor", example: ".setprefix !" },
+      { name: "/util askreset", cat: "utilidad", options: "ninguna", aliases: "reset", desc: "Limpia tu historial de conversación con la IA", example: ".askreset" },
+      { name: "/util translate", cat: "utilidad", options: "texto (optional?=false), idioma (optional?=true)", aliases: "traducir, trans", desc: "Traduce texto a otro idioma", example: ".translate hello es" },
+      { name: "/util describe", cat: "utilidad", options: "imagen (optional?=false)", aliases: "describir", desc: "Describe el contenido de una imagen", example: ".describe <adjunto>" },
+      { name: "/util transcribe", cat: "utilidad", options: "archivo (optional?=false)", aliases: "transcribir", desc: "Transcribe un audio o video a texto", example: ".transcribe https://ejemplo.com/audio.mp3" },
+      { name: "/util dm", cat: "utilidad", options: "titulo (optional?=false), texto (optional?=false), solo_rol (optional?=true), excluir_rol (optional?=true), excluir_usuario (optional?=true)", aliases: "dm, dmerveryone", desc: "Envía un DM con embed a todos los miembros del servidor", example: ".dm Hoy jugamos,go ofi" },
+      { name: "/util resume", cat: "utilidad", options: "texto (optional?=false)", aliases: "resumir, summarize", desc: "Resume un texto largo", example: ".resume texto largo..." },
+      
+      { name: "/user info", cat: "usuario", options: "usuario (optional?=true)", aliases: "userinfo, ui, whois", desc: "Muestra información de un usuario", example: ".user @usuario" },
+      { name: "/user avatar", cat: "usuario", options: "usuario (optional?=true)", aliases: "av, useravatar", desc: "Muestra el avatar de un usuario", example: ".avatar @usuario" },
+      { name: "/user banner", cat: "usuario", options: "usuario (optional?=true)", aliases: "userbanner", desc: "Muestra el banner de un usuario", example: ".ubanner @usuario" },
+      { name: "/user roles", cat: "usuario", options: "usuario (optional?=true)", aliases: "useroles", desc: "Muestra los roles de un usuario", example: ".uroles @usuario" },
+      { name: "/user permissions", cat: "usuario", options: "usuario (optional?=true)", aliases: "perms, permissions, uperms", desc: "Muestra los permisos de un usuario en el servidor", example: ".userperms @usuario" },
+      
+      { name: "/mod ban", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true), dias (optional?=true)", aliases: "modban", desc: "Banea a un usuario del servidor", example: ".ban @usuario spam" },
+      { name: "/mod unban", cat: "moderacion", options: "id (optional?=false), razon (optional?=true)", aliases: "modunban, desbanear", desc: "Desbanea a un usuario por su ID", example: ".unban 1020772849906098186" },
+      { name: "/mod softban", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true), dias (optional?=true)", aliases: "modsoftban, sban", desc: "Expulsa a un usuario borrando sus mensajes (ban + unban inmediato)", example: ".softban @usuario" },
+      { name: "/mod tempban", cat: "moderacion", options: "usuario (optional?=false), duracion (optional?=false), razon (optional?=true)", aliases: "modtempban, tban", desc: "Banea a un usuario temporalmente", example: ".tempban @usuario 10d" },
+      { name: "/mod massban", cat: "moderacion", options: "usuario1 (optional?=false), usuario2 (optional?=true), usuario3 (optional?=true), usuario4 (optional?=true), usuario5 (optional?=true), razon (optional?=true)", aliases: "modmassban, mban", desc: "Banea a múltiples usuarios a la vez (hasta 5 menciones o IDs)", example: ".massban @u1 @u2 raid" },
+      { name: "/mod kick", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true)", aliases: "modkick, expulsar", desc: "Expulsa a un usuario del servidor", example: ".kick @usuario" },
+      { name: "/mod mute", cat: "moderacion", options: "usuario (optional?=false), duracion (optional?=false), razon (optional?=true)", aliases: "modmute, timeout, silenciar", desc: "Silencia a un usuario", example: ".mute @usuario 30m" },
+      { name: "/mod unmute", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true)", aliases: "modunmute, untimeout", desc: "Quita el timeout a un usuario", example: ".unmute @usuario" },
+      { name: "/mod purge", cat: "moderacion", options: "cantidad (optional?=false), usuario (optional?=true)", aliases: "modpurge, clear, prune", desc: "Elimina mensajes del canal", example: ".purge 50 @usuario" },
+      { name: "/mod warn", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=false)", aliases: "modwarn, advertir", desc: "Advierte a un usuario", example: ".warn @usuario flood" },
+      { name: "/mod removewarn", cat: "moderacion", options: "id (optional?=false)", aliases: "delwarn, warnremove", desc: "Elimina una advertencia por su ID", example: ".removewarn abc123" },
+      { name: "/mod clearwarns", cat: "moderacion", options: "usuario (optional?=false)", aliases: "warnsclear, clearwarn", desc: "Borra todas las advertencias de un usuario", example: ".clearwarns @usuario" },
+      { name: "/mod warnings", cat: "moderacion", options: "usuario (optional?=false)", aliases: "warns, modwarnings", desc: "Muestra las advertencias de un usuario", example: ".warnings @usuario" },
+      { name: "/mod setlogs", cat: "moderacion", options: "canal (optional?=false)", aliases: "modsetlogs, logchannel, setlog", desc: "Establece el canal de logs para RedBot en el servidor", example: ".setlogs #logs" },
+      { name: "/mod removelogs", cat: "moderacion", options: "ninguna", aliases: "modremovelogs, removelog, unsetlogs", desc: "Desactiva los logs de RedBot en el servidor", example: ".removelogs" },
+      
+      { name: "/server info", cat: "servidor", options: "ninguna", aliases: "sv", desc: "Muestra información del servidor", example: ".server" },
+      { name: "/server logo", cat: "servidor", options: "ninguna", aliases: "serverlogo, servericon, icon, logo", desc: "Muestra el logo del servidor", example: ".logo" },
+      { name: "/server banner", cat: "servidor", options: "ninguna", aliases: "sbanner, banner", desc: "Muestra el banner del servidor", example: ".serverbanner" },
+      { name: "/server emojis", cat: "servidor", options: "ninguna", aliases: "serveremojis", desc: "Muestra todos los emojis del servidor", example: ".emojis" },
+      { name: "/server roles", cat: "servidor", options: "ninguna", aliases: "serverroles, sroles", desc: "Lista los roles del servidor", example: ".roles" },
+      
+      { name: "/role info", cat: "roles", options: "rol (optional?=false)", aliases: "roleinfo, inforole", desc: "Muestra información de un rol", example: ".roleinfo @rol" },
+      { name: "/role icon", cat: "roles", options: "rol (optional?=false)", aliases: "iconrole, ricon", desc: "Muestra el icono de un rol", example: ".roleicon @rol" },
+      { name: "/role color", cat: "roles", options: "rol (optional?=false)", aliases: "colorrole, rolecolor", desc: "Muestra el color de un rol", example: ".color @rol" },
+      { name: "/role users", cat: "roles", options: "rol (optional?=false)", aliases: "rusers, usersrole", desc: "Lista usuarios con un rol", example: ".roleusers @rol" },
+      { name: "/role add", cat: "roles", options: "usuario (optional?=false), rol (optional?=false)", aliases: "addrole, radd", desc: "Añade un rol a un usuario", example: ".roleadd @usuario @rol" },
+      { name: "/role remove", cat: "roles", options: "usuario (optional?=false), rol (optional?=false)", aliases: "removerole, rremove", desc: "Quita un rol a un usuario", example: ".roleremove @usuario @rol" },
+      { name: "/role rename", cat: "roles", options: "rol (optional?=false), nombre (optional?=false)", aliases: "renamerole, rrename", desc: "Renombra un rol", example: ".rolerename @rol nuevoNombre" },
+      { name: "/role hoist", cat: "roles", options: "rol (optional?=false)", aliases: "hoistrole, rhoist", desc: "Activa/desactiva si un rol se muestra separado en la lista de miembros", example: ".rolehoist @rol" },
+      { name: "/role mentionable", cat: "roles", options: "rol (optional?=false)", aliases: "rolemention, mentionrole, rmention", desc: "Activa/desactiva si un rol es mencionable por todos", example: ".rolementionable @rol" },
+      { name: "/role all", cat: "roles", options: "rol (optional?=false), incluir_bots (optional?=true)", aliases: "allrole, rall", desc: "Añade un rol a todos los miembros del servidor", example: ".roleall @rol" },
+      { name: "/role removeall", cat: "roles", options: "rol (optional?=false), incluir_bots (optional?=true)", aliases: "removeroleall, removeallrole, rremoveall", desc: "Quita un rol a todos los miembros que lo tengan", example: ".roleremoveall @rol" },
+      { name: "/role bots", cat: "roles", options: "rol (optional?=false), accion (optional?=false)", aliases: "botsrole", desc: "Añade o quita un rol a todos los bots", example: ".rolebots @rol add" },
+      { name: "/role humans", cat: "roles", options: "rol (optional?=false), accion (optional?=false)", aliases: "humansrole", desc: "Añade o quita un rol a todos los usuarios (sin bots)", example: ".rolehumans @rol add" },
+      { name: "/role join", cat: "roles", options: "rol (optional?=true), ignorar_bots (optional?=true)", aliases: "joinrole, autorole", desc: "Configura o desactiva el rol automático al entrar", example: ".rolejoin @rol" },
+      { name: "/role permissions", cat: "roles", options: "rol (optional?=false)", aliases: "roleperms", desc: "Muestra permisos de un rol", example: ".roleperms @rol" },
+      
+      { name: "/channel info", cat: "canal", options: "canal (optional?=true)", aliases: "chinfo, cinfo, channelinfo", desc: "Muestra información de un canal", example: ".channel #canal" },
+      { name: "/channel rename", cat: "canal", options: "canal (optional?=false), nombre (optional?=false)", aliases: "chrename, channelrename", desc: "Renombra un canal", example: ".rename #canal nuevoNombre" },
+      { name: "/channel lock", cat: "canal", options: "canal (optional?=true)", aliases: "chlock, lockdown, channellock", desc: "Bloquea un canal para usuarios normales", example: ".lock #canal" },
+      { name: "/channel unlock", cat: "canal", options: "canal (optional?=true)", aliases: "chunlock, channelunlock, cunlock", desc: "Abre un canal bloqueado", example: ".unlock #canal" },
+      { name: "/channel slowmode", cat: "canal", options: "tiempo (optional?=false), canal (optional?=true)", aliases: "sm, chslowmode, channelslowmode", desc: "Establece el slowmode de un canal", example: ".slowmode 1h #canal" },
+      { name: "/channel nuke", cat: "canal", options: "canal (optional?=true)", aliases: "chnuke, channelnuke", desc: "Recrea el canal borrando todos sus mensajes", example: ".nuke #canal" },
+      { name: "/channel clone", cat: "canal", options: "canal (optional?=true)", aliases: "chclone, channelclone, clonechannel", desc: "Clona un canal con su configuración", example: ".clone #canal" },
+      { name: "/channel permit", cat: "canal", options: "usuario (optional?=false), canal (optional?=true)", aliases: "chpermit, channelpermit", desc: "Da acceso a un usuario en un canal", example: ".permit @usuario #canal" },
+      { name: "/channel deny", cat: "canal", options: "usuario (optional?=false), canal (optional?=true)", aliases: "chdeny, channeldeny", desc: "Quita el acceso a un usuario en un canal", example: ".deny @usuario #canal" },
+      { name: "/channel hide", cat: "canal", options: "canal (optional?=true)", aliases: "chhide, hidechannel, channelhide", desc: "Oculta un canal a @everyone", example: ".hide #canal" },
+      
+      { name: "/fun opinion", cat: "diversion", options: "tema (optional?=false)", aliases: "op, opina", desc: "Pide mi opinión sin filtro sobre algo", example: ".opinion la economía" },
+      { name: "/fun critica", cat: "diversion", options: "tema (optional?=false)", aliases: "criticar, criticize", desc: "Te doy una crítica despiadada de algo", example: ".critica la chochoinflación" },
+      { name: "/fun excusa", cat: "diversion", options: "situacion (optional?=true)", aliases: "coartada, excuse", desc: "Genera una excusa ridícula pero creativa", example: ".excusa llegué tarde" },
+      { name: "/fun teoria", cat: "diversion", options: "tema (optional?=false)", aliases: "conspira, conspiracion, theory", desc: "Una teoría conspirativa sobre cualquier cosa", example: ".teoria las palomas son drones" },
+      { name: "/fun roast", cat: "diversion", options: "usuario (optional?=true)", aliases: "quemar, burn", desc: "Critica despiadadamente a un usuario", example: ".roast @usuario" },
+      { name: "/fun lol", cat: "diversion", options: "ninguna", aliases: "ninguno", desc: "Responde con un emoji random", example: ".lol" },
+      
+      { name: "comandointervalosupersecretokjj", cat: "admin", options: "ninguna", aliases: "ninguno", desc: "rota foto con emoji 15min", example: ".comandointervalosupersecretokjj", forcePrefixOnly: true }
+    ];
+
+    // Procesamiento de datos para identificar tipos (slash, prefijo, ambos)
+    const commands = rawCommands.map(cmd => {
+      let types = [];
+      if (cmd.forcePrefixOnly) {
+        types.push('prefijo');
+      } else {
+        types = ['slash', 'prefijo'];
+      }
+      return { ...cmd, types };
+    });
+
+    const categories = [
+      { id: 'todos', label: 'Todos' },
+      { id: 'utilidad', label: 'Utilidad' },
+      { id: 'usuario', label: 'Usuario' },
+      { id: 'moderacion', label: 'Moderación' },
+      { id: 'servidor', label: 'Servidor' },
+      { id: 'roles', label: 'Roles' },
+      { id: 'canal', label: 'Canal' },
+      { id: 'diversion', label: 'Diversión' }
+    ];
+
+    // Estado global de filtros
+    let currentSearch = "";
+    let currentType = "todos";
+    let currentCategory = "todos";
+
+    // Elementos del DOM
+    const categoryRow = document.getElementById('categoryRow');
+    const commandList = document.getElementById('commandList');
+    const searchInput = document.getElementById('searchInput');
+    const typeFilter = document.getElementById('typeFilter');
+    const noResults = document.getElementById('noResults');
+
+    // Inicializar Categorías
+    function renderCategories() {
+      categoryRow.innerHTML = '';
+      categories.forEach(cat => {
+        // Contar comandos para esta categoría
+        const count = cat.id === 'todos' 
+          ? commands.filter(c => c.cat !== 'admin').length // Ocultar admin del conteo total por estética
+          : commands.filter(c => c.cat === cat.id).length;
+
+        const btn = document.createElement('button');
+        btn.className = `cat-btn ${currentCategory === cat.id ? 'active' : ''}`;
+        btn.innerHTML = `${cat.label} <span class="cat-count">${count}</span>`;
+        btn.onclick = () => {
+          currentCategory = cat.id;
+          renderCategories();
+          applyFilters();
+        };
+        categoryRow.appendChild(btn);
+      });
+    }
+
+    // Formatear opciones
+    function formatOptions(optionsString) {
+      if (!optionsString || optionsString === "ninguna") return "<span class='opt-tag'>Ninguna</span>";
+      const opts = optionsString.split(', ');
+      return opts.map(opt => {
+        const isRequired = opt.includes('optional?=false');
+        const cleanName = opt.split(' ')[0];
+        return `<span class="opt-tag ${isRequired ? 'opt-req' : ''}">${cleanName}${isRequired ? '*' : ''}</span>`;
+      }).join('');
+    }
+
+    // Renderizar Lista de Comandos
+    function renderCommands(filteredCommands) {
+      commandList.innerHTML = '';
+      
+      if (filteredCommands.length === 0) {
+        commandList.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+      }
+
+      commandList.style.display = 'flex';
+      noResults.style.display = 'none';
+
+      filteredCommands.forEach((cmd, index) => {
+        const div = document.createElement('div');
+        div.className = 'cmd-item';
+        div.innerHTML = `
+          <div class="cmd-header" onclick="this.parentElement.classList.toggle('expanded')">
+            <div class="cmd-title-wrap">
+              <span class="cmd-name">${cmd.name}</span>
+              <span class="cmd-cat-tag">${cmd.cat}</span>
+            </div>
+            <button class="cmd-copy" onclick="copyCommand(event, '${cmd.name}', this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copiar
+            </button>
+          </div>
+          <div class="cmd-details">
+            <div class="detail-grid">
+              <div class="detail-block">
+                <h4>Descripción</h4>
+                <p>${cmd.desc}</p>
+              </div>
+              <div class="detail-block">
+                <h4>Ejemplo de uso</h4>
+                <div class="code-block">${cmd.example}</div>
+              </div>
+              <div class="detail-block">
+                <h4>Opciones (* requerido)</h4>
+                <div>${formatOptions(cmd.options)}</div>
+              </div>
+              <div class="detail-block">
+                <h4>Alias</h4>
+                <p class="mono">${cmd.aliases}</p>
+              </div>
+            </div>
+          </div>
+        `;
+        commandList.appendChild(div);
+      });
+    }
+
+    // Aplicar Filtros
+    function applyFilters() {
+      const filtered = commands.filter(cmd => {
+        // Filtro Categoría (excluir admin de la vista 'todos' a menos que se busque explícitamente)
+        const matchCategory = currentCategory === 'todos' 
+          ? (cmd.cat !== 'admin' || currentSearch.toLowerCase().includes('comandointervalo'))
+          : cmd.cat === currentCategory;
+        
+        // Filtro Tipo
+        const matchType = currentType === 'todos' 
+          ? true 
+          : cmd.types.includes(currentType);
+
+        // Filtro Búsqueda
+        const query = currentSearch.toLowerCase();
+        const matchSearch = query === "" || 
+                            cmd.name.toLowerCase().includes(query) || 
+                            cmd.desc.toLowerCase().includes(query) ||
+                            cmd.aliases.toLowerCase().includes(query);
+
+        return matchCategory && matchType && matchSearch;
+      });
+
+      renderCommands(filtered);
+    }
+
+    // Función Copiar
+    function copyCommand(event, text, btnElement) {
+      event.stopPropagation(); // Evitar abrir el acordeón
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado`;
+        btnElement.classList.add('success');
+        
+        setTimeout(() => {
+          btnElement.innerHTML = originalHtml;
+          btnElement.classList.remove('success');
+        }, 2000);
+      });
+    }
+
+    // Listeners de los inputs
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value;
+      applyFilters();
+    });
+
+    typeFilter.addEventListener('change', (e) => {
+      currentType = e.target.value;
+      applyFilters();
+    });
+
+    // Inicializar la vista
+    renderCategories();
+    applyFilters();
+  </script>
+</body>
+</html>
