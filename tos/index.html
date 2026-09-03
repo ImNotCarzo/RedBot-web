@@ -3,77 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Términos de Servicio — RedBot</title>
+  <title>Términos de Servicio - RedBot</title>
   <meta name="description" content="Términos de servicio de RedBot. Conoce las condiciones de uso del bot.">
   <meta name="robots" content="index, follow">
   <meta name="author" content="RedBot">
   <link rel="canonical" href="https://redbot.me/tos">
-  <meta property="og:title" content="Términos de Servicio — RedBot">
+  <meta property="og:title" content="Términos de Servicio - RedBot">
   <meta property="og:description" content="Términos de servicio de RedBot. Conoce las condiciones de uso del bot.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
   <meta property="og:url" content="https://redbot.me/tos">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Términos de Servicio — RedBot">
+  <meta name="twitter:title" content="Términos de Servicio - RedBot">
   <meta name="twitter:description" content="Términos de servicio de RedBot. Conoce las condiciones de uso del bot.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --ink:#0b0a09; --surface:#141210; --surface-2:#1c1916;
-      --line:rgba(255,255,255,0.08); --line-strong:rgba(255,255,255,0.18);
-      --text:#eae5dd; --text-dim:#9a9187; --text-mute:#58524a;
-      --signal:#e2402f; --signal-deep:#a92c1f; --signal-wash:rgba(226,64,47,0.09);
+      --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
+      --line:#333333; --line-strong:#555555;
+      --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
+      --signal:#c9302c; --signal-wash:rgba(201,48,44,0.1);
     }
     *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:300;-webkit-font-smoothing:antialiased;}
-    h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;}
+    html{scroll-behavior:auto;}
+    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-weight:700;}
 
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:rgba(11,10,9,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
     .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:24px;height:24px;border-radius:5px;object-fit:cover;}
-    .nav-back{font-size:.87rem;color:var(--text-dim);text-decoration:none;transition:color .15s;}
+    .nav-back{font-size:.87rem;color:var(--text-dim);text-decoration:none;}
     .nav-back:hover{color:var(--text);}
 
     .page-header{max-width:760px;margin:0 auto;padding:64px 40px 48px;border-bottom:1px solid var(--line);}
-    .page-tag{font-size:.82rem;color:var(--text-dim);margin-bottom:16px;}
-    .page-tag strong{color:var(--signal);font-weight:500;}
-    .page-title{font-weight:800;font-size:clamp(2.1rem,4vw,3rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:18px;}
+    .page-tag{font-size:.82rem;color:var(--text-dim);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;}
+    .page-tag strong{color:var(--signal);font-weight:600;}
+    .page-title{font-size:clamp(2.1rem,4vw,3rem);letter-spacing:-1px;line-height:1.1;margin-bottom:18px;}
     .page-subtitle{font-size:.96rem;color:var(--text-dim);line-height:1.7;max-width:540px;}
 
     .content{max-width:760px;margin:0 auto;padding:52px 40px 110px;}
     .cl{margin-bottom:50px;padding-bottom:50px;border-bottom:1px solid var(--line);}
     .cl:last-child{border-bottom:none;margin-bottom:0;}
-    .cl-num{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--signal);margin-bottom:12px;}
-    h2{font-weight:700;font-size:1.35rem;letter-spacing:-.4px;margin-bottom:18px;}
-    h3{font-weight:600;font-size:1rem;margin:24px 0 10px;}
-    p{font-size:.94rem;color:var(--text-dim);line-height:1.75;margin-bottom:15px;}
+    .cl-num{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text-dim);margin-bottom:12px;}
+    h2{font-size:1.4rem;letter-spacing:-.4px;margin-bottom:18px;color:var(--text);}
+    h3{font-size:1.1rem;margin:24px 0 10px;color:var(--text);}
+    p{font-size:.96rem;color:var(--text-dim);line-height:1.75;margin-bottom:15px;}
     ul{list-style:none;margin:0 0 15px;}
-    ul li{font-size:.94rem;color:var(--text-dim);line-height:1.7;padding:9px 0 9px 16px;position:relative;border-bottom:1px solid var(--line);}
-    ul li:last-child{border-bottom:none;}
-    ul li::before{content:'';position:absolute;left:0;top:19px;width:5px;height:5px;background:var(--signal);}
-    strong{color:var(--text);font-weight:500;}
+    ul li{font-size:.96rem;color:var(--text-dim);line-height:1.7;padding:6px 0 6px 16px;position:relative;}
+    ul li::before{content:'-';position:absolute;left:0;top:6px;color:var(--text-mute);font-weight:600;}
+    strong{color:var(--text);font-weight:600;}
 
-    .box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 22px;margin:20px 0;}
+    .box{background:var(--surface);border:1px solid var(--line);border-radius:0;padding:20px 22px;margin:20px 0;}
     .box p{margin:0;font-size:.9rem;color:var(--text-dim);}
-    .box.warn{background:var(--signal-wash);border-color:rgba(226,64,47,0.22);}
-    .box.warn p{color:#d0a29c;}
+    .box.warn{background:var(--signal-wash);border-color:var(--signal);}
+    .box.warn p{color:#f5c6c2;}
 
-    a{color:var(--signal);text-decoration:none;font-weight:500;}
-    a:hover{text-decoration:underline;}
-    .back-link{display:inline-block;color:var(--text-dim);text-decoration:none;font-size:.88rem;margin-top:36px;transition:color .15s;}
-    .back-link:hover{color:var(--text);}
+    a{color:var(--text);text-decoration:underline;font-weight:500;}
+    a:hover{color:var(--signal);}
+    .back-link{display:inline-block;color:var(--text-dim);text-decoration:none;font-size:.9rem;margin-top:36px;}
+    .back-link:hover{text-decoration:underline;color:var(--text);}
 
     footer{border-top:1px solid var(--line);padding:26px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
     .footer-logo{font-weight:700;color:var(--text);}
     .footer-text{font-size:.8rem;color:var(--text-mute);}
     .footer-links{display:flex;gap:22px;}
-    .footer-links a{font-size:.8rem;color:var(--text-dim);text-decoration:none;font-weight:400;transition:color .15s;}
-    .footer-links a:hover{color:var(--text);}
+    .footer-links a{font-size:.8rem;color:var(--text-dim);text-decoration:none;font-weight:400;}
+    .footer-links a:hover{color:var(--text);text-decoration:underline;}
 
     @media (max-width:680px){
       nav{padding:14px 20px;}
@@ -86,114 +84,54 @@
 <body>
 
   <nav>
-    <a class="nav-logo" href="/"><img src="/redbot.png" alt="Logo de RedBot">RedBot</a>
-    <a class="nav-back" href="/">← Volver al inicio</a>
+    <a class="nav-logo" href="/">RedBot</a>
+    <a class="nav-back" href="/">Volver al inicio</a>
   </nav>
 
   <div class="page-header">
-    <p class="page-tag"><strong>Legal</strong> — última actualización 2026</p>
+    <p class="page-tag"><strong>Legal</strong> - Última actualización 2026</p>
     <h1 class="page-title">Términos de Servicio</h1>
-    <p class="page-subtitle">Al usar RedBot aceptás estas condiciones. Están escritas para ser leídas, no para confundirte.</p>
+    <p class="page-subtitle">Condiciones de uso claras y directas para operar RedBot en tus servidores.</p>
   </div>
 
   <div class="content">
 
     <div class="cl">
-      <div class="cl-num">01 · Introducción</div>
+      <div class="cl-num">01 / Introducción</div>
       <h2>Aceptación de los términos</h2>
-      <p>Al invitar, acceder o usar RedBot, aceptás estos Términos de Servicio, así como los <a href="https://discord.com/terms" target="_blank">Términos de Servicio de Discord</a> y las leyes aplicables.</p>
+      <p>Al invitar, acceder o usar RedBot, aceptas estos Términos de Servicio, así como las normativas de la plataforma subyacente y las leyes aplicables.</p>
       <div class="box warn">
-        <p>Si no estás de acuerdo con alguna parte, no debés usar RedBot. El uso continuado implica aceptación de cualquier cambio futuro.</p>
+        <p>Si no estás de acuerdo con las políticas presentadas, detén el uso de RedBot y elimínalo de tu servidor inmediatamente.</p>
       </div>
     </div>
 
     <div class="cl">
-      <div class="cl-num">02 · Servicio</div>
+      <div class="cl-num">02 / Servicio</div>
       <h2>Descripción del servicio</h2>
-      <p>RedBot es un bot público de Discord desarrollado con JavaScript. Ofrece funciones de utilidad, información e IA, incluyendo:</p>
-      <ul>
-        <li>Información de usuarios, avatares, banners y roles</li>
-        <li>Información y gestión de servidores y roles</li>
-        <li>Comandos de utilidad (ping, prefijo, info del bot)</li>
-        <li>Asistente de IA con memoria de conversación</li>
-      </ul>
-      <p>RedBot no realiza moderación automática, transacciones financieras ni control administrativo fuera de los permisos otorgados explícitamente.</p>
+      <p>RedBot proporciona herramientas de moderación, consulta de datos y asistencia procesada por IA. Las responsabilidades administrativas finales recaen sobre los dueños de cada servidor.</p>
     </div>
 
     <div class="cl">
-      <div class="cl-num">03 · Elegibilidad</div>
-      <h2>Quién puede usarlo</h2>
-      <ul>
-        <li>Debés cumplir con los <a href="https://discord.com/terms" target="_blank">TOS y Community Guidelines de Discord</a></li>
-        <li>Debés tener al menos 13 años o la edad mínima requerida en tu país</li>
-        <li>Debés contar con autorización del dueño o administrador del servidor para invitar el bot</li>
-      </ul>
-      <p>RedBot puede restringir o eliminar el acceso de usuarios o servidores que violen estas condiciones sin previo aviso.</p>
-    </div>
-
-    <div class="cl">
-      <div class="cl-num">04 · Conducta</div>
+      <div class="cl-num">03 / Conducta</div>
       <h2>Uso aceptable</h2>
-      <p>Está prohibido:</p>
+      <p>Queda estrictamente prohibido:</p>
       <ul>
-        <li>Usar el bot para acoso, spam o actividades ilegales</li>
-        <li>Intentar explotar, sobrecargar o interrumpir el funcionamiento del bot</li>
-        <li>Aplicar ingeniería inversa o modificar RedBot sin permiso</li>
-        <li>Recopilar o exponer información privada de otros usuarios</li>
-        <li>Violar las políticas de Discord o las leyes aplicables</li>
+        <li>Explotar vulnerabilidades o interrumpir la infraestructura.</li>
+        <li>Aplicar ingeniería inversa al sistema sin autorización.</li>
+        <li>Utilizar el bot para fines ilegales o perjudiciales.</li>
       </ul>
-      <div class="box warn">
-        <p>El incumplimiento puede resultar en restricción permanente del uso de RedBot.</p>
-      </div>
     </div>
 
     <div class="cl">
-      <div class="cl-num">05 · Datos</div>
-      <h2>Datos y procesamiento con IA</h2>
-      <ul>
-        <li>RedBot procesa únicamente los datos necesarios para ejecutar comandos</li>
-        <li>El contenido de mensajes solo se procesa temporalmente al invocar un comando o responder al asistente IA</li>
-        <li>El contexto de conversación IA se descarta automáticamente tras inactividad o reinicio</li>
-        <li>No se almacenan permanentemente mensajes, archivos adjuntos ni embeds</li>
-        <li>No se venden, comparten ni monetizan datos de usuarios</li>
-      </ul>
-      <p>Más detalles en la <a href="/privacy">Política de Privacidad</a>.</p>
-    </div>
-
-    <div class="cl">
-      <div class="cl-num">06 · Disponibilidad</div>
+      <div class="cl-num">04 / Disponibilidad</div>
       <h2>Disponibilidad y responsabilidad</h2>
       <div class="box">
-        <p>RedBot se proporciona <strong>"tal cual"</strong> y <strong>"según disponibilidad"</strong>.</p>
+        <p>El software se proporciona de forma técnica <strong>"tal cual"</strong> y <strong>"según disponibilidad"</strong>, sin garantías implícitas adicionales.</p>
       </div>
-      <ul>
-        <li>No garantizamos disponibilidad continua ni operación sin errores</li>
-        <li>El bot puede tener interrupciones por mantenimiento o actualizaciones de Discord</li>
-        <li>El desarrollador no es responsable de pérdida de datos, interrupciones ni mal uso por parte de usuarios</li>
-      </ul>
+      <p>Los desarrolladores no asumen responsabilidad por la pérdida de datos o el uso indebido por parte de administradores externos.</p>
     </div>
 
-    <div class="cl">
-      <div class="cl-num">07 · Propiedad</div>
-      <h2>Propiedad intelectual</h2>
-      <p>RedBot, su código y activos son propiedad intelectual del desarrollador. No se permite copiar, redistribuir ni modificar sin permiso explícito. Todos los trademarks y logos de terceros pertenecen a sus respectivos dueños.</p>
-    </div>
-
-    <div class="cl">
-      <div class="cl-num">08 · Soporte</div>
-      <h2>Soporte y cambios</h2>
-      <p>Para consultas, reportes o soporte, contactanos en el servidor oficial:</p>
-      <p><a href="https://discord.gg/sYdyS8Ez3s" target="_blank">discord.gg/sYdyS8Ez3s</a></p>
-      <p>Estos Términos pueden actualizarse en cualquier momento. Los cambios importantes se anunciarán en el servidor de soporte.</p>
-    </div>
-
-    <div class="cl">
-      <div class="cl-num">09 · Aceptación</div>
-      <h2>Confirmación final</h2>
-      <p>Al invitar o usar RedBot confirmás que leíste, comprendiste y aceptás estos Términos y la <a href="/privacy">Política de Privacidad</a>.</p>
-    </div>
-
-    <a class="back-link" href="/">← Volver al inicio</a>
+    <a class="back-link" href="/">Volver al inicio</a>
   </div>
 
   <footer>
