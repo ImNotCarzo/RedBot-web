@@ -109,13 +109,6 @@
     .cmd-tags{display:flex;flex-wrap:wrap;gap:8px;}
     .cmd-tag{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);background:var(--ink);border:1px solid var(--line);padding:4px 8px;}
 
-    /* STEPS (2x2 grid instead of 3 in a row) */
-    .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-    .step{padding:36px 32px;background:var(--surface);}
-    .step-num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1rem;color:var(--text-mute);margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:10px;display:inline-block;}
-    .step h3{font-size:1.1rem;margin-bottom:12px;}
-    .step p{font-size:.95rem;color:var(--text-dim);line-height:1.65;}
-
     /* CTA FINAL */
     .cta-final{text-align:center;padding:90px 48px 110px;border-top:1px solid var(--line);background:var(--surface);}
     .cta-final h2{font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-1px;margin-bottom:18px;}
@@ -157,19 +150,17 @@
       .feature-item:nth-child(odd){border-right:none;padding-right:0;}
       .feature-item:nth-child(even){padding-left:0;}
       .cmd-grid{grid-template-columns:1fr;}
-      .steps{grid-template-columns:1fr;}
       .footer-grid{grid-template-columns:1fr;gap:32px;}
       .footer-inner{padding:40px 24px 24px;}
     }
     .demo-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 0;
-}
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 0;
+    }
   </style>
-</head>
   <script>
     async function loadDemoAvatars() {
       const userId = "668550027307909162"; 
@@ -199,9 +190,10 @@
     
     loadDemoAvatars();
   </script>
+</head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
-<nav>
+  <nav>
       <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
       <img src="/favicon.ico" alt="RB"></a>
 
@@ -300,56 +292,70 @@
         <div class="cmd-cell">
           <div class="cmd-cat">Utilidad</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">Generalidades, </span>
+            <span class="cmd-tag">ask</span><span class="cmd-tag">ping</span><span class="cmd-tag">botinfo</span>
+            <span class="cmd-tag">invite</span><span class="cmd-tag">setprefix</span><span class="cmd-tag">askreset</span>
           </div>
         </div>
+
         <div class="cmd-cell">
-          <div class="cmd-cat">Usuarios</div>
+          <div class="cmd-cat">Usuario</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">avatar</span><span class="cmd-tag">roles</span>
-            <span class="cmd-tag">permissions</span>
+            <span class="cmd-tag">info</span><span class="cmd-tag">avatar</span><span class="cmd-tag">banner</span>
+            <span class="cmd-tag">roles</span><span class="cmd-tag">permissions</span>
           </div>
         </div>
+
         <div class="cmd-cell">
           <div class="cmd-cat">Moderación</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">ban</span><span class="cmd-tag">kick</span><span class="cmd-tag">mute</span>
-            <span class="cmd-tag">warn</span><span class="cmd-tag">purge</span><span class="cmd-tag">setlogs</span>
+            <span class="cmd-tag">ban</span><span class="cmd-tag">unban</span><span class="cmd-tag">softban</span>
+            <span class="cmd-tag">tempban</span><span class="cmd-tag">massban</span><span class="cmd-tag">kick</span>
+            <span class="cmd-tag">mute</span><span class="cmd-tag">unmute</span><span class="cmd-tag">purge</span>
+            <span class="cmd-tag">warn</span><span class="cmd-tag">removewarn</span><span class="cmd-tag">clearwarns</span>
+            <span class="cmd-tag">warnings</span><span class="cmd-tag">setlogs</span><span class="cmd-tag">removelogs</span>
           </div>
         </div>
+
         <div class="cmd-cell">
-          <div class="cmd-cat">Infraestructura</div>
+          <div class="cmd-cat">Servidor</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">serverinfo</span><span class="cmd-tag">lock</span><span class="cmd-tag">slowmode</span>
-            <span class="cmd-tag">nuke</span>
-          </div>
-          </div>
-          <div class="cmd-grid">
-        <div class="cmd-cell">
-          <div class="cmd-cat">Utilidad</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">Generalidades, </span>
+            <span class="cmd-tag">info</span><span class="cmd-tag">logo</span><span class="cmd-tag">banner</span>
+            <span class="cmd-tag">emojis</span><span class="cmd-tag">roles</span>
           </div>
         </div>
+
         <div class="cmd-cell">
-          <div class="cmd-cat">Usuarios</div>
+          <div class="cmd-cat">Roles</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">avatar</span><span class="cmd-tag">roles</span>
-            <span class="cmd-tag">permissions</span>
+            <span class="cmd-tag">info</span><span class="cmd-tag">icon</span><span class="cmd-tag">color</span>
+            <span class="cmd-tag">users</span><span class="cmd-tag">add</span><span class="cmd-tag">remove</span>
+            <span class="cmd-tag">rename</span><span class="cmd-tag">hoist</span><span class="cmd-tag">mentionable</span>
+            <span class="cmd-tag">random</span>
           </div>
         </div>
+
         <div class="cmd-cell">
-          <div class="cmd-cat">Moderación</div>
+          <div class="cmd-cat">Canal</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">ban</span><span class="cmd-tag">kick</span><span class="cmd-tag">mute</span>
-            <span class="cmd-tag">warn</span><span class="cmd-tag">purge</span><span class="cmd-tag">setlogs</span>
+            <span class="cmd-tag">info</span><span class="cmd-tag">rename</span><span class="cmd-tag">lock</span>
+            <span class="cmd-tag">unlock</span><span class="cmd-tag">slowmode</span><span class="cmd-tag">nuke</span>
+            <span class="cmd-tag">clone</span><span class="cmd-tag">permit</span><span class="cmd-tag">deny</span>
+            <span class="cmd-tag">hide</span>
           </div>
         </div>
+
         <div class="cmd-cell">
-          <div class="cmd-cat">Infraestructura</div>
+          <div class="cmd-cat">Diversión</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">serverinfo</span><span class="cmd-tag">lock</span><span class="cmd-tag">slowmode</span>
-            <span class="cmd-tag">nuke</span>
+            <span class="cmd-tag">opinion</span><span class="cmd-tag">critica</span><span class="cmd-tag">excusa</span>
+            <span class="cmd-tag">teoria</span><span class="cmd-tag">roast</span>
+          </div>
+        </div>
+
+        <div class="cmd-cell">
+          <div class="cmd-cat">Ayuda</div>
+          <div class="cmd-tags">
+            <span class="cmd-tag">help</span>
           </div>
         </div>
       </div>
