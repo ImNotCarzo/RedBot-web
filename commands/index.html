@@ -28,14 +28,12 @@
     /* NAV GLOBAL */
     nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
     .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:32px;height:32px;object-fit:cover;display:block;border-radius:4px;}
     .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
     .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
     .nav-links a:hover{color:var(--text);}
-    .nav-links a[aria-current="page"]{color:var(--text);font-weight:600;}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;display:inline-block;border-radius:4px;}
+    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;}
     .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;border-radius:4px;}
+    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
 
     main{max-width:1180px;margin:0 auto;padding:48px 48px 120px;}
 
@@ -92,12 +90,11 @@
 
     .no-results{padding:48px;text-align:center;background:var(--surface);color:var(--text-dim);font-size:1.1rem;display:none;}
 
-    /* FOOTER GLOBAL */
+    /* FOOTER */
     footer{border-top:1px solid var(--line);background:var(--ink);}
     .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
-    .footer-logo img{width:32px;height:32px;object-fit:cover;display:block;border-radius:4px;}
+    .footer-logo{font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
     .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
     .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
     .footer-section{display:flex;flex-direction:column;gap:12px;}
@@ -134,11 +131,12 @@
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/favicon.ico" alt="RB"> RedBot
+      <img src="/favicon.ico" alt="RB">
     </a>
+
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="/commands" aria-current="page">Comandos</a></li>
+      <li><a href="/commands">Comandos</a></li>
       <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
       <li><a href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" class="nav-cta">Autorizar</a></li>
@@ -180,7 +178,7 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/favicon.ico" alt="RB"> RedBot</div>
+          <div class="footer-logo"><img src="/favicon.ico" alt="RB"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
@@ -326,6 +324,7 @@
     let currentSearch = "";
     let currentType = "todos";
     let currentCategory = "todos";
+    let openCommandUid = null;
 
     const categoryRow = document.getElementById('categoryRow');
     const commandList = document.getElementById('commandList');
@@ -364,29 +363,53 @@
       }).join('');
     }
 
-    // Toggle de comandos - Cierra el anterior antes de abrir
-    function toggleCommand(uid) {
-      commands.forEach(cmd => {
-        if(cmd.uid !== uid) {
-          const otherItem = document.getElementById(`item-${cmd.uid}`);
-          if(otherItem && otherItem.classList.contains('expanded')) {
-            const otherBtn = document.getElementById(`toggle-${cmd.uid}`);
-            const otherDetails = document.getElementById(`details-${cmd.uid}`);
-            otherBtn.setAttribute('aria-expanded', 'false');
-            otherDetails.hidden = true;
-            otherItem.classList.remove('expanded');
-          }
+    function getDisplayName(cmd) {
+      const name = cmd.name.trim();
+
+      if (currentType === 'prefijo') {
+        if (name.startsWith('/')) {
+          const parts = name.split(/\s+/);
+          return `.${parts[parts.length - 1]}`;
         }
+        return name.startsWith('.') ? name : `.${name}`;
+      }
+
+      if (currentType === 'slash') {
+        return name.startsWith('/') ? name : `/${name}`;
+      }
+
+      return name;
+    }
+
+    function closeAllCommands() {
+      document.querySelectorAll('.cmd-item.expanded').forEach(item => {
+        item.classList.remove('expanded');
+        const button = item.querySelector('.cmd-toggle');
+        const details = item.querySelector('.cmd-details');
+        if (button) button.setAttribute('aria-expanded', 'false');
+        if (details) details.hidden = true;
       });
+    }
 
+    function toggleCommand(uid) {
       const item = document.getElementById(`item-${uid}`);
-      const toggleBtn = document.getElementById(`toggle-${uid}`);
-      const details = document.getElementById(`details-${uid}`);
-      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      if (!item) return;
 
-      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
-      details.hidden = isExpanded;
-      item.classList.toggle('expanded', !isExpanded);
+      const button = item.querySelector('.cmd-toggle');
+      const details = item.querySelector('.cmd-details');
+      if (!button || !details) return;
+
+      const shouldOpen = !item.classList.contains('expanded');
+      closeAllCommands();
+
+      if (shouldOpen) {
+        item.classList.add('expanded');
+        button.setAttribute('aria-expanded', 'true');
+        details.hidden = false;
+        openCommandUid = uid;
+      } else {
+        openCommandUid = null;
+      }
     }
 
     function renderCommands(filteredCommands) {
@@ -395,41 +418,36 @@
       if (filteredCommands.length === 0) {
         commandList.style.display = 'none';
         noResults.style.display = 'block';
+        openCommandUid = null;
         return;
       }
 
       commandList.style.display = 'flex';
       noResults.style.display = 'none';
 
-      filteredCommands.forEach((cmd) => {
-        // Conversión visual a prefix si corresponde
-        let displayName = cmd.name;
-        if (currentType === 'prefijo' && displayName.startsWith('/')) {
-            const parts = displayName.split(' ');
-            if (parts.length > 1) {
-                displayName = '.' + parts.slice(1).join(' ');
-            } else {
-                displayName = '.' + displayName.substring(1);
-            }
-        }
+      if (openCommandUid && !filteredCommands.some(cmd => cmd.uid === openCommandUid)) {
+        openCommandUid = null;
+      }
 
+      filteredCommands.forEach((cmd) => {
+        const displayName = getDisplayName(cmd);
         const div = document.createElement('div');
-        div.className = 'cmd-item';
+        div.className = `cmd-item${openCommandUid === cmd.uid ? ' expanded' : ''}`;
         div.id = `item-${cmd.uid}`;
         div.innerHTML = `
           <div class="cmd-header">
-            <button type="button" class="cmd-toggle" id="toggle-${cmd.uid}" aria-expanded="false" aria-controls="details-${cmd.uid}" onclick="toggleCommand('${cmd.uid}')">
+            <button type="button" class="cmd-toggle" id="toggle-${cmd.uid}" aria-expanded="${openCommandUid === cmd.uid}" aria-controls="details-${cmd.uid}">
               <div class="cmd-title-wrap">
                 <span class="cmd-name">${displayName}</span>
                 <span class="cmd-cat-tag">${cmd.cat}</span>
               </div>
             </button>
-            <button type="button" class="cmd-copy" aria-label="Copiar comando ${cmd.example}" onclick="copyCommand(event, '${cmd.example.replace(/'/g, "\\'")}', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <button type="button" class="cmd-copy" aria-label="Copiar comando ${cmd.example}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copiar
             </button>
           </div>
-          <div class="cmd-details" id="details-${cmd.uid}" hidden>
+          <div class="cmd-details" id="details-${cmd.uid}" ${openCommandUid === cmd.uid ? '' : 'hidden'}>
             <div class="detail-grid">
               <div class="detail-block">
                 <h4>Descripción</h4>
@@ -450,6 +468,12 @@
             </div>
           </div>
         `;
+
+        div.querySelector('.cmd-toggle').addEventListener('click', () => toggleCommand(cmd.uid));
+        div.querySelector('.cmd-copy').addEventListener('click', (event) => {
+          event.stopPropagation();
+          copyCommand(event, cmd.example, div.querySelector('.cmd-copy'));
+        });
         commandList.appendChild(div);
       });
     }
