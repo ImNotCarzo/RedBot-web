@@ -36,14 +36,12 @@
     /* NAV GLOBAL */
     nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
     .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:32px;height:32px;object-fit:cover;display:block;border-radius:4px;}
     .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
     .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
     .nav-links a:hover{color:var(--text);}
-    .nav-links a[aria-current="page"]{color:var(--text);font-weight:600;}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;display:inline-block;border-radius:4px;}
+    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;}
     .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;border-radius:4px;}
+    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
 
     .page-header{max-width:900px;margin:0 auto;padding:64px 40px 48px;border-bottom:1px solid var(--line);}
     .page-tag{font-size:.82rem;color:var(--text-dim);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;}
@@ -69,12 +67,11 @@
     .team-name{font-weight:600;font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .team-role{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);margin-top:6px;}
 
-    /* FOOTER GLOBAL */
+    /* FOOTER */
     footer{border-top:1px solid var(--line);background:var(--ink);}
     .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
-    .footer-logo img{width:32px;height:32px;object-fit:cover;display:block;border-radius:4px;}
+    .footer-logo{font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
     .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
     .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
     .footer-section{display:flex;flex-direction:column;gap:12px;}
@@ -105,8 +102,9 @@
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/favicon.ico" alt="RB"> RedBot
+      <img src="/favicon.ico" alt="RB">
     </a>
+
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
       <li><a href="/commands">Comandos</a></li>
@@ -132,7 +130,7 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/favicon.ico" alt="RB"> RedBot</div>
+          <div class="footer-logo"><img src="/favicon.ico" alt="RB"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
