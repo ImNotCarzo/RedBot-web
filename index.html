@@ -54,11 +54,7 @@
 
     /* HERO */
     .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:100px 48px 110px;}
-    .hero-kicker{font-size:.85rem;color:var(--text-dim);margin-bottom:20px;font-family:'IBM Plex Mono',monospace;
-font-size:.72rem;
-color:var(--text-mute);
-text-transform:none;
-letter-spacing:0;font-weight:600;}
+    .hero-kicker{font-size:1.15rem;color:var(--text-dim);margin-bottom:20px;font-family:'IBM Plex Mono',monospace;text-transform:none;letter-spacing:0;font-weight:700;}
     .hero-kicker strong{color:var(--signal);}
     h1{font-size:clamp(2.5rem,4.6vw,3.8rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:24px;color:var(--text);}
     .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.75;max-width:480px;margin-bottom:40px;}
@@ -81,8 +77,8 @@ letter-spacing:0;font-weight:600;}
     .demo-name{font-weight:700;font-size:.9rem;color:var(--text);}
     .demo-tag{font-size:.65rem;background:var(--text);color:var(--ink);padding:2px 6px;font-weight:700;letter-spacing:0.5px;border-radius:0;}
     .demo-time{font-size:.75rem;color:var(--text-mute);}
-    .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);background:var(--ink);border:1px solid var(--line);padding:6px 10px;display:inline-block;border-radius:0;}
-    .demo-reply{margin-top:4px;background:var(--ink);border:1px solid var(--line);padding:14px 16px;font-size:.9rem;color:var(--text-dim);line-height:1.6;}
+    .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);display:block;padding:0;background:none;border:none;line-height:1.6;}
+    .demo-reply{margin-top:4px;border-left:4px solid var(--signal);padding:10px 0 10px 14px;font-size:.9rem;color:var(--text-dim);line-height:1.6;background:transparent;}
     .demo-reply strong{color:var(--text);font-weight:600;}
 
     /* STATS */
@@ -109,9 +105,9 @@ letter-spacing:0;font-weight:600;}
     /* COMMANDS */
     .cmd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
     .cmd-cell{background:var(--surface);padding:26px 24px;}
-    .cmd-cat{font-weight:700;font-size:.95rem;margin-bottom:16px;}
+    .cmd-cat{display:block;text-decoration:none;font-weight:700;font-size:.95rem;margin-bottom:16px;}
     .cmd-tags{display:flex;flex-wrap:wrap;gap:8px;}
-    .cmd-tag{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);background:var(--ink);border:1px solid var(--line);padding:4px 8px;}
+    .cmd-tag{display:inline-block;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);background:var(--ink);border:1px solid var(--line);padding:4px 8px;}
 
     /* CTA FINAL */
     .cta-final{text-align:center;padding:90px 48px 110px;border-top:1px solid var(--line);background:var(--surface);}
@@ -164,7 +160,8 @@ letter-spacing:0;font-weight:600;}
       display: block;
       border-radius: 0;
     }
-  </style>
+  .cmd-cat:hover,.cmd-tag:hover{color:var(--text);border-color:var(--line-strong);}
+</style>
   <script>
     async function loadDemoAvatars() {
       const userId = "668550027307909162"; 
@@ -199,7 +196,7 @@ letter-spacing:0;font-weight:600;}
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/favicon.ico" alt="RB">
+      <img src="/android-chrome-512x512.png" alt="RB">
     </a>
 
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
@@ -232,7 +229,7 @@ letter-spacing:0;font-weight:600;}
             </div>
           </div>
           <div class="demo-msg">
-            <div class="demo-avatar bot"><img src="https://redbot.me/redbot.png" alt="RedBot"></div>
+            <div class="demo-avatar bot"><img src="/android-chrome-512x512.png" alt="RedBot"></div>
             <div>
               <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">✔ APP</span><span class="demo-time">6:43</span></div>
               <div class="demo-reply">
@@ -247,7 +244,7 @@ letter-spacing:0;font-weight:600;}
             </div>
           </div>
           <div class="demo-msg">
-            <div class="demo-avatar bot"><img src="https://redbot.me/redbot.png" alt="RedBot"></div>
+            <div class="demo-avatar bot"><img src="/android-chrome-512x512.png" alt="RedBot"></div>
             <div>
               <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">✔ APP</span><span class="demo-time">16:07</span></div>
               <div class="demo-reply">Para bailar la bamba se necesita una poca de gracia</div>
@@ -295,65 +292,65 @@ letter-spacing:0;font-weight:600;}
       </div>
       <div class="cmd-grid">
         <div class="cmd-cell">
-          <div class="cmd-cat">Utilidad</div>
+          <a class="cmd-cat" href="/commands#category-utilidad">Utilidad</a>
           <div class="cmd-tags">
-            <span class="cmd-tag">ask</span><span class="cmd-tag">ping</span><span class="cmd-tag">botinfo</span>
-            <span class="cmd-tag">invite</span><span class="cmd-tag">setprefix</span><span class="cmd-tag">askreset</span>
+            <a class="cmd-tag" href="/commands#command-utilidad-ask">ask</a><a class="cmd-tag" href="/commands#command-utilidad-ping">ping</a><a class="cmd-tag" href="/commands#command-utilidad-botinfo">botinfo</a>
+            <a class="cmd-tag" href="/commands#command-utilidad-invite">invite</a><a class="cmd-tag" href="/commands#command-utilidad-setprefix">setprefix</a><a class="cmd-tag" href="/commands#command-utilidad-askreset">askreset</a>
           </div>
         </div>
 
         <div class="cmd-cell">
-          <div class="cmd-cat">Usuario</div>
+          <a class="cmd-cat" href="/commands#category-usuario">Usuario</a>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">avatar</span><span class="cmd-tag">banner</span>
-            <span class="cmd-tag">roles</span><span class="cmd-tag">permissions</span>
+            <a class="cmd-tag" href="/commands#command-usuario-info">info</a><a class="cmd-tag" href="/commands#command-usuario-avatar">avatar</a><a class="cmd-tag" href="/commands#command-usuario-banner">banner</a>
+            <a class="cmd-tag" href="/commands#command-usuario-roles">roles</a><a class="cmd-tag" href="/commands#command-usuario-permissions">permissions</a>
           </div>
         </div>
 
         <div class="cmd-cell">
-          <div class="cmd-cat">Moderación</div>
+          <a class="cmd-cat" href="/commands#category-moderacion">Moderación</a>
           <div class="cmd-tags">
-            <span class="cmd-tag">ban</span><span class="cmd-tag">unban</span><span class="cmd-tag">softban</span>
-            <span class="cmd-tag">tempban</span><span class="cmd-tag">massban</span><span class="cmd-tag">kick</span>
-            <span class="cmd-tag">mute</span><span class="cmd-tag">unmute</span><span class="cmd-tag">purge</span>
-            <span class="cmd-tag">warn</span><span class="cmd-tag">removewarn</span><span class="cmd-tag">clearwarns</span>
-            <span class="cmd-tag">warnings</span><span class="cmd-tag">setlogs</span><span class="cmd-tag">removelogs</span>
+            <a class="cmd-tag" href="/commands#command-moderacion-ban">ban</a><a class="cmd-tag" href="/commands#command-moderacion-unban">unban</a><a class="cmd-tag" href="/commands#command-moderacion-softban">softban</a>
+            <a class="cmd-tag" href="/commands#command-moderacion-tempban">tempban</a><a class="cmd-tag" href="/commands#command-moderacion-massban">massban</a><a class="cmd-tag" href="/commands#command-moderacion-kick">kick</a>
+            <a class="cmd-tag" href="/commands#command-moderacion-mute">mute</a><a class="cmd-tag" href="/commands#command-moderacion-unmute">unmute</a><a class="cmd-tag" href="/commands#command-moderacion-purge">purge</a>
+            <a class="cmd-tag" href="/commands#command-moderacion-warn">warn</a><a class="cmd-tag" href="/commands#command-moderacion-removewarn">removewarn</a><a class="cmd-tag" href="/commands#command-moderacion-clearwarns">clearwarns</a>
+            <a class="cmd-tag" href="/commands#command-moderacion-warnings">warnings</a><a class="cmd-tag" href="/commands#command-moderacion-setlogs">setlogs</a><a class="cmd-tag" href="/commands#command-moderacion-removelogs">removelogs</a>
           </div>
         </div>
 
         <div class="cmd-cell">
-          <div class="cmd-cat">Servidor</div>
+          <a class="cmd-cat" href="/commands#category-servidor">Servidor</a>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">logo</span><span class="cmd-tag">banner</span>
-            <span class="cmd-tag">emojis</span><span class="cmd-tag">roles</span>
+            <a class="cmd-tag" href="/commands#command-servidor-info">info</a><a class="cmd-tag" href="/commands#command-servidor-logo">logo</a><a class="cmd-tag" href="/commands#command-servidor-banner">banner</a>
+            <a class="cmd-tag" href="/commands#command-servidor-emojis">emojis</a><a class="cmd-tag" href="/commands#command-servidor-roles">roles</a>
           </div>
         </div>
 
         <div class="cmd-cell">
-          <div class="cmd-cat">Roles</div>
+          <a class="cmd-cat" href="/commands#category-roles">Roles</a>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">icon</span><span class="cmd-tag">color</span>
-            <span class="cmd-tag">users</span><span class="cmd-tag">add</span><span class="cmd-tag">remove</span>
-            <span class="cmd-tag">rename</span><span class="cmd-tag">hoist</span><span class="cmd-tag">mentionable</span>
-            <span class="cmd-tag">random</span>
+            <a class="cmd-tag" href="/commands#command-roles-info">info</a><a class="cmd-tag" href="/commands#command-roles-icon">icon</a><a class="cmd-tag" href="/commands#command-roles-color">color</a>
+            <a class="cmd-tag" href="/commands#command-roles-users">users</a><a class="cmd-tag" href="/commands#command-roles-add">add</a><a class="cmd-tag" href="/commands#command-roles-remove">remove</a>
+            <a class="cmd-tag" href="/commands#command-roles-rename">rename</a><a class="cmd-tag" href="/commands#command-roles-hoist">hoist</a><a class="cmd-tag" href="/commands#command-roles-mentionable">mentionable</a>
+            <a class="cmd-tag" href="/commands#command-roles-random">random</a>
           </div>
         </div>
 
         <div class="cmd-cell">
-          <div class="cmd-cat">Canal</div>
+          <a class="cmd-cat" href="/commands#category-canal">Canal</a>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">rename</span><span class="cmd-tag">lock</span>
-            <span class="cmd-tag">unlock</span><span class="cmd-tag">slowmode</span><span class="cmd-tag">nuke</span>
-            <span class="cmd-tag">clone</span><span class="cmd-tag">permit</span><span class="cmd-tag">deny</span>
-            <span class="cmd-tag">hide</span>
+            <a class="cmd-tag" href="/commands#command-canal-info">info</a><a class="cmd-tag" href="/commands#command-canal-rename">rename</a><a class="cmd-tag" href="/commands#command-canal-lock">lock</a>
+            <a class="cmd-tag" href="/commands#command-canal-unlock">unlock</a><a class="cmd-tag" href="/commands#command-canal-slowmode">slowmode</a><a class="cmd-tag" href="/commands#command-canal-nuke">nuke</a>
+            <a class="cmd-tag" href="/commands#command-canal-clone">clone</a><a class="cmd-tag" href="/commands#command-canal-permit">permit</a><a class="cmd-tag" href="/commands#command-canal-deny">deny</a>
+            <a class="cmd-tag" href="/commands#command-canal-hide">hide</a>
           </div>
         </div>
 
         <div class="cmd-cell">
-          <div class="cmd-cat">Diversión</div>
+          <a class="cmd-cat" href="/commands#category-diversion">Diversión</a>
           <div class="cmd-tags">
-            <span class="cmd-tag">opinion</span><span class="cmd-tag">critica</span><span class="cmd-tag">excusa</span>
-            <span class="cmd-tag">teoria</span><span class="cmd-tag">roast</span>
+            <a class="cmd-tag" href="/commands#command-diversion-opinion">opinion</a><a class="cmd-tag" href="/commands#command-diversion-critica">critica</a><a class="cmd-tag" href="/commands#command-diversion-excusa">excusa</a>
+            <a class="cmd-tag" href="/commands#command-diversion-teoria">teoria</a><a class="cmd-tag" href="/commands#command-diversion-roast">roast</a>
           </div>
         </div>
 
@@ -377,7 +374,7 @@ letter-spacing:0;font-weight:600;}
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/favicon.ico" alt="RB"></div>
+          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RB"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
