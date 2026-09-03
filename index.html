@@ -4,382 +4,330 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RedBot</title>
-  <meta name="description" content="Imagina un bot de Discord simple e intuitivo. Modera, consulta información y mucho más. Sin relleno, sin extras.">
-  <meta name="theme-color" content="#e2402f">
+  <meta name="description" content="Bot de Discord para moderación e información. Infraestructura sólida y herramientas rápidas.">
+  <meta name="theme-color" content="#121212">
   <link rel="canonical" href="https://redbot.me/">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
   <meta property="og:title" content="RedBot">
-  <meta property="og:description" content="Imagina un bot de Discord simple e intuitivo. Modera, consulta información y mucho más. Sin relleno, sin extras.">
+  <meta property="og:description" content="Bot de Discord para moderación e información. Infraestructura sólida y herramientas rápidas.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
   <meta property="og:url" content="https://redbot.me/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="RedBot">
-  <meta name="twitter:description" content="Imagina un bot de Discord simple e intuitivo. Modera, consulta información y mucho más. Sin relleno, sin extras.">
+  <meta name="twitter:description" content="Bot de Discord para moderación e información. Infraestructura sólida y herramientas rápidas.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
   <meta name="robots" content="index, follow">
   <meta name="author" content="RedBot">
-  <meta name="msvalidate.01" content="DBAA31C8C06632A6EFF74DB2A8F440C7">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --ink:#0b0a09; --surface:#141210; --surface-2:#1c1916;
-      --line:rgba(255,255,255,0.08); --line-strong:rgba(255,255,255,0.18);
-      --text:#eae5dd; --text-dim:#9a9187; --text-mute:#58524a;
-      --signal:#e2402f; --signal-deep:#a92c1f; --signal-wash:rgba(226,64,47,0.09);
+      --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
+      --line:#333333; --line-strong:#555555;
+      --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
+      --signal:#c9302c; --signal-deep:#a02622;
     }
     *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:300;-webkit-font-smoothing:antialiased;}
-    h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;}
+    html{scroll-behavior:auto;}
+    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-weight:700;}
     .mono{font-family:'IBM Plex Mono',monospace;}
 
     .skip-link{position:absolute;left:-9999px;top:0;background:var(--signal);color:#fff;padding:10px 16px;z-index:300;text-decoration:none;font-size:.85rem;}
-    .skip-link:focus-visible{left:12px;top:12px;border-radius:4px;}
+    .skip-link:focus-visible{left:12px;top:12px;}
 
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:rgba(11,10,9,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
     .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:24px;height:24px;border-radius:5px;object-fit:cover;}
     .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
-    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.87rem;transition:color .15s;}
+    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
     .nav-links a:hover{color:var(--text);}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;border-radius:4px;font-weight:500 !important;transition:background .15s !important;}
+    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;}
     .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;border-radius:4px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
+    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
 
     main{max-width:1180px;margin:0 auto;}
 
     /* HERO */
-    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;padding:80px 48px 96px;}
-    .hero-kicker{font-size:.88rem;color:var(--text-dim);margin-bottom:18px;}
-    .hero-kicker strong{color:var(--signal);font-weight:500;}
-    h1{font-weight:800;font-size:clamp(2.5rem,4.6vw,4.1rem);letter-spacing:-2px;line-height:1.03;margin-bottom:22px;}
-    .hero-desc{font-size:1.02rem;color:var(--text-dim);line-height:1.75;max-width:480px;margin-bottom:34px;}
-    .cta-row{display:flex;gap:12px;flex-wrap:wrap;}
-    .btn{display:inline-flex;align-items:center;padding:12px 22px;border-radius:4px;font-size:.92rem;font-weight:500;text-decoration:none;transition:background .15s,border-color .15s,color .15s;font-family:'IBM Plex Sans',sans-serif;}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:100px 48px 110px;}
+    .hero-kicker{font-size:.85rem;color:var(--text-dim);margin-bottom:20px;text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+    .hero-kicker strong{color:var(--signal);}
+    h1{font-size:clamp(2.5rem,4.6vw,3.8rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:24px;color:var(--text);}
+    .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.75;max-width:480px;margin-bottom:40px;}
+    .cta-row{display:flex;gap:16px;flex-wrap:wrap;}
+    .btn{display:inline-flex;align-items:center;padding:14px 24px;font-size:.95rem;font-weight:600;text-decoration:none;font-family:'IBM Plex Sans',sans-serif;}
     .btn-primary{background:var(--signal);color:#fff;}
     .btn-primary:hover{background:var(--signal-deep);}
-    .btn-secondary{background:transparent;color:var(--text-dim);border:1px solid var(--line-strong);}
-    .btn-secondary:hover{color:var(--text);border-color:var(--text-dim);}
+    .btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--line-strong);}
+    .btn-secondary:hover{background:var(--surface-2);border-color:var(--text-dim);}
 
     /* DEMO */
-    .demo{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
-    .demo-head{display:flex;align-items:center;gap:8px;padding:13px 16px;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--text-dim);}
-    .demo-dot{width:7px;height:7px;border-radius:50%;background:#3ba55d;flex-shrink:0;}
-    .demo-body{padding:20px 18px;display:flex;flex-direction:column;gap:20px;}
-    .demo-msg{display:flex;gap:11px;}
-    .demo-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;color:#fff;}
-    .demo-avatar.user{background:#4c4a46;}
+    .demo{background:var(--surface);border:1px solid var(--line);border-radius:0;}
+    .demo-head{padding:14px 18px;border-bottom:1px solid var(--line);font-size:.85rem;color:var(--text-mute);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;}
+    .demo-body{padding:24px 20px;display:flex;flex-direction:column;gap:24px;}
+    .demo-msg{display:flex;gap:14px;}
+    .demo-avatar{width:36px;height:36px;border-radius:0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;}
+    .demo-avatar.user{background:#444;}
     .demo-avatar.bot{background:var(--signal);}
-    .demo-top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:5px;}
-    .demo-name{font-weight:600;font-size:.85rem;color:var(--text);}
-    .demo-tag{font-size:.6rem;background:var(--signal);color:#fff;padding:2px 5px;border-radius:3px;font-weight:600;letter-spacing:.3px;}
-    .demo-time{font-size:.68rem;color:var(--text-mute);}
-    .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text);background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:5px 9px;display:inline-block;}
-    .demo-reply{margin-top:2px;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:11px 13px;font-size:.83rem;color:var(--text-dim);line-height:1.55;}
-    .demo-reply strong{color:var(--text);font-weight:500;}
+    .demo-top{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
+    .demo-name{font-weight:700;font-size:.9rem;color:var(--text);}
+    .demo-tag{font-size:.65rem;background:var(--text);color:var(--ink);padding:2px 6px;font-weight:700;letter-spacing:0.5px;border-radius:0;}
+    .demo-time{font-size:.75rem;color:var(--text-mute);}
+    .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);background:var(--ink);border:1px solid var(--line);padding:6px 10px;display:inline-block;border-radius:0;}
+    .demo-reply{margin-top:4px;background:var(--ink);border:1px solid var(--line);padding:14px 16px;font-size:.9rem;color:var(--text-dim);line-height:1.6;}
+    .demo-reply strong{color:var(--text);font-weight:600;}
 
     /* STATS */
-    .stats{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin:0 48px 100px;}
-    .stat{flex:1;min-width:130px;padding:22px 24px;text-align:center;border-right:1px solid var(--line);}
+    .stats{display:flex;flex-wrap:wrap;border:1px solid var(--line);background:var(--surface);margin:0 48px 100px;border-radius:0;}
+    .stat{flex:1;min-width:130px;padding:28px 24px;text-align:center;border-right:1px solid var(--line);}
     .stat:last-child{border-right:none;}
-    .stat-num{font-weight:800;font-size:1.55rem;color:var(--signal);display:block;letter-spacing:-.5px;}
-    .stat-label{font-size:.7rem;color:var(--text-dim);margin-top:5px;}
+    .stat-num{font-weight:700;font-size:1.8rem;color:var(--text);display:block;letter-spacing:-1px;}
+    .stat-label{font-size:.75rem;color:var(--text-dim);margin-top:8px;text-transform:uppercase;letter-spacing:1px;}
 
     /* SECTIONS */
     .section{padding:0 48px 110px;}
-    .section-head{margin-bottom:44px;max-width:620px;}
-    .section-head h2{font-weight:700;font-size:clamp(1.6rem,2.8vw,2.2rem);letter-spacing:-1px;margin-bottom:10px;}
-    .section-head p{color:var(--text-dim);font-size:.94rem;line-height:1.6;}
+    .section-head{margin-bottom:48px;max-width:620px;}
+    .section-head h2{font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:-1px;margin-bottom:14px;}
+    .section-head p{color:var(--text-dim);font-size:1rem;line-height:1.6;}
 
     /* FEATURES */
     .feature-list{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);}
-    .feature-item{padding:28px 30px 28px 0;border-bottom:1px solid var(--line);}
-    .feature-item:nth-child(odd){padding-right:36px;border-right:1px solid var(--line);}
-    .feature-item:nth-child(even){padding-left:36px;padding-right:0;}
-    .feature-mark{width:6px;height:6px;background:var(--signal);display:inline-block;margin-bottom:15px;}
-    .feature-item h3{font-weight:600;font-size:1.02rem;margin-bottom:9px;}
-    .feature-item p{font-size:.87rem;color:var(--text-dim);line-height:1.62;}
+    .feature-item{padding:34px 34px 34px 0;border-bottom:1px solid var(--line);}
+    .feature-item:nth-child(odd){padding-right:40px;border-right:1px solid var(--line);}
+    .feature-item:nth-child(even){padding-left:40px;padding-right:0;}
+    .feature-item h3{font-size:1.1rem;margin-bottom:12px;color:var(--text);}
+    .feature-item p{font-size:.95rem;color:var(--text-dim);line-height:1.65;}
 
     /* COMMANDS */
-    .cmd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
-    .cmd-cell{background:var(--surface);padding:22px 20px;}
-    .cmd-cat{font-weight:600;font-size:.9rem;margin-bottom:13px;}
-    .cmd-tags{display:flex;flex-wrap:wrap;gap:6px;}
-    .cmd-tag{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--text-dim);background:var(--surface-2);border:1px solid var(--line);border-radius:3px;padding:3px 7px;}
+    .cmd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .cmd-cell{background:var(--surface);padding:26px 24px;}
+    .cmd-cat{font-weight:700;font-size:.95rem;margin-bottom:16px;}
+    .cmd-tags{display:flex;flex-wrap:wrap;gap:8px;}
+    .cmd-tag{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);background:var(--ink);border:1px solid var(--line);padding:4px 8px;}
 
-    /* STEPS */
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-    .step{border:1px solid var(--line);border-radius:6px;padding:28px 26px;background:var(--surface);}
-    .step-num{font-weight:800;font-size:1.3rem;color:var(--signal);margin-bottom:16px;}
-    .step h3{font-weight:600;font-size:1rem;margin-bottom:9px;}
-    .step p{font-size:.87rem;color:var(--text-dim);line-height:1.62;}
-    .step code{font-family:'IBM Plex Mono',monospace;background:var(--surface-2);border:1px solid var(--line);border-radius:3px;padding:1px 5px;font-size:.8rem;color:var(--text);}
+    /* STEPS (2x2 grid instead of 3 in a row) */
+    .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .step{padding:36px 32px;background:var(--surface);}
+    .step-num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1rem;color:var(--text-mute);margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:10px;display:inline-block;}
+    .step h3{font-size:1.1rem;margin-bottom:12px;}
+    .step p{font-size:.95rem;color:var(--text-dim);line-height:1.65;}
 
     /* CTA FINAL */
-    .cta-final{text-align:center;padding:76px 48px 100px;border-top:1px solid var(--line);}
-    .cta-final h2{font-weight:800;font-size:clamp(1.9rem,3.6vw,2.5rem);letter-spacing:-1px;margin-bottom:14px;}
-    .cta-final p{color:var(--text-dim);margin-bottom:32px;font-size:1rem;}
+    .cta-final{text-align:center;padding:90px 48px 110px;border-top:1px solid var(--line);background:var(--surface);}
+    .cta-final h2{font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-1px;margin-bottom:18px;}
+    .cta-final p{color:var(--text-dim);margin-bottom:36px;font-size:1.1rem;}
 
     /* FOOTER */
-    footer{border-top:1px solid var(--line);}
-    .footer-inner{max-width:1180px;margin:0 auto;padding:52px 48px 32px;}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:44px;}
-    .footer-logo{font-weight:700;color:var(--text);font-size:1.1rem;margin-bottom:10px;}
-    .footer-desc{font-size:.83rem;color:var(--text-mute);line-height:1.6;max-width:220px;}
-    .footer-title{font-size:.76rem;font-weight:600;color:var(--text);margin-bottom:14px;}
-    .footer-section{display:flex;flex-direction:column;gap:9px;}
-    .footer-section a{font-size:.83rem;color:var(--text-dim);text-decoration:none;transition:color .15s;width:fit-content;}
-    .footer-section a:hover{color:var(--text);}
-    .footer-bottom{border-top:1px solid var(--line);padding-top:20px;font-size:.75rem;color:var(--text-mute);}
+    footer{border-top:1px solid var(--line);background:var(--ink);}
+    .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
+    .footer-logo{font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
+    .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
+    .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
+    .footer-section{display:flex;flex-direction:column;gap:12px;}
+    .footer-section a{font-size:.9rem;color:var(--text-dim);text-decoration:none;}
+    .footer-section a:hover{color:var(--text);text-decoration:underline;}
+    .footer-bottom{border-top:1px solid var(--line);padding-top:24px;font-size:.85rem;color:var(--text-mute);}
 
-    a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:3px;}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
 
     @media (max-width:920px){
-      .hero-grid{grid-template-columns:1fr;padding:56px 32px 60px;}
+      .hero-grid{grid-template-columns:1fr;padding:70px 32px 80px;}
       .stats{margin:0 32px 80px;}
       .section{padding:0 32px 90px;}
       .cmd-grid{grid-template-columns:repeat(2,1fr);}
-      .steps{grid-template-columns:1fr;}
-      .footer-grid{grid-template-columns:1fr 1fr;gap:32px;}
-      .footer-inner{padding:44px 32px 28px;}
+      .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
+      .footer-inner{padding:50px 32px 30px;}
     }
     @media (max-width:680px){
-      nav{padding:14px 20px;}
+      nav{padding:16px 24px;}
       .menu-toggle{display:inline-flex;}
-      .nav-links{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:16px;padding:20px;background:var(--ink);border-bottom:1px solid var(--line);}
+      .nav-links{display:none;position:absolute;top:65px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
       .nav-links.is-open{display:flex;}
-      .hero-grid{padding:44px 20px 48px;}
-      .stats{flex-direction:column;margin:0 20px 64px;}
+      .hero-grid{padding:50px 24px 60px;}
+      .stats{flex-direction:column;margin:0 24px 64px;}
       .stat{border-right:none;border-bottom:1px solid var(--line);}
       .stat:last-child{border-bottom:none;}
-      .section{padding:0 20px 72px;}
+      .section{padding:0 24px 72px;}
       .feature-list{grid-template-columns:1fr;}
       .feature-item:nth-child(odd){border-right:none;padding-right:0;}
       .feature-item:nth-child(even){padding-left:0;}
       .cmd-grid{grid-template-columns:1fr;}
-      .footer-grid{grid-template-columns:1fr;gap:28px;}
-      .footer-inner{padding:36px 20px 24px;}
+      .steps{grid-template-columns:1fr;}
+      .footer-grid{grid-template-columns:1fr;gap:32px;}
+      .footer-inner{padding:40px 24px 24px;}
     }
-    @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none !important;scroll-behavior:auto !important;}}
   </style>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
   <nav>
-    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/redbot.png" alt="Logo de RedBot">
-      RedBot
-    </a>
-    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú de navegación">Menú</button>
+    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">RedBot</a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="#features">Funciones</a></li>
+      <li><a href="#features">Infraestructura</a></li>
       <li><a href="#comandos">Comandos</a></li>
-      <li><a href="#como-empezar">Cómo empezar</a></li>
+      <li><a href="#como-empezar">Documentación</a></li>
       <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
-      <li><a href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&response_type=code&redirect_uri=https%3A%2F%2Fredbot-api.vercel.app%2Fcallback&scope=identify%20role_connections.write" class="nav-cta">Vincular</a></li>
+      <li><a href="#" class="nav-cta">Autorizar</a></li>
     </ul>
   </nav>
 
   <main id="contenido">
     <section class="hero-grid">
       <div>
-        <p class="hero-kicker">RedBot — <strong>bot de utilidad</strong> para Discord, en español</p>
-        <h1>Menos configuración, más servidor administrado.</h1>
-        <p class="hero-desc">RedBot consulta información, modera y responde con IA sin obligarte a memorizar veinte comandos raros. Lo instalás y funciona desde el primer mensaje.</p>
+        <p class="hero-kicker">RedBot / <strong>Utilidad nativa</strong></p>
+        <h1>Administra tu servidor con total facilidad.</h1>
+        <p class="hero-desc">Infraestructura de consulta de datos y moderación. Sin configuraciones complejas y operativa desde la primera instalación.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">Agregar al servidor</a>
-          <a class="btn btn-secondary" href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
+          <a class="btn btn-primary" href="#">Autorizar en Servidor</a>
+          <a class="btn btn-secondary" href="https://discord.gg/sYdyS8Ez3s">Soporte Técnico</a>
         </div>
       </div>
 
-      <div class="demo" aria-label="Ejemplo de uso de RedBot en Discord">
-        <div class="demo-head"><span class="demo-dot" aria-hidden="true"></span> #moderación — en vivo</div>
+      <div class="demo" aria-label="Registro de comandos UI">
+        <div class="demo-head">Panel de ejecución - #moderación</div>
         <div class="demo-body">
           <div class="demo-msg">
             <div class="demo-avatar user">A</div>
             <div>
-              <div class="demo-top"><span class="demo-name">Ana</span><span class="demo-time">14:02</span></div>
-              <span class="demo-cmd">/ban usuario:@Spammer razón: publicidad no autorizada</span>
+              <div class="demo-top"><span class="demo-name">Admin</span><span class="demo-time">14:02</span></div>
+              <span class="demo-cmd">/ban usuario:@Spammer razón: publicidad</span>
             </div>
           </div>
           <div class="demo-msg">
-            <div class="demo-avatar bot">R</div>
+            <div class="demo-avatar bot">RB</div>
             <div>
-              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">BOT</span><span class="demo-time">14:02</span></div>
-              <div class="demo-reply"><strong>Spammer</strong> fue baneado. Motivo registrado y disponible con <span class="mono">/warnings</span>.</div>
+              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">SISTEMA</span><span class="demo-time">14:02</span></div>
+              <div class="demo-reply">Usuario <strong>Spammer</strong> removido. El incidente ha sido registrado en la base de datos central.</div>
             </div>
           </div>
           <div class="demo-msg">
             <div class="demo-avatar user">D</div>
             <div>
-              <div class="demo-top"><span class="demo-name">Diego</span><span class="demo-time">14:05</span></div>
-              <span class="demo-cmd">/ask pregunta: resume las reglas del canal #normas</span>
+              <div class="demo-top"><span class="demo-name">Dev</span><span class="demo-time">14:05</span></div>
+              <span class="demo-cmd">/ask consulta: extraer normas de canal #reglas</span>
             </div>
           </div>
           <div class="demo-msg">
-            <div class="demo-avatar bot">R</div>
+            <div class="demo-avatar bot">RB</div>
             <div>
-              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">BOT</span><span class="demo-time">14:05</span></div>
-              <div class="demo-reply">Leí el canal #normas: nada de spam, respeto entre miembros y contenido NSFW solo en canales marcados. Puedo detallar alguna regla si querés.</div>
+              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">SISTEMA</span><span class="demo-time">14:05</span></div>
+              <div class="demo-reply">Procesado. Las directivas principales indican evitar el spam publicitario y mantener respeto.</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="stats" aria-label="Métricas destacadas de RedBot">
+    <div class="stats" aria-label="Métricas del sistema">
       <div class="stat"><span class="stat-num">80+</span><span class="stat-label">Servidores</span></div>
       <div class="stat"><span class="stat-num">45k</span><span class="stat-label">Usuarios</span></div>
       <div class="stat"><span class="stat-num">55+</span><span class="stat-label">Comandos</span></div>
-      <div class="stat"><span class="stat-num">IA</span><span class="stat-label">Integrada</span></div>
+      <div class="stat"><span class="stat-num">99%</span><span class="stat-label">Uptime</span></div>
     </div>
 
     <section class="section" id="features">
       <div class="section-head">
-        <h2>Qué lo hace distinto</h2>
-        <p>Seis decisiones concretas de diseño, no una lista de promesas vacías.</p>
+        <h2>Arquitectura y Funciones</h2>
+        <p>Herramientas construidas para ser sólidas y responder sin retrasos innecesarios.</p>
       </div>
       <div class="feature-list">
         <div class="feature-item">
-          <span class="feature-mark" aria-hidden="true"></span>
-          <h3>IA con memoria conversacional</h3>
-          <p>Recuerda el contexto de la charla. No hace falta repetir todo en cada mensaje que le mandás.</p>
+          <h3>Memoria Conversacional</h3>
+          <p>Mantiene el estado y contexto de los hilos procesados mediante comandos de IA.</p>
         </div>
         <div class="feature-item">
-          <span class="feature-mark" aria-hidden="true"></span>
-          <h3>Búsqueda en tiempo real</h3>
-          <p>El comando <span class="mono">/ask</span> puede investigar información actual antes de responder.</p>
+          <h3>Búsqueda Extendida</h3>
+          <p>Los módulos de consulta pueden acceder a información actualizada bajo demanda.</p>
         </div>
         <div class="feature-item">
-          <span class="feature-mark" aria-hidden="true"></span>
-          <h3>Sin límites de uso</h3>
-          <p>Consultá todo lo que quieras. La IA no tiene costo ni tope diario para tu servidor.</p>
+          <h3>Infraestructura de Datos</h3>
+          <p>Registros de advertencias y sanciones guardados en base de datos persistente.</p>
         </div>
         <div class="feature-item">
-          <span class="feature-mark" aria-hidden="true"></span>
-          <h3>Moderación estable</h3>
-          <p>Warns, bans y logs quedan guardados en base de datos: sobreviven a reinicios del bot.</p>
-        </div>
-        <div class="feature-item">
-          <span class="feature-mark" aria-hidden="true"></span>
-          <h3>Prefijo personalizable</h3>
-          <p>Configurá tu propio prefijo o usá comandos slash. RedBot se adapta a tu servidor.</p>
-        </div>
-        <div class="feature-item">
-          <span class="feature-mark" aria-hidden="true"></span>
-          <h3>Interfaz en español</h3>
-          <p>Pensado y escrito en español desde el primer comando, sin traducciones a medias.</p>
+          <h3>Entorno en Español</h3>
+          <p>Textos y respuestas originados en español de forma nativa.</p>
         </div>
       </div>
     </section>
 
     <section class="section" id="comandos">
       <div class="section-head">
-        <h2>Los suficientes para no necesitar otro bot</h2>
-        <p>Organizados por categoría, para que encuentres lo que buscás sin abrir el /help.</p>
+        <h2>Directorio de Comandos</h2>
+        <p>Estructura de módulos disponibles para la administración técnica.</p>
       </div>
       <div class="cmd-grid">
         <div class="cmd-cell">
           <div class="cmd-cat">Utilidad</div>
           <div class="cmd-tags">
             <span class="cmd-tag">ask</span><span class="cmd-tag">ping</span><span class="cmd-tag">botinfo</span>
-            <span class="cmd-tag">invite</span><span class="cmd-tag">setprefix</span><span class="cmd-tag">askreset</span>
+            <span class="cmd-tag">setprefix</span>
           </div>
         </div>
         <div class="cmd-cell">
-          <div class="cmd-cat">Usuario</div>
+          <div class="cmd-cat">Usuarios</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">avatar</span><span class="cmd-tag">banner</span>
-            <span class="cmd-tag">roles</span><span class="cmd-tag">permissions</span>
+            <span class="cmd-tag">info</span><span class="cmd-tag">avatar</span><span class="cmd-tag">roles</span>
+            <span class="cmd-tag">permissions</span>
           </div>
         </div>
         <div class="cmd-cell">
           <div class="cmd-cat">Moderación</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">ban</span><span class="cmd-tag">unban</span><span class="cmd-tag">softban</span>
-            <span class="cmd-tag">tempban</span><span class="cmd-tag">massban</span><span class="cmd-tag">kick</span>
-            <span class="cmd-tag">mute</span><span class="cmd-tag">unmute</span><span class="cmd-tag">purge</span>
-            <span class="cmd-tag">warn</span><span class="cmd-tag">removewarn</span><span class="cmd-tag">clearwarns</span>
-            <span class="cmd-tag">warnings</span><span class="cmd-tag">setlogs</span><span class="cmd-tag">removelogs</span>
+            <span class="cmd-tag">ban</span><span class="cmd-tag">kick</span><span class="cmd-tag">mute</span>
+            <span class="cmd-tag">warn</span><span class="cmd-tag">purge</span><span class="cmd-tag">setlogs</span>
           </div>
         </div>
         <div class="cmd-cell">
-          <div class="cmd-cat">Servidor</div>
+          <div class="cmd-cat">Infraestructura</div>
           <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">logo</span><span class="cmd-tag">banner</span>
-            <span class="cmd-tag">emojis</span><span class="cmd-tag">roles</span>
+            <span class="cmd-tag">serverinfo</span><span class="cmd-tag">lock</span><span class="cmd-tag">slowmode</span>
+            <span class="cmd-tag">nuke</span>
           </div>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Roles</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">icon</span><span class="cmd-tag">color</span>
-            <span class="cmd-tag">users</span><span class="cmd-tag">add</span><span class="cmd-tag">remove</span>
-            <span class="cmd-tag">rename</span><span class="cmd-tag">hoist</span><span class="cmd-tag">mentionable</span>
-            <span class="cmd-tag">random</span>
-          </div>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Canal</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">rename</span><span class="cmd-tag">lock</span>
-            <span class="cmd-tag">unlock</span><span class="cmd-tag">slowmode</span><span class="cmd-tag">nuke</span>
-            <span class="cmd-tag">clone</span><span class="cmd-tag">permit</span><span class="cmd-tag">deny</span>
-            <span class="cmd-tag">hide</span>
-          </div>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Diversión</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">opinion</span><span class="cmd-tag">critica</span><span class="cmd-tag">excusa</span>
-            <span class="cmd-tag">teoria</span><span class="cmd-tag">roast</span>
-          </div>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Ayuda</div>
-          <div class="cmd-tags"><span class="cmd-tag">help</span></div>
         </div>
       </div>
     </section>
 
     <section class="section" id="como-empezar">
       <div class="section-head">
-        <h2>Empieza en 3 pasos</h2>
-        <p>Sin configuración inicial obligatoria: funciona apenas lo agregás.</p>
+        <h2>Despliegue Rápido</h2>
+        <p>Instrucciones fundamentales de inicialización del bot.</p>
       </div>
       <div class="steps">
         <div class="step">
-          <div class="step-num">1</div>
-          <h3>Invita a RedBot</h3>
-          <p>Usá el botón "Agregar al servidor" y autorizalo en tu comunidad. No pide permisos innecesarios.</p>
+          <div class="step-num">Fase 1</div>
+          <h3>Autorización</h3>
+          <p>Añade el bot garantizando los permisos mínimos necesarios requeridos por la API.</p>
         </div>
         <div class="step">
-          <div class="step-num">2</div>
-          <h3>Usa los comandos</h3>
-          <p>Con <code>/</code> o con prefijo <code>.</code>, como prefieras. Todo funciona desde el primer momento.</p>
+          <div class="step-num">Fase 2</div>
+          <h3>Prefijos</h3>
+          <p>Ejecuta los comandos de manera directa usando el slash de Discord o el prefijo por defecto.</p>
         </div>
         <div class="step">
-          <div class="step-num">3</div>
-          <h3>Configura a tu gusto</h3>
-          <p>Cambiá el prefijo, activá logs de moderación y preguntale lo que quieras a la IA.</p>
+          <div class="step-num">Fase 3</div>
+          <h3>Canales de Logs</h3>
+          <p>Asigna un canal dedicado para auditoría técnica de los moderadores.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">Fase 4</div>
+          <h3>Operación Normal</h3>
+          <p>El sistema se encarga del registro constante y automatizado sin intervención manual.</p>
         </div>
       </div>
     </section>
 
     <section class="cta-final">
-      <h2>¿Listo para empezar?</h2>
-      <p>Agregalo al servidor y probalo con tu propia comunidad.</p>
-      <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" target="_blank" rel="noopener noreferrer">Agregar al servidor</a>
+      <h2>Inicializar Sistema</h2>
+      <p>Configura RedBot en tu entorno de servidor ahora mismo.</p>
+      <a class="btn btn-primary" href="#">Autorizar en Servidor</a>
     </section>
   </main>
 
@@ -388,23 +336,23 @@
       <div class="footer-grid">
         <div>
           <div class="footer-logo">RedBot</div>
-          <p class="footer-desc">Bot de utilidad para Discord: modera, consulta e interactúa con IA, en español.</p>
+          <p class="footer-desc">Infraestructura y herramientas nativas para la moderación eficiente en Discord.</p>
         </div>
         <div class="footer-section">
-          <div class="footer-title">Conócenos</div>
-          <a href="/staff">Staff</a>
+          <div class="footer-title">Proyecto</div>
+          <a href="/staff">Equipo Técnico</a>
         </div>
         <div class="footer-section">
-          <div class="footer-title">Comunidad</div>
-          <a href="https://discord.gg/sYdyS8Ez3s" target="_blank" rel="noopener noreferrer">Servidor de soporte</a>
+          <div class="footer-title">Soporte</div>
+          <a href="https://discord.gg/sYdyS8Ez3s">Canal de Consultas</a>
         </div>
         <div class="footer-section">
-          <div class="footer-title">Legal</div>
-          <a href="/privacy">Privacidad</a>
-          <a href="/tos">Términos</a>
+          <div class="footer-title">Documentación</div>
+          <a href="/privacy">Política de Privacidad</a>
+          <a href="/tos">Términos de Servicio</a>
         </div>
       </div>
-      <div class="footer-bottom">© <span id="current-year">2026</span> RedBot. Todos los derechos reservados.</div>
+      <div class="footer-bottom">© 2026 RedBot. Todos los derechos reservados.</div>
     </div>
   </footer>
 
@@ -414,24 +362,19 @@
     menuToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
     });
     document.querySelectorAll('#nav-links a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'Abrir menú');
       });
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
         navLinks.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.focus();
       }
     });
-    const yearEl = document.getElementById('current-year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
