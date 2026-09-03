@@ -25,18 +25,20 @@
     .skip-link{position:absolute;left:-9999px;top:0;background:var(--signal);color:#fff;padding:10px 16px;z-index:300;text-decoration:none;font-size:.85rem;}
     .skip-link:focus-visible{left:12px;top:12px;}
 
+    /* ===== NAV (idéntico al main) ===== */
     nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
     .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:24px;height:24px;border-radius:0;object-fit:cover;}
+    .nav-logo img{width:28px;height:28px;object-fit:cover;display:block;}
     .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
     .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
     .nav-links a:hover{color:var(--text);}
+    .nav-links a[aria-current="page"]{color:var(--text);font-weight:600;}
     .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;display:inline-block;}
     .nav-cta:hover{background:var(--signal-deep) !important;}
     .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
 
     main{max-width:1180px;margin:0 auto;padding:48px 48px 120px;}
-    
+
     .page-header{margin-bottom:48px;}
     .page-header h1{font-size:clamp(2.5rem,4vw,3.2rem);letter-spacing:-1px;margin-bottom:14px;color:var(--text);}
     .page-header p{color:var(--text-dim);font-size:1.05rem;line-height:1.6;max-width:600px;}
@@ -44,7 +46,7 @@
     /* Controles y Filtros */
     .controls{background:var(--surface);border:1px solid var(--line);padding:24px;margin-bottom:32px;display:flex;flex-direction:column;gap:24px;}
     .search-row{display:flex;gap:16px;flex-wrap:wrap;}
-    
+
     .search-box{position:relative;flex:1;min-width:260px;}
     .search-box svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:var(--text-mute);}
     .search-input{width:100%;background:var(--ink);border:1px solid var(--line-strong);color:var(--text);padding:12px 16px 12px 42px;font-family:'IBM Plex Sans',sans-serif;font-size:.95rem;outline:none;border-radius:0;}
@@ -54,7 +56,7 @@
     .type-filter:focus{border-color:var(--signal);}
 
     .category-row{display:flex;flex-wrap:wrap;gap:8px;}
-    .cat-btn{background:var(--ink);border:1px solid var(--line);color:var(--text-dim);padding:8px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;cursor:pointer;border-radius:0;transition:none;display:flex;align-items:center;gap:8px;}
+    .cat-btn{background:var(--ink);border:1px solid var(--line);color:var(--text-dim);padding:8px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;cursor:pointer;border-radius:0;display:flex;align-items:center;gap:8px;}
     .cat-btn:hover{background:var(--surface-2);color:var(--text);border-color:var(--line-strong);}
     .cat-btn.active{background:var(--text);color:var(--ink);border-color:var(--text);font-weight:600;}
     .cat-count{background:var(--surface-2);color:var(--text-dim);padding:2px 6px;font-size:.7rem;font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);}
@@ -63,44 +65,69 @@
     /* Lista de Comandos */
     .cmd-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
     .cmd-item{background:var(--surface);}
-    
-    .cmd-header{padding:18px 24px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;}
-    .cmd-header:hover{background:var(--surface-2);}
+
+    .cmd-header{display:flex;align-items:center;justify-content:space-between;}
+    .cmd-toggle{background:none;border:none;color:inherit;font:inherit;text-align:left;cursor:pointer;flex:1;display:flex;align-items:center;padding:18px 24px;margin:0;}
+    .cmd-toggle:hover{background:var(--surface-2);}
+    .cmd-toggle:focus-visible{outline:2px solid var(--signal);outline-offset:-2px;}
     .cmd-title-wrap{display:flex;align-items:center;gap:16px;}
     .cmd-name{font-family:'IBM Plex Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--text);}
-    .cmd-cat-tag{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-mute);border:1px solid var(--line);padding:2px 6px;}
-    
-    .cmd-copy{background:transparent;border:1px solid var(--line-strong);color:var(--text-dim);padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:.8rem;cursor:pointer;border-radius:0;display:flex;align-items:center;gap:6px;}
+    .cmd-cat-tag{font-size:.72rem;font-family:'IBM Plex Mono',monospace;color:var(--text-mute);border:1px solid var(--line);padding:2px 6px;}
+
+    .cmd-copy{background:transparent;border:1px solid var(--line-strong);color:var(--text-dim);padding:6px 12px;margin-right:24px;font-family:'IBM Plex Sans',sans-serif;font-size:.8rem;cursor:pointer;border-radius:0;display:flex;align-items:center;gap:6px;flex-shrink:0;}
     .cmd-copy:hover{background:var(--ink);color:var(--text);border-color:var(--text-dim);}
+    .cmd-copy:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
     .cmd-copy.success{background:var(--signal-wash);color:var(--signal);border-color:var(--signal);}
 
-    .cmd-details{display:none;padding:0 24px 24px;border-top:1px solid var(--line);background:var(--ink);}
-    .cmd-item.expanded .cmd-details{display:block;}
+    .cmd-details{padding:0 24px 24px;border-top:1px solid var(--line);background:var(--ink);}
+    .cmd-details[hidden]{display:none;}
     .cmd-item.expanded .cmd-header{background:var(--surface-2);border-bottom:1px solid var(--line);}
 
     .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;}
-    .detail-block h4{font-size:.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-mute);margin-bottom:8px;}
+    .detail-block h4{font-size:.72rem;font-family:'IBM Plex Mono',monospace;color:var(--text-mute);margin-bottom:8px;}
     .detail-block p{font-size:.95rem;color:var(--text-dim);line-height:1.6;}
-    
+
     .code-block{background:var(--surface);border:1px solid var(--line);padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);display:inline-block;margin-top:4px;}
-    
+
     .opt-tag{display:inline-block;background:var(--surface);border:1px solid var(--line);padding:4px 8px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text-dim);margin:0 6px 6px 0;}
     .opt-req{border-left:2px solid var(--signal);color:var(--text);}
 
     .no-results{padding:48px;text-align:center;background:var(--surface);color:var(--text-dim);font-size:1.1rem;display:none;}
 
+    /* ===== FOOTER (idéntico al main) ===== */
+    footer{border-top:1px solid var(--line);background:var(--ink);}
+    .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
+    .footer-logo{display:flex;align-items:center;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
+    .footer-logo img{width:28px;height:28px;object-fit:cover;display:block;}
+    .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
+    .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
+    .footer-section{display:flex;flex-direction:column;gap:12px;}
+    .footer-section a{font-size:.9rem;color:var(--text-dim);text-decoration:none;}
+    .footer-section a:hover{color:var(--text);text-decoration:underline;}
+    .footer-bottom{border-top:1px solid var(--line);padding-top:24px;font-size:.85rem;color:var(--text-mute);}
+
+    a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+
+    @media (max-width:920px){
+      .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
+      .footer-inner{padding:50px 32px 30px;}
+    }
     @media (max-width:768px){
       nav{padding:16px 24px;}
       .menu-toggle{display:inline-flex;}
       .nav-links{display:none;position:absolute;top:65px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
       .nav-links.is-open{display:flex;}
-      
+
       main{padding:32px 24px 80px;}
       .search-row{flex-direction:column;}
       .type-filter{width:100%;}
       .detail-grid{grid-template-columns:1fr;}
-      .cmd-header{flex-direction:column;align-items:flex-start;gap:16px;}
-      .cmd-copy{align-self:flex-start;}
+      .cmd-header{flex-direction:column;align-items:flex-start;}
+      .cmd-toggle{width:100%;padding:18px 24px 8px;}
+      .cmd-copy{align-self:flex-start;margin:0 0 16px 24px;}
+      .footer-grid{grid-template-columns:1fr;gap:32px;}
+      .footer-inner{padding:40px 24px 24px;}
     }
   </style>
 </head>
@@ -113,9 +140,7 @@
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="#features">Infraestructura</a></li>
-      <li><a href="#comandos">Comandos</a></li>
-      <li><a href="#como-empezar">Documentación</a></li>
+      <li><a href="/commands" aria-current="page">Comandos</a></li>
       <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
       <li><a href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" class="nav-cta">Autorizar</a></li>
@@ -132,15 +157,15 @@
       <div class="search-row">
         <div class="search-box">
           <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, descripción o alias...">
+          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, descripción o alias..." aria-label="Buscar comandos">
         </div>
-        <select id="typeFilter" class="type-filter">
+        <select id="typeFilter" class="type-filter" aria-label="Filtrar por tipo de comando">
           <option value="todos">Todos los tipos</option>
           <option value="slash">Comandos Slash (/)</option>
           <option value="prefijo">Comandos Prefijo (.)</option>
         </select>
       </div>
-      
+
       <div class="category-row" id="categoryRow">
         <!-- Renderizado vía JS -->
       </div>
@@ -155,6 +180,30 @@
 
   </main>
 
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="/favicon.ico" alt="RB"></div>
+          <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Proyecto</div>
+          <a href="/staff">Equipo</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Soporte</div>
+          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de Soporte</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Documentación</div>
+          <a href="/privacy">Política de Privacidad</a>
+          <a href="/tos">Términos de Servicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <script>
     // Configuración del menú móvil
     const menuToggle = document.getElementById('menu-toggle');
@@ -162,6 +211,18 @@
     menuToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    document.querySelectorAll('#nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
+        navLinks.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
     });
 
     // Base de datos de comandos extraída de la documentación
@@ -178,13 +239,13 @@
       { name: "/util transcribe", cat: "utilidad", options: "archivo (optional?=false)", aliases: "transcribir", desc: "Transcribe un audio o video a texto", example: ".transcribe https://ejemplo.com/audio.mp3" },
       { name: "/util dm", cat: "utilidad", options: "titulo (optional?=false), texto (optional?=false), solo_rol (optional?=true), excluir_rol (optional?=true), excluir_usuario (optional?=true)", aliases: "dm, dmerveryone", desc: "Envía un DM con embed a todos los miembros del servidor", example: ".dm Hoy jugamos,go ofi" },
       { name: "/util resume", cat: "utilidad", options: "texto (optional?=false)", aliases: "resumir, summarize", desc: "Resume un texto largo", example: ".resume texto largo..." },
-      
+
       { name: "/user info", cat: "usuario", options: "usuario (optional?=true)", aliases: "userinfo, ui, whois", desc: "Muestra información de un usuario", example: ".user @usuario" },
       { name: "/user avatar", cat: "usuario", options: "usuario (optional?=true)", aliases: "av, useravatar", desc: "Muestra el avatar de un usuario", example: ".avatar @usuario" },
       { name: "/user banner", cat: "usuario", options: "usuario (optional?=true)", aliases: "userbanner", desc: "Muestra el banner de un usuario", example: ".ubanner @usuario" },
       { name: "/user roles", cat: "usuario", options: "usuario (optional?=true)", aliases: "useroles", desc: "Muestra los roles de un usuario", example: ".uroles @usuario" },
       { name: "/user permissions", cat: "usuario", options: "usuario (optional?=true)", aliases: "perms, permissions, uperms", desc: "Muestra los permisos de un usuario en el servidor", example: ".userperms @usuario" },
-      
+
       { name: "/mod ban", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true), dias (optional?=true)", aliases: "modban", desc: "Banea a un usuario del servidor", example: ".ban @usuario spam" },
       { name: "/mod unban", cat: "moderacion", options: "id (optional?=false), razon (optional?=true)", aliases: "modunban, desbanear", desc: "Desbanea a un usuario por su ID", example: ".unban 1020772849906098186" },
       { name: "/mod softban", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true), dias (optional?=true)", aliases: "modsoftban, sban", desc: "Expulsa a un usuario borrando sus mensajes (ban + unban inmediato)", example: ".softban @usuario" },
@@ -200,13 +261,13 @@
       { name: "/mod warnings", cat: "moderacion", options: "usuario (optional?=false)", aliases: "warns, modwarnings", desc: "Muestra las advertencias de un usuario", example: ".warnings @usuario" },
       { name: "/mod setlogs", cat: "moderacion", options: "canal (optional?=false)", aliases: "modsetlogs, logchannel, setlog", desc: "Establece el canal de logs para RedBot en el servidor", example: ".setlogs #logs" },
       { name: "/mod removelogs", cat: "moderacion", options: "ninguna", aliases: "modremovelogs, removelog, unsetlogs", desc: "Desactiva los logs de RedBot en el servidor", example: ".removelogs" },
-      
+
       { name: "/server info", cat: "servidor", options: "ninguna", aliases: "sv", desc: "Muestra información del servidor", example: ".server" },
       { name: "/server logo", cat: "servidor", options: "ninguna", aliases: "serverlogo, servericon, icon, logo", desc: "Muestra el logo del servidor", example: ".logo" },
       { name: "/server banner", cat: "servidor", options: "ninguna", aliases: "sbanner, banner", desc: "Muestra el banner del servidor", example: ".serverbanner" },
       { name: "/server emojis", cat: "servidor", options: "ninguna", aliases: "serveremojis", desc: "Muestra todos los emojis del servidor", example: ".emojis" },
       { name: "/server roles", cat: "servidor", options: "ninguna", aliases: "serverroles, sroles", desc: "Lista los roles del servidor", example: ".roles" },
-      
+
       { name: "/role info", cat: "roles", options: "rol (optional?=false)", aliases: "roleinfo, inforole", desc: "Muestra información de un rol", example: ".roleinfo @rol" },
       { name: "/role icon", cat: "roles", options: "rol (optional?=false)", aliases: "iconrole, ricon", desc: "Muestra el icono de un rol", example: ".roleicon @rol" },
       { name: "/role color", cat: "roles", options: "rol (optional?=false)", aliases: "colorrole, rolecolor", desc: "Muestra el color de un rol", example: ".color @rol" },
@@ -222,7 +283,7 @@
       { name: "/role humans", cat: "roles", options: "rol (optional?=false), accion (optional?=false)", aliases: "humansrole", desc: "Añade o quita un rol a todos los usuarios (sin bots)", example: ".rolehumans @rol add" },
       { name: "/role join", cat: "roles", options: "rol (optional?=true), ignorar_bots (optional?=true)", aliases: "joinrole, autorole", desc: "Configura o desactiva el rol automático al entrar", example: ".rolejoin @rol" },
       { name: "/role permissions", cat: "roles", options: "rol (optional?=false)", aliases: "roleperms", desc: "Muestra permisos de un rol", example: ".roleperms @rol" },
-      
+
       { name: "/channel info", cat: "canal", options: "canal (optional?=true)", aliases: "chinfo, cinfo, channelinfo", desc: "Muestra información de un canal", example: ".channel #canal" },
       { name: "/channel rename", cat: "canal", options: "canal (optional?=false), nombre (optional?=false)", aliases: "chrename, channelrename", desc: "Renombra un canal", example: ".rename #canal nuevoNombre" },
       { name: "/channel lock", cat: "canal", options: "canal (optional?=true)", aliases: "chlock, lockdown, channellock", desc: "Bloquea un canal para usuarios normales", example: ".lock #canal" },
@@ -233,26 +294,26 @@
       { name: "/channel permit", cat: "canal", options: "usuario (optional?=false), canal (optional?=true)", aliases: "chpermit, channelpermit", desc: "Da acceso a un usuario en un canal", example: ".permit @usuario #canal" },
       { name: "/channel deny", cat: "canal", options: "usuario (optional?=false), canal (optional?=true)", aliases: "chdeny, channeldeny", desc: "Quita el acceso a un usuario en un canal", example: ".deny @usuario #canal" },
       { name: "/channel hide", cat: "canal", options: "canal (optional?=true)", aliases: "chhide, hidechannel, channelhide", desc: "Oculta un canal a @everyone", example: ".hide #canal" },
-      
+
       { name: "/fun opinion", cat: "diversion", options: "tema (optional?=false)", aliases: "op, opina", desc: "Pide mi opinión sin filtro sobre algo", example: ".opinion la economía" },
       { name: "/fun critica", cat: "diversion", options: "tema (optional?=false)", aliases: "criticar, criticize", desc: "Te doy una crítica despiadada de algo", example: ".critica la chochoinflación" },
       { name: "/fun excusa", cat: "diversion", options: "situacion (optional?=true)", aliases: "coartada, excuse", desc: "Genera una excusa ridícula pero creativa", example: ".excusa llegué tarde" },
       { name: "/fun teoria", cat: "diversion", options: "tema (optional?=false)", aliases: "conspira, conspiracion, theory", desc: "Una teoría conspirativa sobre cualquier cosa", example: ".teoria las palomas son drones" },
       { name: "/fun roast", cat: "diversion", options: "usuario (optional?=true)", aliases: "quemar, burn", desc: "Critica despiadadamente a un usuario", example: ".roast @usuario" },
       { name: "/fun lol", cat: "diversion", options: "ninguna", aliases: "ninguno", desc: "Responde con un emoji random", example: ".lol" },
-      
+
       { name: "comandointervalosupersecretokjj", cat: "admin", options: "ninguna", aliases: "ninguno", desc: "rota foto con emoji 15min", example: ".comandointervalosupersecretokjj", forcePrefixOnly: true }
     ];
 
     // Procesamiento de datos para identificar tipos (slash, prefijo, ambos)
-    const commands = rawCommands.map(cmd => {
+    const commands = rawCommands.map((cmd, i) => {
       let types = [];
       if (cmd.forcePrefixOnly) {
         types.push('prefijo');
       } else {
         types = ['slash', 'prefijo'];
       }
-      return { ...cmd, types };
+      return { ...cmd, types, uid: `cmd-${i}` };
     });
 
     const categories = [
@@ -282,13 +343,14 @@
     function renderCategories() {
       categoryRow.innerHTML = '';
       categories.forEach(cat => {
-        // Contar comandos para esta categoría
-        const count = cat.id === 'todos' 
-          ? commands.filter(c => c.cat !== 'admin').length // Ocultar admin del conteo total por estética
+        const count = cat.id === 'todos'
+          ? commands.filter(c => c.cat !== 'admin').length
           : commands.filter(c => c.cat === cat.id).length;
 
         const btn = document.createElement('button');
+        btn.type = 'button';
         btn.className = `cat-btn ${currentCategory === cat.id ? 'active' : ''}`;
+        btn.setAttribute('aria-pressed', String(currentCategory === cat.id));
         btn.innerHTML = `${cat.label} <span class="cat-count">${count}</span>`;
         btn.onclick = () => {
           currentCategory = cat.id;
@@ -310,10 +372,22 @@
       }).join('');
     }
 
+    // Alternar acordeón (accesible por teclado, sin botones anidados)
+    function toggleCommand(uid) {
+      const item = document.getElementById(`item-${uid}`);
+      const toggleBtn = document.getElementById(`toggle-${uid}`);
+      const details = document.getElementById(`details-${uid}`);
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      details.hidden = isExpanded;
+      item.classList.toggle('expanded', !isExpanded);
+    }
+
     // Renderizar Lista de Comandos
     function renderCommands(filteredCommands) {
       commandList.innerHTML = '';
-      
+
       if (filteredCommands.length === 0) {
         commandList.style.display = 'none';
         noResults.style.display = 'block';
@@ -323,21 +397,24 @@
       commandList.style.display = 'flex';
       noResults.style.display = 'none';
 
-      filteredCommands.forEach((cmd, index) => {
+      filteredCommands.forEach((cmd) => {
         const div = document.createElement('div');
         div.className = 'cmd-item';
+        div.id = `item-${cmd.uid}`;
         div.innerHTML = `
-          <div class="cmd-header" onclick="this.parentElement.classList.toggle('expanded')">
-            <div class="cmd-title-wrap">
-              <span class="cmd-name">${cmd.name}</span>
-              <span class="cmd-cat-tag">${cmd.cat}</span>
-            </div>
-            <button class="cmd-copy" onclick="copyCommand(event, '${cmd.name}', this)">
+          <div class="cmd-header">
+            <button type="button" class="cmd-toggle" id="toggle-${cmd.uid}" aria-expanded="false" aria-controls="details-${cmd.uid}" onclick="toggleCommand('${cmd.uid}')">
+              <div class="cmd-title-wrap">
+                <span class="cmd-name">${cmd.name}</span>
+                <span class="cmd-cat-tag">${cmd.cat}</span>
+              </div>
+            </button>
+            <button type="button" class="cmd-copy" aria-label="Copiar comando ${cmd.example}" onclick="copyCommand(event, '${cmd.example.replace(/'/g, "\\'")}', this)">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               Copiar
             </button>
           </div>
-          <div class="cmd-details">
+          <div class="cmd-details" id="details-${cmd.uid}" hidden>
             <div class="detail-grid">
               <div class="detail-block">
                 <h4>Descripción</h4>
@@ -365,20 +442,17 @@
     // Aplicar Filtros
     function applyFilters() {
       const filtered = commands.filter(cmd => {
-        // Filtro Categoría (excluir admin de la vista 'todos' a menos que se busque explícitamente)
-        const matchCategory = currentCategory === 'todos' 
+        const matchCategory = currentCategory === 'todos'
           ? (cmd.cat !== 'admin' || currentSearch.toLowerCase().includes('comandointervalo'))
           : cmd.cat === currentCategory;
-        
-        // Filtro Tipo
-        const matchType = currentType === 'todos' 
-          ? true 
+
+        const matchType = currentType === 'todos'
+          ? true
           : cmd.types.includes(currentType);
 
-        // Filtro Búsqueda
         const query = currentSearch.toLowerCase();
-        const matchSearch = query === "" || 
-                            cmd.name.toLowerCase().includes(query) || 
+        const matchSearch = query === "" ||
+                            cmd.name.toLowerCase().includes(query) ||
                             cmd.desc.toLowerCase().includes(query) ||
                             cmd.aliases.toLowerCase().includes(query);
 
@@ -388,14 +462,14 @@
       renderCommands(filtered);
     }
 
-    // Función Copiar
+    // Función Copiar (copia el ejemplo real, no la etiqueta interna)
     function copyCommand(event, text, btnElement) {
-      event.stopPropagation(); // Evitar abrir el acordeón
+      event.stopPropagation();
       navigator.clipboard.writeText(text).then(() => {
         const originalHtml = btnElement.innerHTML;
         btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado`;
         btnElement.classList.add('success');
-        
+
         setTimeout(() => {
           btnElement.innerHTML = originalHtml;
           btnElement.classList.remove('success');
@@ -418,28 +492,5 @@
     renderCategories();
     applyFilters();
   </script>
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-logo"><img src="/favicon.ico" alt="RB"></div>
-          <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
-        </div>
-        <div class="footer-section">
-          <div class="footer-title">Proyecto</div>
-          <a href="/staff">Equipo</a>
-        </div>
-        <div class="footer-section">
-          <div class="footer-title">Soporte</div>
-          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de Soporte</a>
-        </div>
-        <div class="footer-section">
-          <div class="footer-title">Documentación</div>
-          <a href="/privacy">Política de Privacidad</a>
-          <a href="/tos">Términos de Servicio</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 </body>
 </html>
