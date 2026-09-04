@@ -30,7 +30,7 @@
       --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
       --line:#333333; --line-strong:#555555;
       --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
-      --signal:#c9302c; --signal-deep:#a02622;
+      --signal:#c9302c; --signal-deep:#a02622; --signal-wash:rgba(201,48,44,0.12);
     }
     *{margin:0;padding:0;box-sizing:border-box;}
     html{scroll-behavior:auto;}
@@ -41,8 +41,10 @@
     .skip-link{position:absolute;left:-9999px;top:0;background:var(--signal);color:#fff;padding:10px 16px;z-index:300;text-decoration:none;font-size:.85rem;}
     .skip-link:focus-visible{left:12px;top:12px;}
 
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
+    /* NAV GLOBAL */
+    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
     .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
+    .nav-logo img{width:40px;height:40px;object-fit:cover;display:block;}
     .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
     .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
     .nav-links a:hover{color:var(--text);}
@@ -54,12 +56,9 @@
 
     /* HERO */
     .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:100px 48px 110px;}
-    .hero-kicker{font-size:.85rem;color:var(--text-dim);margin-bottom:20px;font-family:'IBM Plex Mono',monospace;
-font-size:.72rem;
-color:var(--text-mute);
-text-transform:none;
-letter-spacing:0;font-weight:600;}
-    .hero-kicker strong{color:var(--signal);}
+    .hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:.92rem;color:var(--text-dim);font-weight:500;margin-bottom:22px;}
+    .hero-kicker::before{content:'';width:8px;height:8px;background:var(--signal);display:inline-block;flex-shrink:0;}
+    .hero-kicker strong{color:var(--signal);font-weight:700;}
     h1{font-size:clamp(2.5rem,4.6vw,3.8rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:24px;color:var(--text);}
     .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.75;max-width:480px;margin-bottom:40px;}
     .cta-row{display:flex;gap:16px;flex-wrap:wrap;}
@@ -71,18 +70,20 @@ letter-spacing:0;font-weight:600;}
 
     /* DEMO */
     .demo{background:var(--surface);border:1px solid var(--line);border-radius:0;}
-    .demo-head{padding:14px 18px;border-bottom:1px solid var(--line);font-size:.85rem;color:var(--text-mute);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;}
-    .demo-body{padding:24px 20px;display:flex;flex-direction:column;gap:24px;}
+    .demo-body{padding:24px 20px;display:flex;flex-direction:column;gap:22px;}
     .demo-msg{display:flex;gap:14px;}
-    .demo-avatar{width:36px;height:36px;border-radius:0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;}
+    .demo-avatar{width:36px;height:36px;border-radius:0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;overflow:hidden;}
     .demo-avatar.user{background:#444;}
     .demo-avatar.bot{background:var(--signal);}
+    .demo-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
     .demo-top{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
     .demo-name{font-weight:700;font-size:.9rem;color:var(--text);}
     .demo-tag{font-size:.65rem;background:var(--text);color:var(--ink);padding:2px 6px;font-weight:700;letter-spacing:0.5px;border-radius:0;}
     .demo-time{font-size:.75rem;color:var(--text-mute);}
-    .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);background:var(--ink);border:1px solid var(--line);padding:6px 10px;display:inline-block;border-radius:0;}
-    .demo-reply{margin-top:4px;background:var(--ink);border:1px solid var(--line);padding:14px 16px;font-size:.9rem;color:var(--text-dim);line-height:1.6;}
+    /* Mensaje de usuario: texto plano, sin caja, como un mensaje normal de Discord */
+    .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);}
+    /* Respuesta del bot: estilo embed de Discord, franja roja a la izquierda */
+    .demo-reply{margin-top:6px;background:var(--ink);border-left:3px solid var(--signal);padding:12px 14px;font-size:.9rem;color:var(--text-dim);line-height:1.6;}
     .demo-reply strong{color:var(--text);font-weight:600;}
 
     /* STATS */
@@ -106,12 +107,13 @@ letter-spacing:0;font-weight:600;}
     .feature-item h3{font-size:1.1rem;margin-bottom:12px;color:var(--text);}
     .feature-item p{font-size:.95rem;color:var(--text-dim);line-height:1.65;}
 
-    /* COMMANDS */
+    /* DIRECTORIO DE COMANDOS (resumen por categoría) */
     .cmd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
     .cmd-cell{background:var(--surface);padding:26px 24px;}
-    .cmd-cat{font-weight:700;font-size:.95rem;margin-bottom:16px;}
-    .cmd-tags{display:flex;flex-wrap:wrap;gap:8px;}
-    .cmd-tag{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);background:var(--ink);border:1px solid var(--line);padding:4px 8px;}
+    .cmd-cat{font-weight:700;font-size:1rem;margin-bottom:10px;display:flex;align-items:baseline;gap:8px;}
+    .cmd-count{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--text-mute);font-weight:500;}
+    .cmd-desc{font-size:.88rem;color:var(--text-dim);line-height:1.6;}
+    .cmd-more{margin-top:32px;}
 
     /* CTA FINAL */
     .cta-final{text-align:center;padding:90px 48px 110px;border-top:1px solid var(--line);background:var(--surface);}
@@ -122,7 +124,8 @@ letter-spacing:0;font-weight:600;}
     footer{border-top:1px solid var(--line);background:var(--ink);}
     .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
+    .footer-logo{display:flex;align-items:center;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
+    .footer-logo img{width:48px;height:48px;object-fit:cover;display:block;}
     .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
     .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
     .footer-section{display:flex;flex-direction:column;gap:12px;}
@@ -140,8 +143,8 @@ letter-spacing:0;font-weight:600;}
       .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
       .footer-inner{padding:50px 32px 30px;}
     }
-    @media (max-width:680px){
-      nav{padding:16px 24px;}
+    @media (max-width:768px){
+      nav{padding:12px 24px;}
       .menu-toggle{display:inline-flex;}
       .nav-links{display:none;position:absolute;top:65px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
       .nav-links.is-open{display:flex;}
@@ -157,41 +160,29 @@ letter-spacing:0;font-weight:600;}
       .footer-grid{grid-template-columns:1fr;gap:32px;}
       .footer-inner{padding:40px 24px 24px;}
     }
-    .demo-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 0;
-    }
   </style>
   <script>
     async function loadDemoAvatars() {
-      const userId = "668550027307909162"; 
-      
+      const userId = "668550027307909162";
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
         const json = await res.json();
-        
         if (json.success) {
           const { discord_user } = json.data;
           const fallbackIndex = Number((BigInt(userId) >> 22n) % 6n);
-          
           const avatarUrl = discord_user.avatar
             ? `https://cdn.discordapp.com/avatars/${userId}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
             : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`;
-
           document.querySelectorAll('.api-user-avatar').forEach(img => {
             img.src = avatarUrl;
             img.style.display = 'block';
-            img.parentElement.style.background = 'transparent'; 
+            img.parentElement.style.background = 'transparent';
           });
         }
       } catch (e) {
         console.error("No se pudo cargar el avatar de Lanyard para la demo.", e);
       }
     }
-    
     loadDemoAvatars();
   </script>
 </head>
@@ -199,7 +190,7 @@ letter-spacing:0;font-weight:600;}
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/favicon.ico" alt="RB">
+      <img src="/android-chrome-512x512.png" alt="RedBot">
     </a>
 
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
@@ -213,7 +204,7 @@ letter-spacing:0;font-weight:600;}
   <main id="contenido">
     <section class="hero-grid">
       <div>
-        <p class="hero-kicker"><strong>RedBot</strong></p>
+        <p class="hero-kicker"><strong>RedBot</strong> — bot de utilidad para Discord</p>
         <h1>Administra tu servidor con total facilidad.</h1>
         <p class="hero-desc">Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativa desde la primera instalación.</p>
         <div class="cta-row">
@@ -235,8 +226,7 @@ letter-spacing:0;font-weight:600;}
             <div class="demo-avatar bot"><img src="https://redbot.me/redbot.png" alt="RedBot"></div>
             <div>
               <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">✔ APP</span><span class="demo-time">6:43</span></div>
-              <div class="demo-reply">
-                <strong>Manlexo</strong> fue baneado</div>
+              <div class="demo-reply"><strong>Manlexo</strong> fue baneado</div>
             </div>
           </div>
           <div class="demo-msg">
@@ -291,78 +281,44 @@ letter-spacing:0;font-weight:600;}
     <section class="section" id="comandos">
       <div class="section-head">
         <h2>Directorio de Comandos</h2>
-        <p>Estructura dividida en categorías simples.</p>
+        <p>Ocho categorías, más de 70 comandos. Un vistazo rápido a lo que cubre cada una.</p>
       </div>
       <div class="cmd-grid">
         <div class="cmd-cell">
-          <div class="cmd-cat">Utilidad</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">ask</span><span class="cmd-tag">ping</span><span class="cmd-tag">botinfo</span>
-            <span class="cmd-tag">invite</span><span class="cmd-tag">setprefix</span><span class="cmd-tag">askreset</span>
-          </div>
+          <div class="cmd-cat">Ayuda <span class="cmd-count">1</span></div>
+          <p class="cmd-desc">El comando que resume todos los demás: <span class="mono">/help</span> muestra la lista completa al instante.</p>
         </div>
-
         <div class="cmd-cell">
-          <div class="cmd-cat">Usuario</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">avatar</span><span class="cmd-tag">banner</span>
-            <span class="cmd-tag">roles</span><span class="cmd-tag">permissions</span>
-          </div>
+          <div class="cmd-cat">Utilidad <span class="cmd-count">11</span></div>
+          <p class="cmd-desc">IA conversacional, traducción, transcripción de audio y las herramientas base para configurar el bot.</p>
         </div>
-
         <div class="cmd-cell">
-          <div class="cmd-cat">Moderación</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">ban</span><span class="cmd-tag">unban</span><span class="cmd-tag">softban</span>
-            <span class="cmd-tag">tempban</span><span class="cmd-tag">massban</span><span class="cmd-tag">kick</span>
-            <span class="cmd-tag">mute</span><span class="cmd-tag">unmute</span><span class="cmd-tag">purge</span>
-            <span class="cmd-tag">warn</span><span class="cmd-tag">removewarn</span><span class="cmd-tag">clearwarns</span>
-            <span class="cmd-tag">warnings</span><span class="cmd-tag">setlogs</span><span class="cmd-tag">removelogs</span>
-          </div>
+          <div class="cmd-cat">Usuario <span class="cmd-count">5</span></div>
+          <p class="cmd-desc">Consulta el perfil, avatar, banner, roles y permisos de cualquier miembro del servidor.</p>
         </div>
-
         <div class="cmd-cell">
-          <div class="cmd-cat">Servidor</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">logo</span><span class="cmd-tag">banner</span>
-            <span class="cmd-tag">emojis</span><span class="cmd-tag">roles</span>
-          </div>
+          <div class="cmd-cat">Moderación <span class="cmd-count">15</span></div>
+          <p class="cmd-desc">Bans, mutes, warns y logs — el set completo para mantener el orden sin salir de Discord.</p>
         </div>
-
         <div class="cmd-cell">
-          <div class="cmd-cat">Roles</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">icon</span><span class="cmd-tag">color</span>
-            <span class="cmd-tag">users</span><span class="cmd-tag">add</span><span class="cmd-tag">remove</span>
-            <span class="cmd-tag">rename</span><span class="cmd-tag">hoist</span><span class="cmd-tag">mentionable</span>
-            <span class="cmd-tag">random</span>
-          </div>
+          <div class="cmd-cat">Servidor <span class="cmd-count">5</span></div>
+          <p class="cmd-desc">Información general, ícono, banner, emojis y roles configurados en el servidor.</p>
         </div>
-
         <div class="cmd-cell">
-          <div class="cmd-cat">Canal</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">info</span><span class="cmd-tag">rename</span><span class="cmd-tag">lock</span>
-            <span class="cmd-tag">unlock</span><span class="cmd-tag">slowmode</span><span class="cmd-tag">nuke</span>
-            <span class="cmd-tag">clone</span><span class="cmd-tag">permit</span><span class="cmd-tag">deny</span>
-            <span class="cmd-tag">hide</span>
-          </div>
+          <div class="cmd-cat">Roles <span class="cmd-count">15</span></div>
+          <p class="cmd-desc">Gestión completa de roles: crear, asignar, quitar, renombrar y configurar en masa.</p>
         </div>
-
         <div class="cmd-cell">
-          <div class="cmd-cat">Diversión</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">opinion</span><span class="cmd-tag">critica</span><span class="cmd-tag">excusa</span>
-            <span class="cmd-tag">teoria</span><span class="cmd-tag">roast</span>
-          </div>
+          <div class="cmd-cat">Canal <span class="cmd-count">10</span></div>
+          <p class="cmd-desc">Bloqueo, slowmode, clonado y permisos de canal, todo desde un comando.</p>
         </div>
-
         <div class="cmd-cell">
-          <div class="cmd-cat">Ayuda</div>
-          <div class="cmd-tags">
-            <span class="cmd-tag">help</span>
-          </div>
+          <div class="cmd-cat">Diversión <span class="cmd-count">6</span></div>
+          <p class="cmd-desc">Opiniones sin filtro, teorías conspirativas y roasts para romper el hielo en el server.</p>
         </div>
+      </div>
+      <div class="cmd-more">
+        <a class="btn btn-secondary" href="/commands">Ver todos los comandos</a>
       </div>
     </section>
 
@@ -377,7 +333,7 @@ letter-spacing:0;font-weight:600;}
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/favicon.ico" alt="RB"></div>
+          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RedBot"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
