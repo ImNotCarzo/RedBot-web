@@ -30,7 +30,7 @@
       --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
       --line:#333333; --line-strong:#555555;
       --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
-      --signal:#c9302c; --signal-deep:#a02622; --signal-wash:rgba(201,48,44,0.12);
+      --signal:#c9302c; --signal-deep:#a02622;
     }
     *{margin:0;padding:0;box-sizing:border-box;}
     html{scroll-behavior:auto;}
@@ -57,7 +57,6 @@
     /* HERO */
     .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:100px 48px 110px;}
     .hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:.92rem;color:var(--text-dim);font-weight:500;margin-bottom:22px;}
-    .hero-kicker::before{content:'';width:8px;height:8px;background:var(--signal);display:inline-block;flex-shrink:0;}
     .hero-kicker strong{color:var(--signal);font-weight:700;}
     h1{font-size:clamp(2.5rem,4.6vw,3.8rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:24px;color:var(--text);}
     .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.75;max-width:480px;margin-bottom:40px;}
@@ -80,9 +79,7 @@
     .demo-name{font-weight:700;font-size:.9rem;color:var(--text);}
     .demo-tag{font-size:.65rem;background:var(--text);color:var(--ink);padding:2px 6px;font-weight:700;letter-spacing:0.5px;border-radius:0;}
     .demo-time{font-size:.75rem;color:var(--text-mute);}
-    /* Mensaje de usuario: texto plano, sin caja, como un mensaje normal de Discord */
     .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);}
-    /* Respuesta del bot: estilo embed de Discord, franja roja a la izquierda */
     .demo-reply{margin-top:6px;background:var(--ink);border-left:3px solid var(--signal);padding:12px 14px;font-size:.9rem;color:var(--text-dim);line-height:1.6;}
     .demo-reply strong{color:var(--text);font-weight:600;}
 
@@ -107,12 +104,12 @@
     .feature-item h3{font-size:1.1rem;margin-bottom:12px;color:var(--text);}
     .feature-item p{font-size:.95rem;color:var(--text-dim);line-height:1.65;}
 
-    /* DIRECTORIO DE COMANDOS (resumen por categoría) */
-    .cmd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-    .cmd-cell{background:var(--surface);padding:26px 24px;}
-    .cmd-cat{font-weight:700;font-size:1rem;margin-bottom:10px;display:flex;align-items:baseline;gap:8px;}
-    .cmd-count{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--text-mute);font-weight:500;}
-    .cmd-desc{font-size:.88rem;color:var(--text-dim);line-height:1.6;}
+    /* DIRECTORIO DE COMANDOS (Tarjetas Cliqueables) */
+    .cmd-categories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+    .cat-card{background:var(--surface);padding:24px 28px;text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:background .15s;}
+    .cat-card:hover{background:var(--surface-2);}
+    .cat-card-title{font-weight:700;color:var(--text);font-size:1.05rem;}
+    .cat-card-count{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-mute);}
     .cmd-more{margin-top:32px;}
 
     /* CTA FINAL */
@@ -120,7 +117,7 @@
     .cta-final h2{font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-1px;margin-bottom:18px;}
     .cta-final p{color:var(--text-dim);margin-bottom:36px;font-size:1.1rem;}
 
-    /* FOOTER */
+    /* FOOTER GLOBAL */
     footer{border-top:1px solid var(--line);background:var(--ink);}
     .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
@@ -131,7 +128,6 @@
     .footer-section{display:flex;flex-direction:column;gap:12px;}
     .footer-section a{font-size:.9rem;color:var(--text-dim);text-decoration:none;}
     .footer-section a:hover{color:var(--text);text-decoration:underline;}
-    .footer-bottom{border-top:1px solid var(--line);padding-top:24px;font-size:.85rem;color:var(--text-mute);}
 
     a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
 
@@ -139,14 +135,13 @@
       .hero-grid{grid-template-columns:1fr;padding:70px 32px 80px;}
       .stats{margin:0 32px 80px;}
       .section{padding:0 32px 90px;}
-      .cmd-grid{grid-template-columns:repeat(2,1fr);}
       .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
       .footer-inner{padding:50px 32px 30px;}
     }
     @media (max-width:768px){
       nav{padding:12px 24px;}
       .menu-toggle{display:inline-flex;}
-      .nav-links{display:none;position:absolute;top:65px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
+      .nav-links{display:none;position:absolute;top:75px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
       .nav-links.is-open{display:flex;}
       .hero-grid{padding:50px 24px 60px;}
       .stats{flex-direction:column;margin:0 24px 64px;}
@@ -156,7 +151,6 @@
       .feature-list{grid-template-columns:1fr;}
       .feature-item:nth-child(odd){border-right:none;padding-right:0;}
       .feature-item:nth-child(even){padding-left:0;}
-      .cmd-grid{grid-template-columns:1fr;}
       .footer-grid{grid-template-columns:1fr;gap:32px;}
       .footer-inner{padding:40px 24px 24px;}
     }
@@ -192,7 +186,6 @@
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
       <img src="/android-chrome-512x512.png" alt="RedBot">
     </a>
-
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
       <li><a href="/commands">Comandos</a></li>
@@ -201,10 +194,11 @@
       <li><a href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot" class="nav-cta">Autorizar</a></li>
     </ul>
   </nav>
+
   <main id="contenido">
     <section class="hero-grid">
       <div>
-        <p class="hero-kicker"><strong>RedBot</strong> · bot de utilidad para Discord</p>
+        <p class="hero-kicker"><strong>RedBot</strong> · Moderación y control para tu servidor</p>
         <h1>Administra tu servidor con total facilidad.</h1>
         <p class="hero-desc">Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativa desde la primera instalación.</p>
         <div class="cta-row">
@@ -281,44 +275,44 @@
     <section class="section" id="comandos">
       <div class="section-head">
         <h2>Directorio de Comandos</h2>
-        <p>Ocho categorías, más de 70 comandos. Un vistazo rápido a lo que cubre cada una.</p>
+        <p>Selecciona una categoría para explorar la documentación completa.</p>
       </div>
-      <div class="cmd-grid">
-        <div class="cmd-cell">
-          <div class="cmd-cat">Ayuda <span class="cmd-count">1</span></div>
-          <p class="cmd-desc">El comando que resume todos los demás: <span class="mono">/help</span> muestra la lista completa al instante.</p>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Utilidad <span class="cmd-count">11</span></div>
-          <p class="cmd-desc">IA conversacional, traducción, transcripción de audio y las herramientas base para configurar el bot.</p>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Usuario <span class="cmd-count">5</span></div>
-          <p class="cmd-desc">Consulta el perfil, avatar, banner, roles y permisos de cualquier miembro del servidor.</p>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Moderación <span class="cmd-count">15</span></div>
-          <p class="cmd-desc">Bans, mutes, warns y logs — el set completo para mantener el orden sin salir de Discord.</p>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Servidor <span class="cmd-count">5</span></div>
-          <p class="cmd-desc">Información general, ícono, banner, emojis y roles configurados en el servidor.</p>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Roles <span class="cmd-count">15</span></div>
-          <p class="cmd-desc">Gestión completa de roles: crear, asignar, quitar, renombrar y configurar en masa.</p>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Canal <span class="cmd-count">10</span></div>
-          <p class="cmd-desc">Bloqueo, slowmode, clonado y permisos de canal, todo desde un comando.</p>
-        </div>
-        <div class="cmd-cell">
-          <div class="cmd-cat">Diversión <span class="cmd-count">6</span></div>
-          <p class="cmd-desc">Opiniones sin filtro, teorías conspirativas y roasts para romper el hielo en el server.</p>
-        </div>
+      <div class="cmd-categories-grid">
+        <a href="/commands?cat=ayuda" class="cat-card">
+          <span class="cat-card-title">Ayuda</span>
+          <span class="cat-card-count">1 comando</span>
+        </a>
+        <a href="/commands?cat=utilidad" class="cat-card">
+          <span class="cat-card-title">Utilidad</span>
+          <span class="cat-card-count">12 comandos</span>
+        </a>
+        <a href="/commands?cat=usuario" class="cat-card">
+          <span class="cat-card-title">Usuario</span>
+          <span class="cat-card-count">5 comandos</span>
+        </a>
+        <a href="/commands?cat=moderacion" class="cat-card">
+          <span class="cat-card-title">Moderación</span>
+          <span class="cat-card-count">15 comandos</span>
+        </a>
+        <a href="/commands?cat=servidor" class="cat-card">
+          <span class="cat-card-title">Servidor</span>
+          <span class="cat-card-count">5 comandos</span>
+        </a>
+        <a href="/commands?cat=roles" class="cat-card">
+          <span class="cat-card-title">Roles</span>
+          <span class="cat-card-count">15 comandos</span>
+        </a>
+        <a href="/commands?cat=canal" class="cat-card">
+          <span class="cat-card-title">Canal</span>
+          <span class="cat-card-count">10 comandos</span>
+        </a>
+        <a href="/commands?cat=diversion" class="cat-card">
+          <span class="cat-card-title">Diversión</span>
+          <span class="cat-card-count">6 comandos</span>
+        </a>
       </div>
       <div class="cmd-more">
-        <a class="btn btn-secondary" href="/commands">Ver todos los comandos</a>
+        <a class="btn btn-secondary" href="/commands">Explorar directorio completo</a>
       </div>
     </section>
 
@@ -333,7 +327,7 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RedBot"></div>
+          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RB"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
