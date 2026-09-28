@@ -167,11 +167,13 @@
           const avatarUrl = discord_user.avatar
             ? `https://cdn.discordapp.com/avatars/${userId}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
             : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`;
-          document.querySelectorAll('.api-user-avatar').forEach(img => {
-            img.src = avatarUrl;
-            img.style.display = 'block';
-            img.parentElement.style.background = 'transparent';
-          });
+          if (avatarUrl.startsWith('https://cdn.discordapp.com/')) {
+            document.querySelectorAll('.api-user-avatar').forEach(img => {
+              img.src = avatarUrl;
+              img.style.display = 'block';
+              img.parentElement.style.background = 'transparent';
+            });
+          }
         }
       } catch (e) {
         console.error("No se pudo cargar el avatar de Lanyard para la demo.", e);
@@ -318,7 +320,7 @@
 
     <section class="cta-final">
       <h2>¿Listo para empezar?</h2>
-      <p>Agregalo al servidor y pruebalo con tu propia comunidad.</p>
+      <p>Agrégalo al servidor y pruébalo con tu propia comunidad.</p>
       <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot">Autorizar en Servidor</a>
     </section>
   </main>

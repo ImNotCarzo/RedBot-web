@@ -223,16 +223,38 @@
       valid.forEach(m => {
         const card = document.createElement("div");
         card.className = "team-card";
-        card.innerHTML = `
-          <div class="team-avatar-wrap">
-            <img class="team-avatar" src="${m.avatar}" alt="${m.name}" onerror="this.onerror=null;this.src='https://cdn.discordapp.com/embed/avatars/${m.fallbackIndex}.png'">
-            <span class="team-status ${m.status}"></span>
-          </div>
-          <div class="team-info">
-            <div class="team-name">${m.name}</div>
-            <div class="team-role">${m.role}</div>
-          </div>
-        `;
+
+        const avatarWrap = document.createElement("div");
+        avatarWrap.className = "team-avatar-wrap";
+
+        const avatarImg = document.createElement("img");
+        avatarImg.className = "team-avatar";
+        avatarImg.src = m.avatar;
+        avatarImg.alt = m.name;
+        avatarImg.onerror = function(){ this.onerror=null; this.src='https://cdn.discordapp.com/embed/avatars/'+m.fallbackIndex+'.png'; };
+
+        const statusSpan = document.createElement("span");
+        statusSpan.className = "team-status " + m.status;
+
+        avatarWrap.appendChild(avatarImg);
+        avatarWrap.appendChild(statusSpan);
+
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "team-info";
+
+        const nameDiv = document.createElement("div");
+        nameDiv.className = "team-name";
+        nameDiv.textContent = m.name;
+
+        const roleDiv = document.createElement("div");
+        roleDiv.className = "team-role";
+        roleDiv.textContent = m.role;
+
+        infoDiv.appendChild(nameDiv);
+        infoDiv.appendChild(roleDiv);
+
+        card.appendChild(avatarWrap);
+        card.appendChild(infoDiv);
         grid.appendChild(card);
       });
     }
