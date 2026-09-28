@@ -244,9 +244,9 @@
     </section>
 
     <div class="stats" aria-label="Métricas del sistema">
-      <div class="stat"><span class="stat-num">110+</span><span class="stat-label">Servidores</span></div>
-      <div class="stat"><span class="stat-num">140k</span><span class="stat-label">Usuarios</span></div>
-      <div class="stat"><span class="stat-num">70+</span><span class="stat-label">Comandos</span></div>
+      <div class="stat"><span class="stat-num" id="stat-servers">110+</span><span class="stat-label">Servidores</span></div>
+      <div class="stat"><span class="stat-num" id="stat-users">140k</span><span class="stat-label">Usuarios</span></div>
+      <div class="stat"><span class="stat-num" id="stat-commands">70+</span><span class="stat-label">Comandos</span></div>
     </div>
 
     <section class="section" id="features">
@@ -368,6 +368,57 @@
         menuToggle.setAttribute('aria-expanded', 'false');
       }
     });
+
+    // Configuración de la API en vivo de RedBot
+    const REDBOT_API_CONFIG = {
+      url: "https://api.redbot.me", // Coloca la URL pública HTTPS de tu API en Pterodactyl
+      key: ""                       // Si configuraste API_KEY en el .env del bot, colócala aquí
+    };
+
+    async function loadLiveStats() {
+      if (!REDBOT_API_CONFIG.url) return;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        const headers = {};
+        if (REDBOT_API_CONFIG.key) {
+          headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
+        }
+        const res = await fetch(`${REDBOT_API_CONFIG.url.replace(/\/+$/, "")}/api/stats`, {
+          headers,
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (typeof data.guilds === 'number') {
+          const serversEl = document.getElementById('stat-servers');
+          if (serversEl) serversEl.textContent = `${data.guilds}+`;
+        }
+
+        if (typeof data.users === 'number') {
+          const usersEl = document.getElementById('stat-users');
+          if (usersEl) {
+            if (data.users >= 1000000) {
+              usersEl.textContent = (data.users / 1000000).toFixed(1) + 'M';
+            } else if (data.users >= 1000) {
+              usersEl.textContent = Math.floor(data.users / 1000) + 'k';
+            } else {
+              usersEl.textContent = data.users.toLocaleString();
+            }
+          }
+        }
+
+        if (data.commands && typeof data.commands.total === 'number') {
+          const commandsEl = document.getElementById('stat-commands');
+          if (commandsEl) commandsEl.textContent = `${data.commands.total}+`;
+        }
+      } catch (e) {
+        // En caso de que la API esté apagada o inaccesible, se mantienen los valores estáticos precargados
+      }
+    }
+    loadLiveStats();
   </script>
 </body>
 </html>

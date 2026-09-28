@@ -316,15 +316,19 @@
       { name: "comandointervalosupersecretokjj", cat: "admin", options: "ninguna", aliases: "ninguno", desc: "rota foto con emoji 15min", example: ".comandointervalosupersecretokjj", forcePrefixOnly: true }
     ];
 
-    const commands = rawCommands.map((cmd, i) => {
-      let types = [];
-      if (cmd.forcePrefixOnly) {
-        types.push('prefijo');
-      } else {
-        types = ['slash', 'prefijo'];
-      }
-      return { ...cmd, types, uid: `cmd-${i}` };
-    });
+    function mapCommands(rawList) {
+      return rawList.map((cmd, i) => {
+        let types = [];
+        if (cmd.forcePrefixOnly) {
+          types.push('prefijo');
+        } else {
+          types = ['slash', 'prefijo'];
+        }
+        return { ...cmd, types, uid: `cmd-${i}` };
+      });
+    }
+
+    let commands = mapCommands(rawCommands);
 
     const categories = [
       { id: 'todos', label: 'Todos' },
@@ -537,6 +541,85 @@
 
     renderCategories();
     applyFilters();
+
+    // Configuración de la API en vivo de RedBot
+    const REDBOT_API_CONFIG = {
+      url: "https://api.redbot.me", // Coloca la URL pública HTTPS de tu API en Pterodactyl
+      key: ""                       // Si configuraste API_KEY en el .env del bot, colócala aquí
+    };
+
+    function parseOptionsFromUsage(usage) {
+      if (!usage) return "ninguna";
+      const matches = usage.match(/<[^>]+>|\[[^\]]+\]/g);
+      if (!matches || matches.length === 0) return "ninguna";
+      return matches.map(m => {
+        const isReq = m.startsWith('<');
+        const clean = m.replace(/[<>[\]@#]/g, '').trim();
+        return `${clean} (optional?=${!isReq})`;
+      }).join(', ');
+    }
+
+    async function loadLiveCommands() {
+      if (!REDBOT_API_CONFIG.url) return;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        const headers = {};
+        if (REDBOT_API_CONFIG.key) {
+          headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
+        }
+        const res = await fetch(`${REDBOT_API_CONFIG.url.replace(/\/+$/, "")}/api/commands`, {
+          headers,
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.categories) return;
+
+        const dynamicCommands = [];
+        for (const [catKey, catData] of Object.entries(data.categories)) {
+          if (!catData.commands || !Array.isArray(catData.commands)) continue;
+          for (const cmd of catData.commands) {
+            let name = cmd.slash || cmd.name;
+            if (name && name.includes(' ') && !name.startsWith('/')) {
+              name = '/' + name;
+            }
+
+            const aliasesStr = Array.isArray(cmd.aliases) && cmd.aliases.length
+              ? cmd.aliases.join(', ')
+              : (cmd.aliases || 'ninguno');
+
+            dynamicCommands.push({
+              name: name || cmd.short || cmd.name,
+              cat: catKey,
+              options: parseOptionsFromUsage(cmd.usage),
+              aliases: aliasesStr,
+              desc: cmd.description || '',
+              example: cmd.usage || ('.' + (cmd.short || cmd.name))
+            });
+          }
+        }
+
+        // Preservar comandos locales especiales (ej. admin o secretos)
+        const localSpecial = rawCommands.filter(c => c.cat === 'admin' || c.forcePrefixOnly);
+        for (const special of localSpecial) {
+          if (!dynamicCommands.some(c => c.name === special.name)) {
+            dynamicCommands.push(special);
+          }
+        }
+
+        if (dynamicCommands.length > 0) {
+          commands = mapCommands(dynamicCommands);
+          renderCategories();
+          applyFilters();
+        }
+      } catch (e) {
+        // En caso de error o que la API no esté disponible, se mantienen los comandos precargados
+      }
+    }
+
+    loadLiveCommands();
   </script>
 </body>
 </html>
