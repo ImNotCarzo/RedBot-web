@@ -234,7 +234,8 @@
         avatarImg.onerror = function(){ this.onerror=null; this.src='https://cdn.discordapp.com/embed/avatars/'+m.fallbackIndex+'.png'; };
 
         const statusSpan = document.createElement("span");
-        statusSpan.className = "team-status " + m.status;
+        const safeStatus = ['online', 'idle', 'dnd', 'offline'].includes(m.status) ? m.status : 'offline';
+        statusSpan.className = "team-status " + safeStatus;
 
         avatarWrap.appendChild(avatarImg);
         avatarWrap.appendChild(statusSpan);
