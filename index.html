@@ -246,7 +246,7 @@
     <div class="stats" aria-label="Métricas del sistema">
       <div class="stat"><span class="stat-num" id="stat-servers">110+</span><span class="stat-label">Servidores</span></div>
       <div class="stat"><span class="stat-num" id="stat-users">140k</span><span class="stat-label">Usuarios</span></div>
-      <div class="stat"><span class="stat-num" id="stat-commands">70+</span><span class="stat-label">Comandos</span></div>
+      <div class="stat"><span class="stat-num" id="stat-commands">70</span><span class="stat-label">Comandos</span></div>
     </div>
 
     <section class="section" id="features">
@@ -412,7 +412,7 @@
 
         if (data.commands && typeof data.commands.total === 'number') {
           const commandsEl = document.getElementById('stat-commands');
-          if (commandsEl) commandsEl.textContent = `${data.commands.total}+`;
+          if (commandsEl) commandsEl.textContent = `${data.commands.total}`;
         }
       } catch (e) {
         // En caso de que la API esté apagada o inaccesible, se mantienen los valores estáticos precargados
