@@ -10,6 +10,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
   <meta property="og:title" content="RedBot">
   <meta property="og:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
@@ -20,8 +22,24 @@
   <meta name="twitter:title" content="RedBot">
   <meta name="twitter:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="author" content="RedBot">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "RedBot",
+    "url": "https://redbot.me/",
+    "description": "Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Discord",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -185,7 +203,7 @@
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
-  <nav>
+  <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
       <img src="/android-chrome-512x512.png" alt="RedBot">
     </a>
@@ -201,8 +219,8 @@
   <main id="contenido">
     <section class="hero-grid">
       <div>
-        <p class="hero-kicker"><strong>RedBot, único y eterno.</strong></p>
-        <h1>Administra tu servidor con total facilidad.</h1>
+        <p class="hero-kicker" data-nosnippet><strong>RedBot, único y eterno.</strong></p>
+        <h1 data-nosnippet>Administra tu servidor con total facilidad.</h1>
         <p class="hero-desc">Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=0&scope=bot">Autorizar en Servidor</a>
