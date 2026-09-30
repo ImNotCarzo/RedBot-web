@@ -7,6 +7,10 @@ Sitio web oficial de **RedBot** — [redbot.me](https://redbot.me)
 ```
 .
 ├── index.html          # Página principal
+├── commands/
+│   └── index.html      # Lista de comandos       → redbot.me/commands
+├── invite/
+│   └── index.html      # Invitación oficial      → redbot.me/invite
 ├── privacy/
 │   └── index.html      # Política de privacidad  → redbot.me/privacy
 ├── tos/
