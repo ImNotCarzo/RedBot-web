@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Política de Privacidad - RedBot</title>
-  <meta name="description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta name="description" content="Política de Privacidad de RedBot: cómo tratamos los datos de servidores y usuarios de forma transparente.">
   <meta name="theme-color" content="#ff383d">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://redbot.me/privacy">
@@ -13,114 +13,28 @@
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta property="og:title" content="RedBot">
-  <meta property="og:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta property="og:title" content="Política de Privacidad - RedBot">
+  <meta property="og:description" content="Información sobre el tratamiento de datos y privacidad en RedBot.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
   <meta property="og:url" content="https://redbot.me/privacy">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="RedBot">
-  <meta name="twitter:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta name="twitter:title" content="Política de Privacidad - RedBot">
+  <meta name="twitter:description" content="Información sobre el tratamiento de datos y privacidad en RedBot.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
-      --line:#333333; --line-strong:#555555;
-      --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
-      --signal:#c9302c; --signal-wash:rgba(201,48,44,0.1);
-      --signal-deep:#a02622;
-    }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:auto;}
-    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;}
-    h1,h2,h3{font-weight:700;}
-
-    /* NAV GLOBAL  */
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
-    .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:40px;height:40px;object-fit:cover;display:block;}
-    .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
-    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
-    .nav-links a:hover{color:var(--text);}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;}
-    .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
-
-    .page-header{max-width:760px;margin:0 auto;padding:64px 40px 48px;border-bottom:1px solid var(--line);}
-    .page-tag{font-size:.82rem;color:var(--text-dim);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;}
-    .page-tag strong{color:var(--signal);font-weight:600;}
-    .page-title{font-size:clamp(2.1rem,4vw,3rem);letter-spacing:-1px;line-height:1.1;margin-bottom:18px;}
-    .page-subtitle{font-size:.96rem;color:var(--text-dim);line-height:1.7;max-width:560px;}
-
-    .content{max-width:760px;margin:0 auto;padding:52px 40px 110px;}
-    .cl{margin-bottom:50px;padding-bottom:50px;border-bottom:1px solid var(--line);}
-    .cl:last-child{border-bottom:none;margin-bottom:0;}
-    .cl-num{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text-dim);margin-bottom:12px;}
-    h2{font-size:1.4rem;letter-spacing:-.4px;margin-bottom:18px;color:var(--text);}
-    h3{font-size:1.1rem;margin:24px 0 10px;color:var(--text);}
-    p{font-size:.96rem;color:var(--text-dim);line-height:1.75;margin-bottom:15px;}
-
-    /* Listas escopadas SOLO al contenido legal — antes eran "ul li" globales
-       y esa regla también pintaba guiones en el menú de navegación (que
-       también es una lista <ul><li>). */
-    .content ul{list-style:none;margin:0 0 15px;}
-    .content ul li{font-size:.96rem;color:var(--text-dim);line-height:1.7;padding:6px 0 6px 16px;position:relative;}
-    .content ul li::before{content:'-';position:absolute;left:0;top:6px;color:var(--text-mute);font-weight:600;}
-
-    strong{color:var(--text);font-weight:600;}
-
-    .box{background:var(--surface);border:1px solid var(--line);border-radius:0;padding:20px 22px;margin:20px 0;}
-    .box p{margin:0;font-size:.9rem;color:var(--text-dim);}
-    .box.highlight{background:var(--signal-wash);border-color:var(--signal);}
-    .box.highlight p{color:#f5c6c2;}
-
-    a{color:var(--text);text-decoration:underline;font-weight:500;}
-    a:hover{color:var(--signal);}
-    .back-link{display:inline-block;color:var(--text-dim);text-decoration:none;font-size:.9rem;margin-top:36px;}
-    .back-link:hover{text-decoration:underline;color:var(--text);}
-
-    /* FOOTER */
-    footer{border-top:1px solid var(--line);background:var(--ink);}
-    .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{display:flex;align-items:center;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
-    .footer-logo img{width:48px;height:48px;object-fit:cover;display:block;}
-    .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
-    .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
-    .footer-section{display:flex;flex-direction:column;gap:12px;}
-    .footer-section a{font-size:.9rem;color:var(--text-dim);text-decoration:none;font-weight:400;}
-    .footer-section a:hover{color:var(--text);text-decoration:underline;}
-    .footer-bottom{border-top:1px solid var(--line);padding-top:24px;font-size:.85rem;color:var(--text-mute);}
-
-    @media (max-width:920px){
-      .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
-      .footer-inner{padding:50px 32px 30px;}
-    }
-    @media (max-width:768px){
-      nav{padding:12px 24px;}
-      .menu-toggle{display:inline-flex;}
-      .nav-links{display:none;position:absolute;top:65px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
-      .nav-links.is-open{display:flex;}
-      .footer-grid{grid-template-columns:1fr;gap:32px;}
-      .footer-inner{padding:40px 24px 24px;}
-    }
-    @media (max-width:680px){
-      .page-header{padding:48px 20px 36px;}
-      .content{padding:40px 20px 80px;}
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-512x512.png" alt="RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
     </a>
-
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
       <li><a href="/commands">Comandos</a></li>
@@ -130,85 +44,89 @@
     </ul>
   </nav>
 
-  <div class="page-header">
-    <p class="page-tag"><strong>Legal</strong> · Última actualización 2026</p>
-    <h1 class="page-title">Política de Privacidad</h1>
-    <p class="page-subtitle">Al invitar o usar RedBot, aceptas esta política. Explicamos exactamente qué hacemos con tus datos.</p>
-  </div>
+  <main id="contenido">
+    <div class="page-header">
+      <p class="page-tag"><strong>Legal</strong> · Última actualización 2026</p>
+      <h1 class="page-title">Política de Privacidad</h1>
+      <p class="page-subtitle">Al invitar o usar RedBot, aceptas esta política. Explicamos exactamente qué hacemos con tus datos.</p>
+    </div>
 
-  <div class="content">
-    <div class="cl">
-      <div class="cl-num">01 / Recopilación</div>
-      <h2>Información recopilada</h2>
+    <div class="content">
+      <div class="cl">
+        <div class="cl-num">01 / Recopilación</div>
+        <h2>Información recopilada</h2>
 
-      <h3>Registro del servidor</h3>
-      <p>Cuando RedBot se agrega a un servidor, almacena el <strong>ID del servidor</strong> para propósitos de configuración.</p>
+        <h3>Registro del servidor</h3>
+        <p>Cuando RedBot se agrega a un servidor, almacena el <strong>ID del servidor</strong> para propósitos de configuración.</p>
 
-      <h3>Uso de comandos</h3>
-      <p>Cuando ejecutas un comando, el bot procesa temporalmente:</p>
-      <ul>
-        <li>ID del usuario</li>
-        <li>ID del servidor y del canal</li>
-        <li>Nombre del comando y sus parámetros</li>
-      </ul>
-      <p>Esta información se usa únicamente para ejecutar la función solicitada.</p>
+        <h3>Uso de comandos</h3>
+        <p>Cuando ejecutas un comando, el bot procesa temporalmente:</p>
+        <ul>
+          <li>ID del usuario</li>
+          <li>ID del servidor y del canal</li>
+          <li>Nombre del comando y sus parámetros</li>
+        </ul>
+        <p>Esta información se usa únicamente para ejecutar la función solicitada.</p>
 
-      <h3>Contenido de mensajes</h3>
-      <div class="box highlight">
-        <p>RedBot <strong>NO</strong> lee ni almacena todos los mensajes del servidor. El contenido solo se procesa cuando el usuario explícitamente usa un comando.</p>
+        <h3>Contenido de mensajes</h3>
+        <div class="box highlight">
+          <p>RedBot <strong>NO</strong> lee ni almacena todos los mensajes del servidor. El contenido solo se procesa cuando el usuario explícitamente usa un comando.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="cl">
-      <div class="cl-num">02 / IA</div>
-      <h2>Procesamiento de IA</h2>
-      <p>Al usar el comando de IA, el contenido se transmite temporalmente a un proveedor externo.</p>
-      <ul>
-        <li>El contexto se guarda en memoria y se descarta tras inactividad.</li>
-        <li>RedBot NO usa tu contenido para entrenar modelos propios.</li>
-        <li>Tu contenido no se vende. Puede transmitirse temporalmente a los proveedores necesarios para procesar la solicitud de IA.</li>
-      </ul>
-    </div>
+      <div class="cl">
+        <div class="cl-num">02 / IA</div>
+        <h2>Procesamiento de IA</h2>
+        <p>Al usar el comando de IA, el contenido se transmite temporalmente a un proveedor externo.</p>
+        <ul>
+          <li>El contexto se guarda en memoria y se descarta tras inactividad.</li>
+          <li>RedBot NO usa tu contenido para entrenar modelos propios.</li>
+          <li>Tu contenido no se vende. Puede transmitirse temporalmente a los proveedores necesarios para procesar la solicitud de IA.</li>
+        </ul>
+      </div>
 
-    <div class="cl">
-      <div class="cl-num">03 / Almacenamiento</div>
-      <h2>Almacenamiento de datos</h2>
-      <ul>
-        <li>No hay bases de datos permanentes de contenido de mensajes.</li>
-        <li>Los datos de configuración se almacenan en la base de datos principal.</li>
-        <li>Los datos en memoria se eliminan de forma automática.</li>
-      </ul>
-    </div>
+      <div class="cl">
+        <div class="cl-num">03 / Almacenamiento</div>
+        <h2>Almacenamiento de datos</h2>
+        <ul>
+          <li>No hay bases de datos permanentes de contenido de mensajes.</li>
+          <li>Los datos de configuración se almacenan en la base de datos principal.</li>
+          <li>Los datos en memoria se eliminan de forma automática.</li>
+        </ul>
+      </div>
 
-    <div class="cl">
-      <div class="cl-num">04 / Compartición</div>
-      <h2>Compartición de datos</h2>
-      <p>RedBot no vende ni alquila datos. Cuando es necesario para prestar el servicio, determinados datos pueden transmitirse a:</p>
-      <ul>
-        <li>API de Discord (requerida para funcionar).</li>
-        <li>Proveedores de infraestructura y procesamiento.</li>
-        <li>Autoridades si es requerido por la ley.</li>
-      </ul>
-    </div>
+      <div class="cl">
+        <div class="cl-num">04 / Compartición</div>
+        <h2>Compartición de datos</h2>
+        <p>RedBot no vende ni alquila datos. Cuando es necesario para prestar el servicio, determinados datos pueden transmitirse a:</p>
+        <ul>
+          <li>API de Discord (requerida para funcionar).</li>
+          <li>Proveedores de infraestructura y procesamiento.</li>
+          <li>Autoridades si es requerido por la ley.</li>
+        </ul>
+      </div>
 
-    <div class="cl">
-      <div class="cl-num">05 / Eliminación</div>
-      <h2>Eliminación de datos</h2>
-      <p>Los administradores pueden eliminar datos de configuración removiendo el bot del servidor.</p>
-    </div>
+      <div class="cl">
+        <div class="cl-num">05 / Eliminación</div>
+        <h2>Eliminación de datos</h2>
+        <p>Los administradores pueden eliminar datos de configuración removiendo el bot del servidor.</p>
+      </div>
 
-    <a class="back-link" href="/">Volver al inicio</a>
-  </div>
+      <a class="back-link" href="/">Volver al inicio</a>
+    </div>
+  </main>
 
   <footer>
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RedBot"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
+          <a href="/">Inicio</a>
+          <a href="/commands">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
         </div>
@@ -225,27 +143,6 @@
     </div>
   </footer>
 
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    if (menuToggle && navLinks) {
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('is-open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-      });
-      document.querySelectorAll('#nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('is-open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-        });
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
-          navLinks.classList.remove('is-open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    }
-  </script>
+  <script src="/main.js"></script>
 </body>
 </html>

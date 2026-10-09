@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Equipo - RedBot</title>
-  <meta name="description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta name="description" content="El equipo que trabaja para mantener la infraestructura y el código de RedBot.">
   <meta name="theme-color" content="#ff383d">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://redbot.me/staff">
@@ -13,105 +13,93 @@
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta property="og:title" content="RedBot">
-  <meta property="og:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta property="og:title" content="Equipo - RedBot">
+  <meta property="og:description" content="Conoce a las personas detrás del desarrollo, infraestructura y soporte de RedBot.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
   <meta property="og:url" content="https://redbot.me/staff">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="RedBot">
-  <meta name="twitter:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta name="twitter:title" content="Equipo - RedBot">
+  <meta name="twitter:description" content="Conoce a las personas detrás del desarrollo, infraestructura y soporte de RedBot.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
   <style>
-    :root{
-      --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
-      --line:#333333; --line-strong:#555555;
-      --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
-      --signal:#c9302c; --signal-deep:#a02622;
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
     }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:auto;}
-    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;}
-    h1,h2,h3{font-weight:700;}
-
-    /* NAV GLOBAL */
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
-    .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:40px;height:40px;object-fit:cover;display:block;}
-    .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
-    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
-    .nav-links a:hover{color:var(--text);}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;}
-    .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
-
-    .page-header{max-width:900px;margin:0 auto;padding:64px 40px 48px;border-bottom:1px solid var(--line);}
-    .page-tag{font-size:.82rem;color:var(--text-dim);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;}
-    .page-tag strong{color:var(--signal);font-weight:600;}
-    .page-title{font-size:clamp(2.1rem,4vw,3rem);letter-spacing:-1px;line-height:1.1;margin-bottom:14px;}
-    .page-subtitle{font-size:.96rem;color:var(--text-dim);line-height:1.7;max-width:520px;}
-
-    .content{max-width:900px;margin:0 auto;padding:52px 40px 110px;}
-    .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
-
-    .team-card{background:var(--surface);border:1px solid var(--line);border-radius:0;padding:24px 22px;display:flex;align-items:center;gap:15px;}
-    .team-card:hover{border-color:var(--text-dim);}
-
-    .team-avatar-wrap{position:relative;flex-shrink:0;}
-    .team-avatar{width:52px;height:52px;border-radius:0;object-fit:cover;background:var(--surface-2);display:block;}
-    .team-status{position:absolute;bottom:-4px;right:-4px;width:12px;height:12px;border-radius:0;border:2px solid var(--surface);}
-    .team-status.online{background:#3ba55d;}
-    .team-status.idle{background:#e0a63e;}
-    .team-status.dnd{background:#d9484c;}
-    .team-status.offline{background:#5c6169;}
-
-    .team-info{flex:1;min-width:0;}
-    .team-name{font-weight:600;font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .team-role{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);margin-top:6px;}
-
-    /* FOOTER */
-    footer{border-top:1px solid var(--line);background:var(--ink);}
-    .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{display:flex;align-items:center;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
-    .footer-logo img{width:48px;height:48px;object-fit:cover;display:block;}
-    .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
-    .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
-    .footer-section{display:flex;flex-direction:column;gap:12px;}
-    .footer-section a{font-size:.9rem;color:var(--text-dim);text-decoration:none;}
-    .footer-section a:hover{color:var(--text);text-decoration:underline;}
-    .footer-bottom{border-top:1px solid var(--line);padding-top:24px;font-size:.85rem;color:var(--text-mute);}
-
-    @media (max-width:920px){
-      .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
-      .footer-inner{padding:50px 32px 30px;}
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 0;
+      padding: 24px 22px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: border-color .15s;
     }
-    @media (max-width:768px){
-      nav{padding:12px 24px;}
-      .menu-toggle{display:inline-flex;}
-      .nav-links{display:none;position:absolute;top:65px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
-      .nav-links.is-open{display:flex;}
-      .footer-grid{grid-template-columns:1fr;gap:32px;}
-      .footer-inner{padding:40px 24px 24px;}
+    .team-card:hover {
+      border-color: var(--text-dim);
     }
-    @media (max-width:680px){
-      .page-header{padding:48px 20px 36px;}
-      .content{padding:40px 20px 80px;}
-      .team-grid{grid-template-columns:1fr;}
+    .team-avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .team-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 0;
+      object-fit: cover;
+      background: var(--surface-2);
+      display: block;
+    }
+    .team-status {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 0;
+      border: 2px solid var(--surface);
+    }
+    .team-status.online { background: #3ba55d; }
+    .team-status.idle { background: #e0a63e; }
+    .team-status.dnd { background: #d9484c; }
+    .team-status.offline { background: #5c6169; }
+    .team-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .team-name {
+      font-weight: 600;
+      font-size: .98rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .team-role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .75rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+    @media (max-width: 680px) {
+      .team-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-512x512.png" alt="RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
     </a>
-
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
       <li><a href="/commands">Comandos</a></li>
@@ -121,29 +109,33 @@
     </ul>
   </nav>
 
-  <div class="page-header">
-    <p class="page-tag"><strong>Equipo</strong> · QUIÉNES SOMOS</p>
-    <h1 class="page-title">Las personas detrás de RedBot</h1>
-    <p class="page-subtitle">El equipo que trabaja para mantener la infraestructura y el código del proyecto.</p>
-  </div>
-
-  <div class="content">
-    <div class="team-grid" id="team-grid">
-      <!-- Carga dinámica -->
+  <main id="contenido">
+    <div class="page-header">
+      <p class="page-tag"><strong>Equipo</strong> · QUIÉNES SOMOS</p>
+      <h1 class="page-title">Las personas detrás de RedBot</h1>
+      <p class="page-subtitle">El equipo que trabaja para mantener la infraestructura y el código del proyecto.</p>
     </div>
-  </div>
+
+    <div class="content">
+      <div class="team-grid" id="team-grid">
+        <!-- Carga dinámica mediante API de Lanyard -->
+      </div>
+    </div>
+  </main>
 
   <footer>
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RedBot"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
+          <a href="/">Inicio</a>
+          <a href="/commands">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
-          <a href="/staff">Equipo</a>
+          <a href="/staff" aria-current="page">Equipo</a>
         </div>
         <div class="footer-section">
           <div class="footer-title">Soporte</div>
@@ -158,28 +150,8 @@
     </div>
   </footer>
 
+  <script src="/main.js"></script>
   <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    if (menuToggle && navLinks) {
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('is-open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-      });
-      document.querySelectorAll('#nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('is-open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-        });
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
-          navLinks.classList.remove('is-open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    }
-
     const TEAM = [
       { id: "668550027307909162", role: "Owner" },
       { id: "460634087892189185", role: "Director Técnico" },
@@ -237,7 +209,10 @@
         avatarImg.className = "team-avatar";
         avatarImg.src = m.avatar;
         avatarImg.alt = m.name;
-        avatarImg.onerror = function(){ this.onerror=null; this.src='https://cdn.discordapp.com/embed/avatars/'+m.fallbackIndex+'.png'; };
+        avatarImg.onerror = function(){
+          this.onerror = null;
+          this.src = `https://cdn.discordapp.com/embed/avatars/${m.fallbackIndex}.png`;
+        };
 
         const statusSpan = document.createElement("span");
         const safeStatus = ['online', 'idle', 'dnd', 'offline'].includes(m.status) ? m.status : 'offline';

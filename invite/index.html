@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RedBot</title>
-  <meta name="description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <title>Autorizar - RedBot</title>
+  <meta name="description" content="Añade RedBot a tu servidor de Discord y comienza a administrar con facilidad y rapidez.">
   <meta name="theme-color" content="#ff383d">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://redbot.me/invite">
@@ -16,9 +16,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Open Graph / Discord Embed -->
-  <meta property="og:title" content="RedBot">
-  <meta property="og:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Autorizar RedBot">
+  <meta property="og:description" content="Añade RedBot a tu servidor de Discord con un solo clic.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
   <meta property="og:url" content="https://redbot.me/invite">
   <meta property="og:type" content="website">
@@ -26,8 +26,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="RedBot">
-  <meta name="twitter:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta name="twitter:title" content="Autorizar RedBot">
+  <meta name="twitter:description" content="Añade RedBot a tu servidor de Discord con un solo clic.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
 
   <!-- Redirección automática a Discord OAuth2 -->
@@ -39,45 +39,32 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
 
   <style>
-    :root {
-      --ink: #121212;
-      --surface: #1e1e1e;
-      --line: #333333;
-      --text: #e0e0e0;
-      --text-dim: #999999;
-      --signal: #c9302c;
-      --signal-deep: #a02622;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'IBM Plex Sans', sans-serif;
-      background: var(--ink);
-      color: var(--text);
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       padding: 24px;
       text-align: center;
-      -webkit-font-smoothing: antialiased;
     }
     .redirect-card {
       background: var(--surface);
       border: 1px solid var(--line);
-      padding: 40px 32px;
-      max-width: 440px;
+      padding: 48px 36px;
+      max-width: 480px;
       width: 100%;
     }
     .redirect-logo {
       width: 64px;
       height: 64px;
-      margin: 0 auto 20px;
+      margin: 0 auto 24px;
       display: block;
     }
     h1 {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       margin-bottom: 12px;
       font-weight: 700;
     }
@@ -85,32 +72,17 @@
       color: var(--text-dim);
       font-size: 0.95rem;
       line-height: 1.6;
-      margin-bottom: 24px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--signal);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 12px 24px;
-      transition: background 0.15s;
-    }
-    .btn:hover {
-      background: var(--signal-deep);
+      margin-bottom: 28px;
     }
   </style>
 </head>
 <body>
   <div class="redirect-card">
     <img src="/android-chrome-192x192.png" alt="RedBot" class="redirect-logo">
-    <h1>Redirigiendo...</h1>
-    <p>q se tarda aaaj</p>
-    <a class="btn" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands">
-      click aca si no te carga
+    <h1>Redirigiendo a Discord...</h1>
+    <p>Si la ventana de autorización no se abre automáticamente en unos segundos, puedes continuar pulsando el botón a continuación:</p>
+    <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands">
+      Autorizar en Servidor
     </a>
   </div>
 </body>

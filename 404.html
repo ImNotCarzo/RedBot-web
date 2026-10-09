@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Página no encontrada · RedBot</title>
+  <meta name="description" content="La página que buscas no existe o ha sido movida.">
+  <meta name="theme-color" content="#ff383d">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .error-wrap {
+      max-width: 680px;
+      margin: 100px auto 120px;
+      padding: 0 32px;
+      text-align: center;
+    }
+    .error-code {
+      font-size: clamp(4.5rem, 12vw, 7.5rem);
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--signal);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+    .error-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 16px;
+    }
+    .error-desc {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .error-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <nav>
+    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/commands">Comandos</a></li>
+      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="/tos">Términos</a></li>
+      <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido" class="error-wrap">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Página no encontrada</h1>
+    <p class="error-desc">La ruta que buscas no existe o ha sido movida. Puedes volver al inicio o consultar la lista de comandos disponibles.</p>
+    <div class="error-actions">
+      <a class="btn btn-primary" href="/">Volver al Inicio</a>
+      <a class="btn btn-secondary" href="/commands">Ver Comandos</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Proyecto</div>
+          <a href="/">Inicio</a>
+          <a href="/commands">Comandos</a>
+          <a href="https://redbot.me/invite">Invitar</a>
+          <a href="/staff">Equipo</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Soporte</div>
+          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de Soporte</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Documentación</div>
+          <a href="/privacy">Política de Privacidad</a>
+          <a href="/tos">Términos de Servicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/main.js"></script>
+</body>
+</html>

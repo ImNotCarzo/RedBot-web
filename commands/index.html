@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comandos - RedBot</title>
-  <meta name="description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta name="description" content="Lista completa de comandos, sintaxis, ejemplos y herramientas de administración de RedBot.">
   <meta name="theme-color" content="#ff383d">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://redbot.me/commands">
@@ -13,136 +13,86 @@
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta property="og:title" content="RedBot">
-  <meta property="og:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta property="og:title" content="Comandos - RedBot">
+  <meta property="og:description" content="Lista completa de comandos de RedBot: moderación, utilidad, roles, IA y gestión de canales.">
   <meta property="og:image" content="https://redbot.me/redbot.png">
   <meta property="og:url" content="https://redbot.me/commands">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="RedBot">
-  <meta name="twitter:description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
+  <meta name="twitter:title" content="Comandos - RedBot">
+  <meta name="twitter:description" content="Lista completa de comandos de RedBot: moderación, utilidad, roles, IA y gestión de canales.">
   <meta name="twitter:image" content="https://redbot.me/redbot.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
   <style>
-    :root{
-      --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
-      --line:#333333; --line-strong:#555555;
-      --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
-      --signal:#c9302c; --signal-deep:#a02622;
-      --signal-wash:rgba(201,48,44,0.15);
-    }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:auto;}
-    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;}
-    h1,h2,h3{font-weight:700;}
-    .mono{font-family:'IBM Plex Mono',monospace;}
+    main { max-width: 1180px; margin: 0 auto; padding: 48px 48px 120px; }
 
-    .skip-link{position:absolute;left:-9999px;top:0;background:var(--signal);color:#fff;padding:10px 16px;z-index:300;text-decoration:none;font-size:.85rem;}
-    .skip-link:focus-visible{left:12px;top:12px;}
+    .page-header { margin-bottom: 48px; }
+    .page-header h1 { font-size: clamp(2.5rem, 4vw, 3.2rem); letter-spacing: -1px; margin-bottom: 14px; color: var(--text); }
+    .page-header p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.6; max-width: 600px; }
 
-    /* NAV GLOBAL */
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
-    .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:50px;height:50px;object-fit:cover;display:block;}
-    .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
-    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
-    .nav-links a:hover{color:var(--text);}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;}
-    .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
+    .controls { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin-bottom: 32px; display: flex; flex-direction: column; gap: 20px; }
+    .search-row { display: flex; gap: 16px; flex-wrap: wrap; }
 
-    main{max-width:1180px;margin:0 auto;padding:48px 48px 120px;}
+    .search-box { position: relative; flex: 1; min-width: 260px; }
+    .search-box svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: var(--text-mute); }
+    .search-input { width: 100%; background: var(--ink); border: 1px solid var(--line-strong); color: var(--text); padding: 12px 16px 12px 42px; font-family: 'IBM Plex Sans', sans-serif; font-size: .95rem; outline: none; border-radius: 0; }
+    .search-input:focus { border-color: var(--signal); }
 
-    .page-header{margin-bottom:48px;}
-    .page-header h1{font-size:clamp(2.5rem,4vw,3.2rem);letter-spacing:-1px;margin-bottom:14px;color:var(--text);}
-    .page-header p{color:var(--text-dim);font-size:1.05rem;line-height:1.6;max-width:600px;}
+    .type-filter { background: var(--ink); border: 1px solid var(--line-strong); color: var(--text); padding: 12px 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: .95rem; outline: none; border-radius: 0; cursor: pointer; min-width: 180px; }
+    .type-filter:focus { border-color: var(--signal); }
 
-    .controls{background:var(--surface);border:1px solid var(--line);padding:24px;margin-bottom:32px;display:flex;flex-direction:column;gap:24px;}
-    .search-row{display:flex;gap:16px;flex-wrap:wrap;}
+    .category-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cat-btn { background: var(--ink); border: 1px solid var(--line); color: var(--text-dim); padding: 8px 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: .85rem; cursor: pointer; border-radius: 0; display: flex; align-items: center; gap: 8px; transition: background .15s, color .15s; }
+    .cat-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--line-strong); }
+    .cat-btn.active { background: var(--text); color: var(--ink); border-color: var(--text); font-weight: 600; }
+    .cat-count { background: var(--surface-2); color: var(--text-dim); padding: 2px 6px; font-size: .7rem; font-family: 'IBM Plex Mono', monospace; border: 1px solid var(--line); }
+    .cat-btn.active .cat-count { background: var(--ink); color: var(--text); border-color: transparent; }
 
-    .search-box{position:relative;flex:1;min-width:260px;}
-    .search-box svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:var(--text-mute);}
-    .search-input{width:100%;background:var(--ink);border:1px solid var(--line-strong);color:var(--text);padding:12px 16px 12px 42px;font-family:'IBM Plex Sans',sans-serif;font-size:.95rem;outline:none;border-radius:0;}
-    .search-input:focus{border-color:var(--signal);}
+    .cmd-list { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .cmd-item { background: var(--surface); }
 
-    .type-filter{background:var(--ink);border:1px solid var(--line-strong);color:var(--text);padding:12px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:.95rem;outline:none;border-radius:0;cursor:pointer;min-width:180px;}
-    .type-filter:focus{border-color:var(--signal);}
+    .cmd-header { display: flex; align-items: center; justify-content: space-between; }
+    .cmd-toggle { background: none; border: none; color: inherit; font: inherit; text-align: left; cursor: pointer; flex: 1; display: flex; align-items: center; padding: 18px 24px; margin: 0; }
+    .cmd-toggle:hover { background: var(--surface-2); }
+    .cmd-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
+    .cmd-title-wrap { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .cmd-name { font-family: 'IBM Plex Mono', monospace; font-size: 1.05rem; font-weight: 600; color: var(--text); }
+    .cmd-cat-tag { font-size: .72rem; font-family: 'IBM Plex Mono', monospace; color: var(--text-mute); border: 1px solid var(--line); padding: 2px 6px; text-transform: uppercase; }
 
-    .category-row{display:flex;flex-wrap:wrap;gap:8px;}
-    .cat-btn{background:var(--ink);border:1px solid var(--line);color:var(--text-dim);padding:8px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;cursor:pointer;border-radius:0;display:flex;align-items:center;gap:8px;}
-    .cat-btn:hover{background:var(--surface-2);color:var(--text);border-color:var(--line-strong);}
-    .cat-btn.active{background:var(--text);color:var(--ink);border-color:var(--text);font-weight:600;}
-    .cat-count{background:var(--surface-2);color:var(--text-dim);padding:2px 6px;font-size:.7rem;font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);}
-    .cat-btn.active .cat-count{background:var(--ink);color:var(--text);border-color:transparent;}
+    .cmd-copy { background: transparent; border: 1px solid var(--line-strong); color: var(--text-dim); padding: 6px 12px; margin-right: 24px; font-family: 'IBM Plex Sans', sans-serif; font-size: .8rem; cursor: pointer; border-radius: 0; display: flex; align-items: center; gap: 6px; flex-shrink: 0; transition: background .15s; }
+    .cmd-copy:hover { background: var(--ink); color: var(--text); border-color: var(--text-dim); }
+    .cmd-copy:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+    .cmd-copy.success { background: var(--signal-wash); color: var(--signal); border-color: var(--signal); }
 
-    .cmd-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
-    .cmd-item{background:var(--surface);}
+    .cmd-details { padding: 0 24px 24px; border-top: 1px solid var(--line); background: var(--ink); }
+    .cmd-details[hidden] { display: none; }
+    .cmd-item.expanded .cmd-header { background: var(--surface-2); border-bottom: 1px solid var(--line); }
 
-    .cmd-header{display:flex;align-items:center;justify-content:space-between;}
-    .cmd-toggle{background:none;border:none;color:inherit;font:inherit;text-align:left;cursor:pointer;flex:1;display:flex;align-items:center;padding:18px 24px;margin:0;}
-    .cmd-toggle:hover{background:var(--surface-2);}
-    .cmd-toggle:focus-visible{outline:2px solid var(--signal);outline-offset:-2px;}
-    .cmd-title-wrap{display:flex;align-items:center;gap:16px;}
-    .cmd-name{font-family:'IBM Plex Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--text);}
-    .cmd-cat-tag{font-size:.72rem;font-family:'IBM Plex Mono',monospace;color:var(--text-mute);border:1px solid var(--line);padding:2px 6px;}
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+    .detail-block h4 { font-size: .72rem; font-family: 'IBM Plex Mono', monospace; color: var(--text-mute); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-block p { font-size: .95rem; color: var(--text-dim); line-height: 1.6; }
 
-    .cmd-copy{background:transparent;border:1px solid var(--line-strong);color:var(--text-dim);padding:6px 12px;margin-right:24px;font-family:'IBM Plex Sans',sans-serif;font-size:.8rem;cursor:pointer;border-radius:0;display:flex;align-items:center;gap:6px;flex-shrink:0;}
-    .cmd-copy:hover{background:var(--ink);color:var(--text);border-color:var(--text-dim);}
-    .cmd-copy:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
-    .cmd-copy.success{background:var(--signal-wash);color:var(--signal);border-color:var(--signal);}
+    .code-block { background: var(--surface); border: 1px solid var(--line); padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: .85rem; color: var(--text); display: inline-block; margin-top: 4px; word-break: break-all; }
 
-    .cmd-details{padding:0 24px 24px;border-top:1px solid var(--line);background:var(--ink);}
-    .cmd-details[hidden]{display:none;}
-    .cmd-item.expanded .cmd-header{background:var(--surface-2);border-bottom:1px solid var(--line);}
+    .opt-tag { display: inline-block; background: var(--surface); border: 1px solid var(--line); padding: 4px 8px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: var(--text-dim); margin: 0 6px 6px 0; }
+    .opt-req { border-left: 2px solid var(--signal); color: var(--text); }
 
-    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;}
-    .detail-block h4{font-size:.72rem;font-family:'IBM Plex Mono',monospace;color:var(--text-mute);margin-bottom:8px;}
-    .detail-block p{font-size:.95rem;color:var(--text-dim);line-height:1.6;}
+    .no-results { padding: 48px 24px; text-align: center; background: var(--surface); border: 1px solid var(--line); color: var(--text-dim); font-size: 1rem; display: none; }
+    .no-results p { margin-bottom: 16px; }
+    .no-results button { font-size: .85rem; padding: 10px 18px; }
 
-    .code-block{background:var(--surface);border:1px solid var(--line);padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);display:inline-block;margin-top:4px;}
-
-    .opt-tag{display:inline-block;background:var(--surface);border:1px solid var(--line);padding:4px 8px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text-dim);margin:0 6px 6px 0;}
-    .opt-req{border-left:2px solid var(--signal);color:var(--text);}
-
-    .no-results{padding:48px;text-align:center;background:var(--surface);color:var(--text-dim);font-size:1.1rem;display:none;}
-
-    /* FOOTER GLOBAL */
-    footer{border-top:1px solid var(--line);background:var(--ink);}
-    .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{display:flex;align-items:center;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
-    .footer-logo img{width:48px;height:48px;object-fit:cover;display:block;}
-    .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
-    .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
-    .footer-section{display:flex;flex-direction:column;gap:12px;}
-    .footer-section a{font-size:.9rem;color:var(--text-dim);text-decoration:none;}
-    .footer-section a:hover{color:var(--text);text-decoration:underline;}
-    .footer-bottom{border-top:1px solid var(--line);padding-top:24px;font-size:.85rem;color:var(--text-mute);}
-
-    a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
-
-    @media (max-width:920px){
-      .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
-      .footer-inner{padding:50px 32px 30px;}
-    }
-    @media (max-width:768px){
-      nav{padding:12px 24px;}
-      .menu-toggle{display:inline-flex;}
-      .nav-links{display:none;position:absolute;top:75px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
-      .nav-links.is-open{display:flex;}
-
-      main{padding:32px 24px 80px;}
-      .search-row{flex-direction:column;}
-      .type-filter{width:100%;}
-      .detail-grid{grid-template-columns:1fr;}
-      .cmd-header{flex-direction:column;align-items:flex-start;}
-      .cmd-toggle{width:100%;padding:18px 24px 8px;}
-      .cmd-copy{align-self:flex-start;margin:0 0 16px 24px;}
-      .footer-grid{grid-template-columns:1fr;gap:32px;}
-      .footer-inner{padding:40px 24px 24px;}
+    @media (max-width: 768px) {
+      main { padding: 32px 24px 80px; }
+      .search-row { flex-direction: column; }
+      .type-filter { width: 100%; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .cmd-header { flex-direction: column; align-items: flex-start; }
+      .cmd-toggle { width: 100%; padding: 18px 24px 8px; }
+      .cmd-copy { align-self: flex-start; margin: 0 0 16px 24px; }
     }
   </style>
 </head>
@@ -151,11 +101,11 @@
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-512x512.png" alt="RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="/commands">Comandos</a></li>
+      <li><a href="/commands" aria-current="page">Comandos</a></li>
       <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
       <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
@@ -165,14 +115,14 @@
   <main id="contenido">
     <div class="page-header">
       <h1>Comandos</h1>
-      <p>Encuentra toda la lista de comandos disponibles del bot. Explora las utilidades y herramientas de administración.</p>
+      <p>Encuentra toda la lista de comandos disponibles de RedBot. Explora las utilidades, herramientas de administración y opciones de IA.</p>
     </div>
 
     <div class="controls">
       <div class="search-row">
         <div class="search-box">
           <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre, descripción o alias..." aria-label="Buscar comandos">
+          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por comando, nombre, alias, función (ej. .ban, /ping)..." aria-label="Buscar comandos">
         </div>
         <select id="typeFilter" class="type-filter" aria-label="Filtrar por tipo de comando">
           <option value="todos">Todos los tipos</option>
@@ -181,27 +131,29 @@
         </select>
       </div>
 
-      <div class="category-row" id="categoryRow">
-        </div>
+      <div class="category-row" id="categoryRow"></div>
     </div>
 
-    <div class="cmd-list" id="commandList">
-      </div>
+    <div class="cmd-list" id="commandList"></div>
     <div class="no-results" id="noResults">
-      No existe ese comando.
+      <p id="noResultsText">No se encontraron comandos coincidentes.</p>
+      <button type="button" class="btn btn-secondary" id="resetFiltersBtn" style="display: none;" onclick="resetToAllCategories()">
+        Buscar en todas las categorías
+      </button>
     </div>
-
   </main>
 
   <footer>
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RB"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
+          <a href="/">Inicio</a>
+          <a href="/commands" aria-current="page">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
         </div>
@@ -218,28 +170,28 @@
     </div>
   </footer>
 
+  <script src="/main.js"></script>
   <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    if (menuToggle && navLinks) {
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('is-open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-      });
-      document.querySelectorAll('#nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('is-open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-        });
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
-          navLinks.classList.remove('is-open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    }
+    // Configuración API en vivo
+    const REDBOT_API_CONFIG = {
+      url: "https://redbot.hidenplay.net",
+      key: ""
+    };
 
+    // Diccionario de nombres legibles de categorías
+    const CATEGORY_LABELS = {
+      todos: "Todos",
+      ayuda: "Ayuda",
+      utilidad: "Utilidad",
+      usuario: "Usuario",
+      moderacion: "Moderación",
+      servidor: "Servidor",
+      roles: "Roles",
+      canal: "Canal",
+      diversion: "Diversión"
+    };
+
+    // Comandos precargados (con Easter Egg en categoría admin)
     const rawCommands = [
       { name: "ask", cat: "utilidad", options: "pregunta (optional?=false)", aliases: "ia, ai", desc: "Hazle una pregunta a la IA", example: ".ask cuando te apagan" },
       { name: "help", cat: "ayuda", options: "ninguna", aliases: "ninguno", desc: "Muestra la lista de comandos disponibles", example: ".help" },
@@ -316,34 +268,18 @@
       { name: "/fun roast", cat: "diversion", options: "usuario (optional?=true)", aliases: "quemar, burn", desc: "Critica despiadadamente a un usuario", example: ".roast @usuario" },
       { name: "/fun lol", cat: "diversion", options: "ninguna", aliases: "ninguno", desc: "Responde con un emoji random", example: ".lol" },
 
+      // Huevo de pascua (categoría admin no se lista como botón pero se mantiene en código)
       { name: "comandointervalosupersecretokjj", cat: "admin", options: "ninguna", aliases: "ninguno", desc: "rota foto con emoji 15min", example: ".comandointervalosupersecretokjj", forcePrefixOnly: true }
     ];
 
     function mapCommands(rawList) {
       return rawList.map((cmd, i) => {
-        let types = [];
-        if (cmd.forcePrefixOnly) {
-          types.push('prefijo');
-        } else {
-          types = ['slash', 'prefijo'];
-        }
+        let types = cmd.forcePrefixOnly ? ['prefijo'] : ['slash', 'prefijo'];
         return { ...cmd, types, uid: `cmd-${i}` };
       });
     }
 
     let commands = mapCommands(rawCommands);
-
-    const categories = [
-      { id: 'todos', label: 'Todos' },
-      { id: 'ayuda', label: 'Ayuda' },
-      { id: 'utilidad', label: 'Utilidad' },
-      { id: 'usuario', label: 'Usuario' },
-      { id: 'moderacion', label: 'Moderación' },
-      { id: 'servidor', label: 'Servidor' },
-      { id: 'roles', label: 'Roles' },
-      { id: 'canal', label: 'Canal' },
-      { id: 'diversion', label: 'Diversión' }
-    ];
 
     let currentSearch = "";
     let currentType = "todos";
@@ -354,40 +290,102 @@
     const searchInput = document.getElementById('searchInput');
     const typeFilter = document.getElementById('typeFilter');
     const noResults = document.getElementById('noResults');
+    const noResultsText = document.getElementById('noResultsText');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
 
-    // Procesar parámetros URL en carga inicial
+    // Extraer categoría inicial de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const catParam = urlParams.get('cat');
-    if (catParam && categories.some(c => c.id === catParam)) {
+    if (catParam) {
       currentCategory = catParam;
     }
 
+    // Obtener lista única de categorías disponibles
+    function getCategoriesList() {
+      const catsSet = new Set();
+      commands.forEach(c => {
+        if (c.cat && c.cat !== 'admin') {
+          catsSet.add(c.cat);
+        }
+      });
+      const order = ['ayuda', 'utilidad', 'usuario', 'moderacion', 'servidor', 'roles', 'canal', 'diversion'];
+      const sorted = Array.from(catsSet).sort((a, b) => {
+        const idxA = order.indexOf(a);
+        const idxB = order.indexOf(b);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return a.localeCompare(b);
+      });
+
+      return [
+        { id: 'todos', label: 'Todos' },
+        ...sorted.map(id => ({
+          id,
+          label: CATEGORY_LABELS[id] || (id.charAt(0).toUpperCase() + id.slice(1))
+        }))
+      ];
+    }
+
     function renderCategories() {
+      const cats = getCategoriesList();
       categoryRow.innerHTML = '';
-      categories.forEach(cat => {
+
+      cats.forEach(cat => {
         const count = cat.id === 'todos'
           ? commands.filter(c => c.cat !== 'admin').length
           : commands.filter(c => c.cat === cat.id).length;
 
         const btn = document.createElement('button');
         btn.type = 'button';
+        btn.id = `cat-btn-${cat.id}`;
         btn.className = `cat-btn ${currentCategory === cat.id ? 'active' : ''}`;
         btn.setAttribute('aria-pressed', String(currentCategory === cat.id));
-        btn.innerHTML = `${cat.label} <span class="cat-count">${count}</span>`;
-        btn.onclick = () => {
-          currentCategory = cat.id;
-          window.history.pushState({}, '', `/commands${cat.id !== 'todos' ? '?cat=' + cat.id : ''}`);
-          renderCategories();
-          applyFilters();
-        };
+        btn.innerHTML = `${escapeHTML(cat.label)} <span class="cat-count">${count}</span>`;
+        btn.onclick = () => selectCategory(cat.id);
         categoryRow.appendChild(btn);
       });
     }
 
+    function selectCategory(catId) {
+      currentCategory = catId;
+
+      // Actualizar estado visual de los botones sin destruir el DOM
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
+      const activeBtn = document.getElementById(`cat-btn-${catId}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.setAttribute('aria-pressed', 'true');
+      }
+
+      // Actualizar URL de forma segura sin congelar en entornos locales (file://)
+      try {
+        if (window.location.protocol.startsWith('http')) {
+          const newPath = catId !== 'todos' ? `/commands?cat=${encodeURIComponent(catId)}` : '/commands';
+          window.history.pushState({}, '', newPath);
+        }
+      } catch (e) {
+        // Ignorar excepciones de seguridad en orígenes restringidos
+      }
+
+      applyFilters();
+    }
+
+    function resetToAllCategories() {
+      selectCategory('todos');
+    }
+
     function escapeHTML(str) {
-      const d = document.createElement('div');
-      d.textContent = str;
-      return d.innerHTML;
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
     function formatOptions(optionsString) {
@@ -400,16 +398,15 @@
       }).join('');
     }
 
-    // Toggle de comandos - Cierra el anterior antes de abrir
     function toggleCommand(uid) {
       commands.forEach(cmd => {
-        if(cmd.uid !== uid) {
+        if (cmd.uid !== uid) {
           const otherItem = document.getElementById(`item-${cmd.uid}`);
-          if(otherItem && otherItem.classList.contains('expanded')) {
+          if (otherItem && otherItem.classList.contains('expanded')) {
             const otherBtn = document.getElementById(`toggle-${cmd.uid}`);
             const otherDetails = document.getElementById(`details-${cmd.uid}`);
-            otherBtn.setAttribute('aria-expanded', 'false');
-            otherDetails.hidden = true;
+            if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+            if (otherDetails) otherDetails.hidden = true;
             otherItem.classList.remove('expanded');
           }
         }
@@ -418,11 +415,78 @@
       const item = document.getElementById(`item-${uid}`);
       const toggleBtn = document.getElementById(`toggle-${uid}`);
       const details = document.getElementById(`details-${uid}`);
-      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      if (!item || !toggleBtn || !details) return;
 
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
       toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
       details.hidden = isExpanded;
       item.classList.toggle('expanded', !isExpanded);
+    }
+
+    function copyCommand(event, btnElement) {
+      event.stopPropagation();
+      const text = btnElement.getAttribute('data-copy') || '';
+
+      const onCopied = () => {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado`;
+        btnElement.classList.add('success');
+        setTimeout(() => {
+          btnElement.innerHTML = originalHtml;
+          btnElement.classList.remove('success');
+        }, 2000);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onCopied).catch(() => fallbackCopy(text, onCopied));
+      } else {
+        fallbackCopy(text, onCopied);
+      }
+    }
+
+    function fallbackCopy(text, callback) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        callback();
+      } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    // Comprobador inteligente de coincidencia de búsqueda
+    function matchesSearch(cmd, query) {
+      if (!query) return true;
+      const rawQ = query.toLowerCase().trim();
+      if (rawQ === "") return true;
+
+      // Consulta sin prefijo (. /)
+      const cleanQ = rawQ.replace(/^[./]+/, '').trim();
+
+      // Objetivos en los que buscar
+      const targets = [
+        cmd.name.toLowerCase(),
+        cmd.name.toLowerCase().replace(/^[./]+/, ''),
+        (cmd.desc || '').toLowerCase(),
+        (cmd.aliases || '').toLowerCase(),
+        (cmd.example || '').toLowerCase(),
+        (cmd.cat || '').toLowerCase()
+      ];
+
+      // Segmentos individuales del comando (ej. "mod", "ban" para "/mod ban")
+      const nameParts = cmd.name.toLowerCase().replace(/^[./]+/, '').split(/\s+/);
+      targets.push(...nameParts);
+
+      if (cmd.example) {
+        const exParts = cmd.example.toLowerCase().replace(/^[./]+/, '').split(/\s+/);
+        targets.push(...exParts);
+      }
+
+      return targets.some(target => target.includes(rawQ) || (cleanQ !== "" && target.includes(cleanQ)));
     }
 
     function renderCommands(filteredCommands) {
@@ -431,26 +495,34 @@
       if (filteredCommands.length === 0) {
         commandList.style.display = 'none';
         noResults.style.display = 'block';
+
+        if (currentCategory !== 'todos' && currentSearch.trim() !== '') {
+          const currentLabel = CATEGORY_LABELS[currentCategory] || currentCategory;
+          noResultsText.textContent = `No hay comandos coincidentes con "${currentSearch}" en la categoría ${currentLabel}.`;
+          resetFiltersBtn.style.display = 'inline-block';
+        } else {
+          noResultsText.textContent = 'No se encontraron comandos coincidentes.';
+          resetFiltersBtn.style.display = 'none';
+        }
         return;
       }
 
       commandList.style.display = 'flex';
       noResults.style.display = 'none';
 
-      filteredCommands.forEach((cmd) => {
-        // Conversión visual a prefix si corresponde
+      filteredCommands.forEach(cmd => {
         let displayName = cmd.name;
         if (currentType === 'prefijo') {
-            if (displayName.startsWith('/')) {
-                const parts = displayName.split(' ');
-                displayName = parts.length > 1 ? '.' + parts.slice(1).join(' ') : '.' + displayName.substring(1);
-            } else if (!displayName.startsWith('.')) {
-                displayName = '.' + displayName;
-            }
+          if (displayName.startsWith('/')) {
+            const parts = displayName.split(' ');
+            displayName = parts.length > 1 ? '.' + parts.slice(1).join(' ') : '.' + displayName.substring(1);
+          } else if (!displayName.startsWith('.')) {
+            displayName = '.' + displayName;
+          }
         }
 
         const safeDisplayName = escapeHTML(displayName);
-        const safeCat = escapeHTML(cmd.cat);
+        const safeCat = escapeHTML(CATEGORY_LABELS[cmd.cat] || cmd.cat);
         const safeDesc = escapeHTML(cmd.desc);
         const safeExample = escapeHTML(cmd.example);
         const safeAliases = escapeHTML(cmd.aliases);
@@ -497,40 +569,29 @@
     }
 
     function applyFilters() {
+      const isEasterEggSearch = currentSearch.toLowerCase().includes('comandointervalo');
+
       const filtered = commands.filter(cmd => {
-        const matchCategory = currentCategory === 'todos'
-          ? (cmd.cat !== 'admin' || currentSearch.toLowerCase().includes('comandointervalo'))
-          : cmd.cat === currentCategory;
+        // Huevo de pascua: oculto salvo búsqueda explícita
+        if (cmd.cat === 'admin' && !isEasterEggSearch) {
+          return false;
+        }
 
-        const matchType = currentType === 'todos'
-          ? true
-          : cmd.types.includes(currentType);
+        // Filtro de categoría
+        if (currentCategory !== 'todos' && cmd.cat !== currentCategory) {
+          return false;
+        }
 
-        const query = currentSearch.toLowerCase();
-        const matchSearch = query === "" ||
-                            cmd.name.toLowerCase().includes(query) ||
-                            cmd.desc.toLowerCase().includes(query) ||
-                            cmd.aliases.toLowerCase().includes(query);
+        // Filtro de tipo (/ o .)
+        if (currentType !== 'todos' && !cmd.types.includes(currentType)) {
+          return false;
+        }
 
-        return matchCategory && matchType && matchSearch;
+        // Búsqueda inteligente
+        return matchesSearch(cmd, currentSearch);
       });
 
       renderCommands(filtered);
-    }
-
-    function copyCommand(event, btnElement) {
-      event.stopPropagation();
-      const text = btnElement.getAttribute('data-copy') || '';
-      navigator.clipboard.writeText(text).then(() => {
-        const originalHtml = btnElement.innerHTML;
-        btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado`;
-        btnElement.classList.add('success');
-
-        setTimeout(() => {
-          btnElement.innerHTML = originalHtml;
-          btnElement.classList.remove('success');
-        }, 2000);
-      });
     }
 
     searchInput.addEventListener('input', (e) => {
@@ -543,14 +604,17 @@
       applyFilters();
     });
 
+    // Atajo rápido de teclado: presionar '/' para enfocar buscador
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    // Carga inicial
     renderCategories();
     applyFilters();
-
-    // Configuración de la API en vivo de RedBot
-    const REDBOT_API_CONFIG = {
-      url: "https://redbot.hidenplay.net", // Reverse proxy HTTPS de HidenCloud
-      key: ""                                 // Si configuraste API_KEY en el .env del bot, colócala aquí
-    };
 
     function parseOptionsFromUsage(usage) {
       if (!usage) return "ninguna";
@@ -563,6 +627,7 @@
       }).join(', ');
     }
 
+    // Sincronización en vivo con la API
     async function loadLiveCommands() {
       if (!REDBOT_API_CONFIG.url) return;
       try {
@@ -605,7 +670,7 @@
           }
         }
 
-        // Preservar comandos locales especiales (ej. ayuda, admin o secretos)
+        // Mantener comandos locales especiales (ej. ayuda, easter egg)
         const localSpecial = rawCommands.filter(c => c.cat === 'admin' || c.cat === 'ayuda' || c.forcePrefixOnly);
         for (const special of localSpecial) {
           if (!dynamicCommands.some(c => c.name === special.name)) {
@@ -619,7 +684,7 @@
           applyFilters();
         }
       } catch (e) {
-        // En caso de error o que la API no esté disponible, se mantienen los comandos precargados
+        // Fallback silencioso a los comandos precargados
       }
     }
 

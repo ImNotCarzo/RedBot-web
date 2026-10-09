@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RedBot</title>
+  <title>RedBot - Administra tu servidor con total facilidad</title>
   <meta name="description" content="Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.">
   <meta name="theme-color" content="#ff383d">
   <link rel="canonical" href="https://redbot.me/">
@@ -42,169 +42,92 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
   <style>
-    :root{
-      --ink:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a;
-      --line:#333333; --line-strong:#555555;
-      --text:#e0e0e0; --text-dim:#999999; --text-mute:#666666;
-      --signal:#c9302c; --signal-deep:#a02622;
-    }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:auto;}
-    body{font-family:'IBM Plex Sans',sans-serif;background:var(--ink);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;}
-    h1,h2,h3{font-weight:700;}
-    .mono{font-family:'IBM Plex Mono',monospace;}
-
-    .skip-link{position:absolute;left:-9999px;top:0;background:var(--signal);color:#fff;padding:10px 16px;z-index:300;text-decoration:none;font-size:.85rem;}
-    .skip-link:focus-visible{left:12px;top:12px;}
-
-    /* NAV GLOBAL */
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 48px;background:var(--ink);border-bottom:1px solid var(--line);}
-    .nav-logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;color:var(--text);text-decoration:none;}
-    .nav-logo img{width:50px;height:50px;object-fit:cover;display:block;}
-    .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
-    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:500;}
-    .nav-links a:hover{color:var(--text);}
-    .nav-cta{padding:9px 18px;background:var(--signal) !important;color:#fff !important;font-weight:600 !important;border:none;}
-    .nav-cta:hover{background:var(--signal-deep) !important;}
-    .menu-toggle{display:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);padding:8px 12px;font-size:.85rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
-
-    main{max-width:1180px;margin:0 auto;}
+    main { max-width: 1180px; margin: 0 auto; }
 
     /* HERO */
-    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:100px 48px 110px;}
-    .hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:.92rem;color:var(--text-dim);font-weight:500;margin-bottom:22px;}
-    .hero-kicker strong{color:var(--signal);font-weight:700;}
-    h1{font-size:clamp(2.5rem,4.6vw,3.8rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:24px;color:var(--text);}
-    .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.75;max-width:480px;margin-bottom:40px;}
-    .cta-row{display:flex;gap:16px;flex-wrap:wrap;}
-    .btn{display:inline-flex;align-items:center;padding:14px 24px;font-size:.95rem;font-weight:600;text-decoration:none;font-family:'IBM Plex Sans',sans-serif;}
-    .btn-primary{background:var(--signal);color:#fff;}
-    .btn-primary:hover{background:var(--signal-deep);}
-    .btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--line-strong);}
-    .btn-secondary:hover{background:var(--surface-2);border-color:var(--text-dim);}
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding: 100px 48px 110px; }
+    .hero-kicker { display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: .92rem; color: var(--text-dim); font-weight: 500; margin-bottom: 22px; }
+    .hero-kicker strong { color: var(--signal); font-weight: 700; }
+    .hero-grid h1 { font-size: clamp(2.5rem, 4.6vw, 3.8rem); letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 24px; color: var(--text); }
+    .hero-desc { font-size: 1.05rem; color: var(--text-dim); line-height: 1.75; max-width: 480px; margin-bottom: 40px; }
+    .cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
 
     /* DEMO */
-    .demo{background:var(--surface);border:1px solid var(--line);border-radius:0;}
-    .demo-body{padding:24px 20px;display:flex;flex-direction:column;gap:22px;}
-    .demo-msg{display:flex;gap:14px;}
-    .demo-avatar{width:36px;height:36px;border-radius:0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;overflow:hidden;}
-    .demo-avatar.user{background:#444;}
-    .demo-avatar.bot{background:var(--signal);}
-    .demo-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
-    .demo-top{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
-    .demo-name{font-weight:700;font-size:.9rem;color:var(--text);}
-    .demo-tag{font-size:.65rem;background:var(--text);color:var(--ink);padding:2px 6px;font-weight:700;letter-spacing:0.5px;border-radius:0;}
-    .demo-mention{font-size:.85rem;background:var(--text);color:var(--ink);padding:1px 6px;font-weight:600;display:inline-block;line-height:1.2;}
-    .demo-time{font-size:.75rem;color:var(--text-mute);}
-    .demo-cmd{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text);}
-    .demo-reply{margin-top:6px;background:var(--ink);border-left:3px solid var(--signal);padding:12px 14px;font-size:.9rem;color:var(--text-dim);line-height:1.6;}
-    .demo-reply strong{color:var(--text);font-weight:600;}
+    .demo { background: var(--surface); border: 1px solid var(--line); border-radius: 0; }
+    .demo-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 22px; }
+    .demo-msg { display: flex; gap: 14px; }
+    .demo-avatar { width: 36px; height: 36px; border-radius: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; color: #fff; overflow: hidden; }
+    .demo-avatar.user { background: #444; }
+    .demo-avatar.bot { background: var(--signal); }
+    .demo-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .demo-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+    .demo-name { font-weight: 700; font-size: .9rem; color: var(--text); }
+    .demo-tag { font-size: .65rem; background: var(--text); color: var(--ink); padding: 2px 6px; font-weight: 700; letter-spacing: 0.5px; border-radius: 0; }
+    .demo-mention { font-size: .85rem; background: var(--text); color: var(--ink); padding: 1px 6px; font-weight: 600; display: inline-block; line-height: 1.2; }
+    .demo-time { font-size: .75rem; color: var(--text-mute); }
+    .demo-cmd { font-family: 'IBM Plex Mono', monospace; font-size: .85rem; color: var(--text); }
+    .demo-reply { margin-top: 6px; background: var(--ink); border-left: 3px solid var(--signal); padding: 12px 14px; font-size: .9rem; color: var(--text-dim); line-height: 1.6; }
+    .demo-reply strong { color: var(--text); font-weight: 600; }
 
     /* STATS */
-    .stats{display:flex;flex-wrap:wrap;border:1px solid var(--line);background:var(--surface);margin:0 48px 100px;border-radius:0;}
-    .stat{flex:1;min-width:130px;padding:28px 24px;text-align:center;border-right:1px solid var(--line);}
-    .stat:last-child{border-right:none;}
-    .stat-num{font-weight:700;font-size:1.8rem;color:var(--text);display:block;letter-spacing:-1px;}
-    .stat-label{font-size:.75rem;color:var(--text-dim);margin-top:8px;text-transform:uppercase;letter-spacing:1px;}
+    .stats { display: flex; flex-wrap: wrap; border: 1px solid var(--line); background: var(--surface); margin: 0 48px 100px; border-radius: 0; }
+    .stat { flex: 1; min-width: 130px; padding: 28px 24px; text-align: center; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-weight: 700; font-size: 1.8rem; color: var(--text); display: block; letter-spacing: -1px; }
+    .stat-label { font-size: .75rem; color: var(--text-dim); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* SECTIONS */
-    .section{padding:0 48px 110px;}
-    .section-head{margin-bottom:48px;max-width:620px;}
-    .section-head h2{font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:-1px;margin-bottom:14px;}
-    .section-head p{color:var(--text-dim);font-size:1rem;line-height:1.6;}
+    /* SECCIONES */
+    .section { padding: 0 48px 110px; }
+    .section-head { margin-bottom: 48px; max-width: 620px; }
+    .section-head h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); letter-spacing: -1px; margin-bottom: 14px; }
+    .section-head p { color: var(--text-dim); font-size: 1rem; line-height: 1.6; }
 
-    /* FEATURES */
-    .feature-list{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);}
-    .feature-item{padding:34px 34px 34px 0;border-bottom:1px solid var(--line);}
-    .feature-item:nth-child(odd){padding-right:40px;border-right:1px solid var(--line);}
-    .feature-item:nth-child(even){padding-left:40px;padding-right:0;}
-    .feature-item h3{font-size:1.1rem;margin-bottom:12px;color:var(--text);}
-    .feature-item p{font-size:.95rem;color:var(--text-dim);line-height:1.65;}
+    /* CARACTERISTICAS */
+    .feature-list { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+    .feature-item { padding: 34px 34px 34px 0; border-bottom: 1px solid var(--line); }
+    .feature-item:nth-child(odd) { padding-right: 40px; border-right: 1px solid var(--line); }
+    .feature-item:nth-child(even) { padding-left: 40px; padding-right: 0; }
+    .feature-item h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--text); }
+    .feature-item p { font-size: .95rem; color: var(--text-dim); line-height: 1.65; }
 
-    /* DIRECTORIO DE COMANDOS (Tarjetas Cliqueables) */
-    .cmd-categories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
-    .cat-card{background:var(--surface);padding:24px 28px;text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:background .15s;}
-    .cat-card:hover{background:var(--surface-2);}
-    .cat-card-title{font-weight:700;color:var(--text);font-size:1.05rem;}
-    .cat-card-count{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-mute);}
-    .cmd-more{margin-top:32px;}
+    /* CATEGORIAS */
+    .cmd-categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .cat-card { background: var(--surface); padding: 24px 28px; text-decoration: none; display: flex; justify-content: space-between; align-items: center; transition: background .15s; }
+    .cat-card:hover { background: var(--surface-2); }
+    .cat-card-title { font-weight: 700; color: var(--text); font-size: 1.05rem; }
+    .cat-card-count { font-family: 'IBM Plex Mono', monospace; font-size: .75rem; color: var(--text-mute); }
+    .cmd-more { margin-top: 32px; }
 
     /* CTA FINAL */
-    .cta-final{text-align:center;padding:90px 48px 110px;border-top:1px solid var(--line);background:var(--surface);}
-    .cta-final h2{font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-1px;margin-bottom:18px;}
-    .cta-final p{color:var(--text-dim);margin-bottom:36px;font-size:1.1rem;}
+    .cta-final { text-align: center; padding: 90px 48px 110px; border-top: 1px solid var(--line); background: var(--surface); }
+    .cta-final h2 { font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -1px; margin-bottom: 18px; }
+    .cta-final p { color: var(--text-dim); margin-bottom: 36px; font-size: 1.1rem; }
 
-    /* FOOTER GLOBAL */
-    footer{border-top:1px solid var(--line);background:var(--ink);}
-    .footer-inner{max-width:1180px;margin:0 auto;padding:60px 48px 40px;}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:50px;}
-    .footer-logo{display:flex;align-items:center;font-weight:700;color:var(--text);font-size:1.2rem;margin-bottom:12px;}
-    .footer-logo img{width:48px;height:48px;object-fit:cover;display:block;}
-    .footer-desc{font-size:.9rem;color:var(--text-mute);line-height:1.6;max-width:260px;}
-    .footer-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;}
-    .footer-section{display:flex;flex-direction:column;gap:12px;}
-    .footer-section a{font-size:.9rem;color:var(--text-dim);text-decoration:none;}
-    .footer-section a:hover{color:var(--text);text-decoration:underline;}
-
-    a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
-
-    @media (max-width:920px){
-      .hero-grid{grid-template-columns:1fr;padding:70px 32px 80px;}
-      .stats{margin:0 32px 80px;}
-      .section{padding:0 32px 90px;}
-      .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
-      .footer-inner{padding:50px 32px 30px;}
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: 1fr; padding: 70px 32px 80px; }
+      .stats { margin: 0 32px 80px; }
+      .section { padding: 0 32px 90px; }
     }
-    @media (max-width:768px){
-      nav{padding:12px 24px;}
-      .menu-toggle{display:inline-flex;}
-      .nav-links{display:none;position:absolute;top:75px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px;background:var(--ink);border-bottom:1px solid var(--line);}
-      .nav-links.is-open{display:flex;}
-      .hero-grid{padding:50px 24px 60px;}
-      .stats{flex-direction:column;margin:0 24px 64px;}
-      .stat{border-right:none;border-bottom:1px solid var(--line);}
-      .stat:last-child{border-bottom:none;}
-      .section{padding:0 24px 72px;}
-      .feature-list{grid-template-columns:1fr;}
-      .feature-item:nth-child(odd){border-right:none;padding-right:0;}
-      .feature-item:nth-child(even){padding-left:0;}
-      .footer-grid{grid-template-columns:1fr;gap:32px;}
-      .footer-inner{padding:40px 24px 24px;}
+    @media (max-width: 768px) {
+      .hero-grid { padding: 50px 24px 60px; }
+      .stats { flex-direction: column; margin: 0 24px 64px; }
+      .stat { border-right: none; border-bottom: 1px solid var(--line); }
+      .stat:last-child { border-bottom: none; }
+      .section { padding: 0 24px 72px; }
+      .feature-list { grid-template-columns: 1fr; }
+      .feature-item:nth-child(odd) { border-right: none; padding-right: 0; }
+      .feature-item:nth-child(even) { padding-left: 0; }
     }
   </style>
-  <script>
-    async function loadDemoAvatars() {
-      const userId = "668550027307909162";
-      try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-        const json = await res.json();
-        if (json.success) {
-          const { discord_user } = json.data;
-          const fallbackIndex = Number((BigInt(userId) >> 22n) % 6n);
-          const avatarUrl = discord_user.avatar
-            ? `https://cdn.discordapp.com/avatars/${userId}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
-            : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`;
-          if (avatarUrl.startsWith('https://cdn.discordapp.com/')) {
-            document.querySelectorAll('.api-user-avatar').forEach(img => {
-              img.src = avatarUrl;
-              img.style.display = 'block';
-              img.parentElement.style.background = 'transparent';
-            });
-          }
-        }
-      } catch (e) {
-        console.error("No se pudo cargar el avatar de Lanyard para la demo.", e);
-      }
-    }
-    loadDemoAvatars();
-  </script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-512x512.png" alt="RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -287,7 +210,7 @@
         </div>
         <div class="feature-item">
           <h3>Autosuficiencia</h3>
-          <p>Sus comandos abarcan una amplia gama de campos.</p>
+          <p>Sus comandos abarcan una amplia gama de campos sin requerir plugins externos.</p>
         </div>
       </div>
     </section>
@@ -347,11 +270,13 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-512x512.png" alt="RB"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
           <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
+          <a href="/">Inicio</a>
+          <a href="/commands">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
         </div>
@@ -368,30 +293,12 @@
     </div>
   </footer>
 
+  <script src="/main.js"></script>
   <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('is-open');
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-    document.querySelectorAll('#nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('is-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
-        navLinks.classList.remove('is-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-
     // Configuración de la API en vivo de RedBot
     const REDBOT_API_CONFIG = {
-      url: "https://redbot.hidenplay.net", // Reverse proxy HTTPS de HidenCloud
-      key: ""                                 // Si configuraste API_KEY en el .env del bot, colócala aquí
+      url: "https://redbot.hidenplay.net",
+      key: ""
     };
 
     async function loadLiveStats() {
@@ -434,10 +341,41 @@
           if (commandsEl) commandsEl.textContent = `${data.commands.total}`;
         }
       } catch (e) {
-        // En caso de que la API esté apagada o inaccesible, se mantienen los valores estáticos precargados
+        // En caso de fallo se mantienen los valores estáticos precargados
       }
     }
-    loadLiveStats();
+
+    async function loadDemoAvatars() {
+      const userId = "668550027307909162";
+      try {
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+        const json = await res.json();
+        if (json.success) {
+          const { discord_user } = json.data;
+          const fallbackIndex = Number((BigInt(userId) >> 22n) % 6n);
+          const avatarUrl = discord_user.avatar
+            ? `https://cdn.discordapp.com/avatars/${userId}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
+            : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`;
+          if (avatarUrl.startsWith('https://cdn.discordapp.com/')) {
+            document.querySelectorAll('.api-user-avatar').forEach(img => {
+              img.src = avatarUrl;
+              img.style.display = 'block';
+              if (img.parentElement) {
+                img.parentElement.style.background = 'transparent';
+              }
+            });
+          }
+        }
+      } catch (e) {
+        // Fallback silencioso
+      }
+    }
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+      loadLiveStats();
+      loadDemoAvatars();
+    });
   </script>
 </body>
 </html>
