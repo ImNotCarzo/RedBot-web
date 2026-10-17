@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot de Inteligencia Artificial para Discord - RedBot</title>
+  <meta name="description" content="Añade IA avanzada a tu servidor de Discord: chat conversacional con memoria (.ask), visión computacional (.describe), transcripción de notas de voz (.transcribe) y traducción.">
+  <meta name="keywords" content="bot de inteligencia artificial discord, chatgpt discord bot gratis, transcribir audios discord bot, bot vision imagenes discord, redbot ia">
+  <meta name="theme-color" content="#ff383d">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://redbot.me/ia">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <meta property="og:title" content="Bot de Inteligencia Artificial para Discord - RedBot">
+  <meta property="og:description" content="Chat con memoria, análisis de imágenes y transcripción de voz sin costo en tu servidor de Discord.">
+  <meta property="og:image" content="https://redbot.me/redbot.png">
+  <meta property="og:url" content="https://redbot.me/ia">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bot de Inteligencia Artificial para Discord - RedBot">
+  <meta name="twitter:description" content="Chat, visión, transcripción y traducción con IA en Discord 100% gratis.">
+  <meta name="twitter:image" content="https://redbot.me/redbot.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RedBot IA",
+    "operatingSystem": "Discord",
+    "applicationCategory": "UtilitiesApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Suite de Inteligencia Artificial para Discord: respuestas contextuales, descripción de imágenes, transcripción de voz y traducción de idiomas."
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <nav>
+    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/commands">Comandos</a></li>
+      <li><a href="/vs">Comparativas</a></li>
+      <li><a href="/ia" aria-current="page">Inteligencia Artificial</a></li>
+      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="/tos">Términos</a></li>
+      <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header" id="contenido">
+    <p class="page-tag"><strong>Inteligencia Artificial</strong> · Sin suscripciones ni API Keys</p>
+    <h1 class="page-title">El poder de la IA en tu servidor de Discord</h1>
+    <p class="page-subtitle">Respuestas en tiempo real con memoria contextual, transcripción de audios de voz a texto y visión computacional para imágenes sin límites diarios.</p>
+  </header>
+
+  <main class="content">
+    <div class="cl">
+      <p class="cl-num">// 01 · CAPACIDADES MULTIMODALES</p>
+      <h2>¿Qué puede hacer la IA de RedBot?</h2>
+      <p>A diferencia de bots limitados a respuestas de texto simples, RedBot cuenta con una suite integral de procesamiento de lenguaje natural y visión artificial:</p>
+
+      <div class="alt-grid">
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag">Conversación</span>
+            <h3>Chat Contextual (.ask)</h3>
+            <p>Pregunta cualquier cosa. RedBot recuerda el contexto de la conversación previa dentro del hilo para ofrecer respuestas coherentes y continuas.</p>
+          </div>
+          <code>.ask [pregunta]</code>
+        </div>
+
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag">Audio & Voz</span>
+            <h3>Transcripción de Audio (.transcribe)</h3>
+            <p>Convierte notas de voz o archivos de video a texto inmediatamente. Ideal para leer audios cuando no puedes reproducir sonido.</p>
+          </div>
+          <code>.transcribe [archivo]</code>
+        </div>
+
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag">Visión por Computadora</span>
+            <h3>Descripción de Imágenes (.describe)</h3>
+            <p>Sube cualquier imagen o meme. La IA detallará los objetos, colores, textos y elementos presentes con precisión humana.</p>
+          </div>
+          <code>.describe &lt;imagen&gt;</code>
+        </div>
+
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag">Idiomas & Productividad</span>
+            <h3>Traductor y Resúmenes (.translate / .resume)</h3>
+            <p>Comunícate con comunidades globales traduciendo en vivo o sintetizando textos extensos en puntos clave.</p>
+          </div>
+          <code>.translate / .resume</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="cl">
+      <p class="cl-num">// 02 · COMPARATIVA DE IA EN DISCORD</p>
+      <h2>¿Por qué RedBot y no otros bots de IA?</h2>
+
+      <div class="table-responsive">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Función</th>
+              <th class="highlight-col">RedBot</th>
+              <th>Otros Bots de IA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Costo mensual</strong></td>
+              <td class="highlight-col"><span class="badge-tag badge-free">Gratis ($0)</span></td>
+              <td>$5 a $20 / mes</td>
+            </tr>
+            <tr>
+              <td><strong>Requiere API Key de OpenAI</strong></td>
+              <td class="highlight-col"><span class="check-icon">✔</span> No (Listo para usar)</td>
+              <td><span class="cross-icon">✗</span> Frecuentemente sí</td>
+            </tr>
+            <tr>
+              <td><strong>Memoria por hilo</strong></td>
+              <td class="highlight-col"><span class="check-icon">✔</span> Sí (.ask)</td>
+              <td><span class="cross-icon">✗</span> Respuestas aisladas</td>
+            </tr>
+            <tr>
+              <td><strong>Transcripción de notas de voz</strong></td>
+              <td class="highlight-col"><span class="check-icon">✔</span> Sí (.transcribe)</td>
+              <td><span class="cross-icon">✗</span> Muy pocos lo tienen</td>
+            </tr>
+            <tr>
+              <td><strong>Límite artificial de mensajes</strong></td>
+              <td class="highlight-col"><span class="check-icon">✔</span> Sin topes abusivos</td>
+              <td><span class="cross-icon">✗</span> 5 o 10 mensajes/día</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cl">
+      <p class="cl-num">// 03 · PREGUNTAS FRECUENTES (FAQ)</p>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <div class="faq-question">¿Cómo reinicio la conversación de la IA?</div>
+          <div class="faq-answer">Basta con ejecutar el comando <code>.askreset</code> y tu historial contextual volverá a estar en blanco para una nueva consulta.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">¿Mis datos o conversaciones son privados?</div>
+          <div class="faq-answer">Sí. RedBot respeta estrictamente la privacidad y los lineamientos de Discord. Consulta nuestra <a href="/privacy" style="color: var(--signal);">política de privacidad</a> para conocer todos los detalles de retención de datos.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box highlight">
+      <p><strong>Dale vida a tu comunidad con IA real.</strong> No pagues costosas APIs ni suscripciones. Autoriza RedBot en tu servidor en 1 minuto.</p>
+    </div>
+
+    <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
+      <a class="btn btn-primary" href="https://redbot.me/invite">Añadir RedBot con IA al Servidor</a>
+      <a class="btn btn-secondary" href="/commands">Ver todos los comandos</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Proyecto</div>
+          <a href="/">Inicio</a>
+          <a href="/commands">Comandos</a>
+          <a href="https://redbot.me/invite">Invitar</a>
+          <a href="/staff">Equipo</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Alternativas</div>
+          <a href="/vs/mee6">Alternativa a MEE6</a>
+          <a href="/vs/dyno">Alternativa a Dyno</a>
+          <a href="/vs/carl-bot">Alternativa a Carl-bot</a>
+          <a href="/vs/clyde">Alternativa a Clyde AI</a>
+          <a href="/ia">Bot de IA para Discord</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Soporte</div>
+          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de Soporte</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Documentación</div>
+          <a href="/privacy">Política de Privacidad</a>
+          <a href="/tos">Términos de Servicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/main.js"></script>
+</body>
+</html>
