@@ -19,16 +19,16 @@
   <!-- Open Graph -->
   <meta property="og:title" content="RedBot">
   <meta property="og:description" content="Agrégalo al servidor y pruébalo con tu propia comunidad.">
-  <meta property="og:image" content="https://redbot.me/redbot.png">
+  <meta property="og:image" content="https://redbot.me/og-image.png">
   <meta property="og:url" content="https://redbot.me/invite">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RedBot">
   <meta name="twitter:description" content="Agrégalo al servidor y pruébalo con tu propia comunidad.">
-  <meta name="twitter:image" content="https://redbot.me/redbot.png">
+  <meta name="twitter:image" content="https://redbot.me/og-image.png">
 
   <!-- Redirección automática a Discord OAuth2 -->
   <meta http-equiv="refresh" content="0; url=https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands+identify&response_type=code&redirect_uri=https%3A%2F%2Fredbot.hidenplay.net%2Fapi%2Foauth%2Fcallback">
@@ -79,11 +79,28 @@
 <body>
   <div class="redirect-card">
     <img src="/android-chrome-192x192.png" alt="RedBot" class="redirect-logo">
-    <h1>Redirigiendo a Discord...</h1>
-    <p>Si la ventana de autorización no se abre automáticamente en unos segundos, puedes continuar pulsando el botón a continuación:</p>
-    <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands+identify&response_type=code&redirect_uri=https%3A%2F%2Fredbot.hidenplay.net%2Fapi%2Foauth%2Fcallback">
+    <h1 id="invite-title">Redirigiendo a Discord...</h1>
+    <p id="invite-desc">Si la ventana de autorización no se abre automáticamente en unos segundos, puedes continuar pulsando el botón a continuación:</p>
+    <a id="invite-btn" class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands+identify&response_type=code&redirect_uri=https%3A%2F%2Fredbot.hidenplay.net%2Fapi%2Foauth%2Fcallback">
       Autorizar en Servidor
     </a>
   </div>
+  <script>
+    (function () {
+      try {
+        var param = new URLSearchParams(window.location.search).get('lang');
+        var saved = localStorage.getItem('redbot_lang');
+        var navLang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        var lang = (param || saved || navLang).toLowerCase();
+        if (lang.indexOf('en') === 0) {
+          document.documentElement.lang = 'en';
+          document.title = 'RedBot - Invite to Discord';
+          document.getElementById('invite-title').textContent = 'Redirecting to Discord...';
+          document.getElementById('invite-desc').textContent = 'If the authorization window does not open automatically in a few seconds, you can continue by clicking the button below:';
+          document.getElementById('invite-btn').textContent = 'Add to Server';
+        }
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>

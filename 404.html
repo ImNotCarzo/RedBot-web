@@ -70,11 +70,11 @@
 
   <main id="contenido" class="error-wrap">
     <div class="error-code">404</div>
-    <h1 class="error-title">Página no encontrada</h1>
-    <p class="error-desc">La ruta que buscas no existe o ha sido movida. Puedes volver al inicio o consultar la lista de comandos disponibles.</p>
+    <h1 class="error-title" data-i18n="title">Página no encontrada</h1>
+    <p class="error-desc" data-i18n="desc">La ruta que buscas no existe o ha sido movida. Puedes volver al inicio o consultar la lista de comandos disponibles.</p>
     <div class="error-actions">
-      <a class="btn btn-primary" href="/">Volver al Inicio</a>
-      <a class="btn btn-secondary" href="/commands">Ver Comandos</a>
+      <a class="btn btn-primary" href="/" data-i18n="btnHome">Volver al Inicio</a>
+      <a class="btn btn-secondary" href="/commands" data-i18n="btnCommands">Ver Comandos</a>
     </div>
   </main>
 
@@ -113,6 +113,17 @@
     </div>
   </footer>
 
+  <script>
+    window.REDBOT_I18N = {
+      titleEn: "404 - Page Not Found · RedBot",
+      en: {
+        title: "Page not found",
+        desc: "The page you are looking for does not exist or has been moved. You can return home or browse the available commands.",
+        btnHome: "Back to Home",
+        btnCommands: "View Commands"
+      }
+    };
+  </script>
   <script src="/main.js"></script>
 </body>
 </html>

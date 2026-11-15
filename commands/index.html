@@ -15,14 +15,14 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta property="og:title" content="Comandos - RedBot">
   <meta property="og:description" content="Lista completa de comandos de RedBot: moderación, utilidad, roles, IA y gestión de canales.">
-  <meta property="og:image" content="https://redbot.me/redbot.png">
+  <meta property="og:image" content="https://redbot.me/og-image.png">
   <meta property="og:url" content="https://redbot.me/commands">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Comandos - RedBot">
   <meta name="twitter:description" content="Lista completa de comandos de RedBot: moderación, utilidad, roles, IA y gestión de canales.">
-  <meta name="twitter:image" content="https://redbot.me/redbot.png">
+  <meta name="twitter:image" content="https://redbot.me/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -116,20 +116,20 @@
 
   <main id="contenido">
     <div class="page-header">
-      <h1>Comandos</h1>
-      <p>Encuentra toda la lista de comandos disponibles de RedBot. Explora las utilidades, herramientas de administración y opciones de IA.</p>
+      <h1 data-i18n="title">Comandos</h1>
+      <p data-i18n="subtitle">Encuentra toda la lista de comandos disponibles de RedBot. Explora las utilidades, herramientas de administración y opciones de IA.</p>
     </div>
 
     <div class="controls">
       <div class="search-row">
         <div class="search-box">
           <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por comando, nombre, alias, función (ej. .ban, /ping)..." aria-label="Buscar comandos">
+          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por comando, nombre, alias, función (ej. .ban, /ping)..." aria-label="Buscar comandos" data-i18n-placeholder="searchPh" data-i18n-aria="searchAria">
         </div>
-        <select id="typeFilter" class="type-filter" aria-label="Filtrar por tipo de comando">
-          <option value="todos">Todos los tipos</option>
-          <option value="slash">Comandos Slash (/)</option>
-          <option value="prefijo">Comandos Prefijo (.)</option>
+        <select id="typeFilter" class="type-filter" aria-label="Filtrar por tipo de comando" data-i18n-aria="typeAria">
+          <option value="todos" data-i18n="typeAll">Todos los tipos</option>
+          <option value="slash" data-i18n="typeSlash">Comandos Slash (/)</option>
+          <option value="prefijo" data-i18n="typePrefix">Comandos Prefijo (.)</option>
         </select>
       </div>
 
@@ -139,7 +139,7 @@
     <div class="cmd-list" id="commandList"></div>
     <div class="no-results" id="noResults">
       <p id="noResultsText">No se encontraron comandos coincidentes.</p>
-      <button type="button" class="btn btn-secondary" id="resetFiltersBtn" style="display: none;" onclick="resetToAllCategories()">
+      <button type="button" class="btn btn-secondary" id="resetFiltersBtn" style="display: none;" onclick="resetToAllCategories()" data-i18n="resetBtn">
         Buscar en todas las categorías
       </button>
     </div>
@@ -180,6 +180,22 @@
     </div>
   </footer>
 
+  <script>
+    window.REDBOT_I18N = {
+      titleEn: "Commands - RedBot",
+      en: {
+        title: "Commands",
+        subtitle: "Browse the full list of RedBot commands. Explore utilities, moderation tools, and AI features.",
+        searchPh: "Search by command, name, alias, feature (e.g. .ban, /ping)...",
+        searchAria: "Search commands",
+        typeAria: "Filter by command type",
+        typeAll: "All types",
+        typeSlash: "Slash Commands (/)",
+        typePrefix: "Prefix Commands (.)",
+        resetBtn: "Search all categories"
+      }
+    };
+  </script>
   <script src="/main.js"></script>
   <script>
     // Configuración API en vivo
@@ -189,17 +205,36 @@
     };
 
     // Diccionario de nombres legibles de categorías
-    const CATEGORY_LABELS = {
-      todos: "Todos",
-      ayuda: "Ayuda",
-      utilidad: "Utilidad",
-      usuario: "Usuario",
-      moderacion: "Moderación",
-      servidor: "Servidor",
-      roles: "Roles",
-      canal: "Canal",
-      diversion: "Diversión"
+    const CATEGORY_LABELS_BY_LANG = {
+      es: {
+        todos: "Todos",
+        ayuda: "Ayuda",
+        utilidad: "Utilidad",
+        usuario: "Usuario",
+        moderacion: "Moderación",
+        servidor: "Servidor",
+        roles: "Roles",
+        canal: "Canal",
+        diversion: "Diversión"
+      },
+      en: {
+        todos: "All",
+        ayuda: "Help",
+        utilidad: "Utility",
+        usuario: "User",
+        moderacion: "Moderation",
+        servidor: "Server",
+        roles: "Roles",
+        canal: "Channel",
+        diversion: "Fun"
+      }
     };
+
+    function getCategoryLabel(catId) {
+      const lang = (window.RedBotI18n && window.RedBotI18n.getLang()) || 'es';
+      const dict = CATEGORY_LABELS_BY_LANG[lang] || CATEGORY_LABELS_BY_LANG.es;
+      return dict[catId] || CATEGORY_LABELS_BY_LANG.es[catId] || (catId.charAt(0).toUpperCase() + catId.slice(1));
+    }
 
     // Comandos precargados (con Easter Egg en categoría admin)
     const rawCommands = [
@@ -329,10 +364,10 @@
       });
 
       return [
-        { id: 'todos', label: 'Todos' },
+        { id: 'todos', label: getCategoryLabel('todos') },
         ...sorted.map(id => ({
           id,
-          label: CATEGORY_LABELS[id] || (id.charAt(0).toUpperCase() + id.slice(1))
+          label: getCategoryLabel(id)
         }))
       ];
     }
@@ -399,7 +434,8 @@
     }
 
     function formatOptions(optionsString) {
-      if (!optionsString || optionsString === "ninguna") return "<span class='opt-tag'>Ninguna</span>";
+      const isEn = window.RedBotI18n && window.RedBotI18n.getLang() === 'en';
+      if (!optionsString || optionsString === "ninguna") return `<span class='opt-tag'>${isEn ? 'None' : 'Ninguna'}</span>`;
       const opts = optionsString.split(', ');
       return opts.map(opt => {
         const isRequired = opt.includes('optional?=false');
@@ -438,8 +474,9 @@
       const text = btnElement.getAttribute('data-copy') || '';
 
       const onCopied = () => {
+        const isEn = window.RedBotI18n && window.RedBotI18n.getLang() === 'en';
         const originalHtml = btnElement.innerHTML;
-        btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado`;
+        btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ${isEn ? 'Copied' : 'Copiado'}`;
         btnElement.classList.add('success');
         setTimeout(() => {
           btnElement.innerHTML = originalHtml;
@@ -502,16 +539,22 @@
     function renderCommands(filteredCommands) {
       commandList.innerHTML = '';
 
+      const isEn = window.RedBotI18n && window.RedBotI18n.getLang() === 'en';
+
       if (filteredCommands.length === 0) {
         commandList.style.display = 'none';
         noResults.style.display = 'block';
 
         if (currentCategory !== 'todos' && currentSearch.trim() !== '') {
-          const currentLabel = CATEGORY_LABELS[currentCategory] || currentCategory;
-          noResultsText.textContent = `No hay comandos coincidentes con "${currentSearch}" en la categoría ${currentLabel}.`;
+          const currentLabel = getCategoryLabel(currentCategory);
+          noResultsText.textContent = isEn
+            ? `No commands matching "${currentSearch}" in ${currentLabel}.`
+            : `No hay comandos coincidentes con "${currentSearch}" en la categoría ${currentLabel}.`;
           resetFiltersBtn.style.display = 'inline-block';
         } else {
-          noResultsText.textContent = 'No se encontraron comandos coincidentes.';
+          noResultsText.textContent = isEn
+            ? 'No matching commands found.'
+            : 'No se encontraron comandos coincidentes.';
           resetFiltersBtn.style.display = 'none';
         }
         return;
@@ -532,10 +575,17 @@
         }
 
         const safeDisplayName = escapeHTML(displayName);
-        const safeCat = escapeHTML(CATEGORY_LABELS[cmd.cat] || cmd.cat);
+        const safeCat = escapeHTML(getCategoryLabel(cmd.cat));
         const safeDesc = escapeHTML(cmd.desc);
         const safeExample = escapeHTML(cmd.example);
-        const safeAliases = escapeHTML(cmd.aliases);
+        const rawAliases = cmd.aliases === 'ninguno' && isEn ? 'none' : cmd.aliases;
+        const safeAliases = escapeHTML(rawAliases);
+        const copyLabel = isEn ? 'Copy' : 'Copiar';
+        const copyAria = isEn ? `Copy command ${safeExample}` : `Copiar comando ${safeExample}`;
+        const descTitle = isEn ? 'Description' : 'Descripción';
+        const exampleTitle = isEn ? 'Usage example' : 'Ejemplo de uso';
+        const optionsTitle = isEn ? 'Options (* required)' : 'Opciones (* requerido)';
+        const aliasesTitle = isEn ? 'Aliases' : 'Alias';
 
         const div = document.createElement('div');
         div.className = 'cmd-item';
@@ -548,27 +598,27 @@
                 <span class="cmd-cat-tag">${safeCat}</span>
               </div>
             </button>
-            <button type="button" class="cmd-copy" aria-label="Copiar comando ${safeExample}" data-copy="${safeExample}" onclick="copyCommand(event, this)">
+            <button type="button" class="cmd-copy" aria-label="${copyAria}" data-copy="${safeExample}" onclick="copyCommand(event, this)">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              Copiar
+              ${copyLabel}
             </button>
           </div>
           <div class="cmd-details" id="details-${cmd.uid}" hidden>
             <div class="detail-grid">
               <div class="detail-block">
-                <h4>Descripción</h4>
+                <h4>${descTitle}</h4>
                 <p>${safeDesc}</p>
               </div>
               <div class="detail-block">
-                <h4>Ejemplo de uso</h4>
+                <h4>${exampleTitle}</h4>
                 <div class="code-block">${safeExample}</div>
               </div>
               <div class="detail-block">
-                <h4>Opciones (* requerido)</h4>
+                <h4>${optionsTitle}</h4>
                 <div>${formatOptions(cmd.options)}</div>
               </div>
               <div class="detail-block">
-                <h4>Alias</h4>
+                <h4>${aliasesTitle}</h4>
                 <p class="mono">${safeAliases}</p>
               </div>
             </div>
@@ -697,6 +747,11 @@
         // Fallback silencioso a los comandos precargados
       }
     }
+
+    document.addEventListener('redbot:langchange', () => {
+      renderCategories();
+      applyFilters();
+    });
 
     loadLiveCommands();
   </script>

@@ -15,14 +15,14 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta property="og:title" content="Términos de Servicio - RedBot">
   <meta property="og:description" content="Términos y condiciones de uso de RedBot en Discord.">
-  <meta property="og:image" content="https://redbot.me/redbot.png">
+  <meta property="og:image" content="https://redbot.me/og-image.png">
   <meta property="og:url" content="https://redbot.me/tos">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Términos de Servicio - RedBot">
   <meta name="twitter:description" content="Términos y condiciones de uso de RedBot en Discord.">
-  <meta name="twitter:image" content="https://redbot.me/redbot.png">
+  <meta name="twitter:image" content="https://redbot.me/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -48,48 +48,48 @@
 
   <main id="contenido">
     <div class="page-header">
-      <p class="page-tag"><strong>Legal</strong> · Última actualización 2026</p>
-      <h1 class="page-title">Términos de Servicio</h1>
-      <p class="page-subtitle">Condiciones de uso claras y directas para operar RedBot en tus servidores.</p>
+      <p class="page-tag" data-i18n-html="tag"><strong>Legal</strong> · Última actualización 2026</p>
+      <h1 class="page-title" data-i18n="title">Términos de Servicio</h1>
+      <p class="page-subtitle" data-i18n="subtitle">Condiciones de uso claras y directas para operar RedBot en tus servidores.</p>
     </div>
 
     <div class="content">
       <div class="cl">
-        <div class="cl-num">01 / Introducción</div>
-        <h2>Aceptación de los términos</h2>
-        <p>Al invitar, acceder o usar RedBot, aceptas estos Términos de Servicio, así como las normas de la plataforma subyacente y las leyes aplicables.</p>
+        <div class="cl-num" data-i18n="s1Num">01 / Introducción</div>
+        <h2 data-i18n="s1Title">Aceptación de los términos</h2>
+        <p data-i18n="s1p1">Al invitar, acceder o usar RedBot, aceptas estos Términos de Servicio, así como las normas de la plataforma subyacente y las leyes aplicables.</p>
         <div class="box warn">
-          <p>Si no estás de acuerdo con las políticas presentadas, detén el uso de RedBot y elimínalo de tu servidor inmediatamente.</p>
+          <p data-i18n="s1box">Si no estás de acuerdo con las políticas presentadas, detén el uso de RedBot y elimínalo de tu servidor inmediatamente.</p>
         </div>
       </div>
 
       <div class="cl">
-        <div class="cl-num">02 / Servicio</div>
-        <h2>Descripción del servicio</h2>
-        <p>RedBot proporciona herramientas de moderación, consulta de datos y asistencia procesada por IA. Las responsabilidades administrativas finales recaen sobre los dueños de cada servidor.</p>
+        <div class="cl-num" data-i18n="s2Num">02 / Servicio</div>
+        <h2 data-i18n="s2Title">Descripción del servicio</h2>
+        <p data-i18n="s2p1">RedBot proporciona herramientas de moderación, consulta de datos y asistencia procesada por IA. Las responsabilidades administrativas finales recaen sobre los dueños de cada servidor.</p>
       </div>
 
       <div class="cl">
-        <div class="cl-num">03 / Conducta</div>
-        <h2>Uso aceptable</h2>
-        <p>Queda estrictamente prohibido:</p>
+        <div class="cl-num" data-i18n="s3Num">03 / Conducta</div>
+        <h2 data-i18n="s3Title">Uso aceptable</h2>
+        <p data-i18n="s3p1">Queda estrictamente prohibido:</p>
         <ul>
-          <li>Explotar vulnerabilidades o interrumpir la infraestructura.</li>
-          <li>Aplicar ingeniería inversa al sistema sin autorización.</li>
-          <li>Utilizar el bot para fines ilegales o perjudiciales.</li>
+          <li data-i18n="s3l1">Explotar vulnerabilidades o interrumpir la infraestructura.</li>
+          <li data-i18n="s3l2">Aplicar ingeniería inversa al sistema sin autorización.</li>
+          <li data-i18n="s3l3">Utilizar el bot para fines ilegales o perjudiciales.</li>
         </ul>
       </div>
 
       <div class="cl">
-        <div class="cl-num">04 / Disponibilidad</div>
-        <h2>Disponibilidad y responsabilidad</h2>
+        <div class="cl-num" data-i18n="s4Num">04 / Disponibilidad</div>
+        <h2 data-i18n="s4Title">Disponibilidad y responsabilidad</h2>
         <div class="box">
-          <p>El software se proporciona de forma técnica <strong>"tal cual"</strong> y <strong>"según disponibilidad"</strong>, sin garantías implícitas adicionales.</p>
+          <p data-i18n-html="s4box">El software se proporciona de forma técnica <strong>"tal cual"</strong> y <strong>"según disponibilidad"</strong>, sin garantías implícitas adicionales.</p>
         </div>
-        <p>Los desarrolladores no asumen responsabilidad por la pérdida de datos o el uso indebido por parte de administradores externos.</p>
+        <p data-i18n="s4p1">Los desarrolladores no asumen responsabilidad por la pérdida de datos o el uso indebido por parte de administradores externos.</p>
       </div>
 
-      <a class="back-link" href="/">Volver al inicio</a>
+      <a class="back-link" href="/" data-i18n="backHome">Volver al inicio</a>
     </div>
   </main>
 
@@ -128,6 +128,34 @@
     </div>
   </footer>
 
+  <script>
+    window.REDBOT_I18N = {
+      titleEn: "Terms of Service - RedBot",
+      en: {
+        tag: "<strong>Legal</strong> · Last updated 2026",
+        title: "Terms of Service",
+        subtitle: "Clear and straightforward terms of use for operating RedBot on your servers.",
+        s1Num: "01 / Introduction",
+        s1Title: "Acceptance of terms",
+        s1p1: "By inviting, accessing, or using RedBot, you agree to these Terms of Service, as well as the underlying platform rules and applicable laws.",
+        s1box: "If you do not agree with these policies, stop using RedBot and remove it from your server immediately.",
+        s2Num: "02 / Service",
+        s2Title: "Service description",
+        s2p1: "RedBot provides moderation tools, data lookup, and AI-powered assistance. Final administrative responsibility rests with each server owner.",
+        s3Num: "03 / Conduct",
+        s3Title: "Acceptable use",
+        s3p1: "It is strictly prohibited to:",
+        s3l1: "Exploit vulnerabilities or disrupt infrastructure.",
+        s3l2: "Reverse-engineer the system without authorization.",
+        s3l3: "Use the bot for illegal or harmful purposes.",
+        s4Num: "04 / Availability",
+        s4Title: "Availability and liability",
+        s4box: "The software is provided strictly <strong>\"as is\"</strong> and <strong>\"as available\"</strong>, without additional implied warranties.",
+        s4p1: "The developers assume no responsibility for data loss or misuse by external server administrators.",
+        backHome: "Back to home"
+      }
+    };
+  </script>
   <script src="/main.js"></script>
 </body>
 </html>
