@@ -9,29 +9,20 @@
       menuToggle: 'Menu',
       nav: {
         '/commands': 'Commands',
-        '/vs': 'Compare',
-        '/ia': 'AI',
         '/privacy': 'Privacy',
         '/tos': 'Terms',
         'https://redbot.me/invite': 'Invite'
       },
-      footerDesc: '© 2026 RedBot. All rights reserved.',
+      footerDesc: '© 2026 RedBot.',
       footerTitles: {
         'Proyecto': 'Project',
-        'Alternativas': 'Alternatives',
         'Soporte': 'Support',
-        'Documentación': 'Documentation'
+        'Legal': 'Legal'
       },
       footerLinks: {
-        '/': 'Home',
         '/commands': 'Commands',
         'https://redbot.me/invite': 'Invite',
         '/staff': 'Team',
-        '/vs/mee6': 'MEE6 Alternative',
-        '/vs/dyno': 'Dyno Alternative',
-        '/vs/carl-bot': 'Carl-bot Alternative',
-        '/vs/clyde': 'Clyde AI Alternative',
-        '/ia': 'Discord AI Bot',
         'https://discord.gg/sYdyS8Ez3s': 'Support Server',
         '/privacy': 'Privacy Policy',
         '/tos': 'Terms of Service'

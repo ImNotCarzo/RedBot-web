@@ -35,14 +35,17 @@
     .page-header p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.6; max-width: 600px; }
 
     .controls { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin-bottom: 32px; display: flex; flex-direction: column; gap: 20px; }
-    .search-row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .search-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch; }
 
-    .search-box { position: relative; flex: 1; min-width: 260px; }
-    .search-box svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: var(--text-mute); }
-    .search-input { width: 100%; background: var(--ink); border: 1px solid var(--line-strong); color: var(--text); padding: 12px 16px 12px 42px; font-family: 'IBM Plex Sans', sans-serif; font-size: .95rem; outline: none; border-radius: 0; }
+    .search-box { position: relative; flex: 1 1 260px; min-width: 0; }
+    .search-box svg.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: var(--text-mute); pointer-events: none; }
+    .search-input { width: 100%; height: 46px; box-sizing: border-box; background: var(--ink); border: 1px solid var(--line-strong); color: var(--text); padding: 0 40px 0 42px; font-family: 'IBM Plex Sans', sans-serif; font-size: .95rem; outline: none; border-radius: 0; appearance: none; -webkit-appearance: none; }
     .search-input:focus { border-color: var(--signal); }
+    .search-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: transparent; border: none; color: var(--text-mute); font-size: 1.2rem; line-height: 1; cursor: pointer; display: none; align-items: center; justify-content: center; border-radius: 0; }
+    .search-clear:hover, .search-clear:focus-visible { color: var(--text); outline: 1px solid var(--line-strong); }
+    .search-clear.visible { display: flex; }
 
-    .type-filter { background: var(--ink); border: 1px solid var(--line-strong); color: var(--text); padding: 12px 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: .95rem; outline: none; border-radius: 0; cursor: pointer; min-width: 180px; }
+    .type-filter { height: 46px; box-sizing: border-box; background: var(--ink); border: 1px solid var(--line-strong); color: var(--text); padding: 0 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: .95rem; outline: none; border-radius: 0; cursor: pointer; min-width: 180px; }
     .type-filter:focus { border-color: var(--signal); }
 
     .category-row { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -88,7 +91,8 @@
     @media (max-width: 768px) {
       main { padding: 32px 24px 80px; }
       .search-row { flex-direction: column; }
-      .type-filter { width: 100%; }
+      .search-box { flex: none; width: 100%; }
+      .type-filter { width: 100%; min-width: 0; }
       .detail-grid { grid-template-columns: 1fr; }
       .cmd-header { flex-direction: column; align-items: flex-start; }
       .cmd-toggle { width: 100%; padding: 18px 24px 8px; }
@@ -106,8 +110,6 @@
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
       <li><a href="/commands" aria-current="page">Comandos</a></li>
-      <li><a href="/vs">Comparativas</a></li>
-      <li><a href="/ia">IA</a></li>
       <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
       <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
@@ -123,8 +125,9 @@
     <div class="controls">
       <div class="search-row">
         <div class="search-box">
-          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por comando, nombre, alias, función (ej. .ban, /ping)..." aria-label="Buscar comandos" data-i18n-placeholder="searchPh" data-i18n-aria="searchAria">
+          <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por comando, nombre, alias, función (ej. .ban, /ping)..." aria-label="Buscar comandos" autocomplete="off" spellcheck="false" data-i18n-placeholder="searchPh" data-i18n-aria="searchAria">
+          <button type="button" id="clearSearchBtn" class="search-clear" aria-label="Limpiar búsqueda" data-i18n-aria="clearSearchAria">&times;</button>
         </div>
         <select id="typeFilter" class="type-filter" aria-label="Filtrar por tipo de comando" data-i18n-aria="typeAria">
           <option value="todos" data-i18n="typeAll">Todos los tipos</option>
@@ -150,31 +153,22 @@
       <div class="footer-grid">
         <div>
           <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
-          <p class="footer-desc">© 2026 RedBot. Todos los derechos reservados.</p>
+          <p class="footer-desc">© 2026 RedBot.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
-          <a href="/">Inicio</a>
           <a href="/commands" aria-current="page">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
         </div>
         <div class="footer-section">
-          <div class="footer-title">Alternativas</div>
-          <a href="/vs/mee6">Alternativa a MEE6</a>
-          <a href="/vs/dyno">Alternativa a Dyno</a>
-          <a href="/vs/carl-bot">Alternativa a Carl-bot</a>
-          <a href="/vs/clyde">Alternativa a Clyde AI</a>
-          <a href="/ia">Bot de IA para Discord</a>
-        </div>
-        <div class="footer-section">
           <div class="footer-title">Soporte</div>
-          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de Soporte</a>
+          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de soporte</a>
         </div>
         <div class="footer-section">
-          <div class="footer-title">Documentación</div>
-          <a href="/privacy">Política de Privacidad</a>
+          <div class="footer-title">Legal</div>
           <a href="/tos">Términos de Servicio</a>
+          <a href="/privacy">Política de Privacidad</a>
         </div>
       </div>
     </div>
@@ -188,6 +182,7 @@
         subtitle: "Browse the full list of RedBot commands. Explore utilities, moderation tools, and AI features.",
         searchPh: "Search by command, name, alias, feature (e.g. .ban, /ping)...",
         searchAria: "Search commands",
+        clearSearchAria: "Clear search",
         typeAria: "Filter by command type",
         typeAll: "All types",
         typeSlash: "Slash Commands (/)",
@@ -209,6 +204,7 @@
       es: {
         todos: "Todos",
         ayuda: "Ayuda",
+        ai: "IA",
         utilidad: "Utilidad",
         usuario: "Usuario",
         moderacion: "Moderación",
@@ -220,6 +216,7 @@
       en: {
         todos: "All",
         ayuda: "Help",
+        ai: "AI",
         utilidad: "Utility",
         usuario: "User",
         moderacion: "Moderation",
@@ -333,16 +330,28 @@
     const categoryRow = document.getElementById('categoryRow');
     const commandList = document.getElementById('commandList');
     const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
     const typeFilter = document.getElementById('typeFilter');
     const noResults = document.getElementById('noResults');
     const noResultsText = document.getElementById('noResultsText');
     const resetFiltersBtn = document.getElementById('resetFiltersBtn');
 
-    // Extraer categoría inicial de la URL
+    // Extraer categoría y búsqueda inicial de la URL / input restaurado
     const urlParams = new URLSearchParams(window.location.search);
     const catParam = urlParams.get('cat');
     if (catParam) {
       currentCategory = catParam;
+    }
+    const qParam = urlParams.get('q');
+    if (qParam) {
+      searchInput.value = qParam;
+    }
+    currentSearch = searchInput.value || '';
+    currentType = typeFilter.value || 'todos';
+
+    function updateClearButton() {
+      if (!clearSearchBtn) return;
+      clearSearchBtn.classList.toggle('visible', searchInput.value.length > 0);
     }
 
     // Obtener lista única de categorías disponibles
@@ -353,7 +362,7 @@
           catsSet.add(c.cat);
         }
       });
-      const order = ['ayuda', 'utilidad', 'usuario', 'moderacion', 'servidor', 'roles', 'canal', 'diversion'];
+      const order = ['ayuda', 'ai', 'utilidad', 'usuario', 'moderacion', 'servidor', 'roles', 'canal', 'diversion'];
       const sorted = Array.from(catsSet).sort((a, b) => {
         const idxA = order.indexOf(a);
         const idxB = order.indexOf(b);
@@ -420,6 +429,8 @@
     }
 
     function resetToAllCategories() {
+      currentType = 'todos';
+      typeFilter.value = 'todos';
       selectCategory('todos');
     }
 
@@ -505,35 +516,52 @@
       document.body.removeChild(ta);
     }
 
+    function normalizeSearchText(str) {
+      return String(str || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
     // Comprobador inteligente de coincidencia de búsqueda
     function matchesSearch(cmd, query) {
-      if (!query) return true;
-      const rawQ = query.toLowerCase().trim();
-      if (rawQ === "") return true;
+      const rawQ = normalizeSearchText(query);
+      if (!rawQ) return true;
 
       // Consulta sin prefijo (. /)
       const cleanQ = rawQ.replace(/^[./]+/, '').trim();
+      const catEs = CATEGORY_LABELS_BY_LANG.es[cmd.cat] || '';
+      const catEn = CATEGORY_LABELS_BY_LANG.en[cmd.cat] || '';
 
       // Objetivos en los que buscar
-      const targets = [
-        cmd.name.toLowerCase(),
-        cmd.name.toLowerCase().replace(/^[./]+/, ''),
-        (cmd.desc || '').toLowerCase(),
-        (cmd.aliases || '').toLowerCase(),
-        (cmd.example || '').toLowerCase(),
-        (cmd.cat || '').toLowerCase()
+      const rawTargets = [
+        cmd.name || '',
+        String(cmd.name || '').replace(/^[./]+/, ''),
+        cmd.desc || '',
+        cmd.aliases || '',
+        cmd.example || '',
+        cmd.cat || '',
+        catEs,
+        catEn
       ];
 
       // Segmentos individuales del comando (ej. "mod", "ban" para "/mod ban")
-      const nameParts = cmd.name.toLowerCase().replace(/^[./]+/, '').split(/\s+/);
-      targets.push(...nameParts);
-
+      rawTargets.push(...String(cmd.name || '').replace(/^[./]+/, '').split(/\s+/));
       if (cmd.example) {
-        const exParts = cmd.example.toLowerCase().replace(/^[./]+/, '').split(/\s+/);
-        targets.push(...exParts);
+        rawTargets.push(...String(cmd.example).replace(/^[./]+/, '').split(/\s+/));
       }
 
-      return targets.some(target => target.includes(rawQ) || (cleanQ !== "" && target.includes(cleanQ)));
+      const targets = rawTargets.map(normalizeSearchText).filter(Boolean);
+      if (targets.some(target => target.includes(rawQ) || (cleanQ !== '' && target.includes(cleanQ)))) {
+        return true;
+      }
+
+      const tokens = rawQ.split(/\s+/).map(t => t.replace(/^[./]+/, '')).filter(Boolean);
+      if (tokens.length > 1) {
+        return tokens.every(tok => targets.some(target => target.includes(tok)));
+      }
+      return false;
     }
 
     function renderCommands(filteredCommands) {
@@ -545,11 +573,15 @@
         commandList.style.display = 'none';
         noResults.style.display = 'block';
 
-        if (currentCategory !== 'todos' && currentSearch.trim() !== '') {
+        if ((currentCategory !== 'todos' || currentType !== 'todos') && currentSearch.trim() !== '') {
           const currentLabel = getCategoryLabel(currentCategory);
-          noResultsText.textContent = isEn
-            ? `No commands matching "${currentSearch}" in ${currentLabel}.`
-            : `No hay comandos coincidentes con "${currentSearch}" en la categoría ${currentLabel}.`;
+          noResultsText.textContent = currentCategory !== 'todos'
+            ? (isEn
+                ? `No commands matching "${currentSearch}" in ${currentLabel}.`
+                : `No hay comandos coincidentes con "${currentSearch}" en la categoría ${currentLabel}.`)
+            : (isEn
+                ? `No commands matching "${currentSearch}" for the selected type.`
+                : `No hay comandos coincidentes con "${currentSearch}" para el tipo seleccionado.`);
           resetFiltersBtn.style.display = 'inline-block';
         } else {
           noResultsText.textContent = isEn
@@ -651,6 +683,7 @@
         return matchesSearch(cmd, currentSearch);
       });
 
+      updateClearButton();
       renderCommands(filtered);
     }
 
@@ -659,14 +692,35 @@
       applyFilters();
     });
 
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        currentSearch = '';
+        applyFilters();
+        searchInput.focus();
+      });
+    }
+
     typeFilter.addEventListener('change', (e) => {
       currentType = e.target.value;
       applyFilters();
     });
 
+    window.addEventListener('pageshow', () => {
+      const val = searchInput.value || '';
+      const typeVal = typeFilter.value || 'todos';
+      if (val !== currentSearch || typeVal !== currentType) {
+        currentSearch = val;
+        currentType = typeVal;
+        applyFilters();
+      }
+    });
+
     // Atajo rápido de teclado: presionar '/' para enfocar buscador
     document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      const active = document.activeElement;
+      const inEditable = active && (active === searchInput || active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey && !inEditable) {
         e.preventDefault();
         searchInput.focus();
       }
