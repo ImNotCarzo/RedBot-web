@@ -345,9 +345,9 @@
   </script>
   <script src="/main.js"></script>
   <script>
-    // Configuración de la API en vivo de RedBot
+    // Configuración de la API en vivo de RedBot (pasa por el Worker en /api/*)
     const REDBOT_API_CONFIG = {
-      url: "https://redbot.hidenplay.net",
+      url: window.location.origin,
       key: ""
     };
 

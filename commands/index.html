@@ -120,6 +120,9 @@
     <div class="page-header">
       <h1 data-i18n="title">Comandos</h1>
       <p data-i18n="subtitle">Encuentra toda la lista de comandos disponibles de RedBot. Explora las utilidades, herramientas de administración y opciones de IA.</p>
+      <div style="margin-top: 16px;">
+        <a href="/tickets" class="btn btn-secondary" style="padding: 9px 16px; font-size: .85rem;" data-i18n="ticketsPanelBtn">Ir al Panel Web de Tickets →</a>
+      </div>
     </div>
 
     <div class="controls">
@@ -180,6 +183,7 @@
       en: {
         title: "Commands",
         subtitle: "Browse the full list of RedBot commands. Explore utilities, moderation tools, and AI features.",
+        ticketsPanelBtn: "Open Tickets Web Dashboard →",
         searchPh: "Search by command, name, alias, feature (e.g. .ban, /ping)...",
         searchAria: "Search commands",
         clearSearchAria: "Clear search",
@@ -193,9 +197,9 @@
   </script>
   <script src="/main.js"></script>
   <script>
-    // Configuración API en vivo
+    // Configuración API en vivo (pasa por el Worker en /api/*)
     const REDBOT_API_CONFIG = {
-      url: "https://redbot.hidenplay.net",
+      url: window.location.origin,
       key: ""
     };
 

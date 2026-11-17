@@ -1,0 +1,9 @@
+{
+  "name": "redbot-web",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-11-01",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS"
+  }
+}

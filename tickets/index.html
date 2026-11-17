@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Tickets - RedBot</title>
+  <meta name="description" content="Diseña paneles y menús desplegables de tickets para Discord con vista previa en vivo y publica directamente en tu servidor con RedBot.">
+  <meta name="theme-color" content="#ff383d">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://redbot.me/tickets">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:title" content="Panel Web de Tickets - RedBot">
+  <meta property="og:description" content="Configura tu sistema de tickets, crea menús con hasta 25 categorías y publícalos directo en Discord.">
+  <meta property="og:image" content="https://redbot.me/og-image.png">
+  <meta property="og:url" content="https://redbot.me/tickets">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Panel Web de Tickets - RedBot">
+  <meta name="twitter:description" content="Configura tu sistema de tickets, crea menús con hasta 25 categorías y publícalos directo en Discord.">
+  <meta name="twitter:image" content="https://redbot.me/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    main { max-width: 1280px; margin: 0 auto; padding: 42px 32px 110px; }
+
+    .tickets-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; padding-bottom: 28px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+    .tickets-head-copy h1 { font-size: clamp(2rem, 3.6vw, 2.8rem); letter-spacing: -1px; margin-bottom: 10px; }
+    .tickets-head-copy p { color: var(--text-dim); font-size: 1rem; line-height: 1.6; max-width: 660px; }
+    .mode-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line-strong); background: var(--surface); font-family: 'IBM Plex Mono', monospace; font-size: .78rem; color: var(--text-dim); margin-bottom: 14px; }
+    .mode-dot { width: 8px; height: 8px; background: #f0b132; display: inline-block; }
+    .mode-dot.live { background: #23a55a; }
+
+    .auth-bar { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .auth-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .auth-avatar { width: 44px; height: 44px; border: 1px solid var(--line-strong); object-fit: cover; background: var(--ink); }
+    .auth-user-name { font-weight: 700; font-size: 1rem; color: var(--text); }
+    .auth-user-sub { font-size: .85rem; color: var(--text-dim); margin-top: 2px; }
+    .auth-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .guild-select-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .stats-strip { display: inline-flex; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .stat-mini { background: var(--ink); padding: 8px 14px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; }
+    .stat-mini strong { color: var(--text); font-size: .95rem; }
+    .stat-mini span { color: var(--text-mute); }
+
+    .invite-banner { background: rgba(201, 48, 44, 0.12); border: 1px solid var(--signal); padding: 16px 20px; margin-bottom: 24px; display: none; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .invite-banner.visible { display: flex; }
+    .invite-banner p { font-size: .92rem; color: var(--text); }
+
+    .split-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(340px, 0.92fr); gap: 28px; align-items: start; }
+
+    .panel-card { background: var(--surface); border: 1px solid var(--line); padding: 24px; margin-bottom: 24px; }
+    .panel-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .panel-card-head h2 { font-size: 1.15rem; margin-bottom: 4px; }
+    .panel-card-head p { font-size: .88rem; color: var(--text-dim); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: .8rem; font-family: 'IBM Plex Mono', monospace; color: var(--text-dim); text-transform: uppercase; letter-spacing: .4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .field-hint { font-size: .78rem; color: var(--text-mute); line-height: 1.45; }
+
+    .ctrl-input, .ctrl-select, .ctrl-textarea {
+      width: 100%;
+      background: var(--ink);
+      border: 1px solid var(--line-strong);
+      color: var(--text);
+      padding: 10px 12px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: .92rem;
+      border-radius: 0;
+      outline: none;
+    }
+    .ctrl-input:focus, .ctrl-select:focus, .ctrl-textarea:focus { border-color: var(--signal); }
+    .ctrl-textarea { min-height: 88px; resize: vertical; line-height: 1.5; }
+    .ctrl-mono { font-family: 'IBM Plex Mono', monospace; font-size: .85rem; }
+
+    .mode-tabs { display: inline-flex; border: 1px solid var(--line-strong); background: var(--ink); margin-bottom: 18px; }
+    .mode-tab { background: transparent; border: none; color: var(--text-dim); padding: 9px 16px; font-family: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; border-right: 1px solid var(--line-strong); }
+    .mode-tab:last-child { border-right: none; }
+    .mode-tab.active { background: var(--text); color: var(--ink); }
+
+    .cat-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin: 18px 0 14px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .cat-toolbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-sm { padding: 8px 12px; font-size: .82rem; }
+
+    .import-box { background: var(--ink); border: 1px solid var(--line-strong); padding: 14px; margin-bottom: 16px; display: none; }
+    .import-box.open { display: block; }
+    .import-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+
+    .cat-items { display: flex; flex-direction: column; gap: 12px; }
+    .cat-editor-card { background: var(--ink); border: 1px solid var(--line-strong); padding: 16px; }
+    .cat-editor-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+    .cat-editor-badge { font-family: 'IBM Plex Mono', monospace; font-size: .78rem; color: var(--text-dim); }
+    .cat-editor-btns { display: flex; gap: 6px; }
+    .icon-btn { background: var(--surface); border: 1px solid var(--line-strong); color: var(--text-dim); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: .85rem; }
+    .icon-btn:hover { background: var(--surface-2); color: var(--text); }
+    .icon-btn.danger:hover { border-color: var(--signal); color: #ff6b6e; }
+
+    .emoji-row { display: flex; gap: 8px; }
+    .emoji-row .ctrl-input { width: 120px; flex-shrink: 0; }
+    .emoji-row .ctrl-select { flex: 1; min-width: 0; }
+
+    .actions-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .status-msg { font-size: .88rem; min-height: 20px; margin-top: 10px; color: var(--text-dim); }
+    .status-msg.ok { color: #57f287; }
+    .status-msg.err { color: #ff6b6e; }
+
+    /* PREVIEW COLUMNA DERECHA */
+    .preview-sticky { position: sticky; top: 88px; }
+    .preview-shell { background: var(--surface); border: 1px solid var(--line); padding: 20px; }
+    .preview-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .preview-label { font-family: 'IBM Plex Mono', monospace; font-size: .75rem; color: var(--text-mute); letter-spacing: .5px; text-transform: uppercase; }
+    .preview-tabs { display: inline-flex; border: 1px solid var(--line-strong); background: var(--ink); }
+    .preview-tab { background: transparent; border: none; color: var(--text-dim); padding: 6px 12px; font-family: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; border-right: 1px solid var(--line-strong); }
+    .preview-tab:last-child { border-right: none; }
+    .preview-tab.active { background: var(--surface-2); color: var(--text); }
+
+    /* ESTILO DISCORD V2 AUTÉNTICO */
+    .dc-canvas { background: #1a1b1e; border: 1px solid #2b2d31; padding: 18px; font-family: 'gg sans', 'IBM Plex Sans', sans-serif; color: #dbdee1; }
+    .dc-msg-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .dc-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .dc-author-line { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .dc-author { font-weight: 600; color: #ffffff; font-size: .95rem; }
+    .dc-app-tag { background: #5865f2; color: #fff; font-size: .64rem; font-weight: 700; padding: 2px 5px; border-radius: 3px; letter-spacing: .3px; }
+    .dc-time { font-size: .73rem; color: #949ba4; }
+
+    .dc-v2-card { background: #222327; border: 1px solid #2f3136; border-left: 4px solid #ff383d; border-radius: 6px; padding: 14px 16px; }
+    .dc-v2-h3 { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
+    .dc-v2-sub { font-size: .78rem; color: #949ba4; margin-top: 2px; }
+    .dc-v2-sep { height: 1px; background: #313338; margin: 10px 0; }
+    .dc-v2-text { font-size: .9rem; line-height: 1.5; color: #dbdee1; word-break: break-word; }
+    .dc-v2-line { margin-bottom: 10px; }
+    .dc-v2-line:last-child { margin-bottom: 0; }
+    .dc-custom-emoji { width: 18px; height: 18px; vertical-align: -3px; display: inline-block; margin: 0 2px; }
+
+    .dc-select-wrap { position: relative; margin-top: 12px; }
+    .dc-select-btn { width: 100%; background: #1e1f22; border: 1px solid #3f4147; border-radius: 4px; color: #b5bac1; padding: 9px 12px; font-family: inherit; font-size: .88rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left; }
+    .dc-select-btn:hover { border-color: #5c6069; color: #f2f3f5; }
+    .dc-select-menu { display: none; margin-top: 4px; background: #1e1f22; border: 1px solid #3f4147; border-radius: 4px; max-height: 270px; overflow-y: auto; box-shadow: 0 12px 24px rgba(0, 0, 0, .55); }
+    .dc-select-menu.open { display: block; }
+    .dc-select-opt { width: 100%; background: transparent; border: none; border-bottom: 1px solid #2b2d31; padding: 9px 12px; display: flex; align-items: flex-start; gap: 10px; text-align: left; cursor: pointer; color: #f2f3f5; font-family: inherit; }
+    .dc-select-opt:last-child { border-bottom: none; }
+    .dc-select-opt:hover { background: #2b2d31; }
+    .dc-select-opt-emoji { font-size: 1rem; line-height: 1.25; flex-shrink: 0; margin-top: 1px; }
+    .dc-select-opt-title { font-size: .86rem; font-weight: 600; color: #ffffff; }
+    .dc-select-opt-desc { font-size: .76rem; color: #949ba4; margin-top: 2px; }
+
+    .dc-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .dc-btn { border: none; border-radius: 4px; padding: 7px 14px; font-family: inherit; font-size: .84rem; font-weight: 600; cursor: pointer; color: #fff; }
+    .dc-btn-danger { background: #da373c; }
+    .dc-btn-danger:hover { background: #a12828; }
+    .dc-btn-secondary { background: #4e5058; }
+    .dc-btn-secondary:hover { background: #6d6f78; }
+    .dc-btn:disabled { opacity: .55; cursor: not-allowed; }
+
+    .dc-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 10px 0 4px; }
+    .dc-field-name { font-size: .75rem; font-weight: 700; color: #f2f3f5; margin-bottom: 3px; }
+    .dc-field-val { font-size: .82rem; color: #dbdee1; }
+    .dc-mention { background: rgba(88, 101, 242, .28); color: #c9cdfb; padding: 1px 4px; border-radius: 3px; font-weight: 500; }
+    .dc-code { background: #1a1b1e; border: 1px solid #2b2d31; padding: 1px 5px; border-radius: 3px; font-family: 'IBM Plex Mono', monospace; font-size: .78rem; }
+
+    .ticket-sim-bar { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .ticket-sim-note { font-size: .78rem; color: var(--text-mute); }
+
+    @media (max-width: 1024px) {
+      .split-grid { grid-template-columns: 1fr; }
+      .preview-sticky { position: static; }
+    }
+    @media (max-width: 680px) {
+      main { padding: 28px 18px 80px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .auth-bar { padding: 16px; }
+      .panel-card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <nav data-nosnippet>
+    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/commands">Comandos</a></li>
+      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="/tos">Términos</a></li>
+      <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <header class="tickets-head">
+      <div class="tickets-head-copy">
+        <div class="mode-pill">
+          <span class="mode-dot" id="modeDot"></span>
+          <span id="modeLabel" data-i18n="modeDemo">Modo Demo Interactivo</span>
+        </div>
+        <h1 data-i18n="title">Panel Web de Tickets</h1>
+        <p data-i18n="subtitle">Configura el sistema de soporte de tu servidor, diseña paneles con botón o menú desplegable (hasta 25 categorías) y publícalos en Discord con vista previa 1:1.</p>
+      </div>
+      <a class="btn btn-secondary btn-sm" href="/commands?cat=tickets" data-i18n="backCommands">Ver comandos de tickets</a>
+    </header>
+
+    <section class="auth-bar" aria-label="Sesión y selección de servidor">
+      <div class="auth-left" id="authUserArea">
+        <img src="/android-chrome-192x192.png" alt="Discord" class="auth-avatar" id="userAvatar">
+        <div>
+          <div class="auth-user-name" id="userName" data-i18n="guestTitle">Conecta tu cuenta de Discord</div>
+          <div class="auth-user-sub" id="userSub" data-i18n="guestSub">Inicia sesión para cargar tus servidores con permiso ManageGuild o prueba el diseñador en modo demo.</div>
+        </div>
+      </div>
+      <div class="auth-right">
+        <div class="guild-select-wrap" id="guildControls" style="display: none;">
+          <select id="guildSelect" class="ctrl-select" style="min-width: 220px;" aria-label="Seleccionar servidor" data-i18n-aria="guildSelectAria"></select>
+          <div class="stats-strip" id="statsStrip">
+            <div class="stat-mini"><strong id="statOpen">0</strong><span data-i18n="statOpen">abiertos</span></div>
+            <div class="stat-mini"><strong id="statClosed">0</strong><span data-i18n="statClosed">cerrados</span></div>
+          </div>
+          <button type="button" id="reloadGuildBtn" class="btn btn-secondary btn-sm" data-i18n="reloadBtn">Recargar</button>
+          <button type="button" id="logoutBtn" class="btn btn-secondary btn-sm" data-i18n="logoutBtn">Cerrar sesión</button>
+        </div>
+        <a id="loginBtn" class="btn btn-primary" href="#" data-i18n="loginBtn">Iniciar sesión con Discord</a>
+      </div>
+    </section>
+
+    <div class="invite-banner" id="inviteBanner">
+      <p id="inviteBannerText" data-i18n="botMissing">RedBot aún no está en este servidor. Invítalo para poder leer sus canales/roles y publicar paneles.</p>
+      <a id="inviteGuildLink" class="btn btn-primary btn-sm" href="https://redbot.me/invite" target="_blank" rel="noopener" data-i18n="inviteGuildBtn">Invitar RedBot a este servidor</a>
+    </div>
+
+    <div class="split-grid">
+      <div class="editor-col">
+        <!-- BLOQUE 1: CONFIGURACIÓN GENERAL -->
+        <section class="panel-card">
+          <div class="panel-card-head">
+            <div>
+              <h2 data-i18n="cfgTitle">Configuración general</h2>
+              <p data-i18n="cfgSub">Valores base usados por defecto cuando se abre cualquier ticket en el servidor.</p>
+            </div>
+            <button type="button" id="saveConfigBtn" class="btn btn-primary btn-sm" data-i18n="saveCfgBtn">Guardar configuración</button>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="cfgEnabled" data-i18n="lblEnabled">Estado del sistema</label>
+              <select id="cfgEnabled" class="ctrl-select">
+                <option value="true" data-i18n="optEnabled">Activado</option>
+                <option value="false" data-i18n="optDisabled">Desactivado</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cfgCategory" data-i18n="lblCategory">Categoría por defecto</label>
+              <select id="cfgCategory" class="ctrl-select"></select>
+            </div>
+            <div class="field">
+              <label for="cfgLogChannel" data-i18n="lblLogs">Canal de logs y transcripciones</label>
+              <select id="cfgLogChannel" class="ctrl-select"></select>
+            </div>
+            <div class="field">
+              <label for="cfgSupportRole" data-i18n="lblSupportRole">Rol de soporte</label>
+              <select id="cfgSupportRole" class="ctrl-select"></select>
+            </div>
+            <div class="field full">
+              <label for="cfgWelcome">
+                <span data-i18n="lblWelcome">Mensaje de bienvenida dentro del ticket</span>
+                <span id="welcomeCounter" class="mono">0/1500</span>
+              </label>
+              <textarea id="cfgWelcome" class="ctrl-textarea" maxlength="1500"></textarea>
+            </div>
+          </div>
+          <div class="status-msg" id="configStatus" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- BLOQUE 2: CONSTRUCTOR DEL PANEL -->
+        <section class="panel-card">
+          <div class="panel-card-head">
+            <div>
+              <h2 data-i18n="builderTitle">Constructor del panel de apertura</h2>
+              <p data-i18n="builderSub">Elige entre un botón rojo simple o un menú desplegable con categorías personalizadas.</p>
+            </div>
+          </div>
+
+          <div class="mode-tabs" role="tablist" aria-label="Modo del panel">
+            <button type="button" class="mode-tab active" id="modeMenuBtn" role="tab" aria-selected="true" data-i18n="modeMenu">Menú desplegable</button>
+            <button type="button" class="mode-tab" id="modeButtonBtn" role="tab" aria-selected="false" data-i18n="modeButton">Botón simple</button>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="panelChannel" data-i18n="lblTargetChannel">Canal destino del panel</label>
+              <select id="panelChannel" class="ctrl-select"></select>
+            </div>
+            <div class="field">
+              <label for="panelMessageId" data-i18n="lblMessageId">ID de mensaje a editar (opcional)</label>
+              <input type="text" id="panelMessageId" class="ctrl-input ctrl-mono" placeholder="Ej. 1345678901234567890" data-i18n-placeholder="phMessageId">
+            </div>
+            <div class="field">
+              <label for="panelTitle" data-i18n="lblPanelTitle">Título del panel</label>
+              <input type="text" id="panelTitle" class="ctrl-input" maxlength="100">
+            </div>
+            <div class="field" id="placeholderField">
+              <label for="panelPlaceholder" data-i18n="lblPlaceholder">Placeholder del menú</label>
+              <input type="text" id="panelPlaceholder" class="ctrl-input" maxlength="100">
+            </div>
+            <div class="field" id="buttonLabelField" style="display: none;">
+              <label for="panelButtonLabel" data-i18n="lblBtnLabel">Texto del botón rojo</label>
+              <input type="text" id="panelButtonLabel" class="ctrl-input" maxlength="80">
+            </div>
+            <div class="field" id="buttonCatField" style="display: none;">
+              <label for="panelButtonCat" data-i18n="lblBtnCat">Categoría / Motivo</label>
+              <input type="text" id="panelButtonCat" class="ctrl-input" maxlength="40" value="General">
+            </div>
+            <div class="field full">
+              <label for="panelDescription" data-i18n="lblPanelDesc">Descripción inicial (encima del listado)</label>
+              <textarea id="panelDescription" class="ctrl-textarea" maxlength="2000"></textarea>
+            </div>
+          </div>
+
+          <div id="menuCategoriesSection">
+            <div class="cat-toolbar">
+              <span class="mono" style="font-size: .85rem; color: var(--text-dim);">
+                <span data-i18n="catCountLabel">Categorías del menú:</span> <strong id="catCountNum">0</strong>/25
+              </span>
+              <div class="cat-toolbar-actions">
+                <button type="button" id="addCatBtn" class="btn btn-secondary btn-sm" data-i18n="addCatBtn">+ Añadir categoría</button>
+                <button type="button" id="loadTemplateBtn" class="btn btn-secondary btn-sm" data-i18n="templateBtn">Cargar plantilla</button>
+                <button type="button" id="toggleImportBtn" class="btn btn-secondary btn-sm" data-i18n="importBtn">Importar / Exportar texto</button>
+              </div>
+            </div>
+
+            <div class="import-box" id="importBox">
+              <div class="field">
+                <label for="importTextarea" data-i18n="importLabel">Formato compatible con /tickets setup (emoji | Nombre | Subtexto | Descripción)</label>
+                <textarea id="importTextarea" class="ctrl-textarea ctrl-mono" rows="5"></textarea>
+              </div>
+              <div class="import-actions">
+                <button type="button" id="applyImportBtn" class="btn btn-primary btn-sm" data-i18n="applyImportBtn">Aplicar texto</button>
+              </div>
+            </div>
+
+            <div class="cat-items" id="catItems"></div>
+          </div>
+
+          <div class="actions-row">
+            <button type="button" id="publishPanelBtn" class="btn btn-primary" data-i18n="publishBtn">Publicar Panel en Discord</button>
+            <button type="button" id="copySetupBtn" class="btn btn-secondary" data-i18n="copySetupBtn">Copiar formato para /tickets setup</button>
+          </div>
+          <div class="status-msg" id="panelStatus" role="status" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <!-- COLUMNA DERECHA: PREVIEW 1:1 DISCORD COMPONENTS V2 -->
+      <aside class="preview-sticky" aria-label="Vista previa en vivo de Discord">
+        <div class="preview-shell">
+          <div class="preview-top">
+            <span class="preview-label" data-i18n="previewLabel">VISTA PREVIA · DISCORD V2</span>
+            <div class="preview-tabs" role="tablist">
+              <button type="button" class="preview-tab active" id="tabPanelPreview" role="tab" aria-selected="true" data-i18n="tabPanel">Panel de apertura</button>
+              <button type="button" class="preview-tab" id="tabTicketPreview" role="tab" aria-selected="false" data-i18n="tabTicket">Dentro del ticket</button>
+            </div>
+          </div>
+
+          <div class="dc-canvas">
+            <div class="dc-msg-head">
+              <img src="/android-chrome-192x192.png" alt="RedBot" class="dc-avatar">
+              <div class="dc-author-line">
+                <span class="dc-author">RedBot</span>
+                <span class="dc-app-tag">APP</span>
+                <span class="dc-time" data-i18n="dcTime">Hoy a las 12:00</span>
+              </div>
+            </div>
+
+            <!-- PREVIEW PANEL -->
+            <div id="previewPanelView" class="dc-v2-card"></div>
+
+            <!-- PREVIEW TICKET CONTROL -->
+            <div id="previewTicketView" class="dc-v2-card" style="display: none;"></div>
+          </div>
+
+          <div class="ticket-sim-bar">
+            <span class="ticket-sim-note" data-i18n="simNote">Interactúa con el menú o el botón Reclamar en la vista previa.</span>
+            <select id="previewCatSelect" class="ctrl-select" style="width: auto; min-width: 170px; padding: 6px 10px; font-size: .82rem;" aria-label="Categoría simulada"></select>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <p class="footer-desc">© 2026 RedBot.</p>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Proyecto</div>
+          <a href="/commands">Comandos</a>
+          <a href="https://redbot.me/invite">Invitar</a>
+          <a href="/staff">Equipo</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Soporte</div>
+          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de soporte</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Legal</div>
+          <a href="/tos">Términos de Servicio</a>
+          <a href="/privacy">Política de Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.REDBOT_I18N = {
+      titleEn: "Tickets Web Dashboard - RedBot",
+      en: {
+        modeDemo: "Interactive Demo Mode",
+        title: "Tickets Web Dashboard",
+        subtitle: "Configure your server's support system, design button or dropdown menu panels (up to 25 categories), and publish straight to Discord with 1:1 live preview.",
+        backCommands: "View ticket commands",
+        guestTitle: "Connect your Discord account",
+        guestSub: "Sign in to load servers where you have ManageGuild permission or test the builder in demo mode.",
+        guildSelectAria: "Select server",
+        statOpen: "open",
+        statClosed: "closed",
+        reloadBtn: "Reload",
+        logoutBtn: "Log out",
+        loginBtn: "Sign in with Discord",
+        botMissing: "RedBot is not in this server yet. Invite it so you can load channels/roles and publish panels.",
+        inviteGuildBtn: "Invite RedBot to this server",
+        cfgTitle: "General configuration",
+        cfgSub: "Default server settings used whenever any ticket is opened.",
+        saveCfgBtn: "Save configuration",
+        lblEnabled: "System status",
+        optEnabled: "Enabled",
+        optDisabled: "Disabled",
+        lblCategory: "Default ticket category",
+        lblLogs: "Logs & transcripts channel",
+        lblSupportRole: "Support team role",
+        lblWelcome: "Welcome message inside each ticket",
+        builderTitle: "Opening panel designer",
+        builderSub: "Choose between a single red button or a dropdown menu with custom categories.",
+        modeMenu: "Dropdown menu",
+        modeButton: "Single button",
+        lblTargetChannel: "Target channel",
+        lblMessageId: "Message ID to edit (optional)",
+        phMessageId: "e.g. 1345678901234567890",
+        lblPanelTitle: "Panel title",
+        lblPlaceholder: "Menu placeholder",
+        lblBtnLabel: "Red button text",
+        lblBtnCat: "Category / Reason",
+        lblPanelDesc: "Intro description (above the options list)",
+        catCountLabel: "Menu categories:",
+        addCatBtn: "+ Add category",
+        templateBtn: "Load template",
+        importBtn: "Import / Export text",
+        importLabel: "Compatible with /tickets setup (emoji | Name | Subtext | Description)",
+        applyImportBtn: "Apply text",
+        publishBtn: "Publish Panel to Discord",
+        copySetupBtn: "Copy /tickets setup format",
+        previewLabel: "LIVE PREVIEW · DISCORD V2",
+        tabPanel: "Opening panel",
+        tabTicket: "Inside ticket",
+        dcTime: "Today at 12:00",
+        simNote: "Try clicking the dropdown menu or Claim button in the preview."
+      }
+    };
+  </script>
+  <script src="/main.js"></script>
+  <script>
+    (function () {
+      const STORAGE_TOKEN_KEY = 'redbot_dash_token';
+      const defaultApiBase = window.location.origin;
+      const urlParams = new URLSearchParams(window.location.search);
+      const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      let API_BASE = defaultApiBase;
+      if (isLocalHost && urlParams.get('api')) {
+        try {
+          const u = new URL(urlParams.get('api'));
+          if (u.hostname === 'localhost' || u.hostname === '127.0.0.1') {
+            API_BASE = u.origin;
+          }
+        } catch {}
+      }
+
+      const PRESET_EMOJIS = ['🎫', '🛠️', '⛔', '💎', '🔒', '❓', '📩', '🐛', '⚖️', '💬'];
+      const DEMO_GUILD = {
+        guild: { id: '000000000000000000', name: 'RedBot Demo Server', icon: null },
+        stats: { open: 3, closed: 42 },
+        channels: {
+          categories: [
+            { id: 'cat-soporte', name: 'Tickets · Soporte' },
+            { id: 'cat-reportes', name: 'Tickets · Reportes' },
+            { id: 'cat-tienda', name: 'Tickets · Tienda VIP' }
+          ],
+          text: [
+            { id: 'ch-tickets', name: 'abrir-ticket' },
+            { id: 'ch-logs', name: 'logs-tickets' },
+            { id: 'ch-soporte', name: 'soporte-general' }
+          ]
+        },
+        roles: [
+          { id: 'role-staff', name: 'Equipo Soporte', color: '#ff383d' },
+          { id: 'role-mod', name: 'Moderadores', color: '#f0b132' },
+          { id: 'role-ventas', name: 'Staff Tienda', color: '#23a55a' }
+        ],
+        emojis: [],
+        ticketConfig: {
+          enabled: true,
+          categoryId: 'cat-soporte',
+          logChannelId: 'ch-logs',
+          supportRoleId: 'role-staff',
+          welcomeMessage: 'Describe tu consulta con el mayor detalle posible y un miembro del equipo te atenderá pronto.',
+          panelPlaceholder: 'Abrir Tickets',
+          categories: [
+            {
+              id: 'soporte-general',
+              emoji: '🛠️',
+              label: 'Soporte General',
+              description: 'Dudas del servidor y ayuda técnica',
+              bodyText: 'Resuelve dudas sobre comandos, errores o funcionamiento del servidor.',
+              categoryId: '',
+              supportRoleId: ''
+            },
+            {
+              id: 'reportes',
+              emoji: '⛔',
+              label: 'Reportes',
+              description: 'Reporta usuarios o bugs con pruebas',
+              bodyText: 'Reporta a un usuario o incidente adjuntando capturas o clips como prueba.',
+              categoryId: 'cat-reportes',
+              supportRoleId: 'role-mod'
+            },
+            {
+              id: 'tienda-vip',
+              emoji: '💎',
+              label: 'Compras y VIP',
+              description: 'Consultas de rangos, pagos o beneficios',
+              bodyText: 'Atención directa para dudas sobre rangos VIP, compras o entregas.',
+              categoryId: 'cat-tienda',
+              supportRoleId: 'role-ventas'
+            }
+          ]
+        }
+      };
+
+      const state = {
+        token: null,
+        authenticated: false,
+        user: null,
+        guilds: [],
+        selectedGuildId: null,
+        guildData: structuredClone(DEMO_GUILD),
+        mode: 'menu',
+        previewTab: 'panel',
+        previewMenuOpen: false,
+        previewClaimed: false,
+        selectedPreviewCatId: 'soporte-general',
+        categories: structuredClone(DEMO_GUILD.ticketConfig.categories)
+      };
+
+      const el = {
+        modeDot: document.getElementById('modeDot'),
+        modeLabel: document.getElementById('modeLabel'),
+        userAvatar: document.getElementById('userAvatar'),
+        userName: document.getElementById('userName'),
+        userSub: document.getElementById('userSub'),
+        guildControls: document.getElementById('guildControls'),
+        guildSelect: document.getElementById('guildSelect'),
+        statOpen: document.getElementById('statOpen'),
+        statClosed: document.getElementById('statClosed'),
+        reloadGuildBtn: document.getElementById('reloadGuildBtn'),
+        logoutBtn: document.getElementById('logoutBtn'),
+        loginBtn: document.getElementById('loginBtn'),
+        inviteBanner: document.getElementById('inviteBanner'),
+        inviteGuildLink: document.getElementById('inviteGuildLink'),
+        saveConfigBtn: document.getElementById('saveConfigBtn'),
+        cfgEnabled: document.getElementById('cfgEnabled'),
+        cfgCategory: document.getElementById('cfgCategory'),
+        cfgLogChannel: document.getElementById('cfgLogChannel'),
+        cfgSupportRole: document.getElementById('cfgSupportRole'),
+        cfgWelcome: document.getElementById('cfgWelcome'),
+        welcomeCounter: document.getElementById('welcomeCounter'),
+        configStatus: document.getElementById('configStatus'),
+        modeMenuBtn: document.getElementById('modeMenuBtn'),
+        modeButtonBtn: document.getElementById('modeButtonBtn'),
+        panelChannel: document.getElementById('panelChannel'),
+        panelMessageId: document.getElementById('panelMessageId'),
+        panelTitle: document.getElementById('panelTitle'),
+        placeholderField: document.getElementById('placeholderField'),
+        panelPlaceholder: document.getElementById('panelPlaceholder'),
+        buttonLabelField: document.getElementById('buttonLabelField'),
+        panelButtonLabel: document.getElementById('panelButtonLabel'),
+        buttonCatField: document.getElementById('buttonCatField'),
+        panelButtonCat: document.getElementById('panelButtonCat'),
+        panelDescription: document.getElementById('panelDescription'),
+        menuCategoriesSection: document.getElementById('menuCategoriesSection'),
+        catCountNum: document.getElementById('catCountNum'),
+        addCatBtn: document.getElementById('addCatBtn'),
+        loadTemplateBtn: document.getElementById('loadTemplateBtn'),
+        toggleImportBtn: document.getElementById('toggleImportBtn'),
+        importBox: document.getElementById('importBox'),
+        importTextarea: document.getElementById('importTextarea'),
+        applyImportBtn: document.getElementById('applyImportBtn'),
+        catItems: document.getElementById('catItems'),
+        publishPanelBtn: document.getElementById('publishPanelBtn'),
+        copySetupBtn: document.getElementById('copySetupBtn'),
+        panelStatus: document.getElementById('panelStatus'),
+        tabPanelPreview: document.getElementById('tabPanelPreview'),
+        tabTicketPreview: document.getElementById('tabTicketPreview'),
+        previewPanelView: document.getElementById('previewPanelView'),
+        previewTicketView: document.getElementById('previewTicketView'),
+        previewCatSelect: document.getElementById('previewCatSelect')
+      };
+
+      function isEn() {
+        return window.RedBotI18n && window.RedBotI18n.getLang() === 'en';
+      }
+
+      function t(esText, enText) {
+        return isEn() ? enText : esText;
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function renderEmojiHtml(rawEmoji) {
+        const s = String(rawEmoji || '').trim();
+        if (!s) return '';
+        const custom = s.match(/^<(a)?:([a-zA-Z0-9_~]+):(\d{15,22})>$/) || s.match(/^(?:(a):)?([a-zA-Z0-9_~]+):(\d{15,22})$/);
+        if (custom) {
+          const animated = Boolean(custom[1]);
+          const name = escapeHtml(custom[2]);
+          const id = custom[3];
+          const url = `https://cdn.discordapp.com/emojis/${id}.${animated ? 'gif' : 'png'}?size=48`;
+          return `<img src="${url}" alt=":${name}:" class="dc-custom-emoji">`;
+        }
+        return escapeHtml(s);
+      }
+
+      function setStatus(node, msg, kind = '') {
+        node.textContent = msg || '';
+        node.className = 'status-msg' + (kind ? ` ${kind}` : '');
+      }
+
+      function consumeHashSession() {
+        const hash = window.location.hash || '';
+        if (!hash.startsWith('#')) return;
+        const hashParams = new URLSearchParams(hash.slice(1));
+        const token = hashParams.get('session');
+        if (token) {
+          try {
+            localStorage.setItem(STORAGE_TOKEN_KEY, token);
+          } catch {}
+          state.token = token;
+          try {
+            window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          } catch {}
+        }
+      }
+
+      function getStoredToken() {
+        if (state.token) return state.token;
+        try {
+          state.token = localStorage.getItem(STORAGE_TOKEN_KEY) || null;
+        } catch {
+          state.token = null;
+        }
+        return state.token;
+      }
+
+      function clearSessionToken() {
+        state.token = null;
+        state.authenticated = false;
+        state.user = null;
+        state.guilds = [];
+        state.selectedGuildId = null;
+        try {
+          localStorage.removeItem(STORAGE_TOKEN_KEY);
+        } catch {}
+      }
+
+      function buildLoginHref() {
+        const returnTo = `${window.location.origin}/tickets`;
+        const redirectUri = `${defaultApiBase}/api/oauth/callback`;
+        return `${API_BASE}/api/auth/login?return_to=${encodeURIComponent(returnTo)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+      }
+
+      async function apiFetch(path, opts = {}) {
+        const token = getStoredToken();
+        const headers = { ...(opts.headers || {}) };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
+        const res = await fetch(`${API_BASE}${path}`, { ...opts, headers });
+        const data = await res.json().catch(() => ({}));
+        return { ok: res.ok, status: res.status, data };
+      }
+
+      function populateSelect(selectEl, items, currentValue, emptyLabel, prefix = '') {
+        selectEl.innerHTML = '';
+        const noneOpt = document.createElement('option');
+        noneOpt.value = '';
+        noneOpt.textContent = emptyLabel;
+        selectEl.appendChild(noneOpt);
+        for (const item of items || []) {
+          const opt = document.createElement('option');
+          opt.value = item.id;
+          opt.textContent = `${prefix}${item.name}`;
+          selectEl.appendChild(opt);
+        }
+        selectEl.value = currentValue || '';
+        if (currentValue && selectEl.value !== currentValue) {
+          selectEl.value = '';
+        }
+      }
+
+      function populateGuildDropdowns() {
+        const gData = state.guildData;
+        const cfg = gData.ticketConfig || {};
+        populateSelect(el.cfgCategory, gData.channels?.categories, cfg.categoryId, t('Sin categoría fija (automática)', 'No fixed category (auto)'));
+        populateSelect(el.cfgLogChannel, gData.channels?.text, cfg.logChannelId, t('Sin canal de logs', 'No logs channel'), '#');
+        populateSelect(el.cfgSupportRole, gData.roles, cfg.supportRoleId, t('Sin rol de soporte', 'No support role'), '@');
+        populateSelect(el.panelChannel, gData.channels?.text, (gData.channels?.text?.[0]?.id) || '', t('Selecciona un canal', 'Select a channel'), '#');
+
+        el.cfgEnabled.value = cfg.enabled ? 'true' : 'false';
+        el.cfgWelcome.value = cfg.welcomeMessage || t('Describe tu consulta y un miembro del equipo te atenderá pronto.', 'Describe your question and a staff member will assist you shortly.');
+        el.welcomeCounter.textContent = `${el.cfgWelcome.value.length}/1500`;
+        el.statOpen.textContent = String(gData.stats?.open ?? 0);
+        el.statClosed.textContent = String(gData.stats?.closed ?? 0);
+
+        if (!el.panelTitle.value.trim()) {
+          el.panelTitle.value = t('Soporte', 'Support');
+        }
+        el.panelPlaceholder.value = cfg.panelPlaceholder || t('Abrir Tickets', 'Open Tickets');
+        if (!el.panelButtonLabel.value.trim()) {
+          el.panelButtonLabel.value = t('Abrir ticket', 'Open ticket');
+        }
+        if (Array.isArray(cfg.categories) && cfg.categories.length) {
+          state.categories = cfg.categories.map((c) => ({ ...c }));
+        } else if (!state.authenticated) {
+          state.categories = DEMO_GUILD.ticketConfig.categories.map((c) => ({ ...c }));
+        } else {
+          state.categories = [];
+        }
+        if (state.categories.length > 0) {
+          state.selectedPreviewCatId = state.categories[0].id || state.categories[0].label;
+        }
+        renderCategoryEditors();
+        renderPreview();
+      }
+
+      function renderAuthHeader() {
+        el.loginBtn.href = buildLoginHref();
+        if (state.authenticated && state.user) {
+          el.modeDot.classList.add('live');
+          el.modeLabel.textContent = t('Conectado a Discord en vivo', 'Connected to live Discord');
+          const display = state.user.globalName || state.user.username || 'Discord User';
+          el.userName.textContent = display;
+          el.userSub.textContent = `@${state.user.username || state.user.id}`;
+          if (state.user.avatar && state.user.id) {
+            el.userAvatar.src = `https://cdn.discordapp.com/avatars/${state.user.id}/${state.user.avatar}.png?size=128`;
+          } else {
+            el.userAvatar.src = '/android-chrome-192x192.png';
+          }
+          el.loginBtn.style.display = 'none';
+          el.guildControls.style.display = 'flex';
+        } else {
+          el.modeDot.classList.remove('live');
+          el.modeLabel.textContent = t('Modo Demo Interactivo', 'Interactive Demo Mode');
+          el.userAvatar.src = '/android-chrome-192x192.png';
+          el.userName.textContent = t('Conecta tu cuenta de Discord', 'Connect your Discord account');
+          el.userSub.textContent = t('Inicia sesión para cargar tus servidores con permiso ManageGuild o prueba el diseñador en modo demo.', 'Sign in to load servers where you have ManageGuild permission or test the builder in demo mode.');
+          el.loginBtn.style.display = 'inline-flex';
+          el.guildControls.style.display = 'none';
+          el.inviteBanner.classList.remove('visible');
+        }
+      }
+
+      function renderGuildSelector() {
+        el.guildSelect.innerHTML = '';
+        if (!state.guilds.length) {
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = t('Sin servidores con ManageGuild', 'No ManageGuild servers found');
+          el.guildSelect.appendChild(opt);
+          el.inviteBanner.classList.remove('visible');
+          return;
+        }
+        for (const g of state.guilds) {
+          const opt = document.createElement('option');
+          opt.value = g.id;
+          opt.textContent = g.botPresent ? g.name : `${g.name} (${t('Sin RedBot', 'No RedBot')})`;
+          el.guildSelect.appendChild(opt);
+        }
+        const preferred = urlParams.get('guild');
+        const firstPresent = state.guilds.find((g) => g.botPresent) || state.guilds[0];
+        if (preferred && state.guilds.some((g) => g.id === preferred)) {
+          state.selectedGuildId = preferred;
+        } else if (!state.selectedGuildId || !state.guilds.some((g) => g.id === state.selectedGuildId)) {
+          state.selectedGuildId = firstPresent.id;
+        }
+        el.guildSelect.value = state.selectedGuildId;
+      }
+
+      async function loadSelectedGuildData() {
+        const selected = state.guilds.find((g) => g.id === state.selectedGuildId);
+        if (!selected) return;
+        if (!selected.botPresent) {
+          el.inviteBanner.classList.add('visible');
+          el.inviteGuildLink.href = `${defaultApiBase}/api/invite?guild_id=${encodeURIComponent(selected.id)}`;
+          return;
+        }
+        el.inviteBanner.classList.remove('visible');
+        setStatus(el.configStatus, t('Cargando servidor...', 'Loading server...'));
+        const res = await apiFetch(`/api/tickets/${encodeURIComponent(selected.id)}`);
+        if (res.ok && res.data) {
+          state.guildData = res.data;
+          populateGuildDropdowns();
+          setStatus(el.configStatus, '');
+        } else {
+          setStatus(el.configStatus, res.data?.error || t('No se pudieron cargar los datos del servidor.', 'Failed to load server data.'), 'err');
+        }
+      }
+
+      async function initSession() {
+        consumeHashSession();
+        const token = getStoredToken();
+        renderAuthHeader();
+        populateGuildDropdowns();
+        if (!token) return;
+
+        const res = await apiFetch('/api/auth/me');
+        if (!res.ok || !res.data?.authenticated) {
+          clearSessionToken();
+          renderAuthHeader();
+          return;
+        }
+        state.authenticated = true;
+        state.user = res.data.user;
+        state.guilds = Array.isArray(res.data.guilds) ? res.data.guilds : [];
+        renderAuthHeader();
+        renderGuildSelector();
+        await loadSelectedGuildData();
+      }
+
+      function slugify(str, idx) {
+        const clean = String(str || '')
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 32);
+        return clean || `cat-${idx + 1}`;
+      }
+
+      function formatOptionsText(cats) {
+        return (cats || [])
+          .map((c) => {
+            const parts = [];
+            if (c.emoji) parts.push(c.emoji);
+            parts.push(c.label || '');
+            if (c.description && c.bodyText && c.description !== c.bodyText) {
+              parts.push(c.description, c.bodyText);
+            } else if (c.bodyText || c.description) {
+              parts.push(c.bodyText || c.description);
+            }
+            return parts.join(' | ');
+          })
+          .join('\n');
+      }
+
+      function parseOptionsText(text) {
+        const lines = String(text || '').split(/\r?\n|;/).map((s) => s.trim()).filter(Boolean);
+        const result = [];
+        for (let i = 0; i < lines.length && result.length < 25; i++) {
+          const line = lines[i];
+          let emoji = '';
+          let label = '';
+          let description = '';
+          let bodyText = '';
+          if (line.includes('|')) {
+            const parts = line.split('|').map((p) => p.trim());
+            const first = parts[0] || '';
+            const looksEmoji = /^<a?:[a-zA-Z0-9_~]+:\d{15,22}>$/.test(first) || (first.length <= 16 && !/[a-zA-Z0-9]/.test(first));
+            let cursor = 0;
+            if (parts.length >= 2 && looksEmoji) {
+              emoji = first;
+              cursor = 1;
+            }
+            label = (parts[cursor] || '').slice(0, 80);
+            const seg1 = (parts[cursor + 1] || '').slice(0, 100);
+            const seg2 = (parts[cursor + 2] || '').slice(0, 300);
+            if (seg2) {
+              description = seg1;
+              bodyText = seg2;
+            } else {
+              description = seg1;
+              bodyText = seg1;
+            }
+          } else {
+            label = line.slice(0, 80);
+          }
+          if (!label) continue;
+          result.push({
+            id: slugify(label, result.length),
+            emoji,
+            label,
+            description,
+            bodyText,
+            categoryId: '',
+            supportRoleId: ''
+          });
+        }
+        return result;
+      }
+
+      function buildEmojiOptions(selectedEmoji) {
+        const guildEmojis = state.guildData?.emojis || [];
+        let html = `<option value="">${escapeHtml(t('Elegir emoji rápido...', 'Quick emoji picker...'))}</option>`;
+        for (const e of PRESET_EMOJIS) {
+          html += `<option value="${escapeHtml(e)}"${selectedEmoji === e ? ' selected' : ''}>${escapeHtml(e)}</option>`;
+        }
+        for (const ge of guildEmojis) {
+          html += `<option value="${escapeHtml(ge.identifier)}"${selectedEmoji === ge.identifier ? ' selected' : ''}>:${escapeHtml(ge.name)}: (${t('servidor', 'server')})</option>`;
+        }
+        return html;
+      }
+
+      function buildSelectHtml(items, selectedVal, emptyLabel, prefix = '') {
+        let html = `<option value="">${escapeHtml(emptyLabel)}</option>`;
+        for (const item of items || []) {
+          const sel = String(selectedVal || '') === String(item.id) ? ' selected' : '';
+          html += `<option value="${escapeHtml(item.id)}"${sel}>${escapeHtml(prefix + item.name)}</option>`;
+        }
+        return html;
+      }
+
+      function renderCategoryEditors() {
+        el.catCountNum.textContent = String(state.categories.length);
+        el.addCatBtn.disabled = state.categories.length >= 25;
+        el.catItems.innerHTML = '';
+
+        if (state.categories.length === 0) {
+          const empty = document.createElement('p');
+          empty.className = 'field-hint';
+          empty.textContent = t('No hay categorías en el menú todavía. Pulsa "+ Añadir categoría" o carga la plantilla.', 'No menu categories yet. Click "+ Add category" or load a template.');
+          el.catItems.appendChild(empty);
+        }
+
+        state.categories.forEach((cat, idx) => {
+          const card = document.createElement('div');
+          card.className = 'cat-editor-card';
+          card.dataset.index = String(idx);
+          card.innerHTML = `
+            <div class="cat-editor-top">
+              <span class="cat-editor-badge">#${idx + 1} · ${escapeHtml(cat.label || t('Nueva categoría', 'New category'))}</span>
+              <div class="cat-editor-btns">
+                <button type="button" class="icon-btn" data-act="up" title="${escapeHtml(t('Subir', 'Move up'))}" ${idx === 0 ? 'disabled' : ''}>↑</button>
+                <button type="button" class="icon-btn" data-act="down" title="${escapeHtml(t('Bajar', 'Move down'))}" ${idx === state.categories.length - 1 ? 'disabled' : ''}>↓</button>
+                <button type="button" class="icon-btn danger" data-act="del" title="${escapeHtml(t('Eliminar', 'Remove'))}">×</button>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label>${escapeHtml(t('Emoji', 'Emoji'))}</label>
+                <div class="emoji-row">
+                  <input type="text" class="ctrl-input" data-field="emoji" value="${escapeHtml(cat.emoji || '')}" placeholder="🎫" maxlength="64">
+                  <select class="ctrl-select" data-act="pick-emoji" aria-label="${escapeHtml(t('Selector rápido de emoji', 'Quick emoji picker'))}">
+                    ${buildEmojiOptions(cat.emoji)}
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>${escapeHtml(t('Nombre (label)', 'Name (label)'))}</label>
+                <input type="text" class="ctrl-input" data-field="label" value="${escapeHtml(cat.label || '')}" maxlength="80">
+              </div>
+              <div class="field full">
+                <label>${escapeHtml(t('Subtexto del desplegable (máx 100)', 'Dropdown subtext (max 100)'))}</label>
+                <input type="text" class="ctrl-input" data-field="description" value="${escapeHtml(cat.description || '')}" maxlength="100">
+              </div>
+              <div class="field full">
+                <label>${escapeHtml(t('Descripción larga en el panel (máx 300)', 'Panel body description (max 300)'))}</label>
+                <input type="text" class="ctrl-input" data-field="bodyText" value="${escapeHtml(cat.bodyText || '')}" maxlength="300">
+              </div>
+              <div class="field">
+                <label>${escapeHtml(t('Categoría Discord destino', 'Target Discord category'))}</label>
+                <select class="ctrl-select" data-field="categoryId">
+                  ${buildSelectHtml(state.guildData.channels?.categories, cat.categoryId, t('Usar por defecto', 'Use server default'))}
+                </select>
+              </div>
+              <div class="field">
+                <label>${escapeHtml(t('Rol soporte específico', 'Specific support role'))}</label>
+                <select class="ctrl-select" data-field="supportRoleId">
+                  ${buildSelectHtml(state.guildData.roles, cat.supportRoleId, t('Usar por defecto', 'Use server default'), '@')}
+                </select>
+              </div>
+            </div>
+          `;
+          el.catItems.appendChild(card);
+        });
+
+        el.previewCatSelect.innerHTML = '';
+        if (state.mode === 'menu' && state.categories.length) {
+          state.categories.forEach((c, i) => {
+            const opt = document.createElement('option');
+            opt.value = c.id || slugify(c.label, i);
+            opt.textContent = c.label || `#${i + 1}`;
+            el.previewCatSelect.appendChild(opt);
+          });
+          if ([...el.previewCatSelect.options].some((o) => o.value === state.selectedPreviewCatId)) {
+            el.previewCatSelect.value = state.selectedPreviewCatId;
+          } else {
+            state.selectedPreviewCatId = el.previewCatSelect.options[0]?.value || 'General';
+          }
+        } else {
+          const opt = document.createElement('option');
+          opt.value = el.panelButtonCat.value.trim() || 'General';
+          opt.textContent = opt.value;
+          el.previewCatSelect.appendChild(opt);
+          state.selectedPreviewCatId = opt.value;
+        }
+      }
+
+      function renderPreview() {
+        const title = el.panelTitle.value.trim() || t('Soporte', 'Support');
+        const intro = el.panelDescription.value.trim();
+
+        if (state.mode === 'menu') {
+          const placeholder = el.panelPlaceholder.value.trim() || t('Abrir Tickets', 'Open Tickets');
+          const optionLines = state.categories
+            .filter((c) => (c.label || '').trim() && ((c.bodyText || '').trim() || (c.description || '').trim()))
+            .map((c) => {
+              const em = c.emoji ? `${renderEmojiHtml(c.emoji)} ` : '';
+              const desc = escapeHtml((c.bodyText || c.description || '').trim());
+              return `<div class="dc-v2-line">» ${em}<strong>${escapeHtml(c.label.trim())}:</strong> <em>${desc}</em></div>`;
+            })
+            .join('');
+
+          const defaultIntro = escapeHtml(t('Selecciona una categoría abajo para abrir un ticket privado con el equipo.', 'Select a category below to open a private ticket with our team.'));
+          const bodyHtml = `${intro ? `<div class="dc-v2-line">${escapeHtml(intro)}</div>` : ''}${optionLines}` || `<div class="dc-v2-line">${defaultIntro}</div>`;
+
+          const menuOptsHtml = state.categories
+            .filter((c) => (c.label || '').trim())
+            .slice(0, 25)
+            .map((c, idx) => {
+              const id = c.id || slugify(c.label, idx);
+              return `
+                <button type="button" class="dc-select-opt" data-opt-id="${escapeHtml(id)}">
+                  ${c.emoji ? `<span class="dc-select-opt-emoji">${renderEmojiHtml(c.emoji)}</span>` : ''}
+                  <span>
+                    <div class="dc-select-opt-title">${escapeHtml(c.label.trim())}</div>
+                    ${c.description ? `<div class="dc-select-opt-desc">${escapeHtml(c.description.trim())}</div>` : ''}
+                  </span>
+                </button>
+              `;
+            })
+            .join('');
+
+          el.previewPanelView.innerHTML = `
+            <div class="dc-v2-h3">${escapeHtml(title)}</div>
+            <div class="dc-v2-sep"></div>
+            <div class="dc-v2-text">${bodyHtml}</div>
+            <div class="dc-select-wrap">
+              <button type="button" class="dc-select-btn" id="dcSelectTrigger" aria-expanded="${state.previewMenuOpen ? 'true' : 'false'}">
+                <span>${escapeHtml(placeholder)}</span>
+                <span>▾</span>
+              </button>
+              <div class="dc-select-menu${state.previewMenuOpen ? ' open' : ''}" id="dcSelectDropdown">
+                ${menuOptsHtml || `<div style="padding:10px 12px;font-size:.82rem;color:#949ba4;">${escapeHtml(t('Añade al menos 1 categoría para previsualizar el menú.', 'Add at least 1 category to preview the menu.'))}</div>`}
+              </div>
+            </div>
+          `;
+        } else {
+          const desc = intro || t('Pulsa el botón para abrir un ticket privado con el equipo.', 'Press the button below to open a private ticket with our team.');
+          const cat = el.panelButtonCat.value.trim() || 'General';
+          const btnLabel = el.panelButtonLabel.value.trim() || t('Abrir ticket', 'Open ticket');
+          const showCatSub = cat.toLowerCase() !== 'general';
+          el.previewPanelView.innerHTML = `
+            <div class="dc-v2-h3">${escapeHtml(title)}</div>
+            <div class="dc-v2-sep"></div>
+            <div class="dc-v2-text">${escapeHtml(desc)}</div>
+            ${showCatSub ? `<div class="dc-v2-sub">${escapeHtml(t(`Categoría: ${cat}`, `Category: ${cat}`))}</div>` : ''}
+            <div class="dc-btn-row">
+              <button type="button" class="dc-btn dc-btn-danger" id="dcOpenSingleBtn">${escapeHtml(btnLabel)}</button>
+            </div>
+          `;
+        }
+
+        // Vista Ticket #0001 (buildTicketControlCard)
+        const selectedCatObj = state.mode === 'menu'
+          ? state.categories.find((c, i) => (c.id || slugify(c.label, i)) === state.selectedPreviewCatId) || state.categories[0]
+          : null;
+        const ticketCatLabel = selectedCatObj?.label || el.panelButtonCat.value.trim() || 'General';
+        const welcome = el.cfgWelcome.value.trim() || t('Describe tu consulta y un miembro del equipo te atenderá pronto.', 'Describe your question and a staff member will assist you shortly.');
+        const openerName = state.user ? `@${state.user.username}` : '@usuario';
+        const statusCode = state.previewClaimed ? t('Reclamado', 'Claimed') : t('Abierto', 'Open');
+
+        el.previewTicketView.innerHTML = `
+          <div class="dc-v2-h3">Ticket #0001</div>
+          <div class="dc-v2-sub">${escapeHtml(ticketCatLabel)}</div>
+          <div class="dc-v2-sep"></div>
+          <div class="dc-v2-text">${escapeHtml(welcome)}</div>
+          <div class="dc-v2-sep"></div>
+          <div class="dc-fields">
+            <div>
+              <div class="dc-field-name">${escapeHtml(t('Usuario', 'User'))}</div>
+              <div class="dc-field-val"><span class="dc-mention">${escapeHtml(openerName)}</span></div>
+            </div>
+            <div>
+              <div class="dc-field-name">${escapeHtml(t('Estado', 'Status'))}</div>
+              <div class="dc-field-val"><span class="dc-code">${escapeHtml(statusCode)}</span></div>
+            </div>
+            ${state.previewClaimed ? `
+              <div>
+                <div class="dc-field-name">${escapeHtml(t('Atendido por', 'Claimed by'))}</div>
+                <div class="dc-field-val"><span class="dc-mention">${escapeHtml(openerName)}</span></div>
+              </div>
+            ` : ''}
+          </div>
+          <div class="dc-btn-row">
+            <button type="button" class="dc-btn dc-btn-secondary" id="dcClaimBtn" ${state.previewClaimed ? 'disabled' : ''}>${escapeHtml(state.previewClaimed ? t('Reclamado', 'Claimed') : t('Reclamar', 'Claim'))}</button>
+            <button type="button" class="dc-btn dc-btn-secondary">${escapeHtml(t('Transcripción', 'Transcript'))}</button>
+            <button type="button" class="dc-btn dc-btn-danger">${escapeHtml(t('Cerrar', 'Close'))}</button>
+          </div>
+        `;
+      }
+
+      function setMode(mode) {
+        state.mode = mode === 'button' ? 'button' : 'menu';
+        const isMenu = state.mode === 'menu';
+        el.modeMenuBtn.classList.toggle('active', isMenu);
+        el.modeMenuBtn.setAttribute('aria-selected', String(isMenu));
+        el.modeButtonBtn.classList.toggle('active', !isMenu);
+        el.modeButtonBtn.setAttribute('aria-selected', String(!isMenu));
+        el.placeholderField.style.display = isMenu ? 'flex' : 'none';
+        el.buttonLabelField.style.display = isMenu ? 'none' : 'flex';
+        el.buttonCatField.style.display = isMenu ? 'none' : 'flex';
+        el.menuCategoriesSection.style.display = isMenu ? 'block' : 'none';
+        renderCategoryEditors();
+        renderPreview();
+      }
+
+      function setPreviewTab(tab) {
+        state.previewTab = tab === 'ticket' ? 'ticket' : 'panel';
+        const isPanel = state.previewTab === 'panel';
+        el.tabPanelPreview.classList.toggle('active', isPanel);
+        el.tabPanelPreview.setAttribute('aria-selected', String(isPanel));
+        el.tabTicketPreview.classList.toggle('active', !isPanel);
+        el.tabTicketPreview.setAttribute('aria-selected', String(!isPanel));
+        el.previewPanelView.style.display = isPanel ? 'block' : 'none';
+        el.previewTicketView.style.display = isPanel ? 'none' : 'block';
+      }
+
+      // Listeners de configuración y panel
+      el.cfgWelcome.addEventListener('input', () => {
+        el.welcomeCounter.textContent = `${el.cfgWelcome.value.length}/1500`;
+        renderPreview();
+      });
+
+      [el.panelTitle, el.panelPlaceholder, el.panelButtonLabel, el.panelButtonCat, el.panelDescription].forEach((inputEl) => {
+        inputEl.addEventListener('input', renderPreview);
+      });
+
+      el.modeMenuBtn.addEventListener('click', () => setMode('menu'));
+      el.modeButtonBtn.addEventListener('click', () => setMode('button'));
+      el.tabPanelPreview.addEventListener('click', () => setPreviewTab('panel'));
+      el.tabTicketPreview.addEventListener('click', () => setPreviewTab('ticket'));
+
+      el.previewCatSelect.addEventListener('change', (e) => {
+        state.selectedPreviewCatId = e.target.value;
+        state.previewClaimed = false;
+        renderPreview();
+      });
+
+      el.previewPanelView.addEventListener('click', (e) => {
+        if (e.target.closest('#dcSelectTrigger')) {
+          state.previewMenuOpen = !state.previewMenuOpen;
+          renderPreview();
+          return;
+        }
+        const optBtn = e.target.closest('[data-opt-id]');
+        if (optBtn) {
+          state.selectedPreviewCatId = optBtn.getAttribute('data-opt-id');
+          state.previewMenuOpen = false;
+          state.previewClaimed = false;
+          el.previewCatSelect.value = state.selectedPreviewCatId;
+          setPreviewTab('ticket');
+          renderPreview();
+          return;
+        }
+        if (e.target.closest('#dcOpenSingleBtn')) {
+          state.previewClaimed = false;
+          setPreviewTab('ticket');
+          renderPreview();
+        }
+      });
+
+      el.previewTicketView.addEventListener('click', (e) => {
+        if (e.target.closest('#dcClaimBtn')) {
+          state.previewClaimed = true;
+          renderPreview();
+        }
+      });
+
+      el.catItems.addEventListener('input', (e) => {
+        const card = e.target.closest('.cat-editor-card');
+        if (!card) return;
+        const idx = Number(card.dataset.index);
+        const field = e.target.getAttribute('data-field');
+        if (!field || !state.categories[idx]) return;
+        state.categories[idx][field] = e.target.value;
+        if (field === 'label') {
+          state.categories[idx].id = slugify(e.target.value, idx);
+          const badge = card.querySelector('.cat-editor-badge');
+          if (badge) badge.textContent = `#${idx + 1} · ${e.target.value || t('Nueva categoría', 'New category')}`;
+        }
+        renderPreview();
+      });
+
+      el.catItems.addEventListener('change', (e) => {
+        const card = e.target.closest('.cat-editor-card');
+        if (!card) return;
+        const idx = Number(card.dataset.index);
+        if (!state.categories[idx]) return;
+        if (e.target.getAttribute('data-act') === 'pick-emoji' && e.target.value) {
+          state.categories[idx].emoji = e.target.value;
+          const input = card.querySelector('[data-field="emoji"]');
+          if (input) input.value = e.target.value;
+          renderPreview();
+          return;
+        }
+        const field = e.target.getAttribute('data-field');
+        if (field) {
+          state.categories[idx][field] = e.target.value;
+          renderPreview();
+        }
+      });
+
+      el.catItems.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-act]');
+        if (!btn) return;
+        const card = btn.closest('.cat-editor-card');
+        if (!card) return;
+        const idx = Number(card.dataset.index);
+        const act = btn.getAttribute('data-act');
+        if (act === 'up' && idx > 0) {
+          [state.categories[idx - 1], state.categories[idx]] = [state.categories[idx], state.categories[idx - 1]];
+        } else if (act === 'down' && idx < state.categories.length - 1) {
+          [state.categories[idx + 1], state.categories[idx]] = [state.categories[idx], state.categories[idx + 1]];
+        } else if (act === 'del') {
+          state.categories.splice(idx, 1);
+        } else {
+          return;
+        }
+        renderCategoryEditors();
+        renderPreview();
+      });
+
+      el.addCatBtn.addEventListener('click', () => {
+        if (state.categories.length >= 25) return;
+        const n = state.categories.length + 1;
+        state.categories.push({
+          id: `categoria-${n}`,
+          emoji: '🎫',
+          label: t(`Categoría ${n}`, `Category ${n}`),
+          description: t('Subtexto breve en el desplegable', 'Short subtext in dropdown'),
+          bodyText: t('Explica aquí cuándo abrir esta categoría.', 'Explain when to use this category.'),
+          categoryId: '',
+          supportRoleId: ''
+        });
+        renderCategoryEditors();
+        renderPreview();
+      });
+
+      el.loadTemplateBtn.addEventListener('click', () => {
+        state.categories = DEMO_GUILD.ticketConfig.categories.map((c) => ({ ...c }));
+        renderCategoryEditors();
+        renderPreview();
+      });
+
+      el.toggleImportBtn.addEventListener('click', () => {
+        const willOpen = !el.importBox.classList.contains('open');
+        if (willOpen) {
+          el.importTextarea.value = formatOptionsText(state.categories);
+        }
+        el.importBox.classList.toggle('open', willOpen);
+      });
+
+      el.applyImportBtn.addEventListener('click', () => {
+        state.categories = parseOptionsText(el.importTextarea.value);
+        el.importBox.classList.remove('open');
+        renderCategoryEditors();
+        renderPreview();
+      });
+
+      el.copySetupBtn.addEventListener('click', async () => {
+        const text = formatOptionsText(state.categories);
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          }
+          setStatus(el.panelStatus, t('Formato copiado al portapapeles.', 'Format copied to clipboard.'), 'ok');
+        } catch {
+          setStatus(el.panelStatus, t('No se pudo copiar automáticamente; usa "Importar / Exportar texto".', 'Could not copy automatically; use "Import / Export text".'), 'err');
+        }
+      });
+
+      el.guildSelect.addEventListener('change', () => {
+        state.selectedGuildId = el.guildSelect.value;
+        loadSelectedGuildData();
+      });
+
+      el.reloadGuildBtn.addEventListener('click', loadSelectedGuildData);
+
+      el.logoutBtn.addEventListener('click', async () => {
+        await apiFetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
+        clearSessionToken();
+        state.guildData = structuredClone(DEMO_GUILD);
+        renderAuthHeader();
+        populateGuildDropdowns();
+      });
+
+      el.saveConfigBtn.addEventListener('click', async () => {
+        if (!state.authenticated || !state.selectedGuildId) {
+          setStatus(el.configStatus, t('Modo Demo activo. Inicia sesión con Discord arriba para guardar en tu servidor real.', 'Demo Mode active. Sign in with Discord above to save to your live server.'), 'ok');
+          return;
+        }
+        setStatus(el.configStatus, t('Guardando configuración...', 'Saving configuration...'));
+        const payload = {
+          enabled: el.cfgEnabled.value === 'true',
+          categoryId: el.cfgCategory.value || null,
+          logChannelId: el.cfgLogChannel.value || null,
+          supportRoleId: el.cfgSupportRole.value || null,
+          welcomeMessage: el.cfgWelcome.value.trim(),
+          panelPlaceholder: el.panelPlaceholder.value.trim() || 'Abrir Tickets',
+          categories: state.categories
+        };
+        const res = await apiFetch(`/api/tickets/${encodeURIComponent(state.selectedGuildId)}/config`, {
+          method: 'PUT',
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          setStatus(el.configStatus, t('Configuración guardada correctamente en Discord/MongoDB.', 'Configuration saved successfully.'), 'ok');
+        } else {
+          setStatus(el.configStatus, res.data?.error || t('Error al guardar la configuración.', 'Error saving configuration.'), 'err');
+        }
+      });
+
+      el.publishPanelBtn.addEventListener('click', async () => {
+        if (!state.authenticated || !state.selectedGuildId) {
+          setStatus(el.panelStatus, t('Modo Demo activo. Inicia sesión con Discord arriba para publicar este panel en un canal real.', 'Demo Mode active. Sign in with Discord above to publish this panel to a live channel.'), 'ok');
+          return;
+        }
+        const channelId = el.panelChannel.value;
+        if (!channelId) {
+          setStatus(el.panelStatus, t('Selecciona un canal destino primero.', 'Select a target channel first.'), 'err');
+          return;
+        }
+        setStatus(el.panelStatus, t('Publicando panel en Discord...', 'Publishing panel to Discord...'));
+        const isMenu = state.mode === 'menu';
+        const body = {
+          channelId,
+          messageId: el.panelMessageId.value.trim() || undefined,
+          title: el.panelTitle.value.trim() || t('Soporte', 'Support'),
+          description: el.panelDescription.value.trim() || undefined,
+          lang: isEn() ? 'en' : 'es',
+          saveConfig: true,
+          ...(isMenu
+            ? {
+                placeholder: el.panelPlaceholder.value.trim() || 'Abrir Tickets',
+                categories: state.categories
+              }
+            : {
+                mode: 'button',
+                category: el.panelButtonCat.value.trim() || 'General',
+                buttonLabel: el.panelButtonLabel.value.trim() || t('Abrir ticket', 'Open ticket')
+              })
+        };
+        const res = await apiFetch(`/api/tickets/${encodeURIComponent(state.selectedGuildId)}/panel`, {
+          method: 'POST',
+          body: JSON.stringify(body)
+        });
+        if (res.ok) {
+          if (res.data?.messageId) {
+            el.panelMessageId.value = res.data.messageId;
+          }
+          setStatus(el.panelStatus, t(`Panel publicado en Discord (ID: ${res.data?.messageId || 'enviado'}).`, `Panel published to Discord (ID: ${res.data?.messageId || 'sent'}).`), 'ok');
+        } else {
+          setStatus(el.panelStatus, res.data?.error || t('No se pudo publicar el panel.', 'Failed to publish panel.'), 'err');
+        }
+      });
+
+      document.addEventListener('redbot:langchange', () => {
+        renderAuthHeader();
+        if (state.guilds.length) renderGuildSelector();
+        renderCategoryEditors();
+        renderPreview();
+      });
+
+      initSession();
+    })();
+  </script>
+</body>
+</html>
