@@ -2,3 +2,5 @@ src/
 wrangler.jsonc
 .git/
 .assetsignore
+README.md
+LICENSE

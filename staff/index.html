@@ -98,7 +98,7 @@
 
   <nav>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -171,16 +171,26 @@
       { id: "722930340640981052", role: "Soporte", roleEn: "Support" },
     ];
 
+    const STATUS_LABELS = {
+      es: { online: "En línea", idle: "Ausente", dnd: "No molestar", offline: "Desconectado" },
+      en: { online: "Online", idle: "Idle", dnd: "Do not disturb", offline: "Offline" }
+    };
+
     async function fetchMember({ id, role, roleEn }) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${encodeURIComponent(id)}`, {
+          signal: controller.signal
+        });
+        if (!res.ok) return null;
         const json = await res.json();
-        if (!json.success) return null;
+        if (!json.success || !json.data?.discord_user) return null;
         const { discord_user, discord_status } = json.data;
 
         const fallbackIndex = Number((BigInt(id) >> 22n) % 6n);
         const avatarUrl = discord_user.avatar
-          ? `https://cdn.discordapp.com/avatars/${id}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
+          ? `https://cdn.discordapp.com/avatars/${encodeURIComponent(id)}/${encodeURIComponent(discord_user.avatar)}.${String(discord_user.avatar).startsWith('a_') ? 'gif' : 'png'}?size=128`
           : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`;
 
         return {
@@ -194,6 +204,8 @@
         };
       } catch {
         return null;
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
 
@@ -232,7 +244,12 @@
 
         const statusSpan = document.createElement("span");
         const safeStatus = ['online', 'idle', 'dnd', 'offline'].includes(m.status) ? m.status : 'offline';
+        const statusLabel = (isEn ? STATUS_LABELS.en : STATUS_LABELS.es)[safeStatus];
         statusSpan.className = "team-status " + safeStatus;
+        statusSpan.dataset.status = safeStatus;
+        statusSpan.setAttribute("role", "img");
+        statusSpan.setAttribute("aria-label", statusLabel);
+        statusSpan.title = statusLabel;
 
         avatarWrap.appendChild(avatarImg);
         avatarWrap.appendChild(statusSpan);
@@ -263,6 +280,11 @@
       const isEn = e.detail.lang === 'en';
       document.querySelectorAll('.team-role').forEach(el => {
         el.textContent = isEn ? el.dataset.roleEn : el.dataset.roleEs;
+      });
+      document.querySelectorAll('.team-status[data-status]').forEach(el => {
+        const label = (isEn ? STATUS_LABELS.en : STATUS_LABELS.es)[el.dataset.status] || '';
+        el.setAttribute("aria-label", label);
+        el.title = label;
       });
       const errP = document.getElementById('team-error');
       if (errP) {

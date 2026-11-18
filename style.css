@@ -46,7 +46,8 @@ a {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-select:focus-visible {
+select:focus-visible,
+textarea:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
 }
@@ -157,37 +158,39 @@ nav {
   color: var(--text);
 }
 
-.nav-cta {
-  padding: 9px 18px !important;
-  background: var(--signal) !important;
-  color: #fff !important;
-  font-weight: 600 !important;
-  border: none !important;
-  text-decoration: none !important;
+.nav-links a.nav-cta {
+  padding: 9px 18px;
+  background: var(--signal);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  text-decoration: none;
 }
 
-.nav-cta:hover {
-  background: var(--signal-deep) !important;
+.nav-links a.nav-cta:hover {
+  background: var(--signal-deep);
+  color: #fff;
 }
 
-.nav-login-btn {
+.nav-links a.nav-login-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px !important;
-  background: var(--surface) !important;
-  border: 1px solid var(--line-strong) !important;
-  color: var(--text) !important;
-  font-size: .86rem !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
+  padding: 8px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font-size: .86rem;
+  font-weight: 600;
+  text-decoration: none;
   white-space: nowrap;
   transition: background .15s, border-color .15s;
 }
 
-.nav-login-btn:hover {
-  background: var(--surface-2) !important;
-  border-color: var(--text-dim) !important;
+.nav-links a.nav-login-btn:hover {
+  background: var(--surface-2);
+  border-color: var(--text-dim);
+  color: var(--text);
 }
 
 .nav-user-wrap {
@@ -400,13 +403,6 @@ footer {
   text-decoration: underline;
 }
 
-.footer-bottom {
-  border-top: 1px solid var(--line);
-  padding-top: 24px;
-  font-size: .85rem;
-  color: var(--text-mute);
-}
-
 /* MEDIA QUERIES (Nav & Footer) */
 @media (max-width: 1080px) {
   nav {
@@ -434,7 +430,7 @@ footer {
   .nav-links {
     display: none;
     position: absolute;
-    top: 67px;
+    top: 100%;
     left: 0;
     right: 0;
     flex-direction: column;
@@ -680,12 +676,6 @@ footer {
   border: 1px solid rgba(231, 76, 60, 0.3);
 }
 
-.badge-redbot {
-  background: var(--signal-wash);
-  color: var(--signal);
-  border: 1px solid var(--signal);
-}
-
 .badge-neutral {
   background: var(--surface-2);
   color: var(--text-dim);
@@ -733,6 +723,10 @@ footer {
   color: var(--signal);
   font-size: .95rem;
   font-weight: 700;
+}
+
+html[lang="en"] .faq-question::before {
+  content: "Q.";
 }
 
 .faq-answer {

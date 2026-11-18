@@ -154,7 +154,7 @@
       <div class="demo" aria-label="Registro de comandos UI" data-i18n-aria="demoAria">
         <div class="demo-body">
           <div class="demo-msg">
-            <div class="demo-avatar user"><img class="api-user-avatar" src="" alt="Admin" style="display: none;"></div>
+            <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" style="display: none;"></div>
             <div>
               <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">6:43</span></div>
               <span class="demo-cmd">.ban <span class="demo-mention">@Manlexo</span> spam</span>
@@ -168,7 +168,7 @@
             </div>
           </div>
           <div class="demo-msg">
-            <div class="demo-avatar user"><img class="api-user-avatar" src="" alt="Dev" style="display: none;"></div>
+            <div class="demo-avatar user"><img class="api-user-avatar" alt="Dev" style="display: none;"></div>
             <div>
               <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">16:07</span></div>
               <span class="demo-cmd" data-i18n="demoCmd2">.ask que se necesita para bailar la bamba</span>
@@ -354,9 +354,9 @@
 
     async function loadLiveStats() {
       if (!REDBOT_API_CONFIG.url) return;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000);
         const headers = {};
         if (REDBOT_API_CONFIG.key) {
           headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
@@ -365,7 +365,6 @@
           headers,
           signal: controller.signal
         });
-        clearTimeout(timeoutId);
         if (!res.ok) return;
         const data = await res.json();
 
@@ -393,32 +392,43 @@
         }
       } catch (e) {
         // En caso de fallo se mantienen los valores estáticos precargados
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
 
     async function loadDemoAvatars() {
       const userId = "668550027307909162";
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${encodeURIComponent(userId)}`, {
+          signal: controller.signal
+        });
+        if (!res.ok) return;
         const json = await res.json();
-        if (json.success) {
+        if (json.success && json.data?.discord_user) {
           const { discord_user } = json.data;
           const fallbackIndex = Number((BigInt(userId) >> 22n) % 6n);
           const avatarUrl = discord_user.avatar
-            ? `https://cdn.discordapp.com/avatars/${userId}/${discord_user.avatar}.${discord_user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=128`
+            ? `https://cdn.discordapp.com/avatars/${encodeURIComponent(userId)}/${encodeURIComponent(discord_user.avatar)}.${String(discord_user.avatar).startsWith('a_') ? 'gif' : 'png'}?size=128`
             : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`;
           if (avatarUrl.startsWith('https://cdn.discordapp.com/')) {
             document.querySelectorAll('.api-user-avatar').forEach(img => {
+              img.onload = () => {
+                img.style.display = 'block';
+                if (img.parentElement) {
+                  img.parentElement.style.background = 'transparent';
+                }
+              };
               img.src = avatarUrl;
-              img.style.display = 'block';
-              if (img.parentElement) {
-                img.parentElement.style.background = 'transparent';
-              }
             });
           }
         }
       } catch (e) {
         // Fallback silencioso
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
 

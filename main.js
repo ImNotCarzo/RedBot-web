@@ -30,7 +30,6 @@
       footerLinks: {
         '/dashboard': 'Dashboard',
         '/commands': 'Commands',
-        '/tickets': 'Tickets Panel',
         'https://redbot.me/invite': 'Invite',
         '/staff': 'Team',
         'https://discord.gg/sYdyS8Ez3s': 'Support Server',
@@ -50,6 +49,8 @@
 
   let currentUser = null;
   let navAuthInitialized = false;
+  let memoryToken = null;
+  let authReqSeq = 0;
 
   function consumeHashSession() {
     try {
@@ -58,7 +59,8 @@
       const hashParams = new URLSearchParams(hash.slice(1));
       const token = hashParams.get('session');
       if (token) {
-        localStorage.setItem(AUTH_STORAGE_KEY, token);
+        memoryToken = token;
+        try { localStorage.setItem(AUTH_STORAGE_KEY, token); } catch (e) {}
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
       }
     } catch (e) {}
@@ -68,14 +70,18 @@
 
   function getStoredAuthToken() {
     try {
-      return localStorage.getItem(AUTH_STORAGE_KEY) || null;
-    } catch (e) {
-      return null;
-    }
+      const fromStorage = localStorage.getItem(AUTH_STORAGE_KEY);
+      if (fromStorage) {
+        memoryToken = fromStorage;
+        return fromStorage;
+      }
+    } catch (e) {}
+    return memoryToken || null;
   }
 
   function clearStoredAuthToken() {
     currentUser = null;
+    memoryToken = null;
     try {
       localStorage.removeItem(AUTH_STORAGE_KEY);
     } catch (e) {}
@@ -162,8 +168,10 @@
     return 'es';
   }
 
+  window.__redbotCurrentLang = detectInitialLang();
+
   function storeOriginal(el, attr, value) {
-    if (!el.dataset[attr]) {
+    if (el.dataset[attr] === undefined) {
       el.dataset[attr] = value;
     }
   }
@@ -291,16 +299,17 @@
   }
 
   async function performLogout() {
+    authReqSeq += 1;
     const token = getStoredAuthToken();
+    clearStoredAuthToken();
+    renderNavAuth();
+    document.dispatchEvent(new CustomEvent('redbot:authchange', { detail: { authenticated: false, user: null } }));
     if (token) {
       await fetch('/api/auth/logout', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       }).catch(() => {});
     }
-    clearStoredAuthToken();
-    renderNavAuth();
-    document.dispatchEvent(new CustomEvent('redbot:authchange', { detail: { authenticated: false, user: null } }));
   }
 
   function renderNavAuth() {
@@ -374,6 +383,10 @@
       logoutBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         closeUserMenu();
+        const navLinksEl = document.getElementById('nav-links');
+        const menuToggleEl = document.getElementById('menu-toggle');
+        if (navLinksEl) navLinksEl.classList.remove('is-open');
+        if (menuToggleEl) menuToggleEl.setAttribute('aria-expanded', 'false');
         performLogout();
       });
 
@@ -416,6 +429,7 @@
       });
     }
 
+    const seq = ++authReqSeq;
     const token = getStoredAuthToken();
     const decoded = decodeTokenPayload(token);
     if (!token || !decoded) {
@@ -432,6 +446,7 @@
       const res = await fetch('/api/auth/me', {
         headers: { Authorization: `Bearer ${token}` }
       });
+      if (seq !== authReqSeq) return;
       if (res.status === 401) {
         clearStoredAuthToken();
         renderNavAuth();
@@ -440,6 +455,7 @@
       }
       if (res.ok) {
         const data = await res.json().catch(() => null);
+        if (seq !== authReqSeq) return;
         if (data && data.authenticated && data.user) {
           currentUser = data.user;
           renderNavAuth();

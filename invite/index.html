@@ -30,10 +30,10 @@
   <meta name="twitter:description" content="Agrégalo al servidor y pruébalo con tu propia comunidad.">
   <meta name="twitter:image" content="https://redbot.me/og-image.png">
 
-  <!-- Redirección automática a Discord OAuth2 -->
-  <meta http-equiv="refresh" content="0; url=https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands+identify&response_type=code&redirect_uri=https%3A%2F%2Fredbot.me%2Fapi%2Foauth%2Fcallback">
+  <!-- Redirección automática a Discord OAuth2 (con state CSRF del backend) -->
+  <meta http-equiv="refresh" content="0; url=/api/invite">
   <script>
-    location.replace("https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands+identify&response_type=code&redirect_uri=https%3A%2F%2Fredbot.me%2Fapi%2Foauth%2Fcallback");
+    location.replace("/api/invite" + window.location.search);
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,21 +77,22 @@
   </style>
 </head>
 <body>
-  <div class="redirect-card">
-    <img src="/android-chrome-192x192.png" alt="RedBot" class="redirect-logo">
+  <main class="redirect-card">
+    <img src="/android-chrome-192x192.png" alt="RedBot" class="redirect-logo" width="64" height="64">
     <h1 id="invite-title">Redirigiendo a Discord...</h1>
     <p id="invite-desc">Si la ventana de autorización no se abre automáticamente en unos segundos, puedes continuar pulsando el botón a continuación:</p>
-    <a id="invite-btn" class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1020772849906098186&permissions=1125902121552960&integration_type=0&scope=bot+applications.commands+identify&response_type=code&redirect_uri=https%3A%2F%2Fredbot.me%2Fapi%2Foauth%2Fcallback">
+    <a id="invite-btn" class="btn btn-primary" href="/api/invite">
       Autorizar en Servidor
     </a>
-  </div>
+  </main>
   <script>
     (function () {
       try {
-        var param = new URLSearchParams(window.location.search).get('lang');
-        var saved = localStorage.getItem('redbot_lang');
-        var navLang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
-        var lang = (param || saved || navLang).toLowerCase();
+        var rawParam = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase().trim();
+        var param = rawParam.indexOf('en') === 0 ? 'en' : (rawParam.indexOf('es') === 0 ? 'es' : '');
+        var saved = (localStorage.getItem('redbot_lang') || '').toLowerCase().trim();
+        var navLang = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+        var lang = param || saved || navLang;
         if (lang.indexOf('en') === 0) {
           document.documentElement.lang = 'en';
           document.title = 'RedBot - Invite to Discord';

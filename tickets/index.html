@@ -137,7 +137,7 @@
     .dc-v2-h3 { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
     .dc-v2-sub { font-size: .78rem; color: #949ba4; margin-top: 2px; }
     .dc-v2-sep { height: 1px; background: #313338; margin: 10px 0; }
-    .dc-v2-text { font-size: .9rem; line-height: 1.5; color: #dbdee1; word-break: break-word; }
+    .dc-v2-text { font-size: .9rem; line-height: 1.5; color: #dbdee1; word-break: break-word; white-space: pre-wrap; }
     .dc-v2-line { margin-bottom: 10px; }
     .dc-v2-line:last-child { margin-bottom: 0; }
     .dc-custom-emoji { width: 18px; height: 18px; vertical-align: -3px; display: inline-block; margin: 0 2px; }
@@ -188,7 +188,7 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -213,7 +213,7 @@
       <a class="btn btn-secondary btn-sm" href="/commands?cat=tickets" data-i18n="backCommands">Ver comandos de tickets</a>
     </header>
 
-    <section class="auth-bar" aria-label="Sesión y selección de servidor">
+    <section class="auth-bar" aria-label="Sesión y selección de servidor" data-i18n-aria="authBarAria">
       <div class="auth-left" id="authUserArea">
         <img src="/android-chrome-192x192.png" alt="Discord" class="auth-avatar" id="userAvatar">
         <div>
@@ -237,7 +237,7 @@
 
     <div class="invite-banner" id="inviteBanner">
       <p id="inviteBannerText" data-i18n="botMissing">RedBot aún no está en este servidor. Invítalo para poder leer sus canales/roles y publicar paneles.</p>
-      <a id="inviteGuildLink" class="btn btn-primary btn-sm" href="https://redbot.me/invite" target="_blank" rel="noopener" data-i18n="inviteGuildBtn">Invitar RedBot a este servidor</a>
+      <a id="inviteGuildLink" class="btn btn-primary btn-sm" href="https://redbot.me/invite" target="_blank" rel="noopener noreferrer" data-i18n="inviteGuildBtn">Invitar RedBot a este servidor</a>
     </div>
 
     <div class="split-grid">
@@ -292,7 +292,7 @@
             </div>
           </div>
 
-          <div class="mode-tabs" role="tablist" aria-label="Modo del panel">
+          <div class="mode-tabs" role="tablist" aria-label="Modo del panel" data-i18n-aria="panelModeAria">
             <button type="button" class="mode-tab active" id="modeMenuBtn" role="tab" aria-selected="true" data-i18n="modeMenu">Menú desplegable</button>
             <button type="button" class="mode-tab" id="modeButtonBtn" role="tab" aria-selected="false" data-i18n="modeButton">Botón simple</button>
           </div>
@@ -362,7 +362,7 @@
       </div>
 
       <!-- COLUMNA DERECHA: PREVIEW 1:1 DISCORD COMPONENTS V2 -->
-      <aside class="preview-sticky" aria-label="Vista previa en vivo de Discord">
+      <aside class="preview-sticky" aria-label="Vista previa en vivo de Discord" data-i18n-aria="previewAsideAria">
         <div class="preview-shell">
           <div class="preview-top">
             <span class="preview-label" data-i18n="previewLabel">VISTA PREVIA · DISCORD V2</span>
@@ -391,7 +391,7 @@
 
           <div class="ticket-sim-bar">
             <span class="ticket-sim-note" data-i18n="simNote">Interactúa con el menú o el botón Reclamar en la vista previa.</span>
-            <select id="previewCatSelect" class="ctrl-select" style="width: auto; min-width: 170px; padding: 6px 10px; font-size: .82rem;" aria-label="Categoría simulada"></select>
+            <select id="previewCatSelect" class="ctrl-select" style="width: auto; min-width: 170px; padding: 6px 10px; font-size: .82rem;" aria-label="Categoría simulada" data-i18n-aria="previewCatAria"></select>
           </div>
         </div>
       </aside>
@@ -476,7 +476,11 @@
         tabPanel: "Opening panel",
         tabTicket: "Inside ticket",
         dcTime: "Today at 12:00",
-        simNote: "Try clicking the dropdown menu or Claim button in the preview."
+        simNote: "Try clicking the dropdown menu or Claim button in the preview.",
+        authBarAria: "Session and server selector",
+        panelModeAria: "Panel mode",
+        previewAsideAria: "Live Discord preview",
+        previewCatAria: "Simulated category"
       }
     };
   </script>
@@ -700,8 +704,10 @@
         } catch {}
       }
 
+      let guildLoadSeq = 0;
+
       function buildLoginHref() {
-        const returnTo = `${window.location.origin}/tickets`;
+        const returnTo = `${window.location.origin}/tickets${window.location.search}`;
         const redirectUri = `${defaultApiBase}/api/oauth/callback`;
         return `${API_BASE}/api/auth/login?return_to=${encodeURIComponent(returnTo)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       }
@@ -711,9 +717,13 @@
         const headers = { ...(opts.headers || {}) };
         if (token) headers['Authorization'] = `Bearer ${token}`;
         if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
-        const res = await fetch(`${API_BASE}${path}`, { ...opts, headers });
-        const data = await res.json().catch(() => ({}));
-        return { ok: res.ok, status: res.status, data };
+        try {
+          const res = await fetch(`${API_BASE}${path}`, { ...opts, headers });
+          const data = await res.json().catch(() => ({}));
+          return { ok: res.ok, status: res.status, data };
+        } catch {
+          return { ok: false, status: 0, data: { error: t('Error de conexión con el servidor.', 'Server connection error.') } };
+        }
       }
 
       function populateSelect(selectEl, items, currentValue, emptyLabel, prefix = '') {
@@ -778,7 +788,12 @@
           el.userName.textContent = display;
           el.userSub.textContent = `@${state.user.username || state.user.id}`;
           if (state.user.avatar && state.user.id) {
-            el.userAvatar.src = `https://cdn.discordapp.com/avatars/${state.user.id}/${state.user.avatar}.png?size=128`;
+            const ext = String(state.user.avatar).startsWith('a_') ? 'gif' : 'png';
+            el.userAvatar.onerror = function () {
+              this.onerror = null;
+              this.src = '/android-chrome-192x192.png';
+            };
+            el.userAvatar.src = `https://cdn.discordapp.com/avatars/${encodeURIComponent(state.user.id)}/${encodeURIComponent(state.user.avatar)}.${ext}?size=128`;
           } else {
             el.userAvatar.src = '/android-chrome-192x192.png';
           }
@@ -822,17 +837,32 @@
         el.guildSelect.value = state.selectedGuildId;
       }
 
+      function setGuildActionsEnabled(enabled) {
+        el.saveConfigBtn.disabled = !enabled;
+        el.publishPanelBtn.disabled = !enabled;
+      }
+
       async function loadSelectedGuildData() {
+        const seq = ++guildLoadSeq;
         const selected = state.guilds.find((g) => g.id === state.selectedGuildId);
-        if (!selected) return;
+        el.panelMessageId.value = '';
+        setStatus(el.panelStatus, '');
+        if (!selected) {
+          setGuildActionsEnabled(!state.authenticated);
+          return;
+        }
         if (!selected.botPresent) {
           el.inviteBanner.classList.add('visible');
           el.inviteGuildLink.href = `${defaultApiBase}/api/invite?guild_id=${encodeURIComponent(selected.id)}`;
+          setGuildActionsEnabled(false);
+          setStatus(el.configStatus, '');
           return;
         }
         el.inviteBanner.classList.remove('visible');
+        setGuildActionsEnabled(true);
         setStatus(el.configStatus, t('Cargando servidor...', 'Loading server...'));
         const res = await apiFetch(`/api/tickets/${encodeURIComponent(selected.id)}`);
+        if (seq !== guildLoadSeq) return;
         if (res.ok && res.data) {
           state.guildData = res.data;
           populateGuildDropdowns();
@@ -853,6 +883,9 @@
         if (!res.ok || !res.data?.authenticated) {
           clearSessionToken();
           renderAuthHeader();
+          if (window.RedBotAuth && window.RedBotAuth.refreshHeader) {
+            window.RedBotAuth.refreshHeader();
+          }
           return;
         }
         state.authenticated = true;
@@ -872,6 +905,20 @@
           .replace(/^-+|-+$/g, '')
           .slice(0, 32);
         return clean || `cat-${idx + 1}`;
+      }
+
+      function uniqueCategoryId(label, idx, list = state.categories, excludeIdx = -1) {
+        const base = slugify(label, idx);
+        const used = new Set(
+          list
+            .filter((_, i) => i !== excludeIdx)
+            .map((c) => c && c.id)
+            .filter(Boolean)
+        );
+        if (!used.has(base)) return base;
+        let suffix = 2;
+        while (used.has(`${base}-${suffix}`)) suffix++;
+        return `${base}-${suffix}`;
       }
 
       function formatOptionsText(cats) {
@@ -923,7 +970,7 @@
           }
           if (!label) continue;
           result.push({
-            id: slugify(label, result.length),
+            id: uniqueCategoryId(label, result.length, result),
             emoji,
             label,
             description,
@@ -954,6 +1001,29 @@
           html += `<option value="${escapeHtml(item.id)}"${sel}>${escapeHtml(prefix + item.name)}</option>`;
         }
         return html;
+      }
+
+      function syncPreviewCatSelect() {
+        el.previewCatSelect.innerHTML = '';
+        if (state.mode === 'menu' && state.categories.length) {
+          state.categories.forEach((c, i) => {
+            const opt = document.createElement('option');
+            opt.value = c.id || slugify(c.label, i);
+            opt.textContent = c.label || `#${i + 1}`;
+            el.previewCatSelect.appendChild(opt);
+          });
+          if ([...el.previewCatSelect.options].some((o) => o.value === state.selectedPreviewCatId)) {
+            el.previewCatSelect.value = state.selectedPreviewCatId;
+          } else {
+            state.selectedPreviewCatId = el.previewCatSelect.options[0]?.value || 'General';
+          }
+        } else {
+          const opt = document.createElement('option');
+          opt.value = el.panelButtonCat.value.trim() || 'General';
+          opt.textContent = opt.value;
+          el.previewCatSelect.appendChild(opt);
+          state.selectedPreviewCatId = opt.value;
+        }
       }
 
       function renderCategoryEditors() {
@@ -1020,26 +1090,7 @@
           el.catItems.appendChild(card);
         });
 
-        el.previewCatSelect.innerHTML = '';
-        if (state.mode === 'menu' && state.categories.length) {
-          state.categories.forEach((c, i) => {
-            const opt = document.createElement('option');
-            opt.value = c.id || slugify(c.label, i);
-            opt.textContent = c.label || `#${i + 1}`;
-            el.previewCatSelect.appendChild(opt);
-          });
-          if ([...el.previewCatSelect.options].some((o) => o.value === state.selectedPreviewCatId)) {
-            el.previewCatSelect.value = state.selectedPreviewCatId;
-          } else {
-            state.selectedPreviewCatId = el.previewCatSelect.options[0]?.value || 'General';
-          }
-        } else {
-          const opt = document.createElement('option');
-          opt.value = el.panelButtonCat.value.trim() || 'General';
-          opt.textContent = opt.value;
-          el.previewCatSelect.appendChild(opt);
-          state.selectedPreviewCatId = opt.value;
-        }
+        syncPreviewCatSelect();
       }
 
       function renderPreview() {
@@ -1069,8 +1120,8 @@
                 <button type="button" class="dc-select-opt" data-opt-id="${escapeHtml(id)}">
                   ${c.emoji ? `<span class="dc-select-opt-emoji">${renderEmojiHtml(c.emoji)}</span>` : ''}
                   <span>
-                    <div class="dc-select-opt-title">${escapeHtml(c.label.trim())}</div>
-                    ${c.description ? `<div class="dc-select-opt-desc">${escapeHtml(c.description.trim())}</div>` : ''}
+                    <span class="dc-select-opt-title" style="display:block">${escapeHtml(c.label.trim())}</span>
+                    ${c.description ? `<span class="dc-select-opt-desc" style="display:block">${escapeHtml(c.description.trim())}</span>` : ''}
                   </span>
                 </button>
               `;
@@ -1113,7 +1164,7 @@
           : null;
         const ticketCatLabel = selectedCatObj?.label || el.panelButtonCat.value.trim() || 'General';
         const welcome = el.cfgWelcome.value.trim() || t('Describe tu consulta y un miembro del equipo te atenderá pronto.', 'Describe your question and a staff member will assist you shortly.');
-        const openerName = state.user ? `@${state.user.username}` : '@usuario';
+        const openerName = state.user ? `@${state.user.username}` : t('@usuario', '@user');
         const statusCode = state.previewClaimed ? t('Reclamado', 'Claimed') : t('Abierto', 'Open');
 
         el.previewTicketView.innerHTML = `
@@ -1178,8 +1229,12 @@
         renderPreview();
       });
 
-      [el.panelTitle, el.panelPlaceholder, el.panelButtonLabel, el.panelButtonCat, el.panelDescription].forEach((inputEl) => {
+      [el.panelTitle, el.panelPlaceholder, el.panelButtonLabel, el.panelDescription].forEach((inputEl) => {
         inputEl.addEventListener('input', renderPreview);
+      });
+      el.panelButtonCat.addEventListener('input', () => {
+        syncPreviewCatSelect();
+        renderPreview();
       });
 
       el.modeMenuBtn.addEventListener('click', () => setMode('menu'));
@@ -1231,9 +1286,10 @@
         if (!field || !state.categories[idx]) return;
         state.categories[idx][field] = e.target.value;
         if (field === 'label') {
-          state.categories[idx].id = slugify(e.target.value, idx);
+          state.categories[idx].id = uniqueCategoryId(e.target.value, idx, state.categories, idx);
           const badge = card.querySelector('.cat-editor-badge');
           if (badge) badge.textContent = `#${idx + 1} · ${e.target.value || t('Nueva categoría', 'New category')}`;
+          syncPreviewCatSelect();
         }
         renderPreview();
       });
@@ -1280,10 +1336,11 @@
       el.addCatBtn.addEventListener('click', () => {
         if (state.categories.length >= 25) return;
         const n = state.categories.length + 1;
+        const label = t(`Categoría ${n}`, `Category ${n}`);
         state.categories.push({
-          id: `categoria-${n}`,
+          id: uniqueCategoryId(label, n - 1),
           emoji: '🎫',
-          label: t(`Categoría ${n}`, `Category ${n}`),
+          label,
           description: t('Subtexto breve en el desplegable', 'Short subtext in dropdown'),
           bodyText: t('Explica aquí cuándo abrir esta categoría.', 'Explain when to use this category.'),
           categoryId: '',
@@ -1294,7 +1351,10 @@
       });
 
       el.loadTemplateBtn.addEventListener('click', () => {
-        state.categories = DEMO_GUILD.ticketConfig.categories.map((c) => ({ ...c }));
+        state.categories = DEMO_GUILD.ticketConfig.categories.map((c) => ({
+          ...c,
+          ...(state.authenticated ? { categoryId: '', supportRoleId: '' } : {})
+        }));
         renderCategoryEditors();
         renderPreview();
       });
@@ -1319,6 +1379,16 @@
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(text);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (!ok) throw new Error('copy_failed');
           }
           setStatus(el.panelStatus, t('Formato copiado al portapapeles.', 'Format copied to clipboard.'), 'ok');
         } catch {
@@ -1334,14 +1404,16 @@
       el.reloadGuildBtn.addEventListener('click', loadSelectedGuildData);
 
       el.logoutBtn.addEventListener('click', async () => {
+        if (window.RedBotAuth && window.RedBotAuth.logout) {
+          await window.RedBotAuth.logout();
+          return;
+        }
         await apiFetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
         clearSessionToken();
         state.guildData = structuredClone(DEMO_GUILD);
+        setGuildActionsEnabled(true);
         renderAuthHeader();
         populateGuildDropdowns();
-        if (window.RedBotAuth && window.RedBotAuth.refreshHeader) {
-          window.RedBotAuth.refreshHeader();
-        }
       });
 
       el.saveConfigBtn.addEventListener('click', async () => {
@@ -1349,24 +1421,33 @@
           setStatus(el.configStatus, t('Modo Demo activo. Inicia sesión con Discord arriba para guardar en tu servidor real.', 'Demo Mode active. Sign in with Discord above to save to your live server.'), 'ok');
           return;
         }
+        const selected = state.guilds.find((g) => g.id === state.selectedGuildId);
+        if (selected && !selected.botPresent) return;
+
+        el.saveConfigBtn.disabled = true;
         setStatus(el.configStatus, t('Guardando configuración...', 'Saving configuration...'));
-        const payload = {
-          enabled: el.cfgEnabled.value === 'true',
-          categoryId: el.cfgCategory.value || null,
-          logChannelId: el.cfgLogChannel.value || null,
-          supportRoleId: el.cfgSupportRole.value || null,
-          welcomeMessage: el.cfgWelcome.value.trim(),
-          panelPlaceholder: el.panelPlaceholder.value.trim() || 'Abrir Tickets',
-          categories: state.categories
-        };
-        const res = await apiFetch(`/api/tickets/${encodeURIComponent(state.selectedGuildId)}/config`, {
-          method: 'PUT',
-          body: JSON.stringify(payload)
-        });
-        if (res.ok) {
-          setStatus(el.configStatus, t('Configuración guardada correctamente en Discord/MongoDB.', 'Configuration saved successfully.'), 'ok');
-        } else {
-          setStatus(el.configStatus, res.data?.error || t('Error al guardar la configuración.', 'Error saving configuration.'), 'err');
+        try {
+          const payload = {
+            enabled: el.cfgEnabled.value === 'true',
+            categoryId: el.cfgCategory.value || null,
+            logChannelId: el.cfgLogChannel.value || null,
+            supportRoleId: el.cfgSupportRole.value || null,
+            welcomeMessage: el.cfgWelcome.value.trim(),
+            panelPlaceholder: el.panelPlaceholder.value.trim() || t('Abrir Tickets', 'Open Tickets'),
+            categories: state.categories
+          };
+          const res = await apiFetch(`/api/tickets/${encodeURIComponent(state.selectedGuildId)}/config`, {
+            method: 'PUT',
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            setStatus(el.configStatus, t('Configuración guardada correctamente en Discord/MongoDB.', 'Configuration saved successfully.'), 'ok');
+          } else {
+            setStatus(el.configStatus, res.data?.error || t('Error al guardar la configuración.', 'Error saving configuration.'), 'err');
+          }
+        } finally {
+          const cur = state.guilds.find((g) => g.id === state.selectedGuildId);
+          el.saveConfigBtn.disabled = Boolean(cur && !cur.botPresent);
         }
       });
 
@@ -1375,56 +1456,81 @@
           setStatus(el.panelStatus, t('Modo Demo activo. Inicia sesión con Discord arriba para publicar este panel en un canal real.', 'Demo Mode active. Sign in with Discord above to publish this panel to a live channel.'), 'ok');
           return;
         }
+        const selected = state.guilds.find((g) => g.id === state.selectedGuildId);
+        if (selected && !selected.botPresent) return;
+
         const channelId = el.panelChannel.value;
         if (!channelId) {
           setStatus(el.panelStatus, t('Selecciona un canal destino primero.', 'Select a target channel first.'), 'err');
           return;
         }
+        el.publishPanelBtn.disabled = true;
         setStatus(el.panelStatus, t('Publicando panel en Discord...', 'Publishing panel to Discord...'));
-        const isMenu = state.mode === 'menu';
-        const body = {
-          channelId,
-          messageId: el.panelMessageId.value.trim() || undefined,
-          title: el.panelTitle.value.trim() || t('Soporte', 'Support'),
-          description: el.panelDescription.value.trim() || undefined,
-          lang: isEn() ? 'en' : 'es',
-          saveConfig: true,
-          ...(isMenu
-            ? {
-                placeholder: el.panelPlaceholder.value.trim() || 'Abrir Tickets',
-                categories: state.categories
-              }
-            : {
-                mode: 'button',
-                category: el.panelButtonCat.value.trim() || 'General',
-                buttonLabel: el.panelButtonLabel.value.trim() || t('Abrir ticket', 'Open ticket')
-              })
-        };
-        const res = await apiFetch(`/api/tickets/${encodeURIComponent(state.selectedGuildId)}/panel`, {
-          method: 'POST',
-          body: JSON.stringify(body)
-        });
-        if (res.ok) {
-          if (res.data?.messageId) {
-            el.panelMessageId.value = res.data.messageId;
+        try {
+          const isMenu = state.mode === 'menu';
+          const body = {
+            channelId,
+            messageId: el.panelMessageId.value.trim() || undefined,
+            title: el.panelTitle.value.trim() || t('Soporte', 'Support'),
+            description: el.panelDescription.value.trim() || undefined,
+            lang: isEn() ? 'en' : 'es',
+            saveConfig: true,
+            ...(isMenu
+              ? {
+                  placeholder: el.panelPlaceholder.value.trim() || t('Abrir Tickets', 'Open Tickets'),
+                  categories: state.categories
+                }
+              : {
+                  mode: 'button',
+                  category: el.panelButtonCat.value.trim() || 'General',
+                  buttonLabel: el.panelButtonLabel.value.trim() || t('Abrir ticket', 'Open ticket')
+                })
+          };
+          const res = await apiFetch(`/api/tickets/${encodeURIComponent(state.selectedGuildId)}/panel`, {
+            method: 'POST',
+            body: JSON.stringify(body)
+          });
+          if (res.ok) {
+            if (res.data?.messageId) {
+              el.panelMessageId.value = res.data.messageId;
+            }
+            setStatus(el.panelStatus, t(`Panel publicado en Discord (ID: ${res.data?.messageId || 'enviado'}).`, `Panel published to Discord (ID: ${res.data?.messageId || 'sent'}).`), 'ok');
+          } else {
+            setStatus(el.panelStatus, res.data?.error || t('No se pudo publicar el panel.', 'Failed to publish panel.'), 'err');
           }
-          setStatus(el.panelStatus, t(`Panel publicado en Discord (ID: ${res.data?.messageId || 'enviado'}).`, `Panel published to Discord (ID: ${res.data?.messageId || 'sent'}).`), 'ok');
-        } else {
-          setStatus(el.panelStatus, res.data?.error || t('No se pudo publicar el panel.', 'Failed to publish panel.'), 'err');
+        } finally {
+          const cur = state.guilds.find((g) => g.id === state.selectedGuildId);
+          el.publishPanelBtn.disabled = Boolean(cur && !cur.botPresent);
         }
       });
+
+      function updateEmptySelectLabels() {
+        const pairs = [
+          [el.cfgCategory, t('Sin categoría fija (automática)', 'No fixed category (auto)')],
+          [el.cfgLogChannel, t('Sin canal de logs', 'No logs channel')],
+          [el.cfgSupportRole, t('Sin rol de soporte', 'No support role')],
+          [el.panelChannel, t('Selecciona un canal', 'Select a channel')]
+        ];
+        for (const [sel, label] of pairs) {
+          const firstOpt = sel?.querySelector('option[value=""]');
+          if (firstOpt) firstOpt.textContent = label;
+        }
+      }
 
       document.addEventListener('redbot:langchange', () => {
         renderAuthHeader();
         if (state.guilds.length) renderGuildSelector();
+        updateEmptySelectLabels();
         renderCategoryEditors();
         renderPreview();
       });
 
       document.addEventListener('redbot:authchange', (e) => {
         if (e.detail && e.detail.authenticated === false && state.authenticated) {
+          guildLoadSeq += 1;
           clearSessionToken();
           state.guildData = structuredClone(DEMO_GUILD);
+          setGuildActionsEnabled(true);
           renderAuthHeader();
           populateGuildDropdowns();
         }

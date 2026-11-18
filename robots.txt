@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 # Motores de búsqueda de IA (GEO / LLM Search)
 User-agent: GPTBot
