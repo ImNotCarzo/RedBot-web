@@ -10,8 +10,19 @@ export default {
       const target = `${base}${url.pathname}${url.search}`;
 
       const headers = new Headers(request.headers);
-      // Solo inyectar REDBOT_API_KEY si el cliente no envía ya su propio Bearer token (sesión del dashboard)
-      if (env.REDBOT_API_KEY && !headers.has("Authorization")) {
+      const clientIp = request.headers.get("CF-Connecting-IP");
+      if (clientIp) {
+        headers.set("X-Forwarded-For", clientIp);
+      }
+
+      const isUserAuthRoute =
+        url.pathname === "/api/tickets" ||
+        url.pathname.startsWith("/api/tickets/") ||
+        url.pathname.startsWith("/api/auth/") ||
+        url.pathname.startsWith("/api/dashboard/");
+
+      // Solo inyectar REDBOT_API_KEY en endpoints públicos/de datos, nunca en rutas de sesión de usuario
+      if (env.REDBOT_API_KEY && !isUserAuthRoute && !headers.has("Authorization")) {
         headers.set("Authorization", `Bearer ${env.REDBOT_API_KEY}`);
       }
       headers.delete("host");

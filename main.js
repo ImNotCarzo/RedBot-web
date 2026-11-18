@@ -1,6 +1,7 @@
-// RedBot Global JS & i18n (ES / EN)
+// RedBot Global JS, i18n (ES / EN) & Auth Header
 (function () {
   const STORAGE_KEY = 'redbot_lang';
+  const AUTH_STORAGE_KEY = 'redbot_dash_token';
 
   const SHARED_I18N = {
     en: {
@@ -8,10 +9,17 @@
       logoAria: 'Go to RedBot home',
       menuToggle: 'Menu',
       nav: {
+        '/dashboard': 'Dashboard',
         '/commands': 'Commands',
-        '/privacy': 'Privacy',
         '/tos': 'Terms',
+        '/privacy': 'Privacy',
         'https://redbot.me/invite': 'Invite'
+      },
+      auth: {
+        login: 'Sign in',
+        dashboard: 'Dashboard',
+        tickets: 'Tickets Panel',
+        logout: 'Log out'
       },
       footerDesc: '© 2026 RedBot.',
       footerTitles: {
@@ -20,15 +28,108 @@
         'Legal': 'Legal'
       },
       footerLinks: {
+        '/dashboard': 'Dashboard',
         '/commands': 'Commands',
+        '/tickets': 'Tickets Panel',
         'https://redbot.me/invite': 'Invite',
         '/staff': 'Team',
         'https://discord.gg/sYdyS8Ez3s': 'Support Server',
         '/privacy': 'Privacy Policy',
         '/tos': 'Terms of Service'
       }
+    },
+    es: {
+      auth: {
+        login: 'Iniciar sesión',
+        dashboard: 'Dashboard',
+        tickets: 'Panel de Tickets',
+        logout: 'Cerrar sesión'
+      }
     }
   };
+
+  let currentUser = null;
+  let navAuthInitialized = false;
+
+  function consumeHashSession() {
+    try {
+      const hash = window.location.hash || '';
+      if (!hash.startsWith('#')) return;
+      const hashParams = new URLSearchParams(hash.slice(1));
+      const token = hashParams.get('session');
+      if (token) {
+        localStorage.setItem(AUTH_STORAGE_KEY, token);
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    } catch (e) {}
+  }
+
+  consumeHashSession();
+
+  function getStoredAuthToken() {
+    try {
+      return localStorage.getItem(AUTH_STORAGE_KEY) || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function clearStoredAuthToken() {
+    currentUser = null;
+    try {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    } catch (e) {}
+  }
+
+  function decodeTokenPayload(token) {
+    if (!token || typeof token !== 'string') return null;
+    const dotIdx = token.indexOf('.');
+    if (dotIdx <= 0) return null;
+    try {
+      let b64 = token.slice(0, dotIdx).replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4) b64 += '=';
+      const binary = atob(b64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      const jsonStr = new TextDecoder().decode(bytes);
+      const payload = JSON.parse(jsonStr);
+      if (!payload || !payload.uid || !payload.exp || Number(payload.exp) <= Date.now()) {
+        return null;
+      }
+      return {
+        id: String(payload.uid),
+        username: String(payload.username || ''),
+        globalName: payload.globalName ? String(payload.globalName) : null,
+        avatar: payload.avatar ? String(payload.avatar) : null
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getDiscordAvatarUrl(user) {
+    if (user && user.avatar && user.id) {
+      const ext = String(user.avatar).startsWith('a_') ? 'gif' : 'png';
+      return `https://cdn.discordapp.com/avatars/${encodeURIComponent(user.id)}/${encodeURIComponent(user.avatar)}.${ext}?size=64`;
+    }
+    if (user && user.id) {
+      try {
+        const idx = Number((BigInt(user.id) >> 22n) % 6n);
+        return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
+      } catch (e) {}
+    }
+    return '/android-chrome-192x192.png';
+  }
+
+  function buildAuthLoginHref(returnPath) {
+    const returnTo = returnPath
+      ? `${window.location.origin}${returnPath}`
+      : `${window.location.origin}${window.location.pathname}${window.location.search}`;
+    const redirectUri = `${window.location.origin}/api/oauth/callback`;
+    return `/api/auth/login?return_to=${encodeURIComponent(returnTo)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+  }
 
   function normalizeLang(value) {
     if (!value) return null;
@@ -182,6 +283,175 @@
     btn.setAttribute('aria-label', lang === 'es' ? 'Switch language to English' : 'Cambiar idioma a Español');
   }
 
+  function closeUserMenu() {
+    const menu = document.getElementById('nav-user-menu');
+    const btn = document.getElementById('nav-user-btn');
+    if (menu) menu.classList.remove('is-open');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  async function performLogout() {
+    const token = getStoredAuthToken();
+    if (token) {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      }).catch(() => {});
+    }
+    clearStoredAuthToken();
+    renderNavAuth();
+    document.dispatchEvent(new CustomEvent('redbot:authchange', { detail: { authenticated: false, user: null } }));
+  }
+
+  function renderNavAuth() {
+    const navLinks = document.getElementById('nav-links');
+    if (!navLinks) return;
+
+    let li = document.getElementById('nav-auth-li');
+    if (!li) {
+      li = document.createElement('li');
+      li.id = 'nav-auth-li';
+      navLinks.appendChild(li);
+    }
+
+    const lang = window.__redbotCurrentLang === 'en' ? 'en' : 'es';
+    const labels = SHARED_I18N[lang].auth;
+    li.innerHTML = '';
+
+    if (currentUser) {
+      const wrap = document.createElement('div');
+      wrap.className = 'nav-user-wrap';
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'nav-user-btn';
+      btn.className = 'nav-user-btn';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-haspopup', 'menu');
+
+      const img = document.createElement('img');
+      img.className = 'nav-user-avatar';
+      img.src = getDiscordAvatarUrl(currentUser);
+      img.alt = currentUser.globalName || currentUser.username || 'User';
+      img.onerror = function () {
+        this.onerror = null;
+        this.src = '/android-chrome-192x192.png';
+      };
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'nav-user-name';
+      nameSpan.textContent = currentUser.globalName || currentUser.username || 'Discord';
+
+      const caret = document.createElement('span');
+      caret.className = 'nav-user-caret';
+      caret.setAttribute('aria-hidden', 'true');
+      caret.textContent = '▾';
+
+      btn.appendChild(img);
+      btn.appendChild(nameSpan);
+      btn.appendChild(caret);
+
+      const menu = document.createElement('div');
+      menu.id = 'nav-user-menu';
+      menu.className = 'nav-user-menu';
+      menu.setAttribute('role', 'menu');
+
+      const dashLink = document.createElement('a');
+      dashLink.href = '/dashboard';
+      dashLink.setAttribute('role', 'menuitem');
+      dashLink.textContent = labels.dashboard;
+
+      const ticketsLink = document.createElement('a');
+      ticketsLink.href = '/tickets';
+      ticketsLink.setAttribute('role', 'menuitem');
+      ticketsLink.textContent = labels.tickets;
+
+      const logoutBtn = document.createElement('button');
+      logoutBtn.type = 'button';
+      logoutBtn.className = 'nav-user-logout';
+      logoutBtn.setAttribute('role', 'menuitem');
+      logoutBtn.textContent = labels.logout;
+      logoutBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeUserMenu();
+        performLogout();
+      });
+
+      menu.appendChild(dashLink);
+      menu.appendChild(ticketsLink);
+      menu.appendChild(logoutBtn);
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = menu.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+
+      wrap.appendChild(btn);
+      wrap.appendChild(menu);
+      li.appendChild(wrap);
+    } else {
+      const loginLink = document.createElement('a');
+      loginLink.className = 'nav-login-btn';
+      loginLink.href = buildAuthLoginHref();
+      loginLink.textContent = labels.login;
+      li.appendChild(loginLink);
+    }
+  }
+
+  async function initNavAuth() {
+    if (!navAuthInitialized) {
+      navAuthInitialized = true;
+      document.addEventListener('click', (e) => {
+        const li = document.getElementById('nav-auth-li');
+        if (li && !li.contains(e.target)) {
+          closeUserMenu();
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeUserMenu();
+      });
+      document.addEventListener('redbot:langchange', () => {
+        renderNavAuth();
+      });
+    }
+
+    const token = getStoredAuthToken();
+    const decoded = decodeTokenPayload(token);
+    if (!token || !decoded) {
+      if (token && !decoded) clearStoredAuthToken();
+      currentUser = null;
+      renderNavAuth();
+      return;
+    }
+
+    currentUser = decoded;
+    renderNavAuth();
+
+    try {
+      const res = await fetch('/api/auth/me', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        clearStoredAuthToken();
+        renderNavAuth();
+        document.dispatchEvent(new CustomEvent('redbot:authchange', { detail: { authenticated: false, user: null } }));
+        return;
+      }
+      if (res.ok) {
+        const data = await res.json().catch(() => null);
+        if (data && data.authenticated && data.user) {
+          currentUser = data.user;
+          renderNavAuth();
+        } else if (data && data.authenticated === false) {
+          clearStoredAuthToken();
+          renderNavAuth();
+          document.dispatchEvent(new CustomEvent('redbot:authchange', { detail: { authenticated: false, user: null } }));
+        }
+      }
+    } catch (e) {}
+  }
+
   function setLang(lang, persist = true) {
     const normalized = lang === 'en' ? 'en' : 'es';
     if (persist) {
@@ -231,7 +501,7 @@
       });
 
       navLinks.addEventListener('click', (e) => {
-        if (e.target && e.target.tagName === 'A') {
+        if (e.target && e.target.closest('a')) {
           navLinks.classList.remove('is-open');
           menuToggle.setAttribute('aria-expanded', 'false');
         }
@@ -251,11 +521,21 @@
     setLang: (lang) => setLang(lang, true)
   };
 
+  window.RedBotAuth = {
+    getToken: getStoredAuthToken,
+    clearToken: clearStoredAuthToken,
+    getUser: () => currentUser,
+    refreshHeader: initNavAuth,
+    logout: performLogout,
+    buildLoginHref: buildAuthLoginHref
+  };
+
   function boot() {
     injectLangToggle();
     initNavMenu();
     const initial = detectInitialLang();
     setLang(initial, false);
+    initNavAuth();
   }
 
   if (document.readyState === 'loading') {

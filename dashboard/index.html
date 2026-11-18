@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RedBot - Dashboard</title>
+  <meta name="description" content="Panel de control de RedBot. Accede a los módulos web disponibles para administrar tu servidor de Discord.">
+  <meta name="theme-color" content="#ff383d">
+  <link rel="canonical" href="https://redbot.me/dashboard">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:title" content="RedBot - Dashboard">
+  <meta property="og:description" content="Panel de control web de RedBot para administrar tu servidor de Discord.">
+  <meta property="og:image" content="https://redbot.me/og-image.png">
+  <meta property="og:url" content="https://redbot.me/dashboard">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .dash-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 64px 40px 110px;
+    }
+
+    .dash-head {
+      padding-bottom: 36px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .dash-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .8rem;
+      color: var(--signal);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .dash-head h1 {
+      font-size: clamp(2rem, 4vw, 2.9rem);
+      letter-spacing: -1px;
+      line-height: 1.08;
+      margin-bottom: 12px;
+    }
+
+    .dash-head p {
+      font-size: .98rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      max-width: 580px;
+    }
+
+    .dash-section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .78rem;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 18px;
+    }
+
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+    }
+
+    .dash-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: background .15s, border-color .15s, transform .15s;
+    }
+
+    .dash-card:hover {
+      background: var(--surface-2);
+      border-color: var(--signal);
+    }
+
+    .dash-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .dash-card-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      background: var(--signal-wash);
+      border: 1px solid var(--signal);
+      font-size: 1.25rem;
+    }
+
+    .dash-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 4px 9px;
+      background: var(--ink);
+      border: 1px solid var(--line-strong);
+      color: #6fe39c;
+    }
+
+    .dash-card h2 {
+      font-size: 1.25rem;
+      letter-spacing: -0.3px;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .dash-card p {
+      font-size: .92rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    .dash-card-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--signal);
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 600;
+      transition: background .15s;
+    }
+
+    .dash-card:hover .dash-card-cta {
+      background: var(--signal-deep);
+    }
+
+    @media (max-width: 768px) {
+      .dash-wrap {
+        padding: 44px 24px 80px;
+      }
+      .dash-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <nav data-nosnippet>
+    <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot">
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/dashboard" aria-current="page">Dashboard</a></li>
+      <li><a href="/commands">Comandos</a></li>
+      <li><a href="/tos">Términos</a></li>
+      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
+    </ul>
+  </nav>
+
+  <main id="contenido" class="dash-wrap">
+    <header class="dash-head">
+      <div>
+        <div class="dash-kicker" data-i18n="kicker">// REDBOT · PANEL DE CONTROL</div>
+        <h1 data-i18n="title">Dashboard</h1>
+        <p data-i18n="subtitle">Selecciona un módulo para configurar y administrar las herramientas de RedBot directamente desde la web.</p>
+      </div>
+    </header>
+
+    <div class="dash-section-label" data-i18n="modulesLabel">Opciones disponibles</div>
+
+    <div class="dash-grid">
+      <a href="/tickets" class="dash-card">
+        <div>
+          <div class="dash-card-top">
+            <span class="dash-card-icon" aria-hidden="true">🎫</span>
+            <span class="dash-badge" data-i18n="badgeActive">Activo</span>
+          </div>
+          <h2 data-i18n="ticketsTitle">Tickets</h2>
+          <p data-i18n="ticketsDesc">Configura categorías, canales de logs, rol de soporte y diseña paneles de apertura con botón o menú desplegable para publicarlos en tu servidor.</p>
+        </div>
+        <span class="dash-card-cta">
+          <span data-i18n="ticketsBtn">Abrir panel de Tickets</span>
+          <span aria-hidden="true">→</span>
+        </span>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <p class="footer-desc">© 2026 RedBot.</p>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Proyecto</div>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/commands">Comandos</a>
+          <a href="https://redbot.me/invite">Invitar</a>
+          <a href="/staff">Equipo</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Soporte</div>
+          <a href="https://discord.gg/sYdyS8Ez3s">Servidor de soporte</a>
+        </div>
+        <div class="footer-section">
+          <div class="footer-title">Legal</div>
+          <a href="/tos">Términos de Servicio</a>
+          <a href="/privacy">Política de Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.REDBOT_I18N = {
+      titleEn: "RedBot - Dashboard",
+      en: {
+        kicker: "// REDBOT · CONTROL PANEL",
+        title: "Dashboard",
+        subtitle: "Choose a module to configure and manage RedBot tools directly from the web.",
+        modulesLabel: "Available options",
+        badgeActive: "Active",
+        ticketsTitle: "Tickets",
+        ticketsDesc: "Configure categories, log channels, support role, and design button or dropdown opening panels to publish in your server.",
+        ticketsBtn: "Open Tickets Panel"
+      }
+    };
+  </script>
+  <script src="/main.js"></script>
+</body>
+</html>

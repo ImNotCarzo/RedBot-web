@@ -192,9 +192,10 @@
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="/commands">Comandos</a></li>
-      <li><a href="/privacy">Privacidad</a></li>
       <li><a href="/tos">Términos</a></li>
+      <li><a href="/privacy">Privacidad</a></li>
       <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
     </ul>
   </nav>
@@ -1338,6 +1339,9 @@
         state.guildData = structuredClone(DEMO_GUILD);
         renderAuthHeader();
         populateGuildDropdowns();
+        if (window.RedBotAuth && window.RedBotAuth.refreshHeader) {
+          window.RedBotAuth.refreshHeader();
+        }
       });
 
       el.saveConfigBtn.addEventListener('click', async () => {
@@ -1415,6 +1419,15 @@
         if (state.guilds.length) renderGuildSelector();
         renderCategoryEditors();
         renderPreview();
+      });
+
+      document.addEventListener('redbot:authchange', (e) => {
+        if (e.detail && e.detail.authenticated === false && state.authenticated) {
+          clearSessionToken();
+          state.guildData = structuredClone(DEMO_GUILD);
+          renderAuthHeader();
+          populateGuildDropdowns();
+        }
       });
 
       initSession();
