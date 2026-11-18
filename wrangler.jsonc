@@ -2,6 +2,10 @@
   "name": "redbot-web",
   "main": "src/worker.js",
   "compatibility_date": "2025-11-01",
+  "keep_vars": true,
+  "vars": {
+    "REDBOT_API_URL": "https://redbot.hidenplay.net"
+  },
   "assets": {
     "directory": "./",
     "binding": "ASSETS",

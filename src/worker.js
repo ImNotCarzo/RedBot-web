@@ -8,14 +8,15 @@ export default {
     const isApi = url.pathname === "/api" || url.pathname.startsWith("/api/");
 
     if (isApi) {
-      if (!env.REDBOT_API_URL) {
+      const rawApiUrl = env.REDBOT_API_URL || "https://redbot.hidenplay.net";
+      if (!rawApiUrl) {
         return new Response(JSON.stringify({ error: "API backend not configured" }), {
           status: 503,
           headers: { "Content-Type": "application/json; charset=utf-8" },
         });
       }
 
-      const base = env.REDBOT_API_URL.replace(/\/+$/, "");
+      const base = rawApiUrl.replace(/\/+$/, "");
       const target = `${base}${url.pathname}${url.search}`;
 
       const headers = new Headers(request.headers);
