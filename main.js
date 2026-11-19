@@ -31,9 +31,6 @@
         'Legal': 'Legal'
       },
       footerLinks: {
-        '/dashboard': 'Dashboard',
-        '/commands': 'Commands',
-        'https://redbot.me/invite': 'Invite',
         '/staff': 'Team',
         'https://discord.gg/sYdyS8Ez3s': 'Support Server',
         '/privacy': 'Privacy Policy',
