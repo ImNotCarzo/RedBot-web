@@ -18,8 +18,11 @@
       auth: {
         login: 'Sign in',
         dashboard: 'Dashboard',
-        tickets: 'Tickets Panel',
-        logout: 'Log out'
+        logout: 'Log out',
+        logoutConfirmTitle: 'Log out?',
+        logoutConfirmDesc: 'Your Discord session on RedBot will be closed.',
+        logoutConfirmCancel: 'Cancel',
+        logoutConfirmAction: 'Yes, log out'
       },
       footerDesc: '© 2026 RedBot.',
       footerTitles: {
@@ -41,8 +44,11 @@
       auth: {
         login: 'Iniciar sesión',
         dashboard: 'Dashboard',
-        tickets: 'Panel de Tickets',
-        logout: 'Cerrar sesión'
+        logout: 'Cerrar sesión',
+        logoutConfirmTitle: '¿Cerrar sesión?',
+        logoutConfirmDesc: 'Se cerrará tu sesión de Discord en RedBot.',
+        logoutConfirmCancel: 'Cancelar',
+        logoutConfirmAction: 'Sí, cerrar sesión'
       }
     }
   };
@@ -298,6 +304,81 @@
     if (btn) btn.setAttribute('aria-expanded', 'false');
   }
 
+  let logoutModalEl = null;
+
+  function updateLogoutConfirmModalTexts() {
+    if (!logoutModalEl) return;
+    const lang = window.__redbotCurrentLang === 'en' ? 'en' : 'es';
+    const labels = SHARED_I18N[lang].auth;
+    const titleEl = logoutModalEl.querySelector('#rb-logout-title');
+    const descEl = logoutModalEl.querySelector('.rb-modal-desc');
+    const cancelBtn = logoutModalEl.querySelector('[data-logout-cancel]');
+    const confirmBtn = logoutModalEl.querySelector('[data-logout-confirm]');
+    if (titleEl) titleEl.textContent = labels.logoutConfirmTitle;
+    if (descEl) descEl.textContent = labels.logoutConfirmDesc;
+    if (cancelBtn) cancelBtn.textContent = labels.logoutConfirmCancel;
+    if (confirmBtn) confirmBtn.textContent = labels.logoutConfirmAction;
+  }
+
+  function closeLogoutConfirmModal() {
+    if (logoutModalEl) {
+      logoutModalEl.hidden = true;
+    }
+  }
+
+  function ensureLogoutConfirmModal() {
+    if (logoutModalEl) return logoutModalEl;
+    const backdrop = document.createElement('div');
+    backdrop.id = 'redbot-logout-modal';
+    backdrop.className = 'rb-modal-backdrop';
+    backdrop.setAttribute('role', 'dialog');
+    backdrop.setAttribute('aria-modal', 'true');
+    backdrop.setAttribute('aria-labelledby', 'rb-logout-title');
+    backdrop.hidden = true;
+
+    backdrop.innerHTML =
+      '<div class="rb-modal-box">' +
+        '<h2 id="rb-logout-title" class="rb-modal-title"></h2>' +
+        '<p class="rb-modal-desc"></p>' +
+        '<div class="rb-modal-actions">' +
+          '<button type="button" class="btn btn-secondary rb-modal-btn" data-logout-cancel></button>' +
+          '<button type="button" class="btn btn-primary rb-modal-btn" data-logout-confirm></button>' +
+        '</div>' +
+      '</div>';
+
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) {
+        closeLogoutConfirmModal();
+      }
+    });
+
+    const cancelBtn = backdrop.querySelector('[data-logout-cancel]');
+    const confirmBtn = backdrop.querySelector('[data-logout-confirm]');
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', () => {
+        closeLogoutConfirmModal();
+      });
+    }
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', () => {
+        closeLogoutConfirmModal();
+        performLogout();
+      });
+    }
+
+    document.body.appendChild(backdrop);
+    logoutModalEl = backdrop;
+    return backdrop;
+  }
+
+  function openLogoutConfirmModal() {
+    const modal = ensureLogoutConfirmModal();
+    updateLogoutConfirmModalTexts();
+    modal.hidden = false;
+    const cancelBtn = modal.querySelector('[data-logout-cancel]');
+    if (cancelBtn) cancelBtn.focus();
+  }
+
   async function performLogout() {
     authReqSeq += 1;
     const token = getStoredAuthToken();
@@ -370,11 +451,6 @@
       dashLink.setAttribute('role', 'menuitem');
       dashLink.textContent = labels.dashboard;
 
-      const ticketsLink = document.createElement('a');
-      ticketsLink.href = '/tickets';
-      ticketsLink.setAttribute('role', 'menuitem');
-      ticketsLink.textContent = labels.tickets;
-
       const logoutBtn = document.createElement('button');
       logoutBtn.type = 'button';
       logoutBtn.className = 'nav-user-logout';
@@ -387,11 +463,10 @@
         const menuToggleEl = document.getElementById('menu-toggle');
         if (navLinksEl) navLinksEl.classList.remove('is-open');
         if (menuToggleEl) menuToggleEl.setAttribute('aria-expanded', 'false');
-        performLogout();
+        openLogoutConfirmModal();
       });
 
       menu.appendChild(dashLink);
-      menu.appendChild(ticketsLink);
       menu.appendChild(logoutBtn);
 
       btn.addEventListener('click', (e) => {
@@ -422,10 +497,14 @@
         }
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeUserMenu();
+        if (e.key === 'Escape') {
+          closeUserMenu();
+          closeLogoutConfirmModal();
+        }
       });
       document.addEventListener('redbot:langchange', () => {
         renderNavAuth();
+        updateLogoutConfirmModalTexts();
       });
     }
 

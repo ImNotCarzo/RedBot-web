@@ -291,6 +291,55 @@ nav {
   color: #ff9c9c;
 }
 
+.rb-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.rb-modal-backdrop[hidden] {
+  display: none;
+}
+
+.rb-modal-box {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  padding: 24px;
+}
+
+.rb-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.rb-modal-desc {
+  font-size: .92rem;
+  color: var(--text-dim);
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.rb-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rb-modal-btn {
+  padding: 10px 16px;
+  font-size: .88rem;
+}
+
 .lang-toggle {
   display: inline-flex;
   align-items: center;

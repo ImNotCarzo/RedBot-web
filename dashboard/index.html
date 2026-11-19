@@ -45,24 +45,7 @@
       flex-wrap: wrap;
     }
 
-    .dash-kicker {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: .8rem;
-      color: var(--signal);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 12px;
-    }
-
-    .dash-head h1 {
-      font-size: clamp(2rem, 4vw, 2.9rem);
-      letter-spacing: -1px;
-      line-height: 1.08;
-      margin-bottom: 12px;
-    }
-
-    .dash-head p {
+    .dash-head .dash-subtitle {
       font-size: .98rem;
       color: var(--text-dim);
       line-height: 1.65;
@@ -100,37 +83,6 @@
     .dash-card:hover {
       background: var(--surface-2);
       border-color: var(--signal);
-    }
-
-    .dash-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .dash-card-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 42px;
-      height: 42px;
-      background: var(--signal-wash);
-      border: 1px solid var(--signal);
-      font-size: 1.25rem;
-    }
-
-    .dash-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: .7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      padding: 4px 9px;
-      background: var(--ink);
-      border: 1px solid var(--line-strong);
-      color: #6fe39c;
     }
 
     .dash-card h2 {
@@ -193,9 +145,9 @@
   <main id="contenido" class="dash-wrap">
     <header class="dash-head">
       <div>
-        <div class="dash-kicker" data-i18n="kicker">// REDBOT · PANEL DE CONTROL</div>
+        <p class="page-tag" data-i18n-html="kicker"><strong>RedBot</strong> · Panel de control</p>
         <h1 data-i18n="title">Dashboard</h1>
-        <p data-i18n="subtitle">Selecciona un módulo para configurar y administrar las herramientas de RedBot directamente desde la web.</p>
+        <p class="dash-subtitle" data-i18n="subtitle">Selecciona un módulo para configurar y administrar las herramientas de RedBot directamente desde la web.</p>
       </div>
     </header>
 
@@ -204,10 +156,6 @@
     <div class="dash-grid">
       <a href="/tickets" class="dash-card">
         <div>
-          <div class="dash-card-top">
-            <span class="dash-card-icon" aria-hidden="true">🎫</span>
-            <span class="dash-badge" data-i18n="badgeActive">Activo</span>
-          </div>
           <h2 data-i18n="ticketsTitle">Tickets</h2>
           <p data-i18n="ticketsDesc">Configura categorías, canales de logs, rol de soporte y diseña paneles de apertura con botón o menú desplegable para publicarlos en tu servidor.</p>
         </div>
@@ -223,12 +171,12 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44"></div>
           <p class="footer-desc">© 2026 RedBot.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
-          <a href="/dashboard">Dashboard</a>
+          <a href="/dashboard" aria-current="page">Dashboard</a>
           <a href="/commands">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
@@ -250,11 +198,10 @@
     window.REDBOT_I18N = {
       titleEn: "RedBot - Dashboard",
       en: {
-        kicker: "// REDBOT · CONTROL PANEL",
+        kicker: "<strong>RedBot</strong> · Control Panel",
         title: "Dashboard",
         subtitle: "Choose a module to configure and manage RedBot tools directly from the web.",
         modulesLabel: "Available options",
-        badgeActive: "Active",
         ticketsTitle: "Tickets",
         ticketsDesc: "Configure categories, log channels, support role, and design button or dropdown opening panels to publish in your server.",
         ticketsBtn: "Open Tickets Panel"

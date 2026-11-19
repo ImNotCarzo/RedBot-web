@@ -103,7 +103,7 @@
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
-  <nav>
+  <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
       <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
     </a>
@@ -156,11 +156,12 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44"></div>
           <p class="footer-desc">© 2026 RedBot.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
+          <a href="/dashboard">Dashboard</a>
           <a href="/commands" aria-current="page">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
@@ -209,136 +210,203 @@
     const CATEGORY_LABELS_BY_LANG = {
       es: {
         todos: "Todos",
-        ayuda: "Ayuda",
-        ai: "IA",
         utilidad: "Utilidad",
-        usuario: "Usuario",
+        ai: "IA",
         moderacion: "Moderación",
         servidor: "Servidor",
+        usuario: "Usuario",
         roles: "Roles",
         canal: "Canal",
         tickets: "Tickets",
         automatizacion: "Automatización",
-        comunidad: "Comunidad",
-        diversion: "Diversión"
+        comunidad: "Comunidad"
       },
       en: {
         todos: "All",
-        ayuda: "Help",
-        ai: "AI",
         utilidad: "Utility",
-        usuario: "User",
+        ai: "AI",
         moderacion: "Moderation",
         servidor: "Server",
+        usuario: "User",
         roles: "Roles",
         canal: "Channel",
         tickets: "Tickets",
         automatizacion: "Automation",
-        comunidad: "Community",
-        diversion: "Fun"
+        comunidad: "Community"
       }
     };
+
+    const dynamicCategoryLabels = {};
 
     function getCategoryLabel(catId) {
       const lang = (window.RedBotI18n && window.RedBotI18n.getLang()) || 'es';
       const dict = CATEGORY_LABELS_BY_LANG[lang] || CATEGORY_LABELS_BY_LANG.es;
-      return dict[catId] || CATEGORY_LABELS_BY_LANG.es[catId] || (catId.charAt(0).toUpperCase() + catId.slice(1));
+      if (dict[catId]) return dict[catId];
+      if (lang === 'es' && dynamicCategoryLabels[catId]) return dynamicCategoryLabels[catId];
+      return CATEGORY_LABELS_BY_LANG.es[catId] || dynamicCategoryLabels[catId] || (catId.charAt(0).toUpperCase() + catId.slice(1));
     }
 
-    // Comandos precargados (con Easter Egg en categoría admin)
+    function parseOptionsFromUsage(usage) {
+      if (!usage) return [];
+      const matches = String(usage).match(/<[^>]+>|\[(?:[^[\]]|\[[^\]]*\])*\]/g);
+      if (!matches || matches.length === 0) return [];
+      return matches
+        .map(m => ({
+          required: m.startsWith('<'),
+          name: m.replace(/[<>[\]@#]/g, '').trim()
+        }))
+        .filter(o => o.name.length > 0);
+    }
+
+    // Comandos precargados (sincronizados con RedBot /help, más Easter Egg oculto en categoría admin)
     const rawCommands = [
-      { name: "ask", cat: "utilidad", options: "pregunta (optional?=false)", aliases: "ia, ai", desc: "Hazle una pregunta a la IA", example: ".ask cuando te apagan" },
-      { name: "help", cat: "ayuda", options: "ninguna", aliases: "ninguno", desc: "Muestra la lista de comandos disponibles", example: ".help" },
-      { name: "/util ping", cat: "utilidad", options: "ninguna", aliases: "ninguno", desc: "Muestra la latencia del bot", example: ".ping" },
-      { name: "/util botinfo", cat: "utilidad", options: "ninguna", aliases: "bot, info", desc: "Información general del bot", example: ".botinfo" },
-      { name: "/util invite", cat: "utilidad", options: "ninguna", aliases: "inv", desc: "Obtén los links de invitación del bot", example: ".invite" },
-      { name: "/util setprefix", cat: "utilidad", options: "nuevo (optional?=true)", aliases: "prefix", desc: "Cambia o muestra el prefix del bot en este servidor", example: ".setprefix !" },
-      { name: "/util askreset", cat: "utilidad", options: "ninguna", aliases: "reset", desc: "Limpia tu historial de conversación con la IA", example: ".askreset" },
-      { name: "/util translate", cat: "utilidad", options: "texto (optional?=false), idioma (optional?=true)", aliases: "traducir, trans", desc: "Traduce texto a otro idioma", example: ".translate hello es" },
-      { name: "/util describe", cat: "utilidad", options: "imagen (optional?=false)", aliases: "describir", desc: "Describe el contenido de una imagen", example: ".describe <adjunto>" },
-      { name: "/util transcribe", cat: "utilidad", options: "archivo (optional?=false)", aliases: "transcribir", desc: "Transcribe un audio o video a texto", example: ".transcribe https://ejemplo.com/audio.mp3" },
-      { name: "/util dm", cat: "utilidad", options: "titulo (optional?=false), texto (optional?=false), solo_rol (optional?=true), excluir_rol (optional?=true), excluir_usuario (optional?=true)", aliases: "dm, dmeveryone", desc: "Envía un DM con embed a todos los miembros del servidor", example: ".dm Hoy jugamos,go ofi" },
-      { name: "/util resume", cat: "utilidad", options: "texto (optional?=false)", aliases: "resumir, summarize", desc: "Resume un texto largo", example: ".resume texto largo..." },
+      { name: "/util afk", short: "afk", cat: "utilidad", aliases: "ausente", desc: "Establece tu estado como ausente (AFK).", example: ".afk [razón]" },
+      { name: "/util jumbo", short: "jumbo", cat: "utilidad", aliases: "emojijumbo, bigemoji", desc: "Muestra un emoji en tamaño grande.", example: ".jumbo <emoji>" },
+      { name: "/util ping", short: "ping", cat: "utilidad", aliases: "ninguno", desc: "Muestra la latencia actual del bot.", example: ".ping" },
+      { name: "/util botinfo", short: "botinfo", cat: "utilidad", aliases: "bot, info", desc: "Muestra información general del bot.", example: ".botinfo" },
+      { name: "/util invite", short: "invite", cat: "utilidad", aliases: "inv", desc: "Envía la invitación del bot y el servidor de soporte.", example: ".invite" },
+      { name: "/util setprefix", short: "setprefix", cat: "utilidad", aliases: "prefix", desc: "Cambia o muestra el prefijo del bot en este servidor.", example: ".setprefix <nuevo>" },
+      { name: "/util translate", short: "translate", cat: "utilidad", aliases: "traducir, trans", desc: "Traduce texto a otro idioma.", example: ".translate <texto> [idioma]" },
+      { name: "/util download", short: "download", cat: "utilidad", aliases: "dl, video, bajar", desc: "Descarga un video desde un enlace.", example: ".download <url>" },
+      { name: "/util dm", short: "dmall", cat: "utilidad", aliases: "dm, dmeveryone", desc: "Envía un mensaje privado a miembros del servidor.", example: ".dm <titulo>,<texto> [--solo @rol]" },
+      { name: "/util choose", short: "choose", cat: "utilidad", aliases: "elegir, escoger, pick", desc: "Elige una opción al azar entre varias.", example: ".choose <op1, op2, ...>" },
+      { name: "/util lol", short: "lol", cat: "utilidad", aliases: "ninguno", desc: "Ríete de algo así bien jaja.", example: ".lol" },
+      { name: "/util poll", short: "poll", cat: "utilidad", aliases: "encuesta", desc: "Crea una encuesta nativa de Discord.", example: ".poll <pregunta> / <op1> / <op2>" },
+      { name: "/util remind", short: "remind", cat: "utilidad", aliases: "recordar, recordatorio, reminder", desc: "Te recuerda algo por mensaje privado.", example: ".remind <tiempo> <texto>" },
+      { name: "/util reminders", short: "reminders", cat: "utilidad", aliases: "recordatorios, myreminders", desc: "Lista o cancela tus recordatorios activos.", example: ".reminders" },
+      { name: "/util setlang", short: "setlang", cat: "utilidad", aliases: "lang, idioma", desc: "Cambia o muestra el idioma del servidor o personal.", example: ".setlang [es|en]" },
 
-      { name: "/user info", cat: "usuario", options: "usuario (optional?=true)", aliases: "userinfo, ui, whois", desc: "Muestra información de un usuario", example: ".user @usuario" },
-      { name: "/user avatar", cat: "usuario", options: "usuario (optional?=true)", aliases: "av, useravatar", desc: "Muestra el avatar de un usuario", example: ".avatar @usuario" },
-      { name: "/user banner", cat: "usuario", options: "usuario (optional?=true)", aliases: "userbanner", desc: "Muestra el banner de un usuario", example: ".ubanner @usuario" },
-      { name: "/user roles", cat: "usuario", options: "usuario (optional?=true)", aliases: "useroles", desc: "Muestra los roles de un usuario", example: ".uroles @usuario" },
-      { name: "/user permissions", cat: "usuario", options: "usuario (optional?=true)", aliases: "perms, permissions, uperms", desc: "Muestra los permisos de un usuario en el servidor", example: ".userperms @usuario" },
+      { name: "/ai ask", short: "ask", cat: "ai", aliases: "ai, ia", desc: "Hazle una pregunta o envíale una imagen a la IA.", example: ".ask <pregunta>" },
+      { name: "/ai askreset", short: "askreset", cat: "ai", aliases: "aireset, reset", desc: "Limpia tu historial de conversación con la IA.", example: ".askreset" },
+      { name: "/ai transcribe", short: "transcribe", cat: "ai", aliases: "transcribir", desc: "Transcribe un audio o video a texto.", example: ".transcribe <url | adjunto>" },
+      { name: "/ai describe", short: "describe", cat: "ai", aliases: "describir", desc: "Describe el contenido de una imagen.", example: ".describe <url | adjunto>" },
+      { name: "/ai resume", short: "resume", cat: "ai", aliases: "resumir, summarize", desc: "Resume un texto largo de 100 caracteres o más.", example: ".resume <texto>" },
+      { name: "/ai ocr", short: "ocr", cat: "ai", aliases: "leer, extraer", desc: "Extrae el texto de una imagen.", example: ".ocr <url | adjunto>" },
+      { name: "/ai opinion", short: "opinion", cat: "ai", aliases: "op, opina", desc: "Pide mi opinión sin filtro sobre algo.", example: ".opinion <tema>" },
+      { name: "/ai critica", short: "critica", cat: "ai", aliases: "criticar", desc: "Te doy una crítica despiadada de algo.", example: ".critica <tema>" },
+      { name: "/ai excusa", short: "excusa", cat: "ai", aliases: "coartada", desc: "Genera una excusa ridícula pero creativa.", example: ".excusa [situacion]" },
+      { name: "/ai teoria", short: "teoria", cat: "ai", aliases: "conspira", desc: "Una teoría conspirativa sobre cualquier cosa.", example: ".teoria <tema>" },
+      { name: "/ai roast", short: "roast", cat: "ai", aliases: "burn", desc: "Critica despiadadamente a un usuario.", example: ".roast [@usuario]" },
+      { name: "/ai search", short: "aisearch", cat: "ai", aliases: "buscar, searchmsg, findmsg", desc: "Busca mensajes en el servidor con búsqueda nativa e IA.", example: ".aisearch <consulta>" },
 
-      { name: "/mod ban", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true), dias (optional?=true)", aliases: "modban", desc: "Banea a un usuario del servidor", example: ".ban @usuario spam" },
-      { name: "/mod unban", cat: "moderacion", options: "id (optional?=false), razon (optional?=true)", aliases: "modunban, desbanear", desc: "Desbanea a un usuario por su ID", example: ".unban 1020772849906098186" },
-      { name: "/mod softban", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true), dias (optional?=true)", aliases: "modsoftban, sban", desc: "Expulsa a un usuario borrando sus mensajes (ban + unban inmediato)", example: ".softban @usuario" },
-      { name: "/mod tempban", cat: "moderacion", options: "usuario (optional?=false), duracion (optional?=false), razon (optional?=true)", aliases: "modtempban, tban", desc: "Banea a un usuario temporalmente", example: ".tempban @usuario 10d" },
-      { name: "/mod massban", cat: "moderacion", options: "usuario1 (optional?=false), usuario2 (optional?=true), usuario3 (optional?=true), usuario4 (optional?=true), usuario5 (optional?=true), razon (optional?=true)", aliases: "modmassban, mban", desc: "Banea a múltiples usuarios a la vez (hasta 5 menciones o IDs)", example: ".massban @u1 @u2 raid" },
-      { name: "/mod kick", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true)", aliases: "modkick, expulsar", desc: "Expulsa a un usuario del servidor", example: ".kick @usuario" },
-      { name: "/mod mute", cat: "moderacion", options: "usuario (optional?=false), duracion (optional?=false), razon (optional?=true)", aliases: "modmute, timeout, silenciar", desc: "Silencia a un usuario", example: ".mute @usuario 30m" },
-      { name: "/mod unmute", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=true)", aliases: "modunmute, untimeout", desc: "Quita el timeout a un usuario", example: ".unmute @usuario" },
-      { name: "/mod purge", cat: "moderacion", options: "cantidad (optional?=false), usuario (optional?=true)", aliases: "modpurge, clear, prune", desc: "Elimina mensajes del canal", example: ".purge 50 @usuario" },
-      { name: "/mod warn", cat: "moderacion", options: "usuario (optional?=false), razon (optional?=false)", aliases: "modwarn, advertir", desc: "Advierte a un usuario", example: ".warn @usuario flood" },
-      { name: "/mod removewarn", cat: "moderacion", options: "id (optional?=false)", aliases: "delwarn, warnremove", desc: "Elimina una advertencia por su ID", example: ".removewarn abc123" },
-      { name: "/mod clearwarns", cat: "moderacion", options: "usuario (optional?=false)", aliases: "warnsclear, clearwarn", desc: "Borra todas las advertencias de un usuario", example: ".clearwarns @usuario" },
-      { name: "/mod warnings", cat: "moderacion", options: "usuario (optional?=false)", aliases: "warns, modwarnings", desc: "Muestra las advertencias de un usuario", example: ".warnings @usuario" },
-      { name: "/mod setlogs", cat: "moderacion", options: "canal (optional?=false)", aliases: "modsetlogs, logchannel, setlog", desc: "Establece el canal de logs para RedBot en el servidor", example: ".setlogs #logs" },
-      { name: "/mod removelogs", cat: "moderacion", options: "ninguna", aliases: "modremovelogs, removelog, unsetlogs", desc: "Desactiva los logs de RedBot en el servidor", example: ".removelogs" },
+      { name: "/mod ban", short: "ban", cat: "moderacion", aliases: "ninguno", desc: "Banea a un usuario del servidor.", example: ".ban <@usuario> [razón]" },
+      { name: "/mod unban", short: "unban", cat: "moderacion", aliases: "ninguno", desc: "Desbanea a un usuario por ID.", example: ".unban <id> [razón]" },
+      { name: "/mod softban", short: "softban", cat: "moderacion", aliases: "sb", desc: "Banea y desbanea al instante para borrar mensajes recientes.", example: ".softban <@usuario> [razón]" },
+      { name: "/mod tempban", short: "tempban", cat: "moderacion", aliases: "tb", desc: "Banea a un usuario por un tiempo determinado.", example: ".tempban <@usuario> <tiempo> [razón]" },
+      { name: "/mod massban", short: "massban", cat: "moderacion", aliases: "mb", desc: "Banea hasta 5 usuarios seleccionados.", example: ".massban <@u1> [@u2] ... [razón]" },
+      { name: "/mod kick", short: "kick", cat: "moderacion", aliases: "ninguno", desc: "Expulsa a un usuario del servidor.", example: ".kick <@usuario> [razón]" },
+      { name: "/mod mute", short: "mute", cat: "moderacion", aliases: "timeout, silenciar", desc: "Silencia a un usuario con timeout.", example: ".mute <@usuario> <tiempo> [razón]" },
+      { name: "/mod unmute", short: "unmute", cat: "moderacion", aliases: "untimeout, desmutear", desc: "Quita el timeout a un usuario.", example: ".unmute <@usuario> [razón]" },
+      { name: "/mod purge", short: "purge", cat: "moderacion", aliases: "clear, limpiar", desc: "Elimina mensajes del canal.", example: ".purge <cantidad> [@usuario]" },
+      { name: "/mod warn", short: "warn", cat: "moderacion", aliases: "advertir", desc: "Advierte a un usuario.", example: ".warn <@usuario> <razón>" },
+      { name: "/mod removewarn", short: "removewarn", cat: "moderacion", aliases: "rwarn, delwarn", desc: "Elimina una advertencia por su ID.", example: ".removewarn <warnID>" },
+      { name: "/mod clearwarns", short: "clearwarns", cat: "moderacion", aliases: "cwarns, resetwarns", desc: "Borra todas las advertencias de un usuario.", example: ".clearwarns <@usuario>" },
+      { name: "/mod warnings", short: "warnings", cat: "moderacion", aliases: "warns, infracciones", desc: "Ver advertencias de un usuario.", example: ".warnings <@usuario>" },
+      { name: "/mod setlogs", short: "setlogs", cat: "moderacion", aliases: "logs", desc: "Establece el canal de logs para RedBot.", example: ".setlogs <#canal>" },
+      { name: "/mod removelogs", short: "removelogs", cat: "moderacion", aliases: "dellogs, nologs", desc: "Desactiva los logs de RedBot en el servidor.", example: ".removelogs" },
+      { name: "/mod automod", short: "automod", cat: "moderacion", aliases: "am", desc: "Configura el filtro automático ampliado y respuestas custom.", example: ".automod [on|off] [accion]" },
+      { name: "/mod automod-ai", short: "automodai", cat: "moderacion", aliases: "amai, automodnative, nativeautomod", desc: "Crea reglas nativas de Discord AutoMod desde lenguaje natural.", example: ".automodai <regla>" },
+      { name: "/mod dramawatcher", short: "dramawatcher", cat: "moderacion", aliases: "drama, dw", desc: "Canal de alertas con sanciones por botones o emojis.", example: ".dramawatcher [#canal]" },
 
-      { name: "/server info", cat: "servidor", options: "ninguna", aliases: "sv", desc: "Muestra información del servidor", example: ".server" },
-      { name: "/server logo", cat: "servidor", options: "ninguna", aliases: "serverlogo, servericon, icon, logo", desc: "Muestra el logo del servidor", example: ".logo" },
-      { name: "/server banner", cat: "servidor", options: "ninguna", aliases: "sbanner, banner", desc: "Muestra el banner del servidor", example: ".serverbanner" },
-      { name: "/server emojis", cat: "servidor", options: "ninguna", aliases: "serveremojis", desc: "Muestra todos los emojis del servidor", example: ".emojis" },
-      { name: "/server roles", cat: "servidor", options: "ninguna", aliases: "serverroles, sroles", desc: "Lista los roles del servidor", example: ".roles" },
+      { name: "/server info", short: "server", cat: "servidor", aliases: "sv, serverinfo, si", desc: "Muestra información general del servidor.", example: ".server" },
+      { name: "/server logo", short: "logo", cat: "servidor", aliases: "icon, servericon", desc: "Muestra el logo del servidor.", example: ".logo" },
+      { name: "/server banner", short: "sbanner", cat: "servidor", aliases: "serverbanner", desc: "Muestra el banner del servidor.", example: ".sbanner" },
+      { name: "/server emojis", short: "emojis", cat: "servidor", aliases: "serveremojis, emoji", desc: "Muestra todos los emojis del servidor.", example: ".emojis" },
+      { name: "/server roles", short: "sroles", cat: "servidor", aliases: "serverroles, listroles", desc: "Lista los roles del servidor.", example: ".sroles" },
+      { name: "/server custombot", short: "custombot", cat: "servidor", aliases: "botprofile, cbot", desc: "Personaliza avatar, banner, apodo y biografía del bot en el servidor.", example: ".custombot" },
+      { name: "/server customreset", short: "customreset", cat: "servidor", aliases: "botreset, creset", desc: "Restablece el perfil personalizado del bot en el servidor.", example: ".customreset [campo]" },
+      { name: "/server setup", short: "setup", cat: "servidor", aliases: "config, panel", desc: "Panel interactivo de configuración del servidor.", example: ".setup" },
 
-      { name: "/role info", cat: "roles", options: "rol (optional?=false)", aliases: "roleinfo, inforole", desc: "Muestra información de un rol", example: ".roleinfo @rol" },
-      { name: "/role icon", cat: "roles", options: "rol (optional?=false)", aliases: "iconrole, ricon", desc: "Muestra el icono de un rol", example: ".roleicon @rol" },
-      { name: "/role color", cat: "roles", options: "rol (optional?=false)", aliases: "colorrole, rolecolor", desc: "Muestra el color de un rol", example: ".color @rol" },
-      { name: "/role users", cat: "roles", options: "rol (optional?=false)", aliases: "rusers, usersrole", desc: "Lista usuarios con un rol", example: ".roleusers @rol" },
-      { name: "/role add", cat: "roles", options: "usuario (optional?=false), rol (optional?=false)", aliases: "addrole, radd", desc: "Añade un rol a un usuario", example: ".roleadd @usuario @rol" },
-      { name: "/role remove", cat: "roles", options: "usuario (optional?=false), rol (optional?=false)", aliases: "removerole, rremove", desc: "Quita un rol a un usuario", example: ".roleremove @usuario @rol" },
-      { name: "/role rename", cat: "roles", options: "rol (optional?=false), nombre (optional?=false)", aliases: "renamerole, rrename", desc: "Renombra un rol", example: ".rolerename @rol nuevoNombre" },
-      { name: "/role hoist", cat: "roles", options: "rol (optional?=false)", aliases: "hoistrole, rhoist", desc: "Activa/desactiva si un rol se muestra separado en la lista de miembros", example: ".rolehoist @rol" },
-      { name: "/role mentionable", cat: "roles", options: "rol (optional?=false)", aliases: "rolemention, mentionrole, rmention", desc: "Activa/desactiva si un rol es mencionable por todos", example: ".rolementionable @rol" },
-      { name: "/role all", cat: "roles", options: "rol (optional?=false), incluir_bots (optional?=true)", aliases: "allrole, rall", desc: "Añade un rol a todos los miembros del servidor", example: ".roleall @rol" },
-      { name: "/role removeall", cat: "roles", options: "rol (optional?=false), incluir_bots (optional?=true)", aliases: "removeroleall, removeallrole, rremoveall", desc: "Quita un rol a todos los miembros que lo tengan", example: ".roleremoveall @rol" },
-      { name: "/role bots", cat: "roles", options: "rol (optional?=false), accion (optional?=false)", aliases: "botsrole", desc: "Añade o quita un rol a todos los bots", example: ".rolebots @rol add" },
-      { name: "/role humans", cat: "roles", options: "rol (optional?=false), accion (optional?=false)", aliases: "humansrole", desc: "Añade o quita un rol a todos los usuarios (sin bots)", example: ".rolehumans @rol add" },
-      { name: "/role join", cat: "roles", options: "rol (optional?=true), ignorar_bots (optional?=true)", aliases: "joinrole, autorole", desc: "Configura o desactiva el rol automático al entrar", example: ".rolejoin @rol" },
-      { name: "/role permissions", cat: "roles", options: "rol (optional?=false)", aliases: "roleperms", desc: "Muestra permisos de un rol", example: ".roleperms @rol" },
+      { name: "/user info", short: "user", cat: "usuario", aliases: "userinfo, ui, whois", desc: "Muestra información general de un usuario.", example: ".user [@usuario]" },
+      { name: "/user avatar", short: "avatar", cat: "usuario", aliases: "av, pfp", desc: "Muestra el avatar de un usuario.", example: ".avatar [@usuario]" },
+      { name: "/user banner", short: "banner", cat: "usuario", aliases: "userbanner, ub", desc: "Muestra el banner de un usuario.", example: ".banner [@usuario]" },
+      { name: "/user roles", short: "uroles", cat: "usuario", aliases: "userroles, ur", desc: "Muestra los roles de un usuario.", example: ".uroles [@usuario]" },
+      { name: "/user permissions", short: "perms", cat: "usuario", aliases: "userperms, up", desc: "Muestra los permisos de un usuario en el servidor o en un canal.", example: ".perms [@usuario] [#canal]" },
+      { name: "/user random", short: "randomuser", cat: "usuario", aliases: "urandom, userrandom, ruser", desc: "Elige a un miembro del servidor al azar.", example: ".randomuser [@rol]" },
 
-      { name: "/channel info", cat: "canal", options: "canal (optional?=true)", aliases: "chinfo, cinfo, channelinfo", desc: "Muestra información de un canal", example: ".channel #canal" },
-      { name: "/channel rename", cat: "canal", options: "canal (optional?=false), nombre (optional?=false)", aliases: "chrename, channelrename", desc: "Renombra un canal", example: ".rename #canal nuevoNombre" },
-      { name: "/channel lock", cat: "canal", options: "canal (optional?=true)", aliases: "chlock, lockdown, channellock", desc: "Bloquea un canal para usuarios normales", example: ".lock #canal" },
-      { name: "/channel unlock", cat: "canal", options: "canal (optional?=true)", aliases: "chunlock, channelunlock, cunlock", desc: "Abre un canal bloqueado", example: ".unlock #canal" },
-      { name: "/channel slowmode", cat: "canal", options: "tiempo (optional?=false), canal (optional?=true)", aliases: "sm, chslowmode, channelslowmode", desc: "Establece el slowmode de un canal", example: ".slowmode 1h #canal" },
-      { name: "/channel nuke", cat: "canal", options: "canal (optional?=true)", aliases: "chnuke, channelnuke", desc: "Recrea el canal borrando todos sus mensajes", example: ".nuke #canal" },
-      { name: "/channel clone", cat: "canal", options: "canal (optional?=true)", aliases: "chclone, channelclone, clonechannel", desc: "Clona un canal con su configuración", example: ".clone #canal" },
-      { name: "/channel permit", cat: "canal", options: "usuario (optional?=false), canal (optional?=true)", aliases: "chpermit, channelpermit", desc: "Da acceso a un usuario en un canal", example: ".permit @usuario #canal" },
-      { name: "/channel deny", cat: "canal", options: "usuario (optional?=false), canal (optional?=true)", aliases: "chdeny, channeldeny", desc: "Quita el acceso a un usuario en un canal", example: ".deny @usuario #canal" },
-      { name: "/channel hide", cat: "canal", options: "canal (optional?=true)", aliases: "chhide, hidechannel, channelhide", desc: "Oculta un canal a @everyone", example: ".hide #canal" },
+      { name: "/role info", short: "role", cat: "roles", aliases: "roleinfo, ri", desc: "Muestra información de un rol.", example: ".role <@rol>" },
+      { name: "/role icon", short: "ricon", cat: "roles", aliases: "roleicon", desc: "Muestra el icono de un rol.", example: ".ricon <@rol>" },
+      { name: "/role color", short: "rcolor", cat: "roles", aliases: "rolecolor, rolcolor", desc: "Consulta o edita el color (sólido, degradado o holográfico) de un rol.", example: ".rcolor <@rol> [#hex1] [#hex2]" },
+      { name: "/role users", short: "rusers", cat: "roles", aliases: "roleusers, rwho", desc: "Lista usuarios con un rol.", example: ".rusers <@rol>" },
+      { name: "/role add", short: "radd", cat: "roles", aliases: "roleadd, addrole", desc: "Añade un rol a un usuario.", example: ".radd <@usuario> <@rol>" },
+      { name: "/role remove", short: "rremove", cat: "roles", aliases: "roleremove, delrole", desc: "Quita un rol a un usuario.", example: ".rremove <@usuario> <@rol>" },
+      { name: "/role rename", short: "rrename", cat: "roles", aliases: "renamerole", desc: "Renombra un rol.", example: ".rrename <@rol> <nombre>" },
+      { name: "/role hoist", short: "rhoist", cat: "roles", aliases: "rolehoist", desc: "Activa o desactiva si un rol se muestra separado.", example: ".rhoist <@rol>" },
+      { name: "/role mentionable", short: "rmention", cat: "roles", aliases: "rolemention", desc: "Activa o desactiva si un rol es mencionable.", example: ".rmention <@rol>" },
+      { name: "/role all", short: "roleall", cat: "roles", aliases: "allrole", desc: "Añade un rol a todos los miembros.", example: ".roleall <@rol> [bots]" },
+      { name: "/role removeall", short: "roleremoveall", cat: "roles", aliases: "removeroleall", desc: "Quita un rol a todos los miembros que lo tengan.", example: ".roleremoveall <@rol>" },
+      { name: "/role bots", short: "rolebots", cat: "roles", aliases: "botsrole", desc: "Añade o quita un rol a todos los bots.", example: ".rolebots <@rol> <add|remove>" },
+      { name: "/role humans", short: "rolehumans", cat: "roles", aliases: "humansrole", desc: "Añade o quita un rol a todos los usuarios.", example: ".rolehumans <@rol> <add|remove>" },
+      { name: "/role join", short: "rolejoin", cat: "roles", aliases: "joinrole, autorole", desc: "Configura o desactiva el rol automático al entrar.", example: ".rolejoin <@rol>" },
+      { name: "/role permissions", short: "roleperms", cat: "roles", aliases: "rperms", desc: "Muestra los permisos de un rol (globales o en un canal).", example: ".roleperms <@rol> [#canal]" },
+      { name: "/role reaction", short: "reactionrole", cat: "roles", aliases: "rr, reactionroles, rpanel", desc: "Paneles de roles por reacción o botón (normales y temporales).", example: ".reactionrole <create|add|remove|send|list|delete>" },
+      { name: "/role voicelink", short: "voicerole", cat: "roles", aliases: "vrole, vr", desc: "Asigna un rol automáticamente al entrar a un canal de voz.", example: ".voicerole <add|remove|list> [@rol] [#voz]" },
+      { name: "/role temprole", short: "temprole", cat: "roles", aliases: "trole", desc: "Asigna un rol temporal con expiración automática.", example: ".temprole <@usuario> <@rol> <duracion>" },
 
-      { name: "/fun opinion", cat: "diversion", options: "tema (optional?=false)", aliases: "op, opina", desc: "Pide mi opinión sin filtro sobre algo", example: ".opinion la economía" },
-      { name: "/fun critica", cat: "diversion", options: "tema (optional?=false)", aliases: "criticar, criticize", desc: "Te doy una crítica despiadada de algo", example: ".critica la chochoinflación" },
-      { name: "/fun excusa", cat: "diversion", options: "situacion (optional?=true)", aliases: "coartada, excuse", desc: "Genera una excusa ridícula pero creativa", example: ".excusa llegué tarde" },
-      { name: "/fun teoria", cat: "diversion", options: "tema (optional?=false)", aliases: "conspira, conspiracion, theory", desc: "Una teoría conspirativa sobre cualquier cosa", example: ".teoria las palomas son drones" },
-      { name: "/fun roast", cat: "diversion", options: "usuario (optional?=true)", aliases: "quemar, burn", desc: "Critica despiadadamente a un usuario", example: ".roast @usuario" },
-      { name: "/fun lol", cat: "diversion", options: "ninguna", aliases: "ninguno", desc: "Responde con un emoji random", example: ".lol" },
+      { name: "/channel info", short: "cinfo", cat: "canal", aliases: "chinfo, channelinfo", desc: "Muestra información de un canal.", example: ".cinfo [#canal]" },
+      { name: "/channel rename", short: "crename", cat: "canal", aliases: "chrename, chanrename", desc: "Renombra un canal.", example: ".crename <#canal> <nombre>" },
+      { name: "/channel lock", short: "lock", cat: "canal", aliases: "lockdown, cerrar", desc: "Bloquea un canal para usuarios normales.", example: ".lock [#canal]" },
+      { name: "/channel unlock", short: "unlock", cat: "canal", aliases: "abrir, desbloquear", desc: "Abre un canal bloqueado.", example: ".unlock [#canal]" },
+      { name: "/channel slowmode", short: "sm", cat: "canal", aliases: "slowmode, lento", desc: "Establece el slowmode de un canal.", example: ".sm <tiempo> [#canal]" },
+      { name: "/channel nuke", short: "nuke", cat: "canal", aliases: "vaciar", desc: "Recrea el canal borrando todos sus mensajes.", example: ".nuke [#canal]" },
+      { name: "/channel clone", short: "clone", cat: "canal", aliases: "clonar, duplicar", desc: "Clona un canal con su configuración.", example: ".clone [#canal]" },
+      { name: "/channel permit", short: "permit", cat: "canal", aliases: "allow, acceso", desc: "Da acceso a un usuario en un canal.", example: ".permit <@usuario> [#canal]" },
+      { name: "/channel deny", short: "deny", cat: "canal", aliases: "block, denegar", desc: "Quita el acceso a un usuario en un canal.", example: ".deny <@usuario> [#canal]" },
+      { name: "/channel hide", short: "hide", cat: "canal", aliases: "ocultar, esconder", desc: "Oculta un canal a @everyone.", example: ".hide [#canal]" },
+      { name: "/channel snipe", short: "snipe", cat: "canal", aliases: "borrado", desc: "Recupera mensajes eliminados recientemente (hasta 100 por canal).", example: ".snipe [indice]" },
+      { name: "/channel autopurge", short: "autopurge", cat: "canal", aliases: "ap", desc: "Elimina mensajes automáticamente tras un tiempo límite.", example: ".autopurge <set|remove|list> [tiempo] [#canal]" },
+      { name: "/channel sticky", short: "sticky", cat: "canal", aliases: "stickymessage, fijar", desc: "Fija un mensaje anclado al final del canal.", example: ".sticky <set|remove|list> [mensaje] [#canal]" },
+      { name: "/channel temp", short: "temp", cat: "canal", aliases: "tempchannel, tempch, voicehub", desc: "Crea canales temporales o un Voice Hub Join-to-Create.", example: ".temp <timed|hub|off> [duracion|#voz] [nombre]" },
+      { name: "/channel voicelink", short: "voicelink", cat: "canal", aliases: "voicetext, vtext, vlink", desc: "Vincula un canal de voz a un canal de texto privado.", example: ".voicelink <add|remove|list> [#voz] [#texto]" },
+      { name: "/channel voicestatus", short: "voicestatus", cat: "canal", aliases: "vstatus, vcstatus", desc: "Cambia el estado de un canal de voz o activa el auto-estado por juego.", example: ".voicestatus <texto | clear>" },
+      { name: "/channel recap", short: "recap", cat: "canal", aliases: "resumen, tldr", desc: "Resume los últimos mensajes del canal.", example: ".recap [cantidad]" },
 
-      { name: "/tickets setup", short: "ticketsetup", cat: "tickets", options: "categoria (optional?=true), logs (optional?=true), rol_soporte (optional?=true)", aliases: "tsetup", desc: "Configura categoría, rol de soporte y canal de transcripciones", example: ".ticketsetup #categoria #logs @soporte" },
-      { name: "/tickets panel", short: "ticketpanel", cat: "tickets", options: "canal (optional?=true), titulo (optional?=true)", aliases: "tpanel", desc: "Publica un panel interactivo para abrir tickets", example: ".ticketpanel #soporte" },
-      { name: "/tickets create", short: "ticket", cat: "tickets", options: "motivo (optional?=true)", aliases: "nuevo", desc: "Abre un ticket de soporte", example: ".ticket Ayuda" },
-      { name: "/tickets close", short: "ticketclose", cat: "tickets", options: "motivo (optional?=true)", aliases: "tclose, cerrarticket", desc: "Cierra el ticket y exporta transcripción .html/.txt", example: ".ticketclose Resuelto" },
-      { name: "/tickets add", short: "ticketadd", cat: "tickets", options: "usuario (optional?=false)", aliases: "tadd", desc: "Añade a un usuario al ticket actual", example: ".ticketadd @usuario" },
-      { name: "/tickets remove", short: "ticketremove", cat: "tickets", options: "usuario (optional?=false)", aliases: "tremove", desc: "Quita a un usuario del ticket actual", example: ".ticketremove @usuario" },
-      { name: "/tickets claim", short: "ticketclaim", cat: "tickets", options: "ninguna", aliases: "tclaim", desc: "Reclama el ticket como miembro del equipo", example: ".ticketclaim" },
-      { name: "/tickets transcript", short: "transcript", cat: "tickets", options: "ninguna", aliases: "tickettranscript, ttranscript", desc: "Exporta el historial completo (.html y .txt) del ticket", example: ".transcript" },
+      { name: "/tickets setup", short: "ticketsetup", cat: "tickets", aliases: "tsetup", desc: "Configura categoría, rol soporte y canal de transcripciones.", example: ".ticketsetup [#categoria] [#logs] [@rol]" },
+      { name: "/tickets panel", short: "ticketpanel", cat: "tickets", aliases: "tpanel", desc: "Publica un panel interactivo para abrir tickets.", example: ".ticketpanel [#canal] [titulo | desc | cat]" },
+      { name: "/tickets create", short: "ticket", cat: "tickets", aliases: "nuevo", desc: "Abre un ticket de soporte.", example: ".ticket [motivo]" },
+      { name: "/tickets close", short: "ticketclose", cat: "tickets", aliases: "tclose, cerrarticket", desc: "Cierra el ticket y exporta transcripción .html/.txt.", example: ".ticketclose [motivo]" },
+      { name: "/tickets add", short: "ticketadd", cat: "tickets", aliases: "tadd", desc: "Añade a un usuario al ticket actual.", example: ".ticketadd <@usuario>" },
+      { name: "/tickets remove", short: "ticketremove", cat: "tickets", aliases: "tremove", desc: "Quita a un usuario del ticket actual.", example: ".ticketremove <@usuario>" },
+      { name: "/tickets claim", short: "ticketclaim", cat: "tickets", aliases: "tclaim", desc: "Reclama el ticket como miembro del equipo.", example: ".ticketclaim" },
+      { name: "/tickets transcript", short: "transcript", cat: "tickets", aliases: "tickettranscript, ttranscript", desc: "Exporta el historial completo (.html y .txt) del ticket.", example: ".transcript" },
+
+      { name: "/auto cmdadd", short: "cmdadd", cat: "automatizacion", aliases: "addcmd, ccadd", desc: "Crea hasta 500 comandos personalizados con TagScript.", example: ".cmdadd <disparador> <respuesta>" },
+      { name: "/auto cmdremove", short: "cmdremove", cat: "automatizacion", aliases: "delcmd, ccremove", desc: "Elimina un comando personalizado.", example: ".cmdremove <disparador>" },
+      { name: "/auto cmdlist", short: "cmdlist", cat: "automatizacion", aliases: "listcmd, cclist", desc: "Lista los comandos personalizados.", example: ".cmdlist" },
+      { name: "/auto embedadd", short: "embedadd", cat: "automatizacion", aliases: "addembed", desc: "Guarda hasta 500 plantillas de tipo Embed.", example: ".embedadd <nombre> <descripcion>" },
+      { name: "/auto embedview", short: "embedview", cat: "automatizacion", aliases: "viewembed, sendembed", desc: "Previsualiza o envía una plantilla Embed.", example: ".embedview <nombre> [#canal]" },
+      { name: "/auto embedremove", short: "embedremove", cat: "automatizacion", aliases: "delembed", desc: "Elimina una plantilla Embed.", example: ".embedremove <nombre>" },
+      { name: "/auto embedlist", short: "embedlist", cat: "automatizacion", aliases: "listembed", desc: "Lista las plantillas Embed guardadas.", example: ".embedlist" },
+      { name: "/auto timeradd", short: "timeradd", cat: "automatizacion", aliases: "addtimer", desc: "Crea hasta 100 mensajes recurrentes.", example: ".timeradd <#canal> <intervalo> <mensaje>" },
+      { name: "/auto timerremove", short: "timerremove", cat: "automatizacion", aliases: "deltimer", desc: "Elimina un mensaje recurrente.", example: ".timerremove <id>" },
+      { name: "/auto timerlist", short: "timerlist", cat: "automatizacion", aliases: "listtimer", desc: "Lista los mensajes recurrentes.", example: ".timerlist" },
+      { name: "/auto ruleadd", short: "ruleadd", cat: "automatizacion", aliases: "addrule", desc: "Crea hasta 50 reglas lógicas de automatización.", example: ".ruleadd <nombre> <evento> <cond> <accion>" },
+      { name: "/auto ruleremove", short: "ruleremove", cat: "automatizacion", aliases: "delrule", desc: "Elimina una regla de automatización.", example: ".ruleremove <nombre>" },
+      { name: "/auto rulelist", short: "rulelist", cat: "automatizacion", aliases: "listrule", desc: "Lista las reglas de automatización.", example: ".rulelist" },
+      { name: "/feeds add", short: "feedadd", cat: "automatizacion", aliases: "addfeed, feedsadd", desc: "Alertas de YouTube, Twitch, Kick, TikTok y Reddit.", example: ".feedadd <plataforma> <cuenta> <#canal> [msg]" },
+      { name: "/feeds remove", short: "feedremove", cat: "automatizacion", aliases: "delfeed, feedsremove", desc: "Elimina una alerta social configurada.", example: ".feedremove <plataforma> <cuenta>" },
+      { name: "/feeds list", short: "feedlist", cat: "automatizacion", aliases: "feeds, feedslist", desc: "Lista las alertas sociales activas.", example: ".feedlist" },
+      { name: "/feeds test", short: "feedtest", cat: "automatizacion", aliases: "testfeed, feedstest", desc: "Prueba manualmente una alerta social.", example: ".feedtest <plataforma> <cuenta>" },
+
+      { name: "/community welcome", short: "welcome", cat: "comunidad", aliases: "bienvenida", desc: "Configura el canal y plantilla de bienvenidas.", example: ".welcome [on|off] [#canal] [mensaje]" },
+      { name: "/community goodbye", short: "goodbye", cat: "comunidad", aliases: "despedida", desc: "Configura un canal y embed separado de despedidas.", example: ".goodbye [on|off] [#canal] [mensaje]" },
+      { name: "/community birthday", short: "birthday", cat: "comunidad", aliases: "cumple, cumpleanos, bday", desc: "Registra o borra tu fecha de cumpleaños.", example: ".birthday [dia mes [año]]" },
+      { name: "/community birthdays", short: "birthdays", cat: "comunidad", aliases: "cumples, bdays", desc: "Lista los cumpleaños del servidor.", example: ".birthdays" },
+      { name: "/community birthdaysetup", short: "birthdaysetup", cat: "comunidad", aliases: "cumplesetup, bdaysetup", desc: "Configura anuncios automáticos de cumpleaños.", example: ".birthdaysetup [#canal] [@rol] [on|off]" },
+      { name: "/community invites", short: "invites", cat: "comunidad", aliases: "invitaciones", desc: "Consulta las invitaciones de un miembro.", example: ".invites [@usuario]" },
+      { name: "/community inviteleaderboard", short: "invitetop", cat: "comunidad", aliases: "inviteleaderboard, topinvites", desc: "Ranking de usuarios con más invitaciones.", example: ".invitetop" },
+      { name: "/community inviteadd", short: "inviteadd", cat: "comunidad", aliases: "addinvites", desc: "Ajusta invitaciones bonus de un usuario.", example: ".inviteadd <@usuario> <cantidad>" },
+      { name: "/community invitereward", short: "invitereward", cat: "comunidad", aliases: "rewardinvites", desc: "Configura roles de recompensa por invitaciones.", example: ".invitereward <invitaciones> [@rol]" },
 
       // Huevo de pascua (categoría admin no se lista como botón pero se mantiene en código)
-      { name: "comandointervalosupersecretokjj", cat: "admin", options: "ninguna", aliases: "ninguno", desc: "rota foto con emoji 15min", example: ".comandointervalosupersecretokjj", forcePrefixOnly: true }
+      { name: "comandointervalosupersecretokjj", cat: "admin", aliases: "ninguno", desc: "rota foto con emoji 15min", example: ".comandointervalosupersecretokjj", forcePrefixOnly: true }
     ];
 
     function mapCommands(rawList) {
       return rawList.map((cmd, i) => {
         let types = cmd.forcePrefixOnly ? ['prefijo'] : ['slash', 'prefijo'];
-        return { ...cmd, types, uid: `cmd-${i}` };
+        const options = cmd.options !== undefined ? cmd.options : parseOptionsFromUsage(cmd.example);
+        return { ...cmd, options, types, uid: `cmd-${i}` };
       });
     }
 
@@ -383,7 +451,7 @@
           catsSet.add(c.cat);
         }
       });
-      const order = ['ayuda', 'ai', 'utilidad', 'usuario', 'moderacion', 'servidor', 'roles', 'canal', 'tickets', 'automatizacion', 'comunidad', 'diversion'];
+      const order = ['utilidad', 'ai', 'moderacion', 'servidor', 'usuario', 'roles', 'canal', 'tickets', 'automatizacion', 'comunidad'];
       const sorted = Array.from(catsSet).sort((a, b) => {
         const idxA = order.indexOf(a);
         const idxB = order.indexOf(b);
@@ -473,10 +541,18 @@
         .replace(/'/g, '&#039;');
     }
 
-    function formatOptions(optionsString) {
+    function formatOptions(options) {
       const isEn = window.RedBotI18n && window.RedBotI18n.getLang() === 'en';
-      if (!optionsString || optionsString === "ninguna") return `<span class='opt-tag'>${isEn ? 'None' : 'Ninguna'}</span>`;
-      const opts = optionsString.split(', ');
+      if (Array.isArray(options)) {
+        if (options.length === 0) return `<span class='opt-tag'>${isEn ? 'None' : 'Ninguna'}</span>`;
+        return options.map(opt => {
+          const cleanName = escapeHTML(opt.name);
+          const isRequired = Boolean(opt.required);
+          return `<span class="opt-tag ${isRequired ? 'opt-req' : ''}">${cleanName}${isRequired ? '*' : ''}</span>`;
+        }).join('');
+      }
+      if (!options || options === "ninguna") return `<span class='opt-tag'>${isEn ? 'None' : 'Ninguna'}</span>`;
+      const opts = String(options).split(', ');
       return opts.map(opt => {
         const isRequired = opt.includes('optional?=false');
         const cleanName = escapeHTML(opt.split(' ')[0]);
@@ -788,17 +864,6 @@
     renderCategories();
     applyFilters();
 
-    function parseOptionsFromUsage(usage) {
-      if (!usage) return "ninguna";
-      const matches = usage.match(/<[^>]+>|\[[^\]]+\]/g);
-      if (!matches || matches.length === 0) return "ninguna";
-      return matches.map(m => {
-        const isReq = m.startsWith('<');
-        const clean = m.replace(/[<>[\]@#]/g, '').trim();
-        return `${clean} (optional?=${!isReq})`;
-      }).join(', ');
-    }
-
     // Sincronización en vivo con la API
     async function loadLiveCommands() {
       if (!REDBOT_API_CONFIG.url) return;
@@ -832,12 +897,14 @@
 
         const dynamicCommands = [];
         for (const [catKey, catData] of Object.entries(data.categories)) {
-          if (!catData.commands || !Array.isArray(catData.commands)) continue;
+          if (catData && catData.label) {
+            dynamicCategoryLabels[catKey] = catData.label;
+          }
+          if (!catData || !catData.commands || !Array.isArray(catData.commands)) continue;
           for (const cmd of catData.commands) {
-            let name = cmd.slash || cmd.name;
-            if (name && name.includes(' ') && !name.startsWith('/')) {
-              name = '/' + name;
-            }
+            let name = cmd.slash
+              ? (cmd.slash.startsWith('/') ? cmd.slash : '/' + cmd.slash)
+              : cmd.name;
 
             const aliasesStr = Array.isArray(cmd.aliases) && cmd.aliases.length
               ? cmd.aliases.join(', ')
@@ -855,8 +922,8 @@
           }
         }
 
-        // Mantener comandos locales especiales (ej. ayuda, easter egg)
-        const localSpecial = rawCommands.filter(c => c.cat === 'admin' || c.cat === 'ayuda' || c.forcePrefixOnly);
+        // Mantener huevo de pascua local
+        const localSpecial = rawCommands.filter(c => c.cat === 'admin');
         for (const special of localSpecial) {
           if (!dynamicCommands.some(c => c.name === special.name)) {
             dynamicCommands.push(special);

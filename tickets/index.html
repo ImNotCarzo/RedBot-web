@@ -33,9 +33,6 @@
     .tickets-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; padding-bottom: 28px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
     .tickets-head-copy h1 { font-size: clamp(2rem, 3.6vw, 2.8rem); letter-spacing: -1px; margin-bottom: 10px; }
     .tickets-head-copy p { color: var(--text-dim); font-size: 1rem; line-height: 1.6; max-width: 660px; }
-    .mode-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line-strong); background: var(--surface); font-family: 'IBM Plex Mono', monospace; font-size: .78rem; color: var(--text-dim); margin-bottom: 14px; }
-    .mode-dot { width: 8px; height: 8px; background: #f0b132; display: inline-block; }
-    .mode-dot.live { background: #23a55a; }
 
     .auth-bar { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
     .auth-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -130,7 +127,8 @@
     .dc-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
     .dc-author-line { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .dc-author { font-weight: 600; color: #ffffff; font-size: .95rem; }
-    .dc-app-tag { background: #5865f2; color: #fff; font-size: .64rem; font-weight: 700; padding: 2px 5px; border-radius: 3px; letter-spacing: .3px; }
+    .dc-app-tag { display: inline-flex; align-items: center; gap: 2px; background: #5865f2; color: #fff; font-size: .64rem; font-weight: 700; padding: 2px 5px 2px 3px; border-radius: 3px; letter-spacing: .3px; line-height: 1; }
+    .dc-app-check { width: 12px; height: 12px; display: block; flex-shrink: 0; }
     .dc-time { font-size: .73rem; color: #949ba4; }
 
     .dc-v2-card { background: #222327; border: 1px solid #2f3136; border-left: 4px solid #ff383d; border-radius: 6px; padding: 14px 16px; }
@@ -203,10 +201,6 @@
   <main id="contenido">
     <header class="tickets-head">
       <div class="tickets-head-copy">
-        <div class="mode-pill">
-          <span class="mode-dot" id="modeDot"></span>
-          <span id="modeLabel" data-i18n="modeDemo">Modo Demo Interactivo</span>
-        </div>
         <h1 data-i18n="title">Panel Web de Tickets</h1>
         <p data-i18n="subtitle">Configura el sistema de soporte de tu servidor, diseña paneles con botón o menú desplegable (hasta 25 categorías) y publícalos en Discord con vista previa 1:1.</p>
       </div>
@@ -229,7 +223,6 @@
             <div class="stat-mini"><strong id="statClosed">0</strong><span data-i18n="statClosed">cerrados</span></div>
           </div>
           <button type="button" id="reloadGuildBtn" class="btn btn-secondary btn-sm" data-i18n="reloadBtn">Recargar</button>
-          <button type="button" id="logoutBtn" class="btn btn-secondary btn-sm" data-i18n="logoutBtn">Cerrar sesión</button>
         </div>
         <a id="loginBtn" class="btn btn-primary" href="#" data-i18n="loginBtn">Iniciar sesión con Discord</a>
       </div>
@@ -377,7 +370,7 @@
               <img src="/android-chrome-192x192.png" alt="RedBot" class="dc-avatar">
               <div class="dc-author-line">
                 <span class="dc-author">RedBot</span>
-                <span class="dc-app-tag">APP</span>
+                <span class="dc-app-tag"><svg class="dc-app-check" viewBox="0 0 16 15.2" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7.4,11.17,4,8.62,5,7.26l2,1.53L10.64,4l1.36,1Z"/></svg>APP</span>
                 <span class="dc-time" data-i18n="dcTime">Hoy a las 12:00</span>
               </div>
             </div>
@@ -402,11 +395,12 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44"></div>
           <p class="footer-desc">© 2026 RedBot.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
+          <a href="/dashboard">Dashboard</a>
           <a href="/commands">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
@@ -428,7 +422,6 @@
     window.REDBOT_I18N = {
       titleEn: "Tickets Web Dashboard - RedBot",
       en: {
-        modeDemo: "Interactive Demo Mode",
         title: "Tickets Web Dashboard",
         subtitle: "Configure your server's support system, design button or dropdown menu panels (up to 25 categories), and publish straight to Discord with 1:1 live preview.",
         backCommands: "View ticket commands",
@@ -438,7 +431,6 @@
         statOpen: "open",
         statClosed: "closed",
         reloadBtn: "Reload",
-        logoutBtn: "Log out",
         loginBtn: "Sign in with Discord",
         botMissing: "RedBot is not in this server yet. Invite it so you can load channels/roles and publish panels.",
         inviteGuildBtn: "Invite RedBot to this server",
@@ -578,8 +570,6 @@
       };
 
       const el = {
-        modeDot: document.getElementById('modeDot'),
-        modeLabel: document.getElementById('modeLabel'),
         userAvatar: document.getElementById('userAvatar'),
         userName: document.getElementById('userName'),
         userSub: document.getElementById('userSub'),
@@ -588,7 +578,6 @@
         statOpen: document.getElementById('statOpen'),
         statClosed: document.getElementById('statClosed'),
         reloadGuildBtn: document.getElementById('reloadGuildBtn'),
-        logoutBtn: document.getElementById('logoutBtn'),
         loginBtn: document.getElementById('loginBtn'),
         inviteBanner: document.getElementById('inviteBanner'),
         inviteGuildLink: document.getElementById('inviteGuildLink'),
@@ -782,8 +771,6 @@
       function renderAuthHeader() {
         el.loginBtn.href = buildLoginHref();
         if (state.authenticated && state.user) {
-          el.modeDot.classList.add('live');
-          el.modeLabel.textContent = t('Conectado a Discord en vivo', 'Connected to live Discord');
           const display = state.user.globalName || state.user.username || 'Discord User';
           el.userName.textContent = display;
           el.userSub.textContent = `@${state.user.username || state.user.id}`;
@@ -800,8 +787,6 @@
           el.loginBtn.style.display = 'none';
           el.guildControls.style.display = 'flex';
         } else {
-          el.modeDot.classList.remove('live');
-          el.modeLabel.textContent = t('Modo Demo Interactivo', 'Interactive Demo Mode');
           el.userAvatar.src = '/android-chrome-192x192.png';
           el.userName.textContent = t('Conecta tu cuenta de Discord', 'Connect your Discord account');
           el.userSub.textContent = t('Inicia sesión para cargar tus servidores con permiso ManageGuild o prueba el diseñador en modo demo.', 'Sign in to load servers where you have ManageGuild permission or test the builder in demo mode.');
@@ -1402,19 +1387,6 @@
       });
 
       el.reloadGuildBtn.addEventListener('click', loadSelectedGuildData);
-
-      el.logoutBtn.addEventListener('click', async () => {
-        if (window.RedBotAuth && window.RedBotAuth.logout) {
-          await window.RedBotAuth.logout();
-          return;
-        }
-        await apiFetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
-        clearSessionToken();
-        state.guildData = structuredClone(DEMO_GUILD);
-        setGuildActionsEnabled(true);
-        renderAuthHeader();
-        populateGuildDropdowns();
-      });
 
       el.saveConfigBtn.addEventListener('click', async () => {
         if (!state.authenticated || !state.selectedGuildId) {

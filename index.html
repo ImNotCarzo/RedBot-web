@@ -55,21 +55,23 @@
     .cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
 
     /* DEMO */
-    .demo { background: var(--surface); border: 1px solid var(--line); border-radius: 0; }
-    .demo-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 22px; }
-    .demo-msg { display: flex; gap: 14px; }
-    .demo-avatar { width: 36px; height: 36px; border-radius: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; color: #fff; overflow: hidden; }
-    .demo-avatar.user { background: #444; }
-    .demo-avatar.bot { background: var(--signal); }
+    .demo { background: #1a1b1e; border: 1px solid #2b2d31; font-family: 'gg sans', 'IBM Plex Sans', sans-serif; color: #dbdee1; }
+    .demo-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+    .demo-msg { display: flex; gap: 12px; align-items: flex-start; }
+    .demo-msg-body { flex: 1; min-width: 0; }
+    .demo-avatar { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .demo-avatar.user { background: #313338; }
+    .demo-avatar.bot { background: transparent; }
     .demo-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .demo-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
-    .demo-name { font-weight: 700; font-size: .9rem; color: var(--text); }
-    .demo-tag { font-size: .65rem; background: var(--text); color: var(--ink); padding: 2px 6px; font-weight: 700; letter-spacing: 0.5px; border-radius: 0; }
-    .demo-mention { font-size: .85rem; background: var(--text); color: var(--ink); padding: 1px 6px; font-weight: 600; display: inline-block; line-height: 1.2; }
-    .demo-time { font-size: .75rem; color: var(--text-mute); }
-    .demo-cmd { font-family: 'IBM Plex Mono', monospace; font-size: .85rem; color: var(--text); }
-    .demo-reply { margin-top: 6px; background: var(--ink); border-left: 3px solid var(--signal); padding: 12px 14px; font-size: .9rem; color: var(--text-dim); line-height: 1.6; }
-    .demo-reply strong { color: var(--text); font-weight: 600; }
+    .demo-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
+    .demo-name { font-weight: 600; font-size: .95rem; color: #ffffff; }
+    .demo-app-tag { display: inline-flex; align-items: center; gap: 2px; background: #5865f2; color: #ffffff; font-size: .64rem; font-weight: 700; padding: 2px 5px 2px 3px; border-radius: 3px; letter-spacing: .3px; line-height: 1; }
+    .demo-app-check { width: 12px; height: 12px; display: block; flex-shrink: 0; }
+    .demo-time { font-size: .73rem; color: #949ba4; }
+    .demo-cmd { font-size: .9rem; color: #dbdee1; line-height: 1.45; word-break: break-word; }
+    .demo-mention { background: rgba(88, 101, 242, .28); color: #c9cdfb; padding: 1px 4px; border-radius: 3px; font-weight: 500; }
+    .demo-reply { margin-top: 6px; background: #222327; border: 1px solid #2f3136; border-left: 4px solid #ff383d; border-radius: 6px; padding: 12px 14px; font-size: .9rem; color: #dbdee1; line-height: 1.5; }
+    .demo-reply strong { color: #ffffff; font-weight: 700; }
 
     /* STATS */
     .stats { display: flex; flex-wrap: wrap; border: 1px solid var(--line); background: var(--surface); margin: 0 48px 100px; border-radius: 0; }
@@ -127,7 +129,7 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot">
+      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -155,29 +157,29 @@
         <div class="demo-body">
           <div class="demo-msg">
             <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" style="display: none;"></div>
-            <div>
+            <div class="demo-msg-body">
               <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">6:43</span></div>
               <span class="demo-cmd">.ban <span class="demo-mention">@Manlexo</span> spam</span>
             </div>
           </div>
           <div class="demo-msg">
             <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
-            <div>
-              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">✔ APP</span><span class="demo-time">6:43</span></div>
+            <div class="demo-msg-body">
+              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 15.2" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7.4,11.17,4,8.62,5,7.26l2,1.53L10.64,4l1.36,1Z"/></svg>APP</span><span class="demo-time">6:43</span></div>
               <div class="demo-reply" data-i18n-html="demoReply1"><strong>Manlexo</strong> fue baneado</div>
             </div>
           </div>
           <div class="demo-msg">
             <div class="demo-avatar user"><img class="api-user-avatar" alt="Dev" style="display: none;"></div>
-            <div>
+            <div class="demo-msg-body">
               <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">16:07</span></div>
               <span class="demo-cmd" data-i18n="demoCmd2">.ask que se necesita para bailar la bamba</span>
             </div>
           </div>
           <div class="demo-msg">
             <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
-            <div>
-              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-tag">✔ APP</span><span class="demo-time">16:07</span></div>
+            <div class="demo-msg-body">
+              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 15.2" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7.4,11.17,4,8.62,5,7.26l2,1.53L10.64,4l1.36,1Z"/></svg>APP</span><span class="demo-time">16:07</span></div>
               <div class="demo-reply" data-i18n="demoReply2">Para bailar la bamba se necesita una poca de gracia</div>
             </div>
           </div>
@@ -188,7 +190,7 @@
     <div class="stats" aria-label="Métricas del sistema" data-i18n-aria="statsAria">
       <div class="stat"><span class="stat-num" id="stat-servers">110</span><span class="stat-label" data-i18n="statServers">Servidores</span></div>
       <div class="stat"><span class="stat-num" id="stat-users">140k</span><span class="stat-label" data-i18n="statUsers">Usuarios</span></div>
-      <div class="stat"><span class="stat-num" id="stat-commands">70</span><span class="stat-label" data-i18n="statCommands">Comandos</span></div>
+      <div class="stat"><span class="stat-num" id="stat-commands">128</span><span class="stat-label" data-i18n="statCommands">Comandos</span></div>
     </div>
 
     <section class="section" id="features">
@@ -221,38 +223,46 @@
         <h2 data-i18n="cmdHead">Directorio de Comandos</h2>
         <p data-i18n="cmdSub">Selecciona una categoría para ver todos sus comandos.</p>
       </div>
-      <div class="cmd-categories-grid">
-        <a href="/commands?cat=ayuda" class="cat-card">
-          <span class="cat-card-title" data-i18n="catHelp">Ayuda</span>
-          <span class="cat-card-count" data-i18n="catHelpCount">1 comando</span>
-        </a>
+      <div class="cmd-categories-grid" id="cmd-categories-grid">
         <a href="/commands?cat=utilidad" class="cat-card">
-          <span class="cat-card-title" data-i18n="catUtil">Utilidad</span>
-          <span class="cat-card-count" data-i18n="catUtilCount">12 comandos</span>
+          <span class="cat-card-title">Utilidad</span>
+          <span class="cat-card-count">15 comandos</span>
         </a>
-        <a href="/commands?cat=usuario" class="cat-card">
-          <span class="cat-card-title" data-i18n="catUser">Usuario</span>
-          <span class="cat-card-count" data-i18n="catUserCount">5 comandos</span>
+        <a href="/commands?cat=ai" class="cat-card">
+          <span class="cat-card-title">IA</span>
+          <span class="cat-card-count">12 comandos</span>
         </a>
         <a href="/commands?cat=moderacion" class="cat-card">
-          <span class="cat-card-title" data-i18n="catMod">Moderación</span>
-          <span class="cat-card-count" data-i18n="catModCount">15 comandos</span>
+          <span class="cat-card-title">Moderación</span>
+          <span class="cat-card-count">18 comandos</span>
         </a>
         <a href="/commands?cat=servidor" class="cat-card">
-          <span class="cat-card-title" data-i18n="catServer">Servidor</span>
-          <span class="cat-card-count" data-i18n="catServerCount">5 comandos</span>
+          <span class="cat-card-title">Servidor</span>
+          <span class="cat-card-count">8 comandos</span>
+        </a>
+        <a href="/commands?cat=usuario" class="cat-card">
+          <span class="cat-card-title">Usuario</span>
+          <span class="cat-card-count">6 comandos</span>
         </a>
         <a href="/commands?cat=roles" class="cat-card">
-          <span class="cat-card-title" data-i18n="catRoles">Roles</span>
-          <span class="cat-card-count" data-i18n="catRolesCount">15 comandos</span>
+          <span class="cat-card-title">Roles</span>
+          <span class="cat-card-count">18 comandos</span>
         </a>
         <a href="/commands?cat=canal" class="cat-card">
-          <span class="cat-card-title" data-i18n="catChannel">Canal</span>
-          <span class="cat-card-count" data-i18n="catChannelCount">10 comandos</span>
+          <span class="cat-card-title">Canal</span>
+          <span class="cat-card-count">17 comandos</span>
         </a>
-        <a href="/commands?cat=diversion" class="cat-card">
-          <span class="cat-card-title" data-i18n="catFun">Diversión</span>
-          <span class="cat-card-count" data-i18n="catFunCount">6 comandos</span>
+        <a href="/commands?cat=tickets" class="cat-card">
+          <span class="cat-card-title">Tickets</span>
+          <span class="cat-card-count">8 comandos</span>
+        </a>
+        <a href="/commands?cat=automatizacion" class="cat-card">
+          <span class="cat-card-title">Automatización</span>
+          <span class="cat-card-count">17 comandos</span>
+        </a>
+        <a href="/commands?cat=comunidad" class="cat-card">
+          <span class="cat-card-title">Comunidad</span>
+          <span class="cat-card-count">9 comandos</span>
         </a>
       </div>
       <div class="cmd-more">
@@ -271,11 +281,12 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot"></div>
+          <div class="footer-logo"><img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44"></div>
           <p class="footer-desc">© 2026 RedBot.</p>
         </div>
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
+          <a href="/dashboard">Dashboard</a>
           <a href="/commands">Comandos</a>
           <a href="https://redbot.me/invite">Invitar</a>
           <a href="/staff">Equipo</a>
@@ -322,22 +333,6 @@
         feat4Desc: "Commands covering moderation, roles, utilities, and AI with no external plugins required.",
         cmdHead: "Command Directory",
         cmdSub: "Pick a category to browse all its commands.",
-        catHelp: "Help",
-        catHelpCount: "1 command",
-        catUtil: "Utility",
-        catUtilCount: "12 commands",
-        catUser: "User",
-        catUserCount: "5 commands",
-        catMod: "Moderation",
-        catModCount: "15 commands",
-        catServer: "Server",
-        catServerCount: "5 commands",
-        catRoles: "Roles",
-        catRolesCount: "15 commands",
-        catChannel: "Channel",
-        catChannelCount: "10 commands",
-        catFun: "Fun",
-        catFunCount: "6 commands",
         cmdMore: "View all commands",
         ctaFinalTitle: "Ready to get started?",
         ctaFinalDesc: "Add it to your server and try it with your own community."
@@ -352,6 +347,74 @@
       fallbackUrl: "https://redbot.hidenplay.net",
       key: ""
     };
+
+    const CATEGORY_LABELS = {
+      es: {
+        utilidad: "Utilidad",
+        ai: "IA",
+        moderacion: "Moderación",
+        servidor: "Servidor",
+        usuario: "Usuario",
+        roles: "Roles",
+        canal: "Canal",
+        tickets: "Tickets",
+        automatizacion: "Automatización",
+        comunidad: "Comunidad"
+      },
+      en: {
+        utilidad: "Utility",
+        ai: "AI",
+        moderacion: "Moderation",
+        servidor: "Server",
+        usuario: "User",
+        roles: "Roles",
+        canal: "Channel",
+        tickets: "Tickets",
+        automatizacion: "Automation",
+        comunidad: "Community"
+      }
+    };
+
+    const FALLBACK_CATEGORIES = [
+      { id: "utilidad", count: 15 },
+      { id: "ai", count: 12 },
+      { id: "moderacion", count: 18 },
+      { id: "servidor", count: 8 },
+      { id: "usuario", count: 6 },
+      { id: "roles", count: 18 },
+      { id: "canal", count: 17 },
+      { id: "tickets", count: 8 },
+      { id: "automatizacion", count: 17 },
+      { id: "comunidad", count: 9 }
+    ];
+
+    let currentCategories = FALLBACK_CATEGORIES.slice();
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function renderCategoryCards() {
+      const grid = document.getElementById("cmd-categories-grid");
+      if (!grid) return;
+      const lang = (window.RedBotI18n && window.RedBotI18n.getLang() === "en") ? "en" : "es";
+      const dict = CATEGORY_LABELS[lang] || CATEGORY_LABELS.es;
+
+      grid.innerHTML = currentCategories.map((cat) => {
+        const fallbackTitle = cat.apiLabel || (cat.id.charAt(0).toUpperCase() + cat.id.slice(1));
+        const title = dict[cat.id] || fallbackTitle;
+        const count = Number(cat.count) || 0;
+        const countText = lang === "en"
+          ? `${count} ${count === 1 ? "command" : "commands"}`
+          : `${count} ${count === 1 ? "comando" : "comandos"}`;
+        return `<a href="/commands?cat=${encodeURIComponent(cat.id)}" class="cat-card"><span class="cat-card-title">${escapeHtml(title)}</span><span class="cat-card-count">${escapeHtml(countText)}</span></a>`;
+      }).join("");
+    }
 
     async function fetchApiWithFallback(path, headers, signal) {
       const bases = [REDBOT_API_CONFIG.url, REDBOT_API_CONFIG.fallbackUrl]
@@ -398,12 +461,49 @@
           }
         }
 
-        if (data.commands && typeof data.commands.total === 'number') {
+        if (data.commands && typeof data.commands.total === 'number' && data.commands.total > 0) {
           const commandsEl = document.getElementById('stat-commands');
           if (commandsEl) commandsEl.textContent = `${data.commands.total}`;
         }
       } catch (e) {
         // En caso de fallo se mantienen los valores estáticos precargados
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
+
+    async function loadLiveCategories() {
+      if (!REDBOT_API_CONFIG.url) return;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      try {
+        const headers = {};
+        if (REDBOT_API_CONFIG.key) {
+          headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
+        }
+        const res = await fetchApiWithFallback("/api/commands", headers, controller.signal);
+        if (!res) return;
+        const data = await res.json();
+        if (!data || !data.categories || typeof data.categories !== "object") return;
+
+        const nextCategories = Object.entries(data.categories)
+          .map(([id, cat]) => ({
+            id,
+            count: Number(cat?.count ?? cat?.commands?.length ?? 0),
+            apiLabel: cat?.label || ""
+          }))
+          .filter((cat) => cat.count > 0);
+
+        if (nextCategories.length > 0) {
+          currentCategories = nextCategories;
+          renderCategoryCards();
+        }
+        if (typeof data.total === "number" && data.total > 0) {
+          const commandsEl = document.getElementById("stat-commands");
+          if (commandsEl) commandsEl.textContent = `${data.total}`;
+        }
+      } catch (e) {
+        // En caso de fallo se mantienen las categorías estáticas precargadas
       } finally {
         clearTimeout(timeoutId);
       }
@@ -444,9 +544,13 @@
       }
     }
 
+    document.addEventListener('redbot:langchange', renderCategoryCards);
+
     // Inicializar cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
+      renderCategoryCards();
       loadLiveStats();
+      loadLiveCategories();
       loadDemoAvatars();
     });
   </script>
