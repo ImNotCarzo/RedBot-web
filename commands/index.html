@@ -198,9 +198,10 @@
   </script>
   <script src="/main.js"></script>
   <script>
-    // Configuración API en vivo (pasa por el Worker en /api/*)
+    // Configuración API en vivo (pasa por el Worker en /api/* con fallback directo)
     const REDBOT_API_CONFIG = {
       url: window.location.origin,
+      fallbackUrl: "https://redbot.hidenplay.net",
       key: ""
     };
 
@@ -802,17 +803,30 @@
     async function loadLiveCommands() {
       if (!REDBOT_API_CONFIG.url) return;
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
       try {
         const headers = {};
         if (REDBOT_API_CONFIG.key) {
           headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
         }
-        const res = await fetch(`${REDBOT_API_CONFIG.url.replace(/\/+$/, "")}/api/commands`, {
-          headers,
-          signal: controller.signal
-        });
-        if (!res.ok) return;
+        const bases = [REDBOT_API_CONFIG.url, REDBOT_API_CONFIG.fallbackUrl]
+          .filter(Boolean)
+          .map(u => u.replace(/\/+$/, ""))
+          .filter((u, i, arr) => arr.indexOf(u) === i);
+        let res = null;
+        for (const base of bases) {
+          try {
+            const candidate = await fetch(`${base}/api/commands`, {
+              headers,
+              signal: controller.signal
+            });
+            if (candidate.ok) {
+              res = candidate;
+              break;
+            }
+          } catch (e) {}
+        }
+        if (!res) return;
         const data = await res.json();
         if (!data.categories) return;
 

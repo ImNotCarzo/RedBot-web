@@ -346,26 +346,38 @@
   </script>
   <script src="/main.js"></script>
   <script>
-    // Configuración de la API en vivo de RedBot (pasa por el Worker en /api/*)
+    // Configuración de la API en vivo de RedBot (pasa por el Worker en /api/* con fallback directo)
     const REDBOT_API_CONFIG = {
       url: window.location.origin,
+      fallbackUrl: "https://redbot.hidenplay.net",
       key: ""
     };
+
+    async function fetchApiWithFallback(path, headers, signal) {
+      const bases = [REDBOT_API_CONFIG.url, REDBOT_API_CONFIG.fallbackUrl]
+        .filter(Boolean)
+        .map(u => u.replace(/\/+$/, ""))
+        .filter((u, i, arr) => arr.indexOf(u) === i);
+      for (const base of bases) {
+        try {
+          const res = await fetch(`${base}${path}`, { headers, signal });
+          if (res.ok) return res;
+        } catch (e) {}
+      }
+      return null;
+    }
 
     async function loadLiveStats() {
       if (!REDBOT_API_CONFIG.url) return;
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
       try {
         const headers = {};
         if (REDBOT_API_CONFIG.key) {
           headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
         }
-        const res = await fetch(`${REDBOT_API_CONFIG.url.replace(/\/+$/, "")}/api/stats`, {
-          headers,
-          signal: controller.signal
-        });
-        if (!res.ok) return;
+        const res = await fetchApiWithFallback("/api/stats", headers, controller.signal);
+        if (!res) return;
         const data = await res.json();
 
         if (typeof data.guilds === 'number') {

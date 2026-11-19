@@ -1,4 +1,12 @@
 const PUBLIC_KEY_ROUTES = new Set(["/api/stats", "/api/commands"]);
+const FORWARDED_HEADERS = [
+  "accept",
+  "accept-language",
+  "authorization",
+  "content-type",
+  "cookie",
+  "user-agent",
+];
 
 export default {
   async fetch(request, env) {
@@ -19,13 +27,20 @@ export default {
       const base = rawApiUrl.replace(/\/+$/, "");
       const target = `${base}${url.pathname}${url.search}`;
 
-      const headers = new Headers(request.headers);
+      const headers = new Headers();
+      for (const name of FORWARDED_HEADERS) {
+        const val = request.headers.get(name);
+        if (val) headers.set(name, val);
+      }
+      if (!headers.has("user-agent")) {
+        headers.set("user-agent", "RedBot-Web-Worker/1.0");
+      }
+
       const clientIp = request.headers.get("CF-Connecting-IP");
       if (clientIp) {
         headers.set("X-Forwarded-For", clientIp);
-      } else {
-        headers.delete("X-Forwarded-For");
       }
+      headers.set("X-Forwarded-Proto", url.protocol.replace(":", ""));
 
       const normalizedPath = url.pathname.replace(/\/+$/, "") || "/api";
       // Solo inyectar REDBOT_API_KEY en endpoints públicos de datos explícitamente permitidos
@@ -36,7 +51,6 @@ export default {
       ) {
         headers.set("Authorization", `Bearer ${env.REDBOT_API_KEY}`);
       }
-      headers.delete("host");
 
       try {
         const res = await fetch(target, {
