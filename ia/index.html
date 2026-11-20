@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bot de Inteligencia Artificial para Discord - RedBot</title>
-  <meta name="description" content="Añade IA avanzada a tu servidor de Discord: chat conversacional con memoria (.ask), visión computacional (.describe), transcripción de notas de voz (.transcribe) y traducción.">
-  <meta name="keywords" content="bot de inteligencia artificial discord, chatgpt discord bot gratis, transcribir audios discord bot, bot vision imagenes discord, redbot ia">
+  <meta name="description" content="IA multimodal gratis en Discord sin API Keys: chat con memoria (/ai ask), búsqueda semántica (/ai search), AutoMod nativo con IA (/mod automod-ai), OCR (/ai ocr), transcripción de voz y video (/ai transcribe) y resúmenes de canal (/channel recap).">
+  <meta name="keywords" content="bot de inteligencia artificial discord, chatgpt discord bot gratis, transcribir audios discord bot, ocr discord bot, automod ia discord, buscar mensajes ia discord, redbot ia">
   <meta name="theme-color" content="#ff383d">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://redbot.me/ia">
@@ -17,7 +17,7 @@
   <link rel="manifest" href="/site.webmanifest">
 
   <meta property="og:title" content="Bot de Inteligencia Artificial para Discord - RedBot">
-  <meta property="og:description" content="Chat con memoria, análisis de imágenes y transcripción de voz sin costo en tu servidor de Discord.">
+  <meta property="og:description" content="Chat con memoria, búsqueda semántica, AutoMod por lenguaje natural, OCR, transcripción de voz y resúmenes de canal 100% gratis en Discord.">
   <meta property="og:image" content="https://redbot.me/og-image.png">
   <meta property="og:url" content="https://redbot.me/ia">
   <meta property="og:type" content="website">
@@ -25,7 +25,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bot de Inteligencia Artificial para Discord - RedBot">
-  <meta name="twitter:description" content="Chat, visión, transcripción y traducción con IA en Discord 100% gratis.">
+  <meta name="twitter:description" content="Chat, búsqueda semántica, AutoMod con IA, OCR, transcripción de voz y resúmenes en Discord 100% gratis y sin API Keys.">
   <meta name="twitter:image" content="https://redbot.me/og-image.png">
 
   <script type="application/ld+json">
@@ -40,7 +40,7 @@
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": "Suite de Inteligencia Artificial para Discord: respuestas contextuales, descripción de imágenes, transcripción de voz y traducción de idiomas."
+    "description": "Suite de Inteligencia Artificial multimodal para Discord: chat contextual (/ai ask), búsqueda semántica en mensajes (/ai search), AutoMod nativo por lenguaje natural (/mod automod-ai), descripción de imágenes (/ai describe), OCR (/ai ocr), transcripción de voz/video (/ai transcribe), resúmenes de canal (/channel recap), User App y menús contextuales."
   }
   </script>
 
@@ -67,52 +67,88 @@
   </nav>
 
   <header class="page-header" id="contenido">
-    <p class="page-tag" data-i18n-html="tag"><strong>Inteligencia Artificial</strong> · Sin suscripciones ni API Keys</p>
-    <h1 class="page-title" data-i18n="title">El poder de la IA en tu servidor de Discord</h1>
-    <p class="page-subtitle" data-i18n="subtitle">Respuestas en tiempo real con memoria contextual, transcripción de audios de voz a texto y visión computacional para imágenes sin límites diarios.</p>
+    <p class="page-tag" data-i18n-html="tag"><strong>Inteligencia Artificial</strong> · Multimodal, gratis y sin API Keys</p>
+    <h1 class="page-title" data-i18n="title">Inteligencia Artificial integrada en todo tu servidor</h1>
+    <p class="page-subtitle" data-i18n="subtitle">Chat con memoria, búsqueda semántica de mensajes, AutoMod nativo por lenguaje natural, OCR, transcripción de voz y resúmenes de canal. Funciona en servidores y como User App.</p>
   </header>
 
   <main class="content">
     <div class="cl">
       <p class="cl-num" data-i18n="s1Num">// 01 · CAPACIDADES MULTIMODALES</p>
       <h2 data-i18n="s1Title">¿Qué puede hacer la IA de RedBot?</h2>
-      <p data-i18n="s1Desc">A diferencia de bots limitados a respuestas de texto simples, RedBot cuenta con una suite integral de procesamiento de lenguaje natural y visión artificial:</p>
+      <p data-i18n="s1Desc">Más allá de responder mensajes sueltos, RedBot integra modelos de Google Gemini y Groq directamente en la administración, moderación y herramientas diarias de tu comunidad:</p>
 
       <div class="alt-grid">
         <div class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c1Tag">Conversación</span>
-            <h3 data-i18n="c1Title">Chat Contextual (.ask)</h3>
-            <p data-i18n="c1Desc">Pregunta cualquier cosa. RedBot recuerda el contexto de la conversación previa dentro del hilo para ofrecer respuestas coherentes y continuas.</p>
+            <span class="alt-card-tag" data-i18n="c1Tag">Conversación &amp; Visión</span>
+            <h3 data-i18n="c1Title">Chat Contextual (/ai ask)</h3>
+            <p data-i18n="c1Desc">Pregunta con texto o imágenes y continúa respondiendo directo al mensaje del bot. Recuerda hasta 10 turnos en base de datos (TTL de 10 min) y usa el contexto FAQ que configures en /server setup.</p>
           </div>
-          <code data-i18n="c1Code">.ask [pregunta]</code>
+          <code data-i18n="c1Code">/ai ask · .ask &lt;pregunta&gt;</code>
         </div>
 
         <div class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c2Tag">Audio & Voz</span>
-            <h3 data-i18n="c2Title">Transcripción de Audio (.transcribe)</h3>
-            <p data-i18n="c2Desc">Convierte notas de voz o archivos de video a texto inmediatamente. Ideal para leer audios cuando no puedes reproducir sonido.</p>
+            <span class="alt-card-tag" data-i18n="c2Tag">Búsqueda Semántica</span>
+            <h3 data-i18n="c2Title">Buscador del Servidor (/ai search)</h3>
+            <p data-i18n="c2Desc">Combina la búsqueda nativa de mensajes de Discord con IA para encontrar decisiones viejas, enlaces o discusiones pasadas por su significado y reenviar el mensaje original intacto.</p>
           </div>
-          <code data-i18n="c2Code">.transcribe [archivo]</code>
+          <code data-i18n="c2Code">/ai search · .aisearch &lt;consulta&gt;</code>
         </div>
 
         <div class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c3Tag">Visión por Computadora</span>
-            <h3 data-i18n="c3Title">Descripción de Imágenes (.describe)</h3>
-            <p data-i18n="c3Desc">Sube cualquier imagen o meme. La IA detallará los objetos, colores, textos y elementos presentes con precisión humana.</p>
+            <span class="alt-card-tag" data-i18n="c3Tag">Seguridad Inteligente</span>
+            <h3 data-i18n="c3Title">AutoMod en Lenguaje Natural (/mod automod-ai)</h3>
+            <p data-i18n="c3Desc">Describe qué quieres bloquear en español o inglés y RedBot traduce tu instrucción en reglas nativas reales de Discord AutoMod listas para previsualizar y activar con 0 ms de latencia.</p>
           </div>
-          <code data-i18n="c3Code">.describe &lt;imagen&gt;</code>
+          <code data-i18n="c3Code">/mod automod-ai · .automodai &lt;regla&gt;</code>
         </div>
 
         <div class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c4Tag">Idiomas & Productividad</span>
-            <h3 data-i18n="c4Title">Traductor y Resúmenes (.translate / .resume)</h3>
-            <p data-i18n="c4Desc">Comunícate con comunidades globales traduciendo en vivo o sintetizando textos extensos en puntos clave.</p>
+            <span class="alt-card-tag" data-i18n="c4Tag">Audio &amp; Voz</span>
+            <h3 data-i18n="c4Title">Transcripción de Voz y Video (/ai transcribe)</h3>
+            <p data-i18n="c4Desc">Convierte notas de voz de Discord, audios o videos a texto legible al instante mediante Groq Whisper (con respaldo de Google Gemini). También disponible con clic derecho sobre cualquier mensaje.</p>
           </div>
-          <code>.translate / .resume</code>
+          <code data-i18n="c4Code">/ai transcribe · .transcribe &lt;url | adjunto&gt;</code>
+        </div>
+
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag" data-i18n="c5Tag">Visión &amp; OCR</span>
+            <h3 data-i18n="c5Title">Análisis Visual y OCR (/ai describe · /ai ocr)</h3>
+            <p data-i18n="c5Desc">Detalla qué ocurre en una imagen o meme y extrae texto exacto desde capturas de pantalla, errores o documentos adjuntos para copiarlo al instante.</p>
+          </div>
+          <code data-i18n="c5Code">/ai describe · /ai ocr</code>
+        </div>
+
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag" data-i18n="c6Tag">Productividad</span>
+            <h3 data-i18n="c6Title">Resúmenes de Canal y Traducción</h3>
+            <p data-i18n="c6Desc">Ponte al día tras cientos de mensajes con /channel recap, sintetiza textos largos con /ai resume o traduce conversaciones al vuelo con /util translate y respuestas directas.</p>
+          </div>
+          <code data-i18n="c6Code">/channel recap · /ai resume · /util translate</code>
+        </div>
+
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag" data-i18n="c7Tag">Humor &amp; Creatividad</span>
+            <h3 data-i18n="c7Title">Modos Creativos con Personalidad</h3>
+            <p data-i18n="c7Desc">Genera opiniones sin filtro, críticas despiadadas, excusas creativas, teorías conspirativas y roasts a usuarios manteniendo el estilo ingenioso de RedBot.</p>
+          </div>
+          <code data-i18n="c7Code">/ai opinion · critica · excusa · teoria · roast</code>
+        </div>
+
+        <div class="alt-card">
+          <div>
+            <span class="alt-card-tag" data-i18n="c8Tag">Sin Permisos de Admin</span>
+            <h3 data-i18n="c8Title">User App y Menús Contextuales</h3>
+            <p data-i18n="c8Desc">Instala RedBot en tu cuenta para usar su IA en DMs, grupos o cualquier servidor, y ejecuta acciones con clic derecho → Apps: Traducir, Extraer texto (OCR), Transcribir audio o Resumir mensaje.</p>
+          </div>
+          <code data-i18n="c8Code">Clic derecho → Apps · User App</code>
         </div>
       </div>
     </div>
@@ -137,24 +173,39 @@
               <td data-i18n="r1Other">$5 a $20 / mes</td>
             </tr>
             <tr>
-              <td><strong data-i18n="r2Name">Requiere API Key de OpenAI</strong></td>
-              <td class="highlight-col" data-i18n-html="r2Red"><span class="check-icon">✔</span> No (Listo para usar)</td>
+              <td><strong data-i18n="r2Name">Requiere API Key externa</strong></td>
+              <td class="highlight-col" data-i18n-html="r2Red"><span class="check-icon">✔</span> No (Gemini y Groq integrados)</td>
               <td data-i18n-html="r2Other"><span class="cross-icon">✗</span> Frecuentemente sí</td>
             </tr>
             <tr>
-              <td><strong data-i18n="r3Name">Memoria por hilo</strong></td>
-              <td class="highlight-col" data-i18n-html="r3Red"><span class="check-icon">✔</span> Sí (.ask)</td>
+              <td><strong data-i18n="r3Name">Memoria por hilo y contexto del servidor</strong></td>
+              <td class="highlight-col" data-i18n-html="r3Red"><span class="check-icon">✔</span> Sí (/ai ask + FAQ en /server setup)</td>
               <td data-i18n-html="r3Other"><span class="cross-icon">✗</span> Respuestas aisladas</td>
             </tr>
             <tr>
-              <td><strong data-i18n="r4Name">Transcripción de notas de voz</strong></td>
-              <td class="highlight-col" data-i18n-html="r4Red"><span class="check-icon">✔</span> Sí (.transcribe)</td>
+              <td><strong data-i18n="r4Name">Transcripción de voz y OCR</strong></td>
+              <td class="highlight-col" data-i18n-html="r4Red"><span class="check-icon">✔</span> Sí (/ai transcribe + /ai ocr)</td>
               <td data-i18n-html="r4Other"><span class="cross-icon">✗</span> Muy pocos lo tienen</td>
             </tr>
             <tr>
-              <td><strong data-i18n="r5Name">Límite artificial de mensajes</strong></td>
-              <td class="highlight-col" data-i18n-html="r5Red"><span class="check-icon">✔</span> Sin topes abusivos</td>
-              <td data-i18n-html="r5Other"><span class="cross-icon">✗</span> 5 o 10 mensajes/día</td>
+              <td><strong data-i18n="r5Name">Búsqueda semántica en mensajes</strong></td>
+              <td class="highlight-col" data-i18n-html="r5Red"><span class="check-icon">✔</span> Sí (/ai search nativo)</td>
+              <td data-i18n-html="r5Other"><span class="cross-icon">✗</span> No disponible</td>
+            </tr>
+            <tr>
+              <td><strong data-i18n="r6Name">Discord AutoMod desde lenguaje natural</strong></td>
+              <td class="highlight-col" data-i18n-html="r6Red"><span class="check-icon">✔</span> Sí (/mod automod-ai)</td>
+              <td data-i18n-html="r6Other"><span class="cross-icon">✗</span> Configuración manual</td>
+            </tr>
+            <tr>
+              <td><strong data-i18n="r7Name">User App y menús contextuales</strong></td>
+              <td class="highlight-col" data-i18n-html="r7Red"><span class="check-icon">✔</span> Sí (servidores y DMs)</td>
+              <td data-i18n-html="r7Other"><span class="cross-icon">✗</span> Solo con admin en servidor</td>
+            </tr>
+            <tr>
+              <td><strong data-i18n="r8Name">Límite artificial de mensajes</strong></td>
+              <td class="highlight-col" data-i18n-html="r8Red"><span class="check-icon">✔</span> Sin topes diarios de pago</td>
+              <td data-i18n-html="r8Other"><span class="cross-icon">✗</span> 5 o 10 mensajes/día</td>
             </tr>
           </tbody>
         </table>
@@ -165,22 +216,31 @@
       <p class="cl-num" data-i18n="s3Num">// 03 · PREGUNTAS FRECUENTES (FAQ)</p>
       <div class="faq-grid">
         <div class="faq-item">
-          <div class="faq-question" data-i18n="q1">¿Cómo reinicio la conversación de la IA?</div>
-          <div class="faq-answer" data-i18n-html="a1">Basta con ejecutar el comando <code>.askreset</code> y tu historial contextual volverá a estar en blanco para una nueva consulta.</div>
+          <div class="faq-question" data-i18n="q1">¿Cómo reinicio la conversación o personalizo el contexto del servidor?</div>
+          <div class="faq-answer" data-i18n-html="a1">Ejecuta <code>/ai askreset</code> (o <code>.askreset</code>) para limpiar al instante tus hasta 10 turnos guardados, o espera 10 minutos de inactividad para que expiren automáticamente. Si administras un servidor, puedes definir información de referencia (reglas, roles o FAQ) desde el botón <strong>Contexto IA</strong> en <code>/server setup</code>.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-question" data-i18n="q2">¿Mis datos o conversaciones son privados?</div>
-          <div class="faq-answer" data-i18n-html="a2">Sí. RedBot respeta estrictamente la privacidad y los lineamientos de Discord. Consulta nuestra <a href="/privacy" style="color: var(--signal);">política de privacidad</a> para conocer todos los detalles de retención de datos.</div>
+          <div class="faq-question" data-i18n="q2">¿Qué modelos de IA usa RedBot?</div>
+          <div class="faq-answer" data-i18n-html="a2">RedBot combina rotación automática de modelos <strong>Google Gemini y Gemma</strong> (para conversación, visión, OCR, búsqueda semántica y generación de reglas en <code>/mod automod-ai</code>) junto con <strong>Groq Whisper</strong> para transcripción rápida de audio y video.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="q3">¿Puedo usar las funciones de IA si no soy administrador del servidor?</div>
+          <div class="faq-answer" data-i18n-html="a3">Sí. Al instalar RedBot como <strong>User App</strong> en tu cuenta de Discord puedes ejecutar <code>/ai</code> y <code>/util</code> en chats privados, grupos o cualquier servidor, además de usar los menús contextuales con clic derecho → <strong>Apps</strong> (Traducir, Extraer texto (OCR), Transcribir audio y Resumir mensaje).</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="q4">¿Mis datos o conversaciones son privados?</div>
+          <div class="faq-answer" data-i18n-html="a4">Sí. Las sesiones conversacionales caducan a los 10 minutos, los archivos multimedia temporales de transcripción se eliminan al finalizar el proceso y RedBot no vende tu contenido ni entrena modelos propios. Consulta nuestra <a href="/privacy" style="color: var(--signal);">política de privacidad</a> para conocer todos los detalles.</div>
         </div>
       </div>
     </div>
 
     <div class="box highlight">
-      <p data-i18n-html="ctaBox"><strong>Dale vida a tu comunidad con IA real.</strong> No pagues costosas APIs ni suscripciones. Autoriza RedBot en tu servidor en 1 minuto.</p>
+      <p data-i18n-html="ctaBox"><strong>Dale vida a tu comunidad con IA útil y gratuita.</strong> Chat multimodal, búsqueda en historial, AutoMod por lenguaje natural, OCR y transcripción en un solo bot.</p>
     </div>
 
     <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
       <a class="btn btn-primary" href="https://redbot.me/invite" data-i18n="btnInvite">Añadir RedBot con IA al Servidor</a>
+      <a class="btn btn-secondary" href="/commands?cat=ai" data-i18n="btnAiCommands">Ver comandos de IA</a>
       <a class="btn btn-secondary" href="/commands" data-i18n="btnCommands">Ver todos los comandos</a>
     </div>
   </main>
@@ -214,27 +274,44 @@
     window.REDBOT_I18N = {
       titleEn: "AI Discord Bot - RedBot",
       en: {
-        tag: "<strong>Artificial Intelligence</strong> · No subscriptions or API Keys",
-        title: "The power of AI in your Discord server",
-        subtitle: "Real-time replies with thread memory, voice note transcription to text, and computer vision for images with no daily caps.",
+        tag: "<strong>Artificial Intelligence</strong> · Multimodal, free & no API Keys",
+        title: "Artificial Intelligence built into your entire server",
+        subtitle: "Chat with memory, semantic message search, natural-language native AutoMod, OCR, voice transcription, and channel recaps. Works in servers and as a User App.",
         s1Num: "// 01 · MULTIMODAL CAPABILITIES",
         s1Title: "What can RedBot's AI do?",
-        s1Desc: "Unlike bots limited to basic text replies, RedBot includes a complete natural language and computer vision suite:",
-        c1Tag: "Conversation",
-        c1Title: "Contextual Chat (.ask)",
-        c1Desc: "Ask anything. RedBot remembers previous conversation context inside the thread to deliver coherent follow-ups.",
-        c1Code: ".ask [question]",
-        c2Tag: "Audio & Voice",
-        c2Title: "Audio Transcription (.transcribe)",
-        c2Desc: "Turn voice notes or video files into text instantly. Ideal when you can't play audio out loud.",
-        c2Code: ".transcribe [file]",
-        c3Tag: "Computer Vision",
-        c3Title: "Image Description (.describe)",
-        c3Desc: "Upload any image or meme. The AI details objects, colors, text, and elements accurately.",
-        c3Code: ".describe <image>",
-        c4Tag: "Languages & Productivity",
-        c4Title: "Translator & Summaries (.translate / .resume)",
-        c4Desc: "Connect global communities with live translation or condense long text into key bullet points.",
+        s1Desc: "Beyond answering isolated prompts, RedBot integrates Google Gemini and Groq directly into your server's moderation, lookup, and daily productivity tools:",
+        c1Tag: "Conversation & Vision",
+        c1Title: "Contextual Chat (/ai ask)",
+        c1Desc: "Ask with text or images and keep replying directly to the bot's message. Keeps up to 10 turns in database (10-min TTL) and uses the server FAQ context configured in /server setup.",
+        c1Code: "/ai ask · .ask <question>",
+        c2Tag: "Semantic Search",
+        c2Title: "Server Search (/ai search)",
+        c2Desc: "Combines Discord's native message search with AI to locate old decisions, links, or past threads by meaning and forward the original message intact.",
+        c2Code: "/ai search · .aisearch <query>",
+        c3Tag: "Smart Security",
+        c3Title: "Natural-Language AutoMod (/mod automod-ai)",
+        c3Desc: "Describe what you want blocked in plain Spanish or English and RedBot turns your prompt into real native Discord AutoMod rules ready to preview and enable at 0 ms latency.",
+        c3Code: "/mod automod-ai · .automodai <rule>",
+        c4Tag: "Audio & Voice",
+        c4Title: "Voice & Video Transcription (/ai transcribe)",
+        c4Desc: "Turn Discord voice notes, audio clips, or videos into accurate text instantly via Groq Whisper (with Google Gemini fallback). Also available from any message's right-click menu.",
+        c4Code: "/ai transcribe · .transcribe <url | attachment>",
+        c5Tag: "Vision & OCR",
+        c5Title: "Image Description & OCR (/ai describe · /ai ocr)",
+        c5Desc: "Break down what is inside any image or meme, or extract exact text from screenshots, error logs, and attachments for instant copying.",
+        c5Code: "/ai describe · /ai ocr",
+        c6Tag: "Productivity",
+        c6Title: "Channel Recaps & Translation",
+        c6Desc: "Catch up after hundreds of messages with /channel recap, condense long text with /ai resume, or translate messages on the fly via /util translate and direct replies.",
+        c6Code: "/channel recap · /ai resume · /util translate",
+        c7Tag: "Humor & Creativity",
+        c7Title: "Personality-Driven Creative Modes",
+        c7Desc: "Generate unfiltered opinions, ruthless critiques, creative excuses, conspiracy theories, and user roasts in RedBot's signature witty tone.",
+        c7Code: "/ai opinion · critica · excusa · teoria · roast",
+        c8Tag: "No Admin Required",
+        c8Title: "User App & Context Menus",
+        c8Desc: "Install RedBot on your personal account to use AI in DMs, group chats, or any server, plus right-click → Apps actions: Translate, Extract text (OCR), Transcribe audio, or Summarize message.",
+        c8Code: "Right-click → Apps · User App",
         s2Num: "// 02 · DISCORD AI COMPARISON",
         s2Title: "Why RedBot over other AI bots?",
         thFeat: "Feature",
@@ -242,25 +319,39 @@
         r1Name: "Monthly cost",
         r1Red: "Free ($0)",
         r1Other: "$5 to $20 / mo",
-        r2Name: "Requires OpenAI API Key",
-        r2Red: '<span class="check-icon">✔</span> No (Ready to use)',
+        r2Name: "Requires external API Key",
+        r2Red: '<span class="check-icon">✔</span> No (Gemini & Groq built in)',
         r2Other: '<span class="cross-icon">✗</span> Often yes',
-        r3Name: "Thread memory",
-        r3Red: '<span class="check-icon">✔</span> Yes (.ask)',
+        r3Name: "Thread memory & server context",
+        r3Red: '<span class="check-icon">✔</span> Yes (/ai ask + /server setup FAQ)',
         r3Other: '<span class="cross-icon">✗</span> Isolated replies',
-        r4Name: "Voice note transcription",
-        r4Red: '<span class="check-icon">✔</span> Yes (.transcribe)',
+        r4Name: "Voice transcription & OCR",
+        r4Red: '<span class="check-icon">✔</span> Yes (/ai transcribe + /ai ocr)',
         r4Other: '<span class="cross-icon">✗</span> Very rare',
-        r5Name: "Artificial message limits",
-        r5Red: '<span class="check-icon">✔</span> No harsh caps',
-        r5Other: '<span class="cross-icon">✗</span> 5–10 messages/day',
+        r5Name: "Semantic message search",
+        r5Red: '<span class="check-icon">✔</span> Yes (native /ai search)',
+        r5Other: '<span class="cross-icon">✗</span> Not available',
+        r6Name: "Natural-language Discord AutoMod",
+        r6Red: '<span class="check-icon">✔</span> Yes (/mod automod-ai)',
+        r6Other: '<span class="cross-icon">✗</span> Manual setup',
+        r7Name: "User App & context menus",
+        r7Red: '<span class="check-icon">✔</span> Yes (servers & DMs)',
+        r7Other: '<span class="cross-icon">✗</span> Server admin required',
+        r8Name: "Artificial daily message caps",
+        r8Red: '<span class="check-icon">✔</span> No paid daily caps',
+        r8Other: '<span class="cross-icon">✗</span> 5–10 messages/day',
         s3Num: "// 03 · FREQUENTLY ASKED QUESTIONS",
-        q1: "How do I reset the AI conversation?",
-        a1: "Simply run <code>.askreset</code> and your contextual history will be cleared for a fresh conversation.",
-        q2: "Are my data and conversations private?",
-        a2: 'Yes. RedBot strictly respects your privacy and Discord guidelines. See our <a href="/privacy" style="color: var(--signal);">privacy policy</a> for full data retention details.',
-        ctaBox: "<strong>Bring your community to life with real AI.</strong> Stop paying for expensive APIs or subscriptions. Add RedBot to your server in 1 minute.",
+        q1: "How do I reset a conversation or customize server context?",
+        a1: 'Run <code>/ai askreset</code> (or <code>.askreset</code>) to immediately clear up to 10 stored turns, or wait 10 minutes of inactivity for automatic expiration. Server admins can also set reference context (rules, roles, or FAQ) via the <strong>AI Context</strong> button in <code>/server setup</code>.',
+        q2: "Which AI models power RedBot?",
+        a2: 'RedBot combines automatic fallback across <strong>Google Gemini and Gemma</strong> models (for chat, vision, OCR, semantic search, and rule generation in <code>/mod automod-ai</code>) with <strong>Groq Whisper</strong> for fast audio and video transcription.',
+        q3: "Can I use AI features without being a server administrator?",
+        a3: 'Yes. Install RedBot as a <strong>User App</strong> on your Discord account to run <code>/ai</code> and <code>/util</code> commands in DMs, group chats, or any server, plus right-click → <strong>Apps</strong> context menus (Translate, Extract text (OCR), Transcribe audio, and Summarize message).',
+        q4: "Are my data and conversations private?",
+        a4: 'Yes. Conversational sessions expire after 10 minutes, temporary media files uploaded for transcription are deleted right after processing, and RedBot never sells your content or trains its own models. See our <a href="/privacy" style="color: var(--signal);">privacy policy</a> for full details.',
+        ctaBox: "<strong>Bring your community to life with genuinely useful free AI.</strong> Multimodal chat, history search, natural-language AutoMod, OCR, and transcription in one bot.",
         btnInvite: "Add RedBot AI to Server",
+        btnAiCommands: "View AI commands",
         btnCommands: "View all commands"
       }
     };

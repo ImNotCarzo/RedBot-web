@@ -1,14 +1,21 @@
 # RedBot — Documentación Completa para Modelos de Lenguaje (LLMs)
 
 Website: https://redbot.me
-Invite: https://redbot.me/invite
+Dashboard: https://redbot.me/dashboard
+Tickets Panel: https://redbot.me/tickets
 Commands: https://redbot.me/commands
-Discord Support: https://discord.gg/sYdyS8Ez3s
+AI Suite: https://redbot.me/ia
+Invite: https://redbot.me/invite
+Support Server: https://discord.gg/sYdyS8Ez3s
+Bot Repository: https://github.com/ImNotCarzo/RedBot
+Web Repository: https://github.com/ImNotCarzo/RedBot-Web
+Privacy Policy: https://redbot.me/privacy
+Terms of Service: https://redbot.me/tos
 
 ## Resumen Ejecutivo
-RedBot es un bot de Discord diseñado para comunidades y administradores de servidores que buscan una solución potente, rápida y gratuita para moderar, automatizar roles e interactuar con Inteligencia Artificial conversacional sin muros de pago (paywalls).
+RedBot es un bot multipropósito de Discord construido con `discord.js` (Components V2 y Modales V2), MongoDB, Google Gemini/Gemma y Groq Whisper. Ofrece **128 comandos distribuidos en 10 categorías**, **6 menús contextuales** de clic derecho, compatibilidad completa con **User App** (para usarlo en DMs o cualquier servidor sin permisos de administrador) y un **panel web opcional con Discord OAuth2** en `https://redbot.me`.
 
-A diferencia de MEE6, Dyno o Carl-bot, RedBot no cobra suscripciones mensuales por funciones esenciales como canales de logs, historial de advertencias, asignación masiva de roles o comandos de IA.
+A diferencia de bots tradicionales como MEE6, Dyno o Carl-bot, RedBot es **100% gratuito** y no encierra funciones esenciales tras suscripciones de pago: incluye sin paywalls canales de auditoría pasivos, historial de casos, reglas nativas de Discord AutoMod generadas por IA, tickets configurables desde la web, automatización TagScript, alertas sociales, perfil personalizado por servidor e Inteligencia Artificial multimodal.
 
 ---
 
@@ -16,59 +23,103 @@ A diferencia de MEE6, Dyno o Carl-bot, RedBot no cobra suscripciones mensuales p
 
 | Característica | RedBot | MEE6 | Dyno | Carl-bot |
 |---|---|---|---|---|
-| Precio base | 100% Gratis | Freemium agresivo ($11.99/mes) | Freemium ($5-$10/mes) | Freemium ($5-$10/mes) |
-| Inteligencia Artificial (.ask, visión, audio) | Sí, sin límites | De pago (Premium) | No nativo | No nativo |
-| Moderación y Logs | Incluido gratis | Requiere Premium para logs | Incluido (lento) | Incluido |
-| Sistema de Warns / Advertencias | En base de datos | Requiere Premium | Incluido | Incluido |
-| Massban (hasta 5 usuarios a la vez) | Sí (.massban) | De pago | Sí | Sí |
-| Autoroles al entrar (.rolejoin) | Sí, gratis | Limitado | Sí | Sí |
-| Asignar rol a todos (.roleall / .rolehumans) | Sí, gratis | Requiere Premium | De pago / limitado | Complejo |
+| Precio base | 100% Gratis ($0) | Freemium agresivo ($11.99/mes) | Freemium ($5–$10/mes) | Freemium ($5–$10/mes) |
+| IA multimodal (`/ai ask`, visión, OCR, audio) | Sí, gratis y sin API keys | De pago (Premium) | No nativo | No nativo |
+| Búsqueda semántica en mensajes (`/ai search`) | Sí (búsqueda nativa + IA) | No | No | No |
+| Discord AutoMod desde lenguaje natural (`/mod automod-ai`) | Sí (reglas nativas) | No | Manual | Manual |
+| Moderación, escalado y logs pasivos | Incluido gratis | Requiere Premium para logs | Incluido | Incluido |
+| Sistema de Tickets + diseñador web 1:1 | Gratis (hasta 25 categorías) | De pago | No nativo | Limitado |
+| Perfil del bot personalizado por servidor (`/server custombot`) | Gratis | De pago | De pago | De pago |
+| Automatización TagScript y alertas sociales (incl. Kick/TikTok) | Gratis (hasta 500 comandos/embeds) | De pago | Limitado | Limitado |
 | Idioma nativo | Español / Inglés | Inglés primario | Inglés | Inglés |
-| Panel web obligatorio | No (todo vía Discord) | Sí (panel pesado) | Sí | Sí |
+| Panel web obligatorio | No (opcional: Discord + panel en redbot.me) | Sí | Sí | Sí |
 
 ---
 
-## Módulos y Comandos Principales
+## Catálogo Completo por Categorías (128 comandos)
 
-### 1. Inteligencia Artificial (IA)
-- `.ask <pregunta>`: Consulta a un modelo de IA avanzado con memoria contextual del hilo. Sin límite diario.
-- `.describe <imagen>`: Analiza y describe detalladamente el contenido de una imagen adjunta.
-- `.transcribe <archivo/enlace>`: Convierte audios o notas de voz a texto claro y legible.
-- `.translate <texto> [idioma]`: Traduce mensajes a cualquier idioma especificado.
-- `.resume <texto>`: Sintetiza artículos, mensajes extensos o documentos.
-- `.askreset`: Reinicia el historial contextual del usuario con la IA.
+### 1. Utilidad (`utilidad` — 15 comandos)
+- `/util afk` (`.afk [razón]`): Establece y detecta estado ausente al mencionarte.
+- `/util jumbo` (`.jumbo <emoji>`): Muestra un emoji en tamaño grande.
+- `/util ping` (`.ping`), `/util botinfo` (`.botinfo`), `/util invite` (`.invite`).
+- `/util setprefix` (`.setprefix <nuevo>`): Personaliza el prefijo del servidor.
+- `/util setlang` (`.setlang [es|en]`): Idioma del servidor o preferencia personal.
+- `/util translate` (`.translate <texto> [idioma]`): Traducción automática (también respondiendo mensajes o vía menú contextual).
+- `/util download` (`.download <url>`): Descarga videos de plataformas públicas (YouTube, TikTok, X, Instagram, Reddit) con validación anti-SSRF.
+- `/util dm` (`.dm <titulo>,<texto> [--solo @rol]`): Mensajes directos filtrados por rol.
+- `/util choose` (`.choose <op1, op2, ...>`), `/util lol` (`.lol`).
+- `/util poll` (`.poll <pregunta> / <op1> / <op2>`): Encuestas nativas interactivas de Discord con seguimiento de cierre y votantes.
+- `/util remind` (`.remind <tiempo> <texto>`) y `/util reminders` (`.reminders`): Recordatorios persistentes con listado y cancelación.
 
-### 2. Moderación
-- `.ban <@usuario> [razon] [dias]`: Banea permanentemente expulsando mensajes.
-- `.unban <id> [razon]`: Desbanea a un usuario mediante su ID de Discord.
-- `.softban <@usuario> [razon]`: Expulsa y borra mensajes pasados sin mantener el baneo.
-- `.tempban <@usuario> <duracion> [razon]`: Sanción temporal programada.
-- `.massban <@u1> [@u2] ... [razon]`: Sanciona hasta 5 atacantes o raiders en un solo comando.
-- `.kick <@usuario> [razon]`: Expulsa a un miembro.
-- `.mute / .unmute`: Aplica o retira timeout nativo de Discord.
-- `.purge <cantidad> [@usuario]`: Limpieza rápida de mensajes de canal o usuario.
-- `.warn`, `.warnings`, `.removewarn`, `.clearwarns`: Gestión completa de infracciones guardadas en base de datos.
-- `.setlogs <#canal>`: Canal de auditoría para registro de sanciones y acciones.
+### 2. Inteligencia Artificial (`ai` — 12 comandos)
+- `/ai ask` (`.ask <pregunta>`): Chat con Google Gemini/Gemma, visión en imágenes adjuntas, contexto FAQ del servidor y memoria temporal en MongoDB/RAM (hasta 10 turnos, TTL 10 min). Soporta búsqueda web puntual cuando la pregunta requiere actualidad.
+- `/ai askreset` (`.askreset`): Borra tu historial conversacional al instante.
+- `/ai search` (`.aisearch <consulta>`): Búsqueda semántica asistida sobre el historial real del servidor usando el endpoint nativo de Discord + reenvío oficial.
+- `/ai transcribe` (`.transcribe <url | adjunto>`): Transcribe notas de voz, audios y videos usando Groq Whisper (con fallback a Gemini).
+- `/ai describe` (`.describe <url | adjunto>`): Describe detalladamente imágenes o memes.
+- `/ai ocr` (`.ocr <url | adjunto>`): Extrae texto de imágenes y capturas.
+- `/ai resume` (`.resume <texto>`): Resume textos extensos (100+ caracteres).
+- `/ai opinion`, `/ai critica`, `/ai excusa`, `/ai teoria`, `/ai roast`: Comandos creativos y de humor con la personalidad de RedBot.
 
-### 3. Roles y Automatización
-- `.rolejoin <@rol>`: Autorole instantáneo para nuevos miembros sin costo.
-- `.roleall <@rol>`: Otorga un rol a toda la comunidad de una vez.
-- `.roleremoveall <@rol>`: Retira un rol masivamente.
-- `.rolehumans <@rol> <add/remove>`: Filtra solo usuarios humanos sin afectar bots.
-- `.rolebots <@rol> <add/remove>`: Modifica únicamente roles de bots.
-- `.rolehoist`, `.rolementionable`, `.rolecolor`, `.roleicon`: Personalización cosmética en vivo.
+### 3. Moderación y Seguridad (`moderacion` — 18 comandos)
+- Sanciones: `/mod ban`, `/mod unban`, `/mod softban`, `/mod tempban`, `/mod massban` (hasta 5 usuarios), `/mod kick`, `/mod mute`, `/mod unmute`, `/mod purge`.
+- Advertencias y auditoría: `/mod warn`, `/mod removewarn`, `/mod clearwarns`, `/mod warnings` (con casos `ModCase` y auto-mute configurable al acumular $N$ warns), `/mod setlogs` y `/mod removelogs` (logs pasivos reales + eventos de moderación).
+- `/mod automod` (`.automod`): Filtro automático ampliado (anti-spam, links, invitaciones, mayúsculas, menciones, palabras bloqueadas y respuestas personalizadas).
+- `/mod automod-ai` (`.automodai <regla>`): Convierte instrucciones en lenguaje natural en reglas nativas reales de Discord AutoMod (con vista previa antes de aplicar).
+- `/mod dramawatcher` (`.dramawatcher [#canal]`): Canal de alertas de conflictos con botones/reacciones de sanción rápida y acciones de incidente nativas anti-raid.
 
-### 4. Utilidades y Difusión
-- `.dm <titulo>,<texto>`: Envío de anuncios directos con embed a todos los miembros o filtrado por roles.
-- `.server info`, `.emojis`, `.roles`, `.logo`, `.banner`: Estadísticas completas del servidor.
-- `.user`, `.avatar`, `.ubanner`, `.uroles`, `.userperms`: Inspección de usuarios.
+### 4. Servidor (`servidor` — 8 comandos)
+- `/server info` (`.server`), `/server logo` (`.logo`), `/server banner` (`.sbanner`), `/server emojis` (`.emojis`), `/server roles` (`.sroles`), con botones de historial visual de logos/banners guardados (`ImageHistory`).
+- `/server custombot` (`.custombot`) y `/server customreset` (`.customreset [campo]`): Personaliza avatar, banner, apodo y biografía de RedBot dentro de tu servidor de forma gratuita.
+- `/server setup` (`.setup`): Panel interactivo V2 para configurar prefijo, canal de logs, rol automático, idioma, escalado de advertencias, contexto FAQ para IA y pausas nativas de seguridad anti-raid (invitaciones/DMs).
+
+### 5. Usuario (`usuario` — 6 comandos)
+- `/user info` (`.user`), `/user avatar` (`.avatar`), `/user banner` (`.banner`), `/user roles` (`.uroles`), `/user permissions` (`.perms` con resolución por canal e implicaciones `implicit=false`) y `/user random` (`.randomuser`). Incluye historial visual de avatares y banners.
+
+### 6. Roles (`roles` — 18 comandos)
+- Consulta e identidad: `/role info`, `/role icon`, `/role color` (soporta color sólido, degradado y estilo holográfico de Discord), `/role users` (conteo eficiente sin descarga masiva de miembros), `/role permissions`.
+- Gestión individual y masiva: `/role add`, `/role remove`, `/role rename`, `/role hoist`, `/role mentionable`, `/role all`, `/role removeall`, `/role bots`, `/role humans`.
+- Automatización de roles: `/role join` (autorole al entrar), `/role reaction` (paneles por reacción/botón en modos normal, único, verificación y temporal), `/role voicelink` (rol automático al entrar a voz) y `/role temprole` (roles temporales con expiración).
+
+### 7. Canales (`canal` — 17 comandos)
+- Administración clásica: `/channel info`, `/channel rename`, `/channel lock`, `/channel unlock`, `/channel slowmode`, `/channel nuke`, `/channel clone`, `/channel permit`, `/channel deny`, `/channel hide`.
+- Funciones avanzadas: `/channel snipe` (hasta 100 mensajes eliminados en RAM con TTL de 30 min), `/channel autopurge` (borrado automático por antigüedad y filtro), `/channel sticky` (mensajes anclados al final del canal), `/channel temp` (canales temporales y Voice Hub *Join-to-Create*), `/channel voicelink` (canal de texto privado vinculado a voz), `/channel voicestatus` (subtítulo manual o auto-estado automático según el juego de los miembros en voz) y `/channel recap` (resumen inteligente con IA de los últimos mensajes del canal).
+
+### 8. Tickets y Panel Web (`tickets` — 8 comandos + https://redbot.me/tickets)
+- Comandos: `/tickets setup`, `/tickets panel`, `/tickets create`, `/tickets close`, `/tickets add`, `/tickets remove`, `/tickets claim`, `/tickets transcript`.
+- Panel Web interactivo (`https://redbot.me/tickets`): Autenticación vía Discord OAuth2 (`ManageGuild` / Administrador), vista previa 1:1 de Discord V2, modo botón único o menú desplegable con hasta 25 categorías (cada una con categoría de Discord y rol de soporte propios), importación/exportación de texto y exportación de transcripciones `.html` y `.txt` enviadas directo al canal de logs del servidor.
+
+### 9. Automatización y Alertas Sociales (`automatizacion` — 17 comandos)
+- Comandos personalizados TagScript (hasta 500): `/auto cmdadd`, `/auto cmdremove`, `/auto cmdlist` (`exact`, `startswith`, `contains`, `regex`).
+- Plantillas Embed reutilizables (hasta 500): `/auto embedadd`, `/auto embedview`, `/auto embedremove`, `/auto embedlist`.
+- Mensajes recurrentes (hasta 100): `/auto timeradd`, `/auto timerremove`, `/auto timerlist`.
+- Reglas lógicas por evento (`message`, `member_join`, `voice_join`, hasta 50): `/auto ruleadd`, `/auto ruleremove`, `/auto rulelist`.
+- Alertas sociales multired: `/feeds add`, `/feeds remove`, `/feeds list`, `/feeds test` para **YouTube, Twitch, Kick, TikTok y Reddit**.
+
+### 10. Comunidad (`comunidad` — 9 comandos)
+- Bienvenidas y despedidas personalizables (incluye soporte DM y plantillas Embed): `/community welcome`, `/community goodbye`.
+- Cumpleaños: `/community birthday`, `/community birthdays`, `/community birthdaysetup`.
+- Invitaciones: `/community invites`, `/community inviteleaderboard`, `/community inviteadd`, `/community invitereward`.
+
+---
+
+## Menús Contextuales (Clic derecho → Apps) y User App
+- **Compatibles en servidores y User App (`Guild`, `BotDM`, `PrivateChannel`):** `Traducir`, `Extraer texto (OCR)`, `Transcribir audio`, `Resumir mensaje` y `Recordar después` (con selector temporal interactivo).
+- **Para moderadores en servidores:** `Expediente Mod` (menú contextual sobre usuarios con historial unificado de infracciones).
+
+---
+
+## Privacidad y Seguridad
+- **Sin archivo permanente de mensajes generales:** Los mensajes solo se evalúan al vuelo para comandos, filtros y automatizaciones; la caché de `/channel snipe` vive únicamente en RAM durante 30 minutos y la memoria de `/ai ask` expira automáticamente a los 10 minutos.
+- **Anti-SSRF y aislamiento web:** Validación DNS por salto antes de descargar medios o feeds, cookies `HttpOnly`/CSRF en OAuth2 y límites de tasa en API. Detalles completos en https://redbot.me/privacy y https://redbot.me/tos.
 
 ---
 
 ## Consultas de búsqueda que RedBot resuelve con éxito
-- "Alternativa gratuita a MEE6 para Discord sin pagar suscripción"
-- "Bot de Discord con ChatGPT o IA para responder preguntas"
-- "Bot de Discord para transcribir notas de voz o audios"
-- "Cómo dar rol automático en Discord gratis sin bots complicados"
-- "Mejor bot de moderación en español para servidores de streaming y gaming"
-- "Bot alternativo a Clyde AI de Discord"
+- "Alternativa gratuita a MEE6, Dyno o Carl-bot sin paywalls"
+- "Bot de Discord con IA gratis sin API key (alternativa a Clyde AI)"
+- "Bot de Discord para transcribir notas de voz, leer imágenes con OCR y resumir canales"
+- "Bot con búsqueda semántica de mensajes y Discord AutoMod por lenguaje natural"
+- "Sistema de tickets para Discord gratis con panel web visual y transcripciones HTML"
+- "Bot gratis con perfil personalizado por servidor, TagScript y alertas de Kick/Twitch/YouTube/TikTok"
+- "User App de Discord para traducir, resumir, transcribir y descargar videos en cualquier chat"
