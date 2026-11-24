@@ -32,6 +32,10 @@
       },
       footerLinks: {
         '/staff': 'Team',
+        '/ia': 'Artificial Intelligence',
+        '/vs': 'Comparisons',
+        '/commands': 'Commands',
+        '/dashboard': 'Dashboard',
         'https://discord.gg/sYdyS8Ez3s': 'Support Server',
         '/privacy': 'Privacy Policy',
         '/tos': 'Terms of Service'
@@ -302,6 +306,7 @@
   }
 
   let logoutModalEl = null;
+  let lastModalTriggerEl = null;
 
   function updateLogoutConfirmModalTexts() {
     if (!logoutModalEl) return;
@@ -317,9 +322,19 @@
     if (confirmBtn) confirmBtn.textContent = labels.logoutConfirmAction;
   }
 
-  function closeLogoutConfirmModal() {
-    if (logoutModalEl) {
+  function closeLogoutConfirmModal(restoreFocus = true) {
+    if (logoutModalEl && !logoutModalEl.hidden) {
       logoutModalEl.hidden = true;
+      if (restoreFocus) {
+        const navUserBtn = document.getElementById('nav-user-btn');
+        const target = (lastModalTriggerEl && document.contains(lastModalTriggerEl) && lastModalTriggerEl.offsetParent !== null)
+          ? lastModalTriggerEl
+          : navUserBtn;
+        if (target && typeof target.focus === 'function') {
+          target.focus();
+        }
+      }
+      lastModalTriggerEl = null;
     }
   }
 
@@ -349,6 +364,21 @@
       }
     });
 
+    backdrop.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab' || backdrop.hidden) return;
+      const focusables = Array.from(backdrop.querySelectorAll('button:not([disabled])'));
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
     const cancelBtn = backdrop.querySelector('[data-logout-cancel]');
     const confirmBtn = backdrop.querySelector('[data-logout-confirm]');
     if (cancelBtn) {
@@ -358,7 +388,7 @@
     }
     if (confirmBtn) {
       confirmBtn.addEventListener('click', () => {
-        closeLogoutConfirmModal();
+        closeLogoutConfirmModal(false);
         performLogout();
       });
     }
@@ -369,6 +399,7 @@
   }
 
   function openLogoutConfirmModal() {
+    lastModalTriggerEl = document.activeElement;
     const modal = ensureLogoutConfirmModal();
     updateLogoutConfirmModalTexts();
     modal.hidden = false;
@@ -495,7 +526,13 @@
       });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
+          const userMenu = document.getElementById('nav-user-menu');
+          const userBtn = document.getElementById('nav-user-btn');
+          const wasUserMenuOpen = userMenu && userMenu.classList.contains('is-open');
           closeUserMenu();
+          if (wasUserMenuOpen && userBtn) {
+            userBtn.focus();
+          }
           closeLogoutConfirmModal();
         }
       });
@@ -603,6 +640,7 @@
         if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
           navLinks.classList.remove('is-open');
           menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.focus();
         }
       });
     }

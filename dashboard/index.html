@@ -77,12 +77,45 @@
       padding: 28px;
       text-decoration: none;
       color: inherit;
-      transition: background .15s, border-color .15s;
+      transition: background .15s var(--ease-out), border-color .15s var(--ease-out);
     }
 
-    .dash-card:hover {
+    .dash-card:hover,
+    .dash-card:focus-visible {
       background: var(--surface-2);
-      border-color: var(--signal);
+      border-color: var(--signal-text);
+    }
+
+    .dash-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .dash-card-icon {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      border: 1px solid var(--line-strong);
+      color: var(--signal-text);
+      flex-shrink: 0;
+    }
+
+    .dash-card-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      color: var(--text-dim);
+      background: var(--ink);
+      border: 1px solid var(--line);
+      padding: 4px 8px;
+      text-transform: uppercase;
     }
 
     .dash-card h2 {
@@ -103,16 +136,30 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: 12px 16px;
-      background: var(--signal);
-      color: #fff;
+      min-height: 44px;
+      padding: 11px 16px;
+      background: var(--ink);
+      border: 1px solid var(--line-strong);
+      color: var(--text);
       font-size: .9rem;
       font-weight: 600;
-      transition: background .15s;
+      transition: background .15s var(--ease-out), border-color .15s var(--ease-out), color .15s var(--ease-out);
     }
 
-    .dash-card:hover .dash-card-cta {
-      background: var(--signal-deep);
+    .dash-card-cta-arrow {
+      transition: transform .15s var(--ease-out);
+    }
+
+    .dash-card:hover .dash-card-cta,
+    .dash-card:focus-visible .dash-card-cta {
+      background: var(--signal);
+      border-color: var(--signal);
+      color: #fff;
+    }
+
+    .dash-card:hover .dash-card-cta-arrow,
+    .dash-card:focus-visible .dash-card-cta-arrow {
+      transform: translateX(3px);
     }
 
     @media (max-width: 768px) {
@@ -156,12 +203,18 @@
     <div class="dash-grid">
       <a href="/tickets" class="dash-card">
         <div>
+          <div class="dash-card-top">
+            <span class="dash-card-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path><path d="M13 5v2"></path><path d="M13 17v2"></path><path d="M13 11v2"></path></svg>
+            </span>
+            <span class="dash-card-badge" data-i18n="ticketsBadge">MÓDULO WEB</span>
+          </div>
           <h2 data-i18n="ticketsTitle">Tickets</h2>
           <p data-i18n="ticketsDesc">Configura categorías, canales de logs, rol de soporte y diseña paneles de apertura con botón o menú desplegable para publicarlos en tu servidor.</p>
         </div>
         <span class="dash-card-cta">
           <span data-i18n="ticketsBtn">Abrir panel de Tickets</span>
-          <span aria-hidden="true">→</span>
+          <span class="dash-card-cta-arrow" aria-hidden="true">→</span>
         </span>
       </a>
     </div>
@@ -200,6 +253,7 @@
         title: "Dashboard",
         subtitle: "Choose a module to configure and manage RedBot tools directly from the web.",
         modulesLabel: "Available options",
+        ticketsBadge: "WEB MODULE",
         ticketsTitle: "Tickets",
         ticketsDesc: "Configure categories, log channels, support role, and design button or dropdown opening panels to publish in your server.",
         ticketsBtn: "Open Tickets Panel"

@@ -41,10 +41,43 @@
       display: flex;
       align-items: center;
       gap: 15px;
-      transition: border-color .15s;
+      transition: border-color .15s, background .15s;
     }
     .team-card:hover {
-      border-color: var(--text-dim);
+      border-color: var(--line-strong);
+      background: var(--surface-2);
+    }
+    .team-card.is-skeleton:hover {
+      border-color: var(--line);
+      background: var(--surface);
+    }
+    .team-skeleton-avatar {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      background: var(--surface-2);
+      animation: rb-pulse 1.6s ease-in-out infinite;
+    }
+    .team-skeleton-lines {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .team-skeleton-line {
+      height: 14px;
+      width: 72%;
+      background: var(--surface-2);
+      animation: rb-pulse 1.6s ease-in-out infinite;
+    }
+    .team-skeleton-line.short {
+      height: 11px;
+      width: 48%;
+    }
+    @keyframes rb-pulse {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 0.9; }
     }
     .team-avatar-wrap {
       position: relative;
@@ -119,7 +152,12 @@
 
     <div class="content">
       <div class="team-grid" id="team-grid">
-        <!-- Carga dinámica mediante API de Lanyard -->
+        <div class="team-card is-skeleton" aria-hidden="true"><div class="team-skeleton-avatar"></div><div class="team-skeleton-lines"><div class="team-skeleton-line"></div><div class="team-skeleton-line short"></div></div></div>
+        <div class="team-card is-skeleton" aria-hidden="true"><div class="team-skeleton-avatar"></div><div class="team-skeleton-lines"><div class="team-skeleton-line"></div><div class="team-skeleton-line short"></div></div></div>
+        <div class="team-card is-skeleton" aria-hidden="true"><div class="team-skeleton-avatar"></div><div class="team-skeleton-lines"><div class="team-skeleton-line"></div><div class="team-skeleton-line short"></div></div></div>
+        <div class="team-card is-skeleton" aria-hidden="true"><div class="team-skeleton-avatar"></div><div class="team-skeleton-lines"><div class="team-skeleton-line"></div><div class="team-skeleton-line short"></div></div></div>
+        <div class="team-card is-skeleton" aria-hidden="true"><div class="team-skeleton-avatar"></div><div class="team-skeleton-lines"><div class="team-skeleton-line"></div><div class="team-skeleton-line short"></div></div></div>
+        <div class="team-card is-skeleton" aria-hidden="true"><div class="team-skeleton-avatar"></div><div class="team-skeleton-lines"><div class="team-skeleton-line"></div><div class="team-skeleton-line short"></div></div></div>
       </div>
     </div>
   </main>
@@ -234,6 +272,8 @@
 
         const avatarImg = document.createElement("img");
         avatarImg.className = "team-avatar";
+        avatarImg.width = 52;
+        avatarImg.height = 52;
         avatarImg.src = m.avatar;
         avatarImg.alt = m.name;
         avatarImg.onerror = function(){
