@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Tickets - RedBot</title>
   <meta name="description" content="Diseña paneles y menús desplegables de tickets para Discord con vista previa en vivo y publica directamente en tu servidor con RedBot.">
-  <meta name="theme-color" content="#ff383d">
+  <meta name="theme-color" content="#111113">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://redbot.me/tickets">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -33,6 +33,9 @@
     .tickets-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; padding-bottom: 28px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
     .tickets-head-copy h1 { font-size: clamp(2rem, 3.6vw, 2.8rem); letter-spacing: -1px; margin-bottom: 10px; }
     .tickets-head-copy p { color: var(--text-dim); font-size: 1rem; line-height: 1.6; max-width: 660px; }
+    .tickets-head-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .demo-mode-badge { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 10px; background: var(--signal-wash); border: 1px solid var(--signal-border); color: var(--signal-text); font-family: 'IBM Plex Mono', monospace; font-size: .72rem; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
+    .demo-mode-badge[hidden] { display: none; }
 
     .auth-bar { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
     .auth-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -57,6 +60,9 @@
     .panel-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
     .panel-card-head h2 { font-size: 1.15rem; margin-bottom: 4px; }
     .panel-card-head p { font-size: .88rem; color: var(--text-dim); }
+    .panel-head-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .unsaved-badge { display: inline-flex; align-items: center; padding: 5px 9px; background: rgba(240, 177, 50, 0.14); border: 1px solid rgba(240, 177, 50, 0.45); color: #f6c453; font-family: 'IBM Plex Mono', monospace; font-size: .72rem; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; }
+    .unsaved-badge[hidden] { display: none; }
 
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
@@ -64,6 +70,7 @@
     .field.full { grid-column: 1 / -1; }
     .field label { font-size: .8rem; font-family: 'IBM Plex Mono', monospace; color: var(--text-dim); text-transform: uppercase; letter-spacing: .4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .field-hint { font-size: .78rem; color: var(--text-mute); line-height: 1.45; }
+    #welcomeCounter, #catCountNum { font-variant-numeric: tabular-nums; }
 
     .ctrl-input, .ctrl-select, .ctrl-textarea {
       width: 100%;
@@ -74,14 +81,14 @@
       font-family: 'IBM Plex Sans', sans-serif;
       font-size: .92rem;
       border-radius: 0;
-      outline: none;
     }
-    .ctrl-input:focus, .ctrl-select:focus, .ctrl-textarea:focus { border-color: var(--signal); }
+    .ctrl-input:focus, .ctrl-select:focus, .ctrl-textarea:focus { border-color: var(--signal-text); }
     .ctrl-textarea { min-height: 88px; resize: vertical; line-height: 1.5; }
     .ctrl-mono { font-family: 'IBM Plex Mono', monospace; font-size: .85rem; }
+    .preview-cat-select { width: auto; min-width: 170px; padding: 7px 10px; font-size: .85rem; }
 
     .mode-tabs { display: inline-flex; border: 1px solid var(--line-strong); background: var(--ink); margin-bottom: 18px; }
-    .mode-tab { background: transparent; border: none; color: var(--text-dim); padding: 9px 16px; font-family: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; border-right: 1px solid var(--line-strong); }
+    .mode-tab { background: transparent; border: none; color: var(--text-dim); min-height: 44px; padding: 9px 16px; display: inline-flex; align-items: center; font-family: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; touch-action: manipulation; border-right: 1px solid var(--line-strong); }
     .mode-tab:last-child { border-right: none; }
     .mode-tab.active { background: var(--text); color: var(--ink); }
 
@@ -93,14 +100,20 @@
     .import-box.open { display: block; }
     .import-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
 
+    .cat-undo-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--ink); border: 1px solid var(--line-strong); border-left: 3px solid var(--signal-text); padding: 10px 14px; margin-bottom: 12px; font-size: .86rem; color: var(--text-dim); }
+    .cat-undo-bar[hidden] { display: none; }
+    .cat-undo-bar strong { color: var(--text); }
+
     .cat-items { display: flex; flex-direction: column; gap: 12px; }
     .cat-editor-card { background: var(--ink); border: 1px solid var(--line-strong); padding: 16px; }
     .cat-editor-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
     .cat-editor-badge { font-family: 'IBM Plex Mono', monospace; font-size: .78rem; color: var(--text-dim); }
-    .cat-editor-btns { display: flex; gap: 6px; }
-    .icon-btn { background: var(--surface); border: 1px solid var(--line-strong); color: var(--text-dim); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: .85rem; }
-    .icon-btn:hover { background: var(--surface-2); color: var(--text); }
-    .icon-btn.danger:hover { border-color: var(--signal); color: #ff6b6e; }
+    .cat-editor-btns { display: flex; gap: 8px; align-items: center; }
+    .icon-btn { background: var(--surface); border: 1px solid var(--line-strong); color: var(--text-dim); width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; touch-action: manipulation; font-family: 'IBM Plex Mono', monospace; font-size: .85rem; transition: background .15s, border-color .15s, color .15s; }
+    .icon-btn:hover:not(:disabled) { background: var(--surface-2); color: var(--text); }
+    .icon-btn.danger { margin-left: 4px; }
+    .icon-btn.danger:hover:not(:disabled) { border-color: var(--signal-text); color: var(--signal-text); }
+    .icon-btn:disabled { opacity: .38; cursor: not-allowed; pointer-events: none; }
 
     .emoji-row { display: flex; gap: 8px; }
     .emoji-row .ctrl-input { width: 120px; flex-shrink: 0; }
@@ -108,8 +121,8 @@
 
     .actions-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
     .status-msg { font-size: .88rem; min-height: 20px; margin-top: 10px; color: var(--text-dim); }
-    .status-msg.ok { color: #57f287; }
-    .status-msg.err { color: #ff6b6e; }
+    .status-msg.ok { color: #4ade80; }
+    .status-msg.err { color: var(--signal-text); }
 
     /* PREVIEW COLUMNA DERECHA */
     .preview-sticky { position: sticky; top: 88px; }
@@ -117,7 +130,7 @@
     .preview-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
     .preview-label { font-family: 'IBM Plex Mono', monospace; font-size: .75rem; color: var(--text-mute); letter-spacing: .5px; text-transform: uppercase; }
     .preview-tabs { display: inline-flex; border: 1px solid var(--line-strong); background: var(--ink); }
-    .preview-tab { background: transparent; border: none; color: var(--text-dim); padding: 6px 12px; font-family: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; border-right: 1px solid var(--line-strong); }
+    .preview-tab { background: transparent; border: none; color: var(--text-dim); min-height: 38px; padding: 6px 12px; display: inline-flex; align-items: center; font-family: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; touch-action: manipulation; border-right: 1px solid var(--line-strong); }
     .preview-tab:last-child { border-right: none; }
     .preview-tab.active { background: var(--surface-2); color: var(--text); }
 
@@ -169,16 +182,44 @@
     .ticket-sim-bar { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
     .ticket-sim-note { font-size: .78rem; color: var(--text-mute); }
 
+    .mobile-preview-bar { display: none; }
+
     @media (max-width: 1024px) {
+      main { padding-bottom: 150px; }
       .split-grid { grid-template-columns: 1fr; }
-      .preview-sticky { position: static; }
+      .preview-sticky { position: static; scroll-margin-top: 84px; }
+      .mobile-preview-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 95;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 18px calc(10px + env(safe-area-inset-bottom, 0px));
+        background: rgba(26, 26, 29, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-top: 1px solid var(--line-strong);
+        box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.5);
+      }
+      .mobile-preview-meta { font-family: 'IBM Plex Mono', monospace; font-size: .74rem; color: var(--text-dim); letter-spacing: .4px; text-transform: uppercase; }
+    }
+    @media (max-width: 1024px), (pointer: coarse) {
+      .ctrl-input, .ctrl-select, .ctrl-textarea, .preview-cat-select { font-size: 1rem; }
+    }
+    @media (max-width: 880px), (pointer: coarse) {
+      .icon-btn { width: 44px; height: 44px; }
+      .preview-tab { min-height: 44px; padding: 8px 12px; }
+      .cat-undo-bar .btn-sm { min-height: 44px; }
     }
     @media (max-width: 680px) {
-      main { padding: 28px 18px 80px; }
+      main { padding: 28px 18px 150px; }
       .form-grid { grid-template-columns: 1fr; }
       .auth-bar { padding: 16px; }
       .panel-card { padding: 18px; }
-      .ctrl-input, .ctrl-select, .ctrl-textarea { font-size: 1rem; }
     }
   </style>
 </head>
@@ -205,7 +246,10 @@
         <h1 data-i18n="title">Panel Web de Tickets</h1>
         <p data-i18n="subtitle">Configura el sistema de soporte de tu servidor, diseña paneles con botón o menú desplegable (hasta 25 categorías) y publícalos en Discord con vista previa 1:1.</p>
       </div>
-      <a class="btn btn-secondary btn-sm" href="/commands?cat=tickets" data-i18n="backCommands">Ver comandos de tickets</a>
+      <div class="tickets-head-actions">
+        <span class="demo-mode-badge" id="demoModeBadge" data-i18n="demoBadge">MODO DEMO</span>
+        <a class="btn btn-secondary btn-sm" href="/commands?cat=tickets" data-i18n="backCommands">Ver comandos de tickets</a>
+      </div>
     </header>
 
     <section class="auth-bar" aria-label="Sesión y selección de servidor" data-i18n-aria="authBarAria">
@@ -243,7 +287,10 @@
               <h2 data-i18n="cfgTitle">Configuración general</h2>
               <p data-i18n="cfgSub">Valores base usados por defecto cuando se abre cualquier ticket en el servidor.</p>
             </div>
-            <button type="button" id="saveConfigBtn" class="btn btn-primary btn-sm" data-i18n="saveCfgBtn">Guardar configuración</button>
+            <div class="panel-head-actions">
+              <span class="unsaved-badge" id="unsavedBadge" hidden data-i18n="unsavedBadge">Sin guardar</span>
+              <button type="button" id="saveConfigBtn" class="btn btn-primary btn-sm" data-i18n="saveCfgBtn">Guardar configuración</button>
+            </div>
           </div>
 
           <div class="form-grid">
@@ -287,10 +334,11 @@
           </div>
 
           <div class="mode-tabs" role="tablist" aria-label="Modo del panel" data-i18n-aria="panelModeAria">
-            <button type="button" class="mode-tab active" id="modeMenuBtn" role="tab" aria-selected="true" data-i18n="modeMenu">Menú desplegable</button>
-            <button type="button" class="mode-tab" id="modeButtonBtn" role="tab" aria-selected="false" data-i18n="modeButton">Botón simple</button>
+            <button type="button" class="mode-tab active" id="modeMenuBtn" role="tab" aria-selected="true" aria-controls="modeFieldsWrap" tabindex="0" data-i18n="modeMenu">Menú desplegable</button>
+            <button type="button" class="mode-tab" id="modeButtonBtn" role="tab" aria-selected="false" aria-controls="modeFieldsWrap" tabindex="-1" data-i18n="modeButton">Botón simple</button>
           </div>
 
+          <div id="modeFieldsWrap" role="tabpanel" aria-labelledby="modeMenuBtn">
           <div class="form-grid">
             <div class="field">
               <label for="panelChannel" data-i18n="lblTargetChannel">Canal destino del panel</label>
@@ -330,7 +378,7 @@
               <div class="cat-toolbar-actions">
                 <button type="button" id="addCatBtn" class="btn btn-secondary btn-sm" data-i18n="addCatBtn">+ Añadir categoría</button>
                 <button type="button" id="loadTemplateBtn" class="btn btn-secondary btn-sm" data-i18n="templateBtn">Cargar plantilla</button>
-                <button type="button" id="toggleImportBtn" class="btn btn-secondary btn-sm" data-i18n="importBtn">Importar / Exportar texto</button>
+                <button type="button" id="toggleImportBtn" class="btn btn-secondary btn-sm" aria-expanded="false" aria-controls="importBox" data-i18n="importBtn">Importar / Exportar texto</button>
               </div>
             </div>
 
@@ -344,7 +392,13 @@
               </div>
             </div>
 
+            <div class="cat-undo-bar" id="catUndoBar" role="status" aria-live="polite" hidden>
+              <span id="catUndoText"></span>
+              <button type="button" id="undoCatBtn" class="btn btn-secondary btn-sm" data-i18n="undoBtn">Deshacer</button>
+            </div>
+
             <div class="cat-items" id="catItems"></div>
+          </div>
           </div>
 
           <div class="actions-row">
@@ -356,13 +410,13 @@
       </div>
 
       <!-- COLUMNA DERECHA: PREVIEW 1:1 DISCORD COMPONENTS V2 -->
-      <aside class="preview-sticky" aria-label="Vista previa en vivo de Discord" data-i18n-aria="previewAsideAria">
+      <aside id="previewAside" class="preview-sticky" aria-label="Vista previa en vivo de Discord" data-i18n-aria="previewAsideAria">
         <div class="preview-shell">
           <div class="preview-top">
             <span class="preview-label" data-i18n="previewLabel">VISTA PREVIA · DISCORD V2</span>
-            <div class="preview-tabs" role="tablist">
-              <button type="button" class="preview-tab active" id="tabPanelPreview" role="tab" aria-selected="true" data-i18n="tabPanel">Panel de apertura</button>
-              <button type="button" class="preview-tab" id="tabTicketPreview" role="tab" aria-selected="false" data-i18n="tabTicket">Dentro del ticket</button>
+            <div class="preview-tabs" role="tablist" aria-label="Vista de previsualización" data-i18n-aria="previewTabsAria">
+              <button type="button" class="preview-tab active" id="tabPanelPreview" role="tab" aria-selected="true" aria-controls="previewPanelView" tabindex="0" data-i18n="tabPanel">Panel de apertura</button>
+              <button type="button" class="preview-tab" id="tabTicketPreview" role="tab" aria-selected="false" aria-controls="previewTicketView" tabindex="-1" data-i18n="tabTicket">Dentro del ticket</button>
             </div>
           </div>
 
@@ -377,18 +431,23 @@
             </div>
 
             <!-- PREVIEW PANEL -->
-            <div id="previewPanelView" class="dc-v2-card"></div>
+            <div id="previewPanelView" class="dc-v2-card" role="tabpanel" aria-labelledby="tabPanelPreview"></div>
 
             <!-- PREVIEW TICKET CONTROL -->
-            <div id="previewTicketView" class="dc-v2-card" style="display: none;"></div>
+            <div id="previewTicketView" class="dc-v2-card" role="tabpanel" aria-labelledby="tabTicketPreview" style="display: none;" hidden></div>
           </div>
 
           <div class="ticket-sim-bar">
             <span class="ticket-sim-note" data-i18n="simNote">Interactúa con el menú o el botón Reclamar en la vista previa.</span>
-            <select id="previewCatSelect" class="ctrl-select" style="width: auto; min-width: 170px; padding: 6px 10px; font-size: .82rem;" aria-label="Categoría simulada" data-i18n-aria="previewCatAria"></select>
+            <select id="previewCatSelect" class="ctrl-select preview-cat-select" aria-label="Categoría simulada" data-i18n-aria="previewCatAria"></select>
           </div>
         </div>
       </aside>
+    </div>
+
+    <div class="mobile-preview-bar" id="mobilePreviewBar" role="region" aria-label="Acceso rápido a vista previa" data-i18n-aria="mobilePreviewRegionAria">
+      <span class="mobile-preview-meta" data-i18n="previewLabel">VISTA PREVIA · DISCORD V2</span>
+      <button type="button" id="jumpPreviewBtn" class="btn btn-secondary btn-sm" data-i18n="mobilePreviewBtn">Ver vista previa</button>
     </div>
   </main>
 
@@ -471,7 +530,13 @@
         authBarAria: "Session and server selector",
         panelModeAria: "Panel mode",
         previewAsideAria: "Live Discord preview",
-        previewCatAria: "Simulated category"
+        previewTabsAria: "Preview view",
+        previewCatAria: "Simulated category",
+        demoBadge: "DEMO MODE",
+        unsavedBadge: "Unsaved",
+        undoBtn: "Undo",
+        mobilePreviewRegionAria: "Preview quick jump",
+        mobilePreviewBtn: "View preview"
       }
     };
   </script>
@@ -565,10 +630,16 @@
         previewMenuOpen: false,
         previewClaimed: false,
         selectedPreviewCatId: 'soporte-general',
-        categories: structuredClone(DEMO_GUILD.ticketConfig.categories)
+        categories: structuredClone(DEMO_GUILD.ticketConfig.categories),
+        dirty: false,
+        lastDeletedCat: null,
+        previewInView: false,
+        savedEditorScrollY: null
       };
 
       const el = {
+        demoModeBadge: document.getElementById('demoModeBadge'),
+        unsavedBadge: document.getElementById('unsavedBadge'),
         userAvatar: document.getElementById('userAvatar'),
         userName: document.getElementById('userName'),
         userSub: document.getElementById('userSub'),
@@ -590,6 +661,7 @@
         configStatus: document.getElementById('configStatus'),
         modeMenuBtn: document.getElementById('modeMenuBtn'),
         modeButtonBtn: document.getElementById('modeButtonBtn'),
+        modeFieldsWrap: document.getElementById('modeFieldsWrap'),
         panelChannel: document.getElementById('panelChannel'),
         panelMessageId: document.getElementById('panelMessageId'),
         panelTitle: document.getElementById('panelTitle'),
@@ -608,10 +680,15 @@
         importBox: document.getElementById('importBox'),
         importTextarea: document.getElementById('importTextarea'),
         applyImportBtn: document.getElementById('applyImportBtn'),
+        catUndoBar: document.getElementById('catUndoBar'),
+        catUndoText: document.getElementById('catUndoText'),
+        undoCatBtn: document.getElementById('undoCatBtn'),
         catItems: document.getElementById('catItems'),
         publishPanelBtn: document.getElementById('publishPanelBtn'),
         copySetupBtn: document.getElementById('copySetupBtn'),
         panelStatus: document.getElementById('panelStatus'),
+        previewAside: document.getElementById('previewAside'),
+        jumpPreviewBtn: document.getElementById('jumpPreviewBtn'),
         tabPanelPreview: document.getElementById('tabPanelPreview'),
         tabTicketPreview: document.getElementById('tabTicketPreview'),
         previewPanelView: document.getElementById('previewPanelView'),
@@ -653,6 +730,125 @@
       function setStatus(node, msg, kind = '') {
         node.textContent = msg || '';
         node.className = 'status-msg' + (kind ? ` ${kind}` : '');
+      }
+
+      function markDirty(dirty) {
+        state.dirty = Boolean(dirty);
+        if (el.unsavedBadge) {
+          el.unsavedBadge.hidden = !(state.dirty && state.authenticated);
+        }
+      }
+
+      function renderUndoBar() {
+        if (!el.catUndoBar || !el.catUndoText) return;
+        if (!state.lastDeletedCat) {
+          el.catUndoBar.hidden = true;
+          el.catUndoText.textContent = '';
+          return;
+        }
+        const label = state.lastDeletedCat.item?.label || t('sin nombre', 'unnamed');
+        el.catUndoText.innerHTML = isEn()
+          ? `Removed category <strong>${escapeHtml(label)}</strong>.`
+          : `Categoría <strong>${escapeHtml(label)}</strong> eliminada.`;
+        el.catUndoBar.hidden = false;
+      }
+
+      function updateMobilePreviewBarLabel() {
+        if (!el.jumpPreviewBtn) return;
+        el.jumpPreviewBtn.textContent = state.previewInView
+          ? t('↑ Volver al editor', '↑ Back to editor')
+          : t('Ver vista previa', 'View preview');
+      }
+
+      let confirmModalEl = null;
+      let confirmResolve = null;
+      let lastConfirmTrigger = null;
+
+      function closeTicketsConfirm(result) {
+        if (confirmModalEl && !confirmModalEl.hidden) {
+          confirmModalEl.hidden = true;
+        }
+        const resolver = confirmResolve;
+        confirmResolve = null;
+        if (lastConfirmTrigger && document.contains(lastConfirmTrigger) && typeof lastConfirmTrigger.focus === 'function') {
+          lastConfirmTrigger.focus();
+        }
+        lastConfirmTrigger = null;
+        if (resolver) resolver(Boolean(result));
+      }
+
+      function ensureTicketsConfirmModal() {
+        if (confirmModalEl) return confirmModalEl;
+        const backdrop = document.createElement('div');
+        backdrop.id = 'tickets-confirm-modal';
+        backdrop.className = 'rb-modal-backdrop';
+        backdrop.setAttribute('role', 'dialog');
+        backdrop.setAttribute('aria-modal', 'true');
+        backdrop.setAttribute('aria-labelledby', 'tickets-confirm-title');
+        backdrop.hidden = true;
+
+        backdrop.innerHTML =
+          '<div class="rb-modal-box">' +
+            '<h2 id="tickets-confirm-title" class="rb-modal-title"></h2>' +
+            '<p class="rb-modal-desc"></p>' +
+            '<div class="rb-modal-actions">' +
+              '<button type="button" class="btn btn-secondary rb-modal-btn" data-confirm-cancel></button>' +
+              '<button type="button" class="btn btn-primary rb-modal-btn" data-confirm-ok></button>' +
+            '</div>' +
+          '</div>';
+
+        backdrop.addEventListener('click', (e) => {
+          if (e.target === backdrop) closeTicketsConfirm(false);
+        });
+
+        backdrop.addEventListener('keydown', (e) => {
+          if (backdrop.hidden || e.key !== 'Tab') return;
+          const focusables = Array.from(backdrop.querySelectorAll('button:not([disabled])'));
+          if (!focusables.length) return;
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        });
+
+        backdrop.querySelector('[data-confirm-cancel]').addEventListener('click', () => closeTicketsConfirm(false));
+        backdrop.querySelector('[data-confirm-ok]').addEventListener('click', () => closeTicketsConfirm(true));
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && confirmModalEl && !confirmModalEl.hidden) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeTicketsConfirm(false);
+          }
+        }, true);
+
+        document.body.appendChild(backdrop);
+        confirmModalEl = backdrop;
+        return backdrop;
+      }
+
+      function openTicketsConfirm(title, desc, confirmLabel) {
+        if (confirmResolve) {
+          closeTicketsConfirm(false);
+        }
+        lastConfirmTrigger = document.activeElement;
+        const modal = ensureTicketsConfirmModal();
+        modal.querySelector('#tickets-confirm-title').textContent = title;
+        modal.querySelector('.rb-modal-desc').textContent = desc;
+        const cancelBtn = modal.querySelector('[data-confirm-cancel]');
+        const okBtn = modal.querySelector('[data-confirm-ok]');
+        cancelBtn.textContent = t('Cancelar', 'Cancel');
+        okBtn.textContent = confirmLabel || t('Confirmar', 'Confirm');
+        modal.hidden = false;
+        cancelBtn.focus();
+        return new Promise((resolve) => {
+          confirmResolve = resolve;
+        });
       }
 
       function consumeHashSession() {
@@ -763,12 +959,21 @@
         if (state.categories.length > 0) {
           state.selectedPreviewCatId = state.categories[0].id || state.categories[0].label;
         }
+        state.lastDeletedCat = null;
+        renderUndoBar();
+        markDirty(false);
         renderCategoryEditors();
         renderPreview();
       }
 
       function renderAuthHeader() {
         el.loginBtn.href = buildLoginHref();
+        if (el.demoModeBadge) {
+          el.demoModeBadge.hidden = Boolean(state.authenticated);
+        }
+        if (el.unsavedBadge) {
+          el.unsavedBadge.hidden = !(state.dirty && state.authenticated);
+        }
         if (state.authenticated && state.user) {
           const display = state.user.globalName || state.user.username || 'Discord User';
           el.userName.textContent = display;
@@ -1026,46 +1231,52 @@
           const card = document.createElement('div');
           card.className = 'cat-editor-card';
           card.dataset.index = String(idx);
+          const emojiId = `cat-${idx}-emoji`;
+          const labelId = `cat-${idx}-label`;
+          const descId = `cat-${idx}-desc`;
+          const bodyId = `cat-${idx}-body`;
+          const discordCatId = `cat-${idx}-discord-cat`;
+          const roleId = `cat-${idx}-role`;
           card.innerHTML = `
             <div class="cat-editor-top">
               <span class="cat-editor-badge">#${idx + 1} · ${escapeHtml(cat.label || t('Nueva categoría', 'New category'))}</span>
               <div class="cat-editor-btns">
-                <button type="button" class="icon-btn" data-act="up" title="${escapeHtml(t('Subir', 'Move up'))}" ${idx === 0 ? 'disabled' : ''}>↑</button>
-                <button type="button" class="icon-btn" data-act="down" title="${escapeHtml(t('Bajar', 'Move down'))}" ${idx === state.categories.length - 1 ? 'disabled' : ''}>↓</button>
-                <button type="button" class="icon-btn danger" data-act="del" title="${escapeHtml(t('Eliminar', 'Remove'))}">×</button>
+                <button type="button" class="icon-btn" data-act="up" aria-label="${escapeHtml(t('Subir categoría', 'Move category up'))}" title="${escapeHtml(t('Subir', 'Move up'))}" ${idx === 0 ? 'disabled' : ''}><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg></button>
+                <button type="button" class="icon-btn" data-act="down" aria-label="${escapeHtml(t('Bajar categoría', 'Move category down'))}" title="${escapeHtml(t('Bajar', 'Move down'))}" ${idx === state.categories.length - 1 ? 'disabled' : ''}><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                <button type="button" class="icon-btn danger" data-act="del" aria-label="${escapeHtml(t('Eliminar categoría', 'Remove category'))}" title="${escapeHtml(t('Eliminar', 'Remove'))}"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
               </div>
             </div>
             <div class="form-grid">
               <div class="field">
-                <label>${escapeHtml(t('Emoji', 'Emoji'))}</label>
+                <label for="${emojiId}">${escapeHtml(t('Emoji', 'Emoji'))}</label>
                 <div class="emoji-row">
-                  <input type="text" class="ctrl-input" data-field="emoji" value="${escapeHtml(cat.emoji || '')}" placeholder="🎫" maxlength="64">
+                  <input type="text" id="${emojiId}" class="ctrl-input" data-field="emoji" value="${escapeHtml(cat.emoji || '')}" placeholder="🎫" maxlength="64">
                   <select class="ctrl-select" data-act="pick-emoji" aria-label="${escapeHtml(t('Selector rápido de emoji', 'Quick emoji picker'))}">
                     ${buildEmojiOptions(cat.emoji)}
                   </select>
                 </div>
               </div>
               <div class="field">
-                <label>${escapeHtml(t('Nombre (label)', 'Name (label)'))}</label>
-                <input type="text" class="ctrl-input" data-field="label" value="${escapeHtml(cat.label || '')}" maxlength="80">
+                <label for="${labelId}">${escapeHtml(t('Nombre (label)', 'Name (label)'))}</label>
+                <input type="text" id="${labelId}" class="ctrl-input" data-field="label" value="${escapeHtml(cat.label || '')}" maxlength="80">
               </div>
               <div class="field full">
-                <label>${escapeHtml(t('Subtexto del desplegable (máx 100)', 'Dropdown subtext (max 100)'))}</label>
-                <input type="text" class="ctrl-input" data-field="description" value="${escapeHtml(cat.description || '')}" maxlength="100">
+                <label for="${descId}">${escapeHtml(t('Subtexto del desplegable (máx 100)', 'Dropdown subtext (max 100)'))}</label>
+                <input type="text" id="${descId}" class="ctrl-input" data-field="description" value="${escapeHtml(cat.description || '')}" maxlength="100">
               </div>
               <div class="field full">
-                <label>${escapeHtml(t('Descripción larga en el panel (máx 300)', 'Panel body description (max 300)'))}</label>
-                <input type="text" class="ctrl-input" data-field="bodyText" value="${escapeHtml(cat.bodyText || '')}" maxlength="300">
+                <label for="${bodyId}">${escapeHtml(t('Descripción larga en el panel (máx 300)', 'Panel body description (max 300)'))}</label>
+                <input type="text" id="${bodyId}" class="ctrl-input" data-field="bodyText" value="${escapeHtml(cat.bodyText || '')}" maxlength="300">
               </div>
               <div class="field">
-                <label>${escapeHtml(t('Categoría Discord destino', 'Target Discord category'))}</label>
-                <select class="ctrl-select" data-field="categoryId">
+                <label for="${discordCatId}">${escapeHtml(t('Categoría Discord destino', 'Target Discord category'))}</label>
+                <select id="${discordCatId}" class="ctrl-select" data-field="categoryId">
                   ${buildSelectHtml(state.guildData.channels?.categories, cat.categoryId, t('Usar por defecto', 'Use server default'))}
                 </select>
               </div>
               <div class="field">
-                <label>${escapeHtml(t('Rol soporte específico', 'Specific support role'))}</label>
-                <select class="ctrl-select" data-field="supportRoleId">
+                <label for="${roleId}">${escapeHtml(t('Rol soporte específico', 'Specific support role'))}</label>
+                <select id="${roleId}" class="ctrl-select" data-field="supportRoleId">
                   ${buildSelectHtml(state.guildData.roles, cat.supportRoleId, t('Usar por defecto', 'Use server default'), '@')}
                 </select>
               </div>
@@ -1186,8 +1397,13 @@
         const isMenu = state.mode === 'menu';
         el.modeMenuBtn.classList.toggle('active', isMenu);
         el.modeMenuBtn.setAttribute('aria-selected', String(isMenu));
+        el.modeMenuBtn.setAttribute('tabindex', isMenu ? '0' : '-1');
         el.modeButtonBtn.classList.toggle('active', !isMenu);
         el.modeButtonBtn.setAttribute('aria-selected', String(!isMenu));
+        el.modeButtonBtn.setAttribute('tabindex', isMenu ? '-1' : '0');
+        if (el.modeFieldsWrap) {
+          el.modeFieldsWrap.setAttribute('aria-labelledby', isMenu ? 'modeMenuBtn' : 'modeButtonBtn');
+        }
         el.placeholderField.style.display = isMenu ? 'flex' : 'none';
         el.buttonLabelField.style.display = isMenu ? 'none' : 'flex';
         el.buttonCatField.style.display = isMenu ? 'none' : 'flex';
@@ -1201,22 +1417,51 @@
         const isPanel = state.previewTab === 'panel';
         el.tabPanelPreview.classList.toggle('active', isPanel);
         el.tabPanelPreview.setAttribute('aria-selected', String(isPanel));
+        el.tabPanelPreview.setAttribute('tabindex', isPanel ? '0' : '-1');
         el.tabTicketPreview.classList.toggle('active', !isPanel);
         el.tabTicketPreview.setAttribute('aria-selected', String(!isPanel));
+        el.tabTicketPreview.setAttribute('tabindex', isPanel ? '-1' : '0');
         el.previewPanelView.style.display = isPanel ? 'block' : 'none';
+        el.previewPanelView.hidden = !isPanel;
         el.previewTicketView.style.display = isPanel ? 'none' : 'block';
+        el.previewTicketView.hidden = isPanel;
+      }
+
+      function bindTablistKeys(tabs, onSelect) {
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('keydown', (e) => {
+            let nextIdx = null;
+            if (e.key === 'ArrowRight') nextIdx = (index + 1) % tabs.length;
+            else if (e.key === 'ArrowLeft') nextIdx = (index - 1 + tabs.length) % tabs.length;
+            else if (e.key === 'Home') nextIdx = 0;
+            else if (e.key === 'End') nextIdx = tabs.length - 1;
+            if (nextIdx === null) return;
+            e.preventDefault();
+            onSelect(nextIdx);
+            tabs[nextIdx].focus();
+          });
+        });
       }
 
       // Listeners de configuración y panel
+      [el.cfgEnabled, el.cfgCategory, el.cfgLogChannel, el.cfgSupportRole].forEach((sel) => {
+        sel.addEventListener('change', () => markDirty(true));
+      });
+
       el.cfgWelcome.addEventListener('input', () => {
         el.welcomeCounter.textContent = `${el.cfgWelcome.value.length}/1500`;
+        markDirty(true);
         renderPreview();
       });
 
       [el.panelTitle, el.panelPlaceholder, el.panelButtonLabel, el.panelDescription].forEach((inputEl) => {
-        inputEl.addEventListener('input', renderPreview);
+        inputEl.addEventListener('input', () => {
+          markDirty(true);
+          renderPreview();
+        });
       });
       el.panelButtonCat.addEventListener('input', () => {
+        markDirty(true);
         syncPreviewCatSelect();
         renderPreview();
       });
@@ -1225,6 +1470,9 @@
       el.modeButtonBtn.addEventListener('click', () => setMode('button'));
       el.tabPanelPreview.addEventListener('click', () => setPreviewTab('panel'));
       el.tabTicketPreview.addEventListener('click', () => setPreviewTab('ticket'));
+
+      bindTablistKeys([el.modeMenuBtn, el.modeButtonBtn], (idx) => setMode(idx === 0 ? 'menu' : 'button'));
+      bindTablistKeys([el.tabPanelPreview, el.tabTicketPreview], (idx) => setPreviewTab(idx === 0 ? 'panel' : 'ticket'));
 
       el.previewCatSelect.addEventListener('change', (e) => {
         state.selectedPreviewCatId = e.target.value;
@@ -1275,6 +1523,7 @@
           if (badge) badge.textContent = `#${idx + 1} · ${e.target.value || t('Nueva categoría', 'New category')}`;
           syncPreviewCatSelect();
         }
+        markDirty(true);
         renderPreview();
       });
 
@@ -1287,12 +1536,14 @@
           state.categories[idx].emoji = e.target.value;
           const input = card.querySelector('[data-field="emoji"]');
           if (input) input.value = e.target.value;
+          markDirty(true);
           renderPreview();
           return;
         }
         const field = e.target.getAttribute('data-field');
         if (field) {
           state.categories[idx][field] = e.target.value;
+          markDirty(true);
           renderPreview();
         }
       });
@@ -1309,13 +1560,38 @@
         } else if (act === 'down' && idx < state.categories.length - 1) {
           [state.categories[idx + 1], state.categories[idx]] = [state.categories[idx], state.categories[idx + 1]];
         } else if (act === 'del') {
-          state.categories.splice(idx, 1);
+          const [removed] = state.categories.splice(idx, 1);
+          if (removed) {
+            state.lastDeletedCat = { item: structuredClone(removed), index: idx };
+            renderUndoBar();
+          }
         } else {
           return;
         }
+        markDirty(true);
         renderCategoryEditors();
         renderPreview();
       });
+
+      if (el.undoCatBtn) {
+        el.undoCatBtn.addEventListener('click', () => {
+          if (!state.lastDeletedCat) return;
+          if (state.categories.length >= 25) {
+            setStatus(el.panelStatus, t('Máximo 25 categorías alcanzado. Elimina una antes de deshacer.', 'Maximum 25 categories reached. Remove one before undoing.'), 'err');
+            return;
+          }
+          const { item, index } = state.lastDeletedCat;
+          const targetIdx = Math.max(0, Math.min(index, state.categories.length));
+          const restored = structuredClone(item);
+          restored.id = uniqueCategoryId(restored.label, targetIdx, state.categories);
+          state.categories.splice(targetIdx, 0, restored);
+          state.lastDeletedCat = null;
+          markDirty(true);
+          renderUndoBar();
+          renderCategoryEditors();
+          renderPreview();
+        });
+      }
 
       el.addCatBtn.addEventListener('click', () => {
         if (state.categories.length >= 25) return;
@@ -1330,15 +1606,27 @@
           categoryId: '',
           supportRoleId: ''
         });
+        markDirty(true);
         renderCategoryEditors();
         renderPreview();
       });
 
-      el.loadTemplateBtn.addEventListener('click', () => {
+      el.loadTemplateBtn.addEventListener('click', async () => {
+        if (state.categories.length > 0) {
+          const ok = await openTicketsConfirm(
+            t('¿Cargar plantilla predeterminada?', 'Load default template?'),
+            t('Esto reemplazará las categorías actuales del menú por las 3 categorías de plantilla.', 'This will replace your current menu categories with the 3 default template categories.'),
+            t('Reemplazar categorías', 'Replace categories')
+          );
+          if (!ok) return;
+        }
+        state.lastDeletedCat = null;
+        renderUndoBar();
         state.categories = DEMO_GUILD.ticketConfig.categories.map((c) => ({
           ...c,
           ...(state.authenticated ? { categoryId: '', supportRoleId: '' } : {})
         }));
+        markDirty(true);
         renderCategoryEditors();
         renderPreview();
       });
@@ -1349,11 +1637,16 @@
           el.importTextarea.value = formatOptionsText(state.categories);
         }
         el.importBox.classList.toggle('open', willOpen);
+        el.toggleImportBtn.setAttribute('aria-expanded', String(willOpen));
       });
 
       el.applyImportBtn.addEventListener('click', () => {
+        state.lastDeletedCat = null;
+        renderUndoBar();
         state.categories = parseOptionsText(el.importTextarea.value);
         el.importBox.classList.remove('open');
+        el.toggleImportBtn.setAttribute('aria-expanded', 'false');
+        markDirty(true);
         renderCategoryEditors();
         renderPreview();
       });
@@ -1380,12 +1673,35 @@
         }
       });
 
-      el.guildSelect.addEventListener('change', () => {
-        state.selectedGuildId = el.guildSelect.value;
+      el.guildSelect.addEventListener('change', async () => {
+        const nextId = el.guildSelect.value;
+        if (nextId === state.selectedGuildId) return;
+        if (state.dirty && state.authenticated) {
+          const ok = await openTicketsConfirm(
+            t('¿Descartar cambios sin guardar?', 'Discard unsaved changes?'),
+            t('Tienes ediciones sin guardar en este servidor. Si cambias de servidor ahora, se perderán.', 'You have unsaved edits on this server. Switching servers now will discard them.'),
+            t('Cambiar de servidor', 'Switch server')
+          );
+          if (!ok) {
+            el.guildSelect.value = state.selectedGuildId || '';
+            return;
+          }
+        }
+        state.selectedGuildId = nextId;
         loadSelectedGuildData();
       });
 
-      el.reloadGuildBtn.addEventListener('click', loadSelectedGuildData);
+      el.reloadGuildBtn.addEventListener('click', async () => {
+        if (state.dirty && state.authenticated) {
+          const ok = await openTicketsConfirm(
+            t('¿Recargar datos del servidor?', 'Reload server data?'),
+            t('Tienes cambios sin guardar en el editor. Si recargas ahora, se sobrescribirán con los valores guardados.', 'You have unsaved edits in the editor. Reloading now will overwrite them with saved values.'),
+            t('Recargar', 'Reload')
+          );
+          if (!ok) return;
+        }
+        loadSelectedGuildData();
+      });
 
       el.saveConfigBtn.addEventListener('click', async () => {
         if (!state.authenticated || !state.selectedGuildId) {
@@ -1412,6 +1728,7 @@
             body: JSON.stringify(payload)
           });
           if (res.ok) {
+            markDirty(false);
             setStatus(el.configStatus, t('Configuración guardada correctamente en Discord/MongoDB.', 'Configuration saved successfully.'), 'ok');
           } else {
             setStatus(el.configStatus, res.data?.error || t('Error al guardar la configuración.', 'Error saving configuration.'), 'err');
@@ -1462,6 +1779,7 @@
             body: JSON.stringify(body)
           });
           if (res.ok) {
+            markDirty(false);
             if (res.data?.messageId) {
               el.panelMessageId.value = res.data.messageId;
             }
@@ -1488,10 +1806,44 @@
         }
       }
 
+      if (el.jumpPreviewBtn && el.previewAside) {
+        el.jumpPreviewBtn.addEventListener('click', () => {
+          const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const behavior = reduced ? 'auto' : 'smooth';
+          if (state.previewInView) {
+            window.scrollTo({ top: state.savedEditorScrollY !== null ? state.savedEditorScrollY : 0, behavior });
+          } else {
+            state.savedEditorScrollY = window.scrollY;
+            el.previewAside.scrollIntoView({ behavior, block: 'start' });
+          }
+        });
+      }
+
+      if ('IntersectionObserver' in window && el.previewAside) {
+        const previewObserver = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.target === el.previewAside) {
+              state.previewInView = entry.isIntersecting;
+              updateMobilePreviewBarLabel();
+            }
+          }
+        }, { threshold: 0.15 });
+        previewObserver.observe(el.previewAside);
+      }
+
+      window.addEventListener('beforeunload', (e) => {
+        if (state.dirty && state.authenticated) {
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      });
+
       document.addEventListener('redbot:langchange', () => {
         renderAuthHeader();
         if (state.guilds.length) renderGuildSelector();
         updateEmptySelectLabels();
+        renderUndoBar();
+        updateMobilePreviewBarLabel();
         renderCategoryEditors();
         renderPreview();
       });

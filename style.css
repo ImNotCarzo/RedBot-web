@@ -54,11 +54,17 @@ a {
 
 a:focus-visible,
 button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--signal-text);
+  outline-offset: 2px;
+}
+
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--signal-text);
-  outline-offset: 2px;
+  border-color: var(--signal-text);
+  outline: 1px solid var(--signal-text);
+  outline-offset: 0;
 }
 
 /* ACCESIBILIDAD */
@@ -596,6 +602,15 @@ footer {
   }
   .footer-inner {
     padding: 40px 24px 24px;
+  }
+}
+
+@media (pointer: coarse) {
+  .nav-links a.nav-cta,
+  .nav-links a.nav-login-btn,
+  .lang-toggle,
+  .nav-user-btn {
+    min-height: 44px;
   }
 }
 
