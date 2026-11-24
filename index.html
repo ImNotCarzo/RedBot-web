@@ -56,6 +56,11 @@
 
     /* DEMO */
     .demo { background: #1a1b1e; border: 1px solid #2b2d31; box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45); font-family: 'gg sans', 'IBM Plex Sans', sans-serif; color: #dbdee1; }
+    .demo-header { background: #141518; border-bottom: 1px solid #2b2d31; min-height: 38px; padding: 0 18px; display: flex; align-items: center; gap: 8px; }
+    .demo-hash { font-family: 'IBM Plex Mono', monospace; color: #80848e; font-size: .95rem; font-weight: 700; }
+    .demo-channel { font-weight: 600; font-size: .88rem; color: #f2f3f5; }
+    .demo-header-sep { width: 1px; height: 14px; background: #2b2d31; margin: 0 4px; }
+    .demo-topic { font-size: .8rem; color: #949ba4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .demo-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
     .demo-msg { display: flex; gap: 12px; align-items: flex-start; }
     .demo-msg-body { flex: 1; min-width: 0; }
@@ -130,6 +135,9 @@
       .feature-item:nth-child(even) { padding-left: 0; }
       .cta-final { padding: 72px 24px 88px; }
     }
+    @media (max-width: 520px) {
+      .demo-header-sep, .demo-topic { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -143,8 +151,8 @@
     <ul class="nav-links" id="nav-links">
       <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="/commands">Comandos</a></li>
-      <li><a href="/tos">Términos</a></li>
-      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="/ia">IA</a></li>
+      <li><a href="/vs">Comparativas</a></li>
       <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
     </ul>
   </nav>
@@ -168,6 +176,12 @@
       </div>
 
       <div class="demo" aria-label="Registro de comandos UI" data-i18n-aria="demoAria">
+        <div class="demo-header" aria-hidden="true">
+          <span class="demo-hash">#</span>
+          <span class="demo-channel" data-i18n="demoChannel">general</span>
+          <span class="demo-header-sep"></span>
+          <span class="demo-topic" data-i18n="demoTopic">Moderación e IA sin configuración</span>
+        </div>
         <div class="demo-body">
           <div class="demo-msg">
             <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" width="34" height="34" style="display: none;"></div>
@@ -344,6 +358,8 @@
         ctaInvite: "Add to Server",
         ctaSupport: "Support Server",
         demoAria: "Command UI preview",
+        demoChannel: "general",
+        demoTopic: "Moderation & AI with zero setup",
         demoReply1: "<strong>Manlexo</strong> was banned",
         demoCmd2: ".ask explain quantum computing in one line",
         demoReply2: "Quantum computers use qubits to explore many possibilities at once instead of one by one.",

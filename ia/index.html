@@ -60,8 +60,8 @@
     <ul class="nav-links" id="nav-links">
       <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="/commands">Comandos</a></li>
-      <li><a href="/tos">Términos</a></li>
-      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="/ia" aria-current="page">IA</a></li>
+      <li><a href="/vs">Comparativas</a></li>
       <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
     </ul>
   </nav>
@@ -215,22 +215,22 @@
     <div class="cl">
       <p class="cl-num" data-i18n="s3Num">// 03 · PREGUNTAS FRECUENTES (FAQ)</p>
       <div class="faq-grid">
-        <div class="faq-item">
-          <div class="faq-question" data-i18n="q1">¿Cómo reinicio la conversación o personalizo el contexto del servidor?</div>
+        <details class="faq-item" open>
+          <summary class="faq-question"><span class="faq-q-text" data-i18n="q1">¿Cómo reinicio la conversación o personalizo el contexto del servidor?</span></summary>
           <div class="faq-answer" data-i18n-html="a1">Ejecuta <code>/ai askreset</code> (o <code>.askreset</code>) para limpiar al instante tus hasta 10 turnos guardados, o espera 10 minutos de inactividad para que expiren automáticamente. Si administras un servidor, puedes definir información de referencia (reglas, roles o FAQ) desde el botón <strong>Contexto IA</strong> en <code>/server setup</code>.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" data-i18n="q2">¿Qué modelos de IA usa RedBot?</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question"><span class="faq-q-text" data-i18n="q2">¿Qué modelos de IA usa RedBot?</span></summary>
           <div class="faq-answer" data-i18n-html="a2">RedBot combina rotación automática de modelos <strong>Google Gemini y Gemma</strong> (para conversación, visión, OCR, búsqueda semántica y generación de reglas en <code>/mod automod-ai</code>) junto con <strong>Groq Whisper</strong> para transcripción rápida de audio y video.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" data-i18n="q3">¿Puedo usar las funciones de IA si no soy administrador del servidor?</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question"><span class="faq-q-text" data-i18n="q3">¿Puedo usar las funciones de IA si no soy administrador del servidor?</span></summary>
           <div class="faq-answer" data-i18n-html="a3">Sí. Al instalar RedBot como <strong>User App</strong> en tu cuenta de Discord puedes ejecutar <code>/ai</code> y <code>/util</code> en chats privados, grupos o cualquier servidor, además de usar los menús contextuales con clic derecho → <strong>Apps</strong> (Traducir, Extraer texto (OCR), Transcribir audio y Resumir mensaje).</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" data-i18n="q4">¿Mis datos o conversaciones son privados?</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question"><span class="faq-q-text" data-i18n="q4">¿Mis datos o conversaciones son privados?</span></summary>
           <div class="faq-answer" data-i18n-html="a4">Sí. Las sesiones conversacionales caducan a los 10 minutos, los archivos multimedia temporales de transcripción se eliminan al finalizar el proceso y RedBot no vende tu contenido ni entrena modelos propios. Consulta nuestra <a href="/privacy" style="color: var(--signal-text);">política de privacidad</a> para conocer todos los detalles.</div>
-        </div>
+        </details>
       </div>
     </div>
 

@@ -11,6 +11,8 @@
       nav: {
         '/dashboard': 'Dashboard',
         '/commands': 'Commands',
+        '/ia': 'AI',
+        '/vs': 'Compare',
         '/tos': 'Terms',
         '/privacy': 'Privacy',
         'https://redbot.me/invite': 'Invite'

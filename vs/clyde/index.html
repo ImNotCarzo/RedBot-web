@@ -77,8 +77,8 @@
     <ul class="nav-links" id="nav-links">
       <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="/commands">Comandos</a></li>
-      <li><a href="/tos">Términos</a></li>
-      <li><a href="/privacy">Privacidad</a></li>
+      <li><a href="/ia">IA</a></li>
+      <li><a href="/vs">Comparativas</a></li>
       <li><a href="https://redbot.me/invite" class="nav-cta">Autorizar</a></li>
     </ul>
   </nav>
@@ -174,14 +174,14 @@
     <div class="cl">
       <p class="cl-num" data-i18n="s3Num">// 03 · PREGUNTAS FRECUENTES</p>
       <div class="faq-grid">
-        <div class="faq-item">
-          <div class="faq-question" data-i18n="q1">¿Necesito proporcionar una API key de OpenAI o Claude?</div>
+        <details class="faq-item" open>
+          <summary class="faq-question"><span class="faq-q-text" data-i18n="q1">¿Necesito proporcionar una API key de OpenAI o Claude?</span></summary>
           <div class="faq-answer" data-i18n="a1">No. No requieres registrarte en proveedores de IA ni pagar tokens por tu cuenta. Toda la infraestructura de inferencia corre por cuenta de RedBot.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" data-i18n="q2">¿Puedo borrar mi historial de conversación si quiero empezar de nuevo?</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question"><span class="faq-q-text" data-i18n="q2">¿Puedo borrar mi historial de conversación si quiero empezar de nuevo?</span></summary>
           <div class="faq-answer" data-i18n-html="a2">Sí, simplemente ejecuta el comando <code>.askreset</code> y la IA limpiará el contexto previo de inmediato.</div>
-        </div>
+        </details>
       </div>
     </div>
 
