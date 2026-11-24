@@ -52,15 +52,6 @@
       max-width: 580px;
     }
 
-    .dash-section-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: .78rem;
-      color: var(--text-mute);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 18px;
-    }
-
     .dash-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
@@ -86,14 +77,6 @@
       border-color: var(--signal-text);
     }
 
-    .dash-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
     .dash-card-icon {
       width: 40px;
       height: 40px;
@@ -103,19 +86,8 @@
       background: var(--ink);
       border: 1px solid var(--line-strong);
       color: var(--signal-text);
+      margin-bottom: 16px;
       flex-shrink: 0;
-    }
-
-    .dash-card-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: .7rem;
-      font-weight: 600;
-      letter-spacing: .5px;
-      color: var(--text-dim);
-      background: var(--ink);
-      border: 1px solid var(--line);
-      padding: 4px 8px;
-      text-transform: uppercase;
     }
 
     .dash-card h2 {
@@ -198,17 +170,12 @@
       </div>
     </header>
 
-    <div class="dash-section-label" data-i18n="modulesLabel">Opciones disponibles</div>
-
     <div class="dash-grid">
       <a href="/tickets" class="dash-card">
         <div>
-          <div class="dash-card-top">
-            <span class="dash-card-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path><path d="M13 5v2"></path><path d="M13 17v2"></path><path d="M13 11v2"></path></svg>
-            </span>
-            <span class="dash-card-badge" data-i18n="ticketsBadge">MÓDULO WEB</span>
-          </div>
+          <span class="dash-card-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path><path d="M13 5v2"></path><path d="M13 17v2"></path><path d="M13 11v2"></path></svg>
+          </span>
           <h2 data-i18n="ticketsTitle">Tickets</h2>
           <p data-i18n="ticketsDesc">Configura categorías, canales de logs, rol de soporte y diseña paneles de apertura con botón o menú desplegable para publicarlos en tu servidor.</p>
         </div>
@@ -252,8 +219,6 @@
         kicker: "<strong>RedBot</strong> · Control Panel",
         title: "Dashboard",
         subtitle: "Choose a module to configure and manage RedBot tools directly from the web.",
-        modulesLabel: "Available options",
-        ticketsBadge: "WEB MODULE",
         ticketsTitle: "Tickets",
         ticketsDesc: "Configure categories, log channels, support role, and design button or dropdown opening panels to publish in your server.",
         ticketsBtn: "Open Tickets Panel"

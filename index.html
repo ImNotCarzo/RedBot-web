@@ -47,30 +47,8 @@
     main { max-width: 1180px; margin: 0 auto; }
 
     /* HERO */
-    .hero-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-      padding: 100px 48px 110px;
-    }
-    .hero-grid::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      background-image:
-        radial-gradient(circle at 75% 38%, rgba(201, 48, 44, 0.09), transparent 56%),
-        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px, 40px 40px;
-      mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, #000 40%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, #000 40%, transparent 100%);
-    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding: 100px 48px 110px; }
     .hero-kicker { display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: .92rem; color: var(--text-dim); font-weight: 500; margin-bottom: 22px; }
-    .kicker-dot { width: 8px; height: 8px; background: var(--signal-text); display: inline-block; flex-shrink: 0; }
     .hero-kicker strong { color: var(--signal-text); font-weight: 700; }
     .hero-grid h1 { font-size: clamp(2.5rem, 4.6vw, 3.8rem); letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 24px; color: var(--text); }
     .hero-desc { font-size: 1.05rem; color: var(--text-dim); line-height: 1.75; max-width: 480px; margin-bottom: 40px; }
@@ -78,10 +56,6 @@
 
     /* DEMO */
     .demo { background: #1a1b1e; border: 1px solid #2b2d31; box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45); font-family: 'gg sans', 'IBM Plex Sans', sans-serif; color: #dbdee1; }
-    .demo-topbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; background: #141517; border-bottom: 1px solid #2b2d31; }
-    .demo-channel { display: inline-flex; align-items: center; gap: 7px; font-size: .82rem; font-weight: 600; color: #b5bac1; }
-    .demo-channel svg { color: #80848e; flex-shrink: 0; }
-    .demo-live { font-family: 'IBM Plex Mono', monospace; font-size: .68rem; font-weight: 600; color: #4ade80; background: rgba(46, 204, 113, 0.12); border: 1px solid rgba(74, 222, 128, 0.3); padding: 2px 6px; letter-spacing: .5px; }
     .demo-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
     .demo-msg { display: flex; gap: 12px; align-items: flex-start; }
     .demo-msg-body { flex: 1; min-width: 0; }
@@ -178,7 +152,7 @@
   <main id="contenido">
     <section class="hero-grid">
       <div>
-        <p class="hero-kicker" data-nosnippet><span class="kicker-dot" aria-hidden="true"></span><strong data-i18n="heroKicker">RedBot, único y eterno.</strong></p>
+        <p class="hero-kicker" data-nosnippet><strong data-i18n="heroKicker">RedBot, único y eterno.</strong></p>
         <h1 data-nosnippet data-i18n="heroTitle">Administra tu servidor con total facilidad.</h1>
         <p class="hero-desc" data-i18n="heroDesc">Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.</p>
         <div class="cta-row">
@@ -194,13 +168,6 @@
       </div>
 
       <div class="demo" aria-label="Registro de comandos UI" data-i18n-aria="demoAria">
-        <div class="demo-topbar">
-          <span class="demo-channel">
-            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
-            <span data-i18n="demoChannel">moderacion-e-ia</span>
-          </span>
-          <span class="demo-live" aria-hidden="true">LIVE</span>
-        </div>
         <div class="demo-body">
           <div class="demo-msg">
             <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" width="34" height="34" style="display: none;"></div>
@@ -277,7 +244,6 @@
       </div>
       <div class="feature-links">
         <a class="btn btn-secondary" href="/ia" data-i18n="featLinkAi">Explorar Inteligencia Artificial →</a>
-        <a class="btn btn-secondary" href="/vs" data-i18n="featLinkVs">Comparar con otros bots →</a>
       </div>
     </section>
 
@@ -353,8 +319,6 @@
         <div class="footer-section">
           <div class="footer-title">Proyecto</div>
           <a href="/staff">Equipo</a>
-          <a href="/ia">Inteligencia Artificial</a>
-          <a href="/vs">Comparativas</a>
           <a href="https://github.com/ImNotCarzo/RedBot" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
         <div class="footer-section">
@@ -380,7 +344,6 @@
         ctaInvite: "Add to Server",
         ctaSupport: "Support Server",
         demoAria: "Command UI preview",
-        demoChannel: "moderation-and-ai",
         demoReply1: "<strong>Manlexo</strong> was banned",
         demoCmd2: ".ask explain quantum computing in one line",
         demoReply2: "Quantum computers use qubits to explore many possibilities at once instead of one by one.",
@@ -399,7 +362,6 @@
         feat4Title: "All-in-One",
         feat4Desc: "Commands covering moderation, roles, utilities, and AI with no external plugins required.",
         featLinkAi: "Explore AI Suite →",
-        featLinkVs: "Compare with other bots →",
         cmdHead: "Command Directory",
         cmdSub: "Pick a category to browse all its commands.",
         cmdMore: "View all commands",
