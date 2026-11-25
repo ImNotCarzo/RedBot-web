@@ -72,7 +72,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -92,13 +92,14 @@
     </ul>
   </nav>
 
-  <header class="page-header" id="contenido">
-    <p class="page-tag" data-i18n-html="tag"><a href="/vs" style="color: inherit; text-decoration: none;">Comparativas</a> · <strong>RedBot vs MEE6</strong></p>
-    <h1 class="page-title" data-i18n="title">La mejor alternativa gratuita a MEE6 en 2026</h1>
-    <p class="page-subtitle" data-i18n="subtitle">Modera tu servidor con total potencia, asigna roles automáticos y aprovecha herramientas de IA sin pagar los $11.99 dólares mensuales de MEE6 Premium.</p>
-  </header>
+  <main id="contenido">
+    <header class="page-header">
+      <p class="page-tag" data-i18n-html="tag"><a href="/vs" style="color: inherit; text-decoration: none;">Comparativas</a> · <strong>RedBot vs MEE6</strong></p>
+      <h1 class="page-title" data-i18n="title">La mejor alternativa gratuita a MEE6 en 2026</h1>
+      <p class="page-subtitle" data-i18n="subtitle">Modera tu servidor con total potencia, asigna roles automáticos y aprovecha herramientas de IA sin pagar los $11.99 dólares mensuales de MEE6 Premium.</p>
+    </header>
 
-  <main class="content">
+    <div class="content">
     <div class="cl">
       <p class="cl-num" data-i18n="s1Num">// 01 · EL PROBLEMA CON MEE6</p>
       <h2 data-i18n="s1Title">¿Por qué los administradores están abandonando MEE6?</h2>
@@ -191,8 +192,8 @@
       <h3 data-i18n="v2h">2. Inteligencia Artificial integrada y sin topes diarios</h3>
       <p data-i18n-html="v2p">Mientras MEE6 te cobra por funciones de chatbot o las restringe drásticamente, RedBot incorpora tecnología de IA de vanguardia para responder preguntas con contexto (<code>.ask</code>), transcribir audios de voz a texto (<code>.transcribe</code>), traducir mensajes a múltiples idiomas (<code>.translate</code>) y analizar imágenes (<code>.describe</code>).</p>
 
-      <h3 data-i18n="v3h">3. Sin depender de un panel web pesado</h3>
-      <p data-i18n-html="v3p">MEE6 te obliga a iniciar sesión en un panel web lento que con frecuencia se desincroniza o pide permisos innecesarios. Con RedBot, todo se gestiona directamente desde la interfaz de Discord mediante comandos slash (<code>/</code>) y comandos de prefijo rápido (<code>.</code>).</p>
+      <h3 data-i18n="v3h">3. Todo desde Discord, con panel web opcional</h3>
+      <p data-i18n-html="v3p">MEE6 te obliga a iniciar sesión en un panel web lento que con frecuencia se desincroniza o pide permisos innecesarios. Con RedBot, todo se gestiona directamente desde Discord mediante comandos slash (<code>/</code>) y prefijo rápido (<code>.</code>), con un panel web opcional en <code>redbot.me/dashboard</code>.</p>
 
       <h3 data-i18n="v4h">4. Diseñado pensando en comunidades hispanohablantes</h3>
       <p data-i18n="v4p">Los mensajes, explicaciones, embeds y canales de soporte están diseñados en español claro, evitando traducciones automáticas defectuosas.</p>
@@ -248,7 +249,7 @@
 
         <details class="faq-item">
           <summary class="faq-question"><span class="faq-q-text" data-i18n="q3">¿Qué pasa si mi servidor tiene miles de miembros?</span></summary>
-          <div class="faq-answer" data-i18n="a3">RedBot está alojado en infraestructura de alto rendimiento y ya presta servicio a más de 140,000 usuarios en más de 110 servidores con baja latencia y disponibilidad continua del 99.9%.</div>
+          <div class="faq-answer" data-i18n="a3">RedBot está alojado en infraestructura optimizada y ya presta servicio a más de 145,000 usuarios en más de 120 servidores con baja latencia y disponibilidad continua.</div>
         </details>
 
         <details class="faq-item">
@@ -265,6 +266,7 @@
     <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
       <a class="btn btn-primary" href="https://redbot.me/invite" data-i18n="btnInvite">Añadir RedBot a Discord</a>
       <a class="btn btn-secondary" href="/commands" data-i18n="btnCommands">Ver lista de comandos</a>
+    </div>
     </div>
   </main>
 
@@ -352,8 +354,8 @@
         v1p: "Every moderation tool, warning log, role command, and AI utility is unlocked the moment you authorize the bot. No upgrade prompts or locked screens.",
         v2h: "2. Built-in AI with no daily caps",
         v2p: "While MEE6 charges for chatbot features or heavily restricts them, RedBot includes contextual Q&A (<code>.ask</code>), audio transcription (<code>.transcribe</code>), translation (<code>.translate</code>), and image vision (<code>.describe</code>).",
-        v3h: "3. No heavy web dashboard required",
-        v3p: "MEE6 forces you into a slow web dashboard that often desyncs. With RedBot, everything runs directly inside Discord via slash commands (<code>/</code>) and fast prefix commands (<code>.</code>).",
+        v3h: "3. Everything in Discord, with an optional web dashboard",
+        v3p: "MEE6 forces you into a slow web dashboard that often desyncs. With RedBot, everything runs directly inside Discord via slash commands (<code>/</code>) and fast prefix commands (<code>.</code>), with an optional web dashboard at <code>redbot.me/dashboard</code>.",
         v4h: "4. Built for bilingual communities",
         v4p: "Clear messages, embeds, and automatic language detection in Spanish and English right out of the box.",
         s3Num: "// 03 · MIGRATION GUIDE",
@@ -364,7 +366,7 @@
         st2p1: "In any text channel, run:",
         st2p2: "<code>.rolejoin @Member</code> to assign a join role.<br><code>.setlogs #mod-logs</code> to enable automatic moderation logs.",
         st3h: "Remove or disable MEE6",
-        st3p: "Kick MEE6 or revoke its permissions so welcome messages and notifications don't duplicate. Done—your server is fully set up at zero cost.",
+        st3p: "Kick MEE6 or revoke its permissions so welcome messages and notifications don't duplicate. Done. Your server is fully set up at zero cost.",
         s4Num: "// 04 · FREQUENTLY ASKED QUESTIONS",
         s4Title: "FAQ about switching from MEE6 to RedBot",
         q1: "Will RedBot charge in the future for features that are free today?",
@@ -372,7 +374,7 @@
         q2: "Can I run RedBot alongside other bots?",
         a2: "Of course. RedBot works smoothly next to any other bot, and you can change its prefix with <code>.setprefix</code> if needed.",
         q3: "What if my server has thousands of members?",
-        a3: "RedBot runs on high-performance infrastructure already serving 140,000+ users across 110+ servers with low latency.",
+        a3: "RedBot runs on optimized infrastructure already serving 145,000+ users across 120+ servers with low latency.",
         q4: "How does RedBot's AI compare to paid bots?",
         a4: "RedBot integrates thread-memory chat, computer vision, and voice transcription without hidden daily quotas.",
         ctaBox: "<strong>Save $140+ USD per year per server.</strong> Switch to RedBot today for clean, fast, unlimited moderation.",

@@ -13,8 +13,6 @@
         '/commands': 'Commands',
         '/ia': 'AI',
         '/vs': 'Compare',
-        '/tos': 'Terms',
-        '/privacy': 'Privacy',
         'https://redbot.me/invite': 'Invite'
       },
       auth: {
@@ -34,10 +32,6 @@
       },
       footerLinks: {
         '/staff': 'Team',
-        '/ia': 'Artificial Intelligence',
-        '/vs': 'Comparisons',
-        '/commands': 'Commands',
-        '/dashboard': 'Dashboard',
         'https://discord.gg/sYdyS8Ez3s': 'Support Server',
         '/privacy': 'Privacy Policy',
         '/tos': 'Terms of Service'
@@ -648,6 +642,106 @@
     }
   }
 
+  const CATEGORY_LABELS = {
+    es: {
+      todos: 'Todos',
+      utilidad: 'Utilidad',
+      ai: 'IA',
+      moderacion: 'Moderación',
+      servidor: 'Servidor',
+      usuario: 'Usuario',
+      roles: 'Roles',
+      canal: 'Canal',
+      tickets: 'Tickets',
+      automatizacion: 'Automatización',
+      comunidad: 'Comunidad'
+    },
+    en: {
+      todos: 'All',
+      utilidad: 'Utility',
+      ai: 'AI',
+      moderacion: 'Moderation',
+      servidor: 'Server',
+      usuario: 'User',
+      roles: 'Roles',
+      canal: 'Channel',
+      tickets: 'Tickets',
+      automatizacion: 'Automation',
+      comunidad: 'Community'
+    }
+  };
+
+  function escapeHtml(str) {
+    return String(str ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  async function copyText(text) {
+    const val = String(text ?? '');
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(val);
+        return true;
+      }
+    } catch (e) {}
+    const ta = document.createElement('textarea');
+    ta.value = val;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try {
+      ok = document.execCommand('copy');
+    } catch (e) {}
+    document.body.removeChild(ta);
+    return Boolean(ok);
+  }
+
+  async function fetchPublicApi(path, timeoutMs = 6000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(`${window.location.origin}${path}`, { signal: controller.signal });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) {
+      return null;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  function getCategoryLabel(catId, dynamicLabels) {
+    const lang = window.__redbotCurrentLang === 'en' ? 'en' : 'es';
+    const dict = CATEGORY_LABELS[lang] || CATEGORY_LABELS.es;
+    if (dict[catId]) return dict[catId];
+    if (lang === 'es' && dynamicLabels && dynamicLabels[catId]) return dynamicLabels[catId];
+    if (CATEGORY_LABELS.es[catId]) return CATEGORY_LABELS.es[catId];
+    if (dynamicLabels && dynamicLabels[catId]) return dynamicLabels[catId];
+    return catId ? catId.charAt(0).toUpperCase() + catId.slice(1) : '';
+  }
+
+  function syncNavScroll() {
+    const nav = document.querySelector('nav');
+    if (nav) {
+      nav.classList.toggle('is-scrolled', window.scrollY > 12);
+    }
+  }
+
+  window.RedBotUtils = {
+    escapeHtml,
+    copyText,
+    fetchPublicApi,
+    CATEGORY_LABELS,
+    getCategoryLabel
+  };
+
   window.RedBotI18n = {
     getLang: () => window.__redbotCurrentLang || 'es',
     setLang: (lang) => setLang(lang, true)
@@ -665,6 +759,8 @@
   function boot() {
     injectLangToggle();
     initNavMenu();
+    syncNavScroll();
+    window.addEventListener('scroll', syncNavScroll, { passive: true });
     const initial = detectInitialLang();
     setLang(initial, false);
     initNavAuth();

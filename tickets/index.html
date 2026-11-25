@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://redbot.me/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
     main { max-width: 1280px; margin: 0 auto; padding: 42px 32px 110px; }
@@ -543,7 +543,7 @@
   <script src="/main.js"></script>
   <script>
     (function () {
-      const STORAGE_TOKEN_KEY = 'redbot_dash_token';
+      const { escapeHtml, copyText } = window.RedBotUtils;
       const defaultApiBase = window.location.origin;
       const urlParams = new URLSearchParams(window.location.search);
       const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -619,7 +619,6 @@
       };
 
       const state = {
-        token: null,
         authenticated: false,
         user: null,
         guilds: [],
@@ -702,15 +701,6 @@
 
       function t(esText, enText) {
         return isEn() ? enText : esText;
-      }
-
-      function escapeHtml(str) {
-        return String(str ?? '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
       }
 
       function renderEmojiHtml(rawEmoji) {
@@ -851,46 +841,26 @@
         });
       }
 
-      function consumeHashSession() {
-        const hash = window.location.hash || '';
-        if (!hash.startsWith('#')) return;
-        const hashParams = new URLSearchParams(hash.slice(1));
-        const token = hashParams.get('session');
-        if (token) {
-          try {
-            localStorage.setItem(STORAGE_TOKEN_KEY, token);
-          } catch {}
-          state.token = token;
-          try {
-            window.history.replaceState(null, '', window.location.pathname + window.location.search);
-          } catch {}
-        }
-      }
-
       function getStoredToken() {
-        if (state.token) return state.token;
-        try {
-          state.token = localStorage.getItem(STORAGE_TOKEN_KEY) || null;
-        } catch {
-          state.token = null;
-        }
-        return state.token;
+        return window.RedBotAuth ? window.RedBotAuth.getToken() : null;
       }
 
       function clearSessionToken() {
-        state.token = null;
         state.authenticated = false;
         state.user = null;
         state.guilds = [];
         state.selectedGuildId = null;
-        try {
-          localStorage.removeItem(STORAGE_TOKEN_KEY);
-        } catch {}
+        if (window.RedBotAuth) {
+          window.RedBotAuth.clearToken();
+        }
       }
 
       let guildLoadSeq = 0;
 
       function buildLoginHref() {
+        if (API_BASE === defaultApiBase && window.RedBotAuth && window.RedBotAuth.buildLoginHref) {
+          return window.RedBotAuth.buildLoginHref(`/tickets${window.location.search}`);
+        }
         const returnTo = `${window.location.origin}/tickets${window.location.search}`;
         const redirectUri = `${defaultApiBase}/api/oauth/callback`;
         return `${API_BASE}/api/auth/login?return_to=${encodeURIComponent(returnTo)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
@@ -1062,7 +1032,6 @@
       }
 
       async function initSession() {
-        consumeHashSession();
         const token = getStoredToken();
         renderAuthHeader();
         populateGuildDropdowns();
@@ -1653,22 +1622,10 @@
 
       el.copySetupBtn.addEventListener('click', async () => {
         const text = formatOptionsText(state.categories);
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(text);
-          } else {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.select();
-            const ok = document.execCommand('copy');
-            document.body.removeChild(ta);
-            if (!ok) throw new Error('copy_failed');
-          }
+        const ok = await copyText(text);
+        if (ok) {
           setStatus(el.panelStatus, t('Formato copiado al portapapeles.', 'Format copied to clipboard.'), 'ok');
-        } catch {
+        } else {
           setStatus(el.panelStatus, t('No se pudo copiar automáticamente; usa "Importar / Exportar texto".', 'Could not copy automatically; use "Import / Export text".'), 'err');
         }
       });

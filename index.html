@@ -41,7 +41,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
     main { max-width: 1180px; margin: 0 auto; }
@@ -216,8 +216,8 @@
     </section>
 
     <div class="stats" aria-label="Métricas del sistema" data-i18n-aria="statsAria">
-      <div class="stat"><span class="stat-num" id="stat-servers">110</span><span class="stat-label" data-i18n="statServers">Servidores</span></div>
-      <div class="stat"><span class="stat-num" id="stat-users">140k</span><span class="stat-label" data-i18n="statUsers">Usuarios</span></div>
+      <div class="stat"><span class="stat-num" id="stat-servers">120+</span><span class="stat-label" data-i18n="statServers">Servidores</span></div>
+      <div class="stat"><span class="stat-num" id="stat-users">145k</span><span class="stat-label" data-i18n="statUsers">Usuarios</span></div>
       <div class="stat"><span class="stat-num" id="stat-commands">128</span><span class="stat-label" data-i18n="statCommands">Comandos</span></div>
     </div>
 
@@ -388,39 +388,7 @@
   </script>
   <script src="/main.js"></script>
   <script>
-    // Configuración de la API en vivo de RedBot (pasa por el Worker en /api/* con fallback directo)
-    const REDBOT_API_CONFIG = {
-      url: window.location.origin,
-      fallbackUrl: "https://redbot.hidenplay.net",
-      key: ""
-    };
-
-    const CATEGORY_LABELS = {
-      es: {
-        utilidad: "Utilidad",
-        ai: "IA",
-        moderacion: "Moderación",
-        servidor: "Servidor",
-        usuario: "Usuario",
-        roles: "Roles",
-        canal: "Canal",
-        tickets: "Tickets",
-        automatizacion: "Automatización",
-        comunidad: "Comunidad"
-      },
-      en: {
-        utilidad: "Utility",
-        ai: "AI",
-        moderacion: "Moderation",
-        servidor: "Server",
-        usuario: "User",
-        roles: "Roles",
-        canal: "Channel",
-        tickets: "Tickets",
-        automatizacion: "Automation",
-        comunidad: "Community"
-      }
-    };
+    const { escapeHtml, fetchPublicApi, CATEGORY_LABELS } = window.RedBotUtils;
 
     const FALLBACK_CATEGORIES = [
       { id: "utilidad", count: 15 },
@@ -436,15 +404,6 @@
     ];
 
     let currentCategories = FALLBACK_CATEGORIES.slice();
-
-    function escapeHtml(str) {
-      return String(str ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
 
     function renderCategoryCards() {
       const grid = document.getElementById("cmd-categories-grid");
@@ -463,96 +422,53 @@
       }).join("");
     }
 
-    async function fetchApiWithFallback(path, headers, signal) {
-      const bases = [REDBOT_API_CONFIG.url, REDBOT_API_CONFIG.fallbackUrl]
-        .filter(Boolean)
-        .map(u => u.replace(/\/+$/, ""))
-        .filter((u, i, arr) => arr.indexOf(u) === i);
-      for (const base of bases) {
-        try {
-          const res = await fetch(`${base}${path}`, { headers, signal });
-          if (res.ok) return res;
-        } catch (e) {}
-      }
-      return null;
-    }
-
     async function loadLiveStats() {
-      if (!REDBOT_API_CONFIG.url) return;
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
-      try {
-        const headers = {};
-        if (REDBOT_API_CONFIG.key) {
-          headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
-        }
-        const res = await fetchApiWithFallback("/api/stats", headers, controller.signal);
-        if (!res) return;
-        const data = await res.json();
+      const data = await fetchPublicApi("/api/stats", 6000);
+      if (!data) return;
 
-        if (typeof data.guilds === 'number') {
-          const serversEl = document.getElementById('stat-servers');
-          if (serversEl) serversEl.textContent = `${data.guilds}`;
-        }
+      if (typeof data.guilds === 'number') {
+        const serversEl = document.getElementById('stat-servers');
+        if (serversEl) serversEl.textContent = `${data.guilds}`;
+      }
 
-        if (typeof data.users === 'number') {
-          const usersEl = document.getElementById('stat-users');
-          if (usersEl) {
-            if (data.users >= 1000000) {
-              usersEl.textContent = (data.users / 1000000).toFixed(1) + 'M';
-            } else if (data.users >= 1000) {
-              usersEl.textContent = Math.floor(data.users / 1000) + 'k';
-            } else {
-              usersEl.textContent = data.users.toLocaleString();
-            }
+      if (typeof data.users === 'number') {
+        const usersEl = document.getElementById('stat-users');
+        if (usersEl) {
+          if (data.users >= 1000000) {
+            usersEl.textContent = (data.users / 1000000).toFixed(1) + 'M';
+          } else if (data.users >= 1000) {
+            usersEl.textContent = Math.floor(data.users / 1000) + 'k';
+          } else {
+            usersEl.textContent = data.users.toLocaleString();
           }
         }
+      }
 
-        if (data.commands && typeof data.commands.total === 'number' && data.commands.total > 0) {
-          const commandsEl = document.getElementById('stat-commands');
-          if (commandsEl) commandsEl.textContent = `${data.commands.total}`;
-        }
-      } catch (e) {
-        // En caso de fallo se mantienen los valores estáticos precargados
-      } finally {
-        clearTimeout(timeoutId);
+      if (data.commands && typeof data.commands.total === 'number' && data.commands.total > 0) {
+        const commandsEl = document.getElementById('stat-commands');
+        if (commandsEl) commandsEl.textContent = `${data.commands.total}`;
       }
     }
 
     async function loadLiveCategories() {
-      if (!REDBOT_API_CONFIG.url) return;
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
-      try {
-        const headers = {};
-        if (REDBOT_API_CONFIG.key) {
-          headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
-        }
-        const res = await fetchApiWithFallback("/api/commands", headers, controller.signal);
-        if (!res) return;
-        const data = await res.json();
-        if (!data || !data.categories || typeof data.categories !== "object") return;
+      const data = await fetchPublicApi("/api/commands", 6000);
+      if (!data || !data.categories || typeof data.categories !== "object") return;
 
-        const nextCategories = Object.entries(data.categories)
-          .map(([id, cat]) => ({
-            id,
-            count: Number(cat?.count ?? cat?.commands?.length ?? 0),
-            apiLabel: cat?.label || ""
-          }))
-          .filter((cat) => cat.count > 0);
+      const nextCategories = Object.entries(data.categories)
+        .map(([id, cat]) => ({
+          id,
+          count: Number(cat?.count ?? cat?.commands?.length ?? 0),
+          apiLabel: cat?.label || ""
+        }))
+        .filter((cat) => cat.count > 0);
 
-        if (nextCategories.length > 0) {
-          currentCategories = nextCategories;
-          renderCategoryCards();
-        }
-        if (typeof data.total === "number" && data.total > 0) {
-          const commandsEl = document.getElementById("stat-commands");
-          if (commandsEl) commandsEl.textContent = `${data.total}`;
-        }
-      } catch (e) {
-        // En caso de fallo se mantienen las categorías estáticas precargadas
-      } finally {
-        clearTimeout(timeoutId);
+      if (nextCategories.length > 0) {
+        currentCategories = nextCategories;
+        renderCategoryCards();
+      }
+      if (typeof data.total === "number" && data.total > 0) {
+        const commandsEl = document.getElementById("stat-commands");
+        if (commandsEl) commandsEl.textContent = `${data.total}`;
       }
     }
 

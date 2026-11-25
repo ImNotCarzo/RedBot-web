@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://redbot.me/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
     main { max-width: 1180px; margin: 0 auto; padding: 48px 48px 120px; }
@@ -212,52 +212,11 @@
   </script>
   <script src="/main.js"></script>
   <script>
-    // Configuración API en vivo (pasa por el Worker en /api/* con fallback directo)
-    const REDBOT_API_CONFIG = {
-      url: window.location.origin,
-      fallbackUrl: "https://redbot.hidenplay.net",
-      key: ""
-    };
-
-    // Diccionario de nombres legibles de categorías
-    const CATEGORY_LABELS_BY_LANG = {
-      es: {
-        todos: "Todos",
-        utilidad: "Utilidad",
-        ai: "IA",
-        moderacion: "Moderación",
-        servidor: "Servidor",
-        usuario: "Usuario",
-        roles: "Roles",
-        canal: "Canal",
-        tickets: "Tickets",
-        automatizacion: "Automatización",
-        comunidad: "Comunidad"
-      },
-      en: {
-        todos: "All",
-        utilidad: "Utility",
-        ai: "AI",
-        moderacion: "Moderation",
-        servidor: "Server",
-        usuario: "User",
-        roles: "Roles",
-        canal: "Channel",
-        tickets: "Tickets",
-        automatizacion: "Automation",
-        comunidad: "Community"
-      }
-    };
+    const { escapeHtml: escapeHTML, copyText, fetchPublicApi, CATEGORY_LABELS: CATEGORY_LABELS_BY_LANG, getCategoryLabel: resolveCategoryLabel } = window.RedBotUtils;
 
     const dynamicCategoryLabels = {};
 
-    function getCategoryLabel(catId) {
-      const lang = (window.RedBotI18n && window.RedBotI18n.getLang()) || 'es';
-      const dict = CATEGORY_LABELS_BY_LANG[lang] || CATEGORY_LABELS_BY_LANG.es;
-      if (dict[catId]) return dict[catId];
-      if (lang === 'es' && dynamicCategoryLabels[catId]) return dynamicCategoryLabels[catId];
-      return CATEGORY_LABELS_BY_LANG.es[catId] || dynamicCategoryLabels[catId] || (catId.charAt(0).toUpperCase() + catId.slice(1));
-    }
+    const getCategoryLabel = (catId) => resolveCategoryLabel(catId, dynamicCategoryLabels);
 
     function parseOptionsFromUsage(usage) {
       if (!usage) return [];
@@ -544,16 +503,6 @@
       selectCategory('todos');
     }
 
-    function escapeHTML(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
     function formatOptions(options) {
       const isEn = window.RedBotI18n && window.RedBotI18n.getLang() === 'en';
       if (Array.isArray(options)) {
@@ -599,8 +548,8 @@
     function copyCommand(event, btnElement) {
       event.stopPropagation();
       const text = btnElement.getAttribute('data-copy') || '';
-
-      const onCopied = () => {
+      copyText(text).then((ok) => {
+        if (!ok) return;
         const isEn = window.RedBotI18n && window.RedBotI18n.getLang() === 'en';
         if (btnElement.dataset.origHtml === undefined) {
           btnElement.dataset.origHtml = btnElement.innerHTML;
@@ -615,27 +564,7 @@
           btnElement.classList.remove('success');
           btnElement._copyTimer = null;
         }, 2000);
-      };
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(onCopied).catch(() => fallbackCopy(text, onCopied));
-      } else {
-        fallbackCopy(text, onCopied);
-      }
-    }
-
-    function fallbackCopy(text, callback) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand('copy');
-        callback();
-      } catch (e) {}
-      document.body.removeChild(ta);
+      });
     }
 
     function normalizeSearchText(str) {
@@ -880,79 +809,48 @@
 
     // Sincronización en vivo con la API
     async function loadLiveCommands() {
-      if (!REDBOT_API_CONFIG.url) return;
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
-      try {
-        const headers = {};
-        if (REDBOT_API_CONFIG.key) {
-          headers["Authorization"] = `Bearer ${REDBOT_API_CONFIG.key}`;
-        }
-        const bases = [REDBOT_API_CONFIG.url, REDBOT_API_CONFIG.fallbackUrl]
-          .filter(Boolean)
-          .map(u => u.replace(/\/+$/, ""))
-          .filter((u, i, arr) => arr.indexOf(u) === i);
-        let res = null;
-        for (const base of bases) {
-          try {
-            const candidate = await fetch(`${base}/api/commands`, {
-              headers,
-              signal: controller.signal
-            });
-            if (candidate.ok) {
-              res = candidate;
-              break;
-            }
-          } catch (e) {}
-        }
-        if (!res) return;
-        const data = await res.json();
-        if (!data.categories) return;
+      const data = await fetchPublicApi('/api/commands', 6000);
+      if (!data || !data.categories) return;
 
-        const dynamicCommands = [];
-        for (const [catKey, catData] of Object.entries(data.categories)) {
-          if (catData && catData.label) {
-            dynamicCategoryLabels[catKey] = catData.label;
-          }
-          if (!catData || !catData.commands || !Array.isArray(catData.commands)) continue;
-          for (const cmd of catData.commands) {
-            let name = cmd.slash
-              ? (cmd.slash.startsWith('/') ? cmd.slash : '/' + cmd.slash)
-              : cmd.name;
-
-            const aliasesStr = Array.isArray(cmd.aliases) && cmd.aliases.length
-              ? cmd.aliases.join(', ')
-              : (cmd.aliases || 'ninguno');
-
-            dynamicCommands.push({
-              name: name || cmd.short || cmd.name,
-              short: cmd.short || '',
-              cat: catKey,
-              options: parseOptionsFromUsage(cmd.usage),
-              aliases: aliasesStr,
-              desc: cmd.description || '',
-              example: cmd.usage || ('.' + (cmd.short || cmd.name))
-            });
-          }
+      const dynamicCommands = [];
+      for (const [catKey, catData] of Object.entries(data.categories)) {
+        if (catData && catData.label) {
+          dynamicCategoryLabels[catKey] = catData.label;
         }
+        if (!catData || !catData.commands || !Array.isArray(catData.commands)) continue;
+        for (const cmd of catData.commands) {
+          const name = cmd.slash
+            ? (cmd.slash.startsWith('/') ? cmd.slash : '/' + cmd.slash)
+            : cmd.name;
 
-        // Mantener huevo de pascua local
-        const localSpecial = rawCommands.filter(c => c.cat === 'admin');
-        for (const special of localSpecial) {
-          if (!dynamicCommands.some(c => c.name === special.name)) {
-            dynamicCommands.push(special);
-          }
-        }
+          const aliasesStr = Array.isArray(cmd.aliases) && cmd.aliases.length
+            ? cmd.aliases.join(', ')
+            : (cmd.aliases || 'ninguno');
 
-        if (dynamicCommands.length > 0) {
-          commands = mapCommands(dynamicCommands);
-          renderCategories();
-          applyFilters();
+          dynamicCommands.push({
+            name: name || cmd.short || cmd.name,
+            short: cmd.short || '',
+            cat: catKey,
+            options: parseOptionsFromUsage(cmd.usage),
+            aliases: aliasesStr,
+            desc: cmd.description || '',
+            example: cmd.usage || ('.' + (cmd.short || cmd.name))
+          });
         }
-      } catch (e) {
-        // Fallback silencioso a los comandos precargados
-      } finally {
-        clearTimeout(timeoutId);
+      }
+
+      // Mantener huevo de pascua local
+      const localSpecial = rawCommands.filter(c => c.cat === 'admin');
+      for (const special of localSpecial) {
+        if (!dynamicCommands.some(c => c.name === special.name)) {
+          dynamicCommands.push(special);
+        }
+      }
+
+      if (dynamicCommands.length > 0) {
+        commands = mapCommands(dynamicCommands);
+        renderCategories();
+        applyFilters();
       }
     }
 

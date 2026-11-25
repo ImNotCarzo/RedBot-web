@@ -6,7 +6,17 @@ Sitio web oficial de **RedBot** — [redbot.me](https://redbot.me)
 
 ```
 .
-├── index.html          # Página principal con showcase de comparativas
+├── src/
+│   └── worker.js       # Worker de Cloudflare (proxy /api/* y assets estáticos)
+├── wrangler.jsonc      # Configuración de despliegue en Cloudflare Workers
+├── index.html          # Página principal y demostración interactiva
+├── style.css           # Hoja de estilos y tokens de diseño globales
+├── main.js             # i18n (ES/EN), cabecera de sesión y utilidades compartidas
+├── 404.html            # Página de error 404
+├── dashboard/
+│   └── index.html      # Panel de control web
+├── tickets/
+│   └── index.html      # Diseñador 1:1 y gestor de paneles de Tickets
 ├── commands/
 │   └── index.html      # Directorio de comandos       → redbot.me/commands
 ├── vs/
@@ -14,13 +24,13 @@ Sitio web oficial de **RedBot** — [redbot.me](https://redbot.me)
 │   ├── mee6/
 │   │   └── index.html  # RedBot vs MEE6 (Alternativa gratis) → redbot.me/vs/mee6
 │   ├── dyno/
-│   │   └── index.html  # RedBot vs Dyno (Sin paneles lentos) → redbot.me/vs/dyno
+│   │   └── index.html  # RedBot vs Dyno (Moderación directa) → redbot.me/vs/dyno
 │   ├── carl-bot/
 │   │   └── index.html  # RedBot vs Carl-bot (Roles y autoroles) → redbot.me/vs/carl-bot
 │   └── clyde/
 │       └── index.html  # Alternativa a Clyde AI (IA conversacional) → redbot.me/vs/clyde
 ├── ia/
-│   └── index.html      # Landing page de Inteligencia Artificial → redbot.me/ia
+│   └── index.html      # Suite de Inteligencia Artificial → redbot.me/ia
 ├── invite/
 │   └── index.html      # Invitación oficial           → redbot.me/invite
 ├── privacy/
@@ -33,7 +43,6 @@ Sitio web oficial de **RedBot** — [redbot.me](https://redbot.me)
 ├── sitemap.xml         # Mapa del sitio optimizado para indexación
 ├── llms.txt            # Documentación estandarizada para LLMs y motores de respuesta IA
 ├── llms-full.txt       # Contexto exhaustivo para agentes de IA
-├── CNAME               # Dominio personalizado (redbot.me)
 └── site.webmanifest    # Manifiesto PWA
 ```
 
