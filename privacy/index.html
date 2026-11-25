@@ -33,7 +33,8 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -47,14 +48,13 @@
 
   <main id="contenido">
     <div class="page-header">
-      <p class="page-tag" data-i18n-html="tag"><strong>Legal</strong> · Última actualización: Noviembre 2026</p>
       <h1 class="page-title" data-i18n="title">Política de Privacidad</h1>
       <p class="page-subtitle" data-i18n="subtitle">Al invitar, usar RedBot o iniciar sesión en redbot.me, aceptas esta política. Explicamos con transparencia qué datos procesamos, guardamos y cuánto tiempo se conservan.</p>
+      <p class="page-meta" data-i18n="updated">Última actualización: Noviembre 2026</p>
     </div>
 
     <div class="content">
       <div class="cl">
-        <div class="cl-num" data-i18n="s1Num">01 / Datos recopilados</div>
         <h2 data-i18n="s1Title">Información que almacenamos en base de datos</h2>
         <p data-i18n="s1intro">RedBot almacena únicamente los datos necesarios para operar sus módulos configurados en MongoDB:</p>
 
@@ -80,7 +80,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s2Num">02 / Mensajes y caché temporal</div>
         <h2 data-i18n="s2Title">Lectura de mensajes, presencia y datos en memoria</h2>
         <div class="box highlight">
           <p data-i18n-html="s2box">RedBot <strong>NO</strong> mantiene un archivo permanente de los mensajes generales del chat. El contenido de los mensajes solo se procesa al vuelo o en memoria temporal cuando una función activa lo requiere.</p>
@@ -94,7 +93,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s3Num">03 / Inteligencia Artificial</div>
         <h2 data-i18n="s3Title">Procesamiento de IA y memoria conversacional</h2>
         <p data-i18n="s3p1">Al utilizar comandos de IA (chat, visión, OCR, transcripción, resúmenes, búsqueda asistida o generación de reglas de AutoMod), el texto, imagen o archivo multimedia que envías se transmite temporalmente a proveedores externos de procesamiento:</p>
         <ul>
@@ -106,7 +104,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s4Num">04 / Panel web y OAuth2</div>
         <h2 data-i18n="s4Title">Autenticación, sesiones y almacenamiento en el navegador</h2>
         <ul>
           <li data-i18n-html="s4l1"><strong>Discord OAuth2:</strong> al iniciar sesión en redbot.me solicitamos los permisos <code>identify</code> y <code>guilds</code> para mostrar tu perfil (ID, nombre de usuario y avatar) y verificar en qué servidores tienes permiso de Administrador o Gestionar Servidor.</li>
@@ -116,7 +113,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s5Num">05 / Terceros</div>
         <h2 data-i18n="s5Title">Compartición de datos e infraestructura</h2>
         <p data-i18n="s5p1">RedBot no vende ni alquila datos personales. Para prestar el servicio, la información estrictamente necesaria transita por:</p>
         <ul>
@@ -128,13 +124,12 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s6Num">06 / Control y eliminación</div>
         <h2 data-i18n="s6Title">Retención y eliminación de datos</h2>
         <ul>
           <li data-i18n="s6l1">Los datos temporales caducan automáticamente (sesiones de IA a los 10 minutos, caché de snipe a los 30 minutos en RAM y sesiones del panel web a las 24 horas o al cerrar sesión).</li>
           <li data-i18n="s6l2">Los usuarios pueden borrar directamente sus datos interactivos usando /ai askreset, /community birthday, /util reminders o cerrando sesión en redbot.me.</li>
           <li data-i18n="s6l3">Los administradores pueden desactivar módulos, eliminar configuraciones o expulsar a RedBot de su servidor en cualquier momento.</li>
-          <li data-i18n-html="s6l4">Para solicitar la eliminación completa de datos asociados a tu ID de usuario o servidor (incluyendo historial de imágenes o registros guardados), contáctanos en nuestro <a href="https://discord.gg/sYdyS8Ez3s" style="color: var(--signal-text);">Servidor de Soporte oficial</a>.</li>
+          <li data-i18n-html="s6l4">Para solicitar la eliminación completa de datos asociados a tu ID de usuario o servidor (incluyendo historial de imágenes o registros guardados), contáctanos en nuestro <a href="https://discord.gg/sYdyS8Ez3s">Servidor de Soporte oficial</a>.</li>
         </ul>
       </div>
 
@@ -171,10 +166,9 @@
     window.REDBOT_I18N = {
       titleEn: "Privacy Policy - RedBot",
       en: {
-        tag: "<strong>Legal</strong> · Last updated: November 2026",
         title: "Privacy Policy",
         subtitle: "By inviting, using RedBot, or signing in at redbot.me, you agree to this policy. Here is transparently what data we process, store, and how long it is kept.",
-        s1Num: "01 / Collected data",
+        updated: "Last updated: November 2026",
         s1Title: "Information stored in our database",
         s1intro: "RedBot stores only the data required to operate its configured modules in MongoDB:",
         s1h1: "Server configuration and automation",
@@ -188,38 +182,33 @@
         s1h3: "User preferences and image history",
         s1l7: "Personal language preference, active AFK status/reason, scheduled reminders (text, timestamp, and user ID), and seen release notices.",
         s1l8: "History of user avatars, banners, and server icons/banners visible to the bot (up to the last 15 images per profile or server, including URL, hash, and a compact backup copy up to 250 KB) to power history views in lookup commands.",
-        s2Num: "02 / Messages & temporary cache",
         s2Title: "Message reading, presence, and in-memory data",
         s2box: "RedBot does <strong>NOT</strong> keep a permanent archive of general chat messages. Message content is only processed on the fly or in temporary memory when an active feature requires it.",
         s2l1: "<strong>Real-time evaluation:</strong> messages are inspected transiently to handle prefix commands, replies to bot messages, AFK detection, AutoMod filters, sticky messages, custom commands, and server automation rules.",
         s2l2: "<strong>Snipe (in-memory RAM):</strong> recently deleted messages in channels accessible to the bot are kept strictly in RAM for up to <strong>30 minutes</strong> (up to 100 per channel) and are automatically discarded upon expiration or restart.",
         s2l3: "<strong>On-demand search & recaps:</strong> commands such as <code>/ai search</code> or <code>/channel recap</code> read messages only when explicitly invoked by an authorized user.",
         s2l4: "<strong>Voice & activity status:</strong> if a server enables dynamic voice channel status (<code>/channel voicestatus</code>), the bot reads voice state and current game/activity of members in the channel solely to update the Discord channel status, without storing it in database.",
-        s3Num: "03 / Artificial Intelligence",
         s3Title: "AI processing and conversational memory",
         s3p1: "When you use AI commands (chat, vision, OCR, transcription, summaries, assisted search, or AutoMod rule generation), the text, image, or media file you provide is temporarily transmitted to external processing providers:",
         s3l1: "<strong>AI providers:</strong> Google Gemini (and Gemma models) for text, vision, OCR, and media fallback; and Groq (Whisper) for audio/video transcription. When a query requires current information, public sources (Google News RSS and Wikipedia) may also be queried.",
         s3l2: "<strong>Short-term memory (10-minute TTL):</strong> recent conversation context (up to 10 turns) is stored temporarily in cache and database and automatically expires after <strong>10 minutes of inactivity</strong>, or immediately via <code>/ai askreset</code>.",
         s3l3: "<strong>Media files:</strong> audio or video files temporarily uploaded for transcription are automatically deleted once processing completes.",
         s3l4: "RedBot does NOT sell your conversations or use your content to train its own models.",
-        s4Num: "04 / Web dashboard & OAuth2",
         s4Title: "Authentication, sessions, and browser storage",
         s4l1: "<strong>Discord OAuth2:</strong> when signing in at redbot.me we request the <code>identify</code> and <code>guilds</code> scopes to display your profile (ID, username, and avatar) and verify which servers you can manage (Administrator or Manage Server).",
         s4l2: "<strong>Tokens & technical cookies:</strong> we issue a signed session token valid for <strong>24 hours</strong> stored in <code>localStorage</code> and/or a technical cookie (<code>redbot_session</code>), along with a temporary anti-CSRF cookie (<code>redbot_oauth_state</code>, 10 minutes) during sign-in and your language preference (<code>redbot_lang</code>). We do not use advertising cookies or marketing trackers.",
         s4l3: "<strong>API protection:</strong> IP addresses are processed temporarily in memory solely for rate limiting and abuse prevention.",
-        s5Num: "05 / Third parties",
         s5Title: "Data sharing and infrastructure",
         s5p1: "RedBot does not sell or rent personal data. To operate the service, strictly necessary data flows through:",
         s5l1: "Discord API (core bot platform and OAuth2 authentication).",
         s5l2: "MongoDB (service configuration and record storage) and Cloudflare (website hosting and API proxy).",
         s5l3: "AI providers (Google Gemini and Groq) and public platforms queried on demand (YouTube, Twitch, Kick, TikTok, Reddit, Wikipedia, Google News, and Lanyard API for public team profiles on the website).",
         s5l4: "Legal authorities strictly when required by law.",
-        s6Num: "06 / Control & deletion",
         s6Title: "Data retention and deletion",
         s6l1: "Temporary data expires automatically (AI sessions after 10 minutes, snipe cache after 30 minutes in RAM, and web dashboard sessions after 24 hours or upon logout).",
         s6l2: "Users can delete their own interactive data directly using /ai askreset, /community birthday, /util reminders, or by logging out on redbot.me.",
         s6l3: "Administrators can disable modules, delete configurations, or remove RedBot from their server at any time.",
-        s6l4: "To request complete deletion of data associated with your user or server ID (including image history or stored records), contact us on our <a href=\"https://discord.gg/sYdyS8Ez3s\" style=\"color: var(--signal-text);\">official Support Server</a>.",
+        s6l4: "To request complete deletion of data associated with your user or server ID (including image history or stored records), contact us on our <a href=\"https://discord.gg/sYdyS8Ez3s\">official Support Server</a>.",
         backHome: "Back to home"
       }
     };

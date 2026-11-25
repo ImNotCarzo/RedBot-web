@@ -76,7 +76,8 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -90,14 +91,12 @@
 
   <main id="contenido">
     <header class="page-header">
-      <p class="page-tag" data-i18n-html="tag"><strong>Ecosistema Discord</strong> · Análisis comparativo</p>
       <h1 class="page-title" data-i18n="title">Por qué miles de servidores migran a RedBot</h1>
       <p class="page-subtitle" data-i18n="subtitle">Compara funciones, costos y rendimiento. Sin muros de pago, sin suscripciones mensuales y con Inteligencia Artificial conversacional integrada.</p>
     </header>
 
     <div class="content">
     <div class="cl">
-      <p class="cl-num" data-i18n="s1Num">// 01 · RESUMEN GENERAL</p>
       <h2 data-i18n="s1Title">La alternativa moderna para comunidades en Discord</h2>
       <p data-i18n="s1Desc">Administrar un servidor no debería requerir pagar suscripciones de $12 dólares al mes ni lidiar con paneles web lentos que fallan en cada actualización. RedBot fue diseñado para ofrecer las herramientas que los administradores realmente necesitan: moderación inmediata, roles masivos y automáticos, y un conjunto completo de utilidades de Inteligencia Artificial.</p>
 
@@ -175,14 +174,12 @@
     </div>
 
     <div class="cl">
-      <p class="cl-num" data-i18n="s2Num">// 02 · COMPARATIVAS ESPECÍFICAS</p>
       <h2 data-i18n="s2Title">Elige una comparativa detallada</h2>
       <p data-i18n="s2Desc">Analiza el desglose completo de ventajas, comandos equivalentes y motivos para dar el salto según el bot que utilizas actualmente:</p>
 
       <div class="alt-grid">
         <a href="/vs/mee6" class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c1Tag">Alternativa Gratuita</span>
             <h3>RedBot vs MEE6</h3>
             <p data-i18n="c1Desc">Descubre cómo reemplazar MEE6 sin pagar suscripciones mensuales por logs, IA o roles automáticos.</p>
           </div>
@@ -191,7 +188,6 @@
 
         <a href="/vs/dyno" class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c2Tag">Rendimiento y Simplicidad</span>
             <h3>RedBot vs Dyno</h3>
             <p data-i18n="c2Desc">Moderación ágil y directa en Discord sin tener que navegar por un panel web saturado y lento.</p>
           </div>
@@ -200,7 +196,6 @@
 
         <a href="/vs/carl-bot" class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c3Tag">Roles y Autoroles</span>
             <h3>RedBot vs Carl-bot</h3>
             <p data-i18n="c3Desc">Gestión avanzada de roles, autoroles y comandos en español con sintaxis limpia e intuitiva.</p>
           </div>
@@ -209,7 +204,6 @@
 
         <a href="/vs/clyde" class="alt-card">
           <div>
-            <span class="alt-card-tag" data-i18n="c4Tag">Inteligencia Artificial</span>
             <h3 data-i18n="c4Title">Alternativa a Clyde AI</h3>
             <p data-i18n="c4Desc">El reemplazo ideal para el difunto Clyde de Discord: IA conversacional con memoria, transcripción y visión.</p>
           </div>
@@ -219,7 +213,6 @@
     </div>
 
     <div class="cl">
-      <p class="cl-num" data-i18n="s3Num">// 03 · CASOS DE USO FRECUENTES</p>
       <h2 data-i18n="s3Title">¿Qué problemas resuelve RedBot en tu servidor?</h2>
       <ul>
         <li data-i18n-html="u1"><strong>Reducción de costos a cero:</strong> Deja de pagar suscripciones mensuales para mantener activas las funciones básicas de moderación y bienvenida en tu servidor.</li>
@@ -233,9 +226,9 @@
       <p data-i18n-html="ctaBox"><strong>¿Listo para simplificar tu servidor?</strong> Añade RedBot con permisos de administrador en 30 segundos y comprueba la diferencia por ti mismo.</p>
     </div>
 
-    <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
+    <div class="cta-actions">
       <a class="btn btn-primary" href="https://redbot.me/invite" data-i18n="btnInvite">Añadir RedBot al Servidor</a>
-      <a class="btn btn-secondary" href="/commands" data-i18n="btnCommands">Explorar los 128 comandos</a>
+      <a class="text-link" href="/commands" data-i18n="btnCommands">Explorar los 128 comandos →</a>
     </div>
     </div>
   </main>
@@ -269,10 +262,8 @@
     window.REDBOT_I18N = {
       titleEn: "Comparisons & Alternatives - RedBot",
       en: {
-        tag: "<strong>Discord Ecosystem</strong> · Comparative analysis",
         title: "Why thousands of servers switch to RedBot",
         subtitle: "Compare features, pricing, and performance. No paywalls, no monthly subscriptions, and built-in conversational AI.",
-        s1Num: "// 01 · OVERVIEW",
         s1Title: "The modern alternative for Discord communities",
         s1Desc: "Running a server shouldn't require paying $12/month subscriptions or fighting slow web dashboards that break every update. RedBot delivers what admins actually need: instant moderation, mass & automatic roles, and a full AI utility suite.",
         thFeat: "Feature",
@@ -311,23 +302,17 @@
         yesReq1: "Yes (Required)",
         yesReq2: "Yes (Required)",
         yesReq3: "Yes (Required)",
-        s2Num: "// 02 · SPECIFIC COMPARISONS",
         s2Title: "Pick a detailed comparison",
         s2Desc: "Review the full breakdown of advantages, equivalent commands, and reasons to switch from the bot you currently use:",
-        c1Tag: "Free Alternative",
         c1Desc: "Learn how to replace MEE6 without paying monthly subscriptions for logs, AI, or automatic roles.",
         c1Link: "See MEE6 comparison →",
-        c2Tag: "Speed & Simplicity",
         c2Desc: "Fast, direct moderation in Discord without navigating a bloated, slow web dashboard.",
         c2Link: "See Dyno comparison →",
-        c3Tag: "Roles & Autoroles",
         c3Desc: "Advanced role management and autoroles with clean, intuitive command syntax.",
         c3Link: "See Carl-bot comparison →",
-        c4Tag: "Artificial Intelligence",
         c4Title: "Clyde AI Alternative",
         c4Desc: "The ideal replacement for Discord's retired Clyde: conversational AI with memory, transcription, and vision.",
         c4Link: "Explore RedBot AI →",
-        s3Num: "// 03 · COMMON USE CASES",
         s3Title: "What problems does RedBot solve for your server?",
         u1: "<strong>Cut costs to zero:</strong> Stop paying monthly subscriptions just to keep essential moderation and welcome tools active.",
         u2: "<strong>Anti-raid protection:</strong> With <code>.massban</code> you can ban up to 5 malicious accounts in a single message without delays.",
@@ -335,7 +320,7 @@
         u4: "<strong>Replace redundant bots:</strong> Instead of juggling 4–5 separate bots for AI, moderation, roles, and utilities, unify everything in one lightweight bot.",
         ctaBox: "<strong>Ready to simplify your server?</strong> Add RedBot with administrator permissions in 30 seconds and see the difference yourself.",
         btnInvite: "Add RedBot to Server",
-        btnCommands: "Explore all 128 commands"
+        btnCommands: "Explore all 128 commands →"
       }
     };
   </script>

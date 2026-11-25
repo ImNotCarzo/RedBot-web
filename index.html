@@ -44,108 +44,345 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
-    main { max-width: 1180px; margin: 0 auto; }
+    main { max-width: 100%; overflow-x: clip; }
 
-    /* HERO */
-    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding: 100px 48px 110px; }
-    .hero-kicker { display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: .92rem; color: var(--text-dim); font-weight: 500; margin-bottom: 22px; }
-    .hero-kicker strong { color: var(--signal-text); font-weight: 700; }
-    .hero-grid h1 { font-size: clamp(2.5rem, 4.6vw, 3.8rem); letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 24px; color: var(--text); }
-    .hero-desc { font-size: 1.05rem; color: var(--text-dim); line-height: 1.75; max-width: 480px; margin-bottom: 40px; }
-    .cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+    /* HERO MONUMENTAL + STAGE */
+    .hero-wrap {
+      position: relative;
+      margin-top: -69px;
+      padding: 132px 48px 88px;
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(ellipse 70% 52% at 50% 0%, rgba(201, 48, 44, 0.16), transparent 72%),
+        var(--ink);
+    }
 
-    /* DEMO */
-    .demo { background: #1a1b1e; border: 1px solid #2b2d31; box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45); font-family: 'gg sans', 'IBM Plex Sans', sans-serif; color: #dbdee1; }
-    .demo-header { background: #141518; border-bottom: 1px solid #2b2d31; min-height: 38px; padding: 0 18px; display: flex; align-items: center; gap: 8px; }
-    .demo-hash { font-family: 'IBM Plex Mono', monospace; color: #80848e; font-size: .95rem; font-weight: 700; }
-    .demo-channel { font-weight: 600; font-size: .88rem; color: #f2f3f5; }
-    .demo-header-sep { width: 1px; height: 14px; background: #2b2d31; margin: 0 4px; }
-    .demo-topic { font-size: .8rem; color: #949ba4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .demo-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+    .hero-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 75% 70% at 50% 25%, #000 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 25%, #000 30%, transparent 100%);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .hero-intro {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .hero-intro h1 {
+      max-width: 860px;
+      margin: 0 auto 20px;
+      font-size: clamp(2.65rem, 6vw, 4.75rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .hero-desc {
+      max-width: 52ch;
+      margin: 0 auto 30px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* STAGE DISCORD INTERACTIVO */
+    .stage {
+      background: #1a1b1e;
+      border: 1px solid #2b2d31;
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.55);
+      font-family: 'gg sans', 'IBM Plex Sans', sans-serif;
+      color: #dbdee1;
+      text-align: left;
+    }
+
+    .stage-bar {
+      background: #141518;
+      border-bottom: 1px solid #2b2d31;
+      padding: 0 16px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .stage-tabs {
+      display: flex;
+      align-items: stretch;
+      gap: 4px;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .stage-tab {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #949ba4;
+      min-height: 46px;
+      padding: 8px 14px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      touch-action: manipulation;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: color .15s var(--ease-out), border-color .15s var(--ease-out), background .15s var(--ease-out);
+    }
+
+    .stage-tab:hover {
+      color: #f2f3f5;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .stage-tab.active {
+      color: #ffffff;
+      border-bottom-color: var(--signal-text);
+    }
+
+    .stage-tab-hash {
+      color: #80848e;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+    }
+
+    .stage-tab.active .stage-tab-hash {
+      color: var(--signal-text);
+    }
+
+    .stage-server-name {
+      font-size: .82rem;
+      color: #949ba4;
+      font-weight: 500;
+    }
+
+    .stage-panel {
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .stage-panel[hidden] {
+      display: none;
+    }
+
     .demo-msg { display: flex; gap: 12px; align-items: flex-start; }
     .demo-msg-body { flex: 1; min-width: 0; }
-    .demo-avatar { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .demo-avatar { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .demo-avatar.user { background: #313338; }
     .demo-avatar.bot { background: transparent; }
     .demo-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .demo-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
+    .demo-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
     .demo-name { font-weight: 600; font-size: .95rem; color: #ffffff; }
-    .demo-app-tag { display: inline-flex; align-items: center; gap: 3px; background: #5865f2; color: #ffffff; font-size: .68rem; font-weight: 700; padding: 2px 5px 2px 4px; border-radius: 4px; letter-spacing: .3px; line-height: 1; }
+    .demo-app-tag { display: inline-flex; align-items: center; gap: 4px; background: #5865f2; color: #ffffff; font-size: .8125rem; font-weight: 700; padding: 2px 6px 2px 5px; border-radius: 4px; line-height: 1.1; }
     .demo-app-check { width: 13px; height: 13px; display: block; flex-shrink: 0; }
-    .demo-time { font-size: .73rem; color: #949ba4; }
-    .demo-cmd { font-size: .9rem; color: #dbdee1; line-height: 1.45; word-break: break-word; }
-    .demo-mention { background: rgba(88, 101, 242, .28); color: #c9cdfb; padding: 1px 4px; border-radius: 3px; font-weight: 500; }
-    .demo-reply { margin-top: 6px; background: #222327; border: 1px solid #2f3136; border-left: 4px solid #ff383d; border-radius: 6px; padding: 12px 14px; font-size: .9rem; color: #dbdee1; line-height: 1.5; }
+    .demo-time { font-size: .8125rem; color: #949ba4; }
+    .demo-cmd { font-size: .95rem; color: #dbdee1; line-height: 1.5; word-break: break-word; }
+    .demo-mention { background: rgba(88, 101, 242, .28); color: #c9cdfb; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+    .demo-reply { margin-top: 6px; background: #222327; border: 1px solid #2f3136; border-left: 4px solid var(--signal); border-radius: 6px; padding: 13px 16px; font-size: .94rem; color: #dbdee1; line-height: 1.55; }
     .demo-reply strong { color: #ffffff; font-weight: 700; }
+    .demo-reply-meta { margin-top: 6px; font-size: .84rem; color: #949ba4; }
 
-    /* STATS */
-    .stats { display: flex; flex-wrap: wrap; border: 1px solid var(--line); box-shadow: inset 0 2px 0 var(--signal); background: var(--surface); margin: 0 48px 100px; border-radius: 0; }
-    .stat { flex: 1; min-width: 130px; padding: 28px 24px; text-align: center; border-right: 1px solid var(--line); }
-    .stat:last-child { border-right: none; }
-    .stat-num { font-weight: 700; font-size: 1.85rem; color: var(--text); display: block; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
-    .stat-label { font-size: .75rem; color: var(--text-dim); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+    .stage-ticket-controls {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .stage-ticket-select {
+      min-height: 40px;
+      min-width: 220px;
+      background: #1e1f22;
+      border: 1px solid #3f4147;
+      border-radius: 4px;
+      color: #f2f3f5;
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: .9rem;
+      cursor: pointer;
+    }
+
+    .stage-ticket-select:focus-visible {
+      border-color: var(--signal-text);
+      outline: 2px solid var(--signal-text);
+      outline-offset: 2px;
+    }
+
+    .stage-ticket-live {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #313338;
+      font-size: .88rem;
+      color: #b5bac1;
+    }
+
+    .stage-ticket-live strong {
+      color: #ffffff;
+    }
+
+    /* BANDA EDITORIAL ASIMÉTRICA + MÉTRICAS */
+    .editorial-band {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 88px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 56px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .editorial-copy h2 {
+      font-size: var(--text-heading);
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .editorial-copy p {
+      font-size: var(--text-body);
+      color: var(--text-dim);
+      line-height: 1.68;
+      max-width: 46ch;
+      margin-bottom: 14px;
+    }
+
+    .stats-clean {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat-col {
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+    }
+
+    .stat-col:last-child {
+      border-right: none;
+    }
+
+    .stat-num {
+      font-weight: 700;
+      font-size: clamp(2rem, 3.2vw, 2.6rem);
+      color: var(--text);
+      display: block;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: var(--text-sm);
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
 
     /* SECCIONES */
-    .section { padding: 0 48px 110px; }
-    .section-head { margin-bottom: 48px; max-width: 620px; }
-    .section-head h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); letter-spacing: -1px; margin-bottom: 14px; }
-    .section-head p { color: var(--text-dim); font-size: 1rem; line-height: 1.6; }
+    .section { max-width: 1180px; margin: 0 auto; padding: 88px 48px 0; }
+    .section-last { padding-bottom: 96px; }
+    .section-head { margin-bottom: 40px; max-width: 58ch; }
+    .section-head h2 { font-size: var(--text-heading); letter-spacing: -0.025em; margin-bottom: 12px; }
+    .section-head p { color: var(--text-dim); font-size: var(--text-body); line-height: 1.65; }
 
     /* CARACTERISTICAS */
     .feature-list { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
     .feature-item { padding: 34px 34px 34px 0; border-bottom: 1px solid var(--line); }
     .feature-item:nth-child(odd) { padding-right: 40px; border-right: 1px solid var(--line); }
     .feature-item:nth-child(even) { padding-left: 40px; padding-right: 0; }
-    .feature-icon { width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--line-strong); color: var(--signal-text); margin-bottom: 16px; }
-    .feature-item h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--text); }
-    .feature-item p { font-size: .95rem; color: var(--text-dim); line-height: 1.65; }
-    .feature-links { margin-top: 28px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .feature-item h3 { font-size: 1.125rem; margin-bottom: 10px; color: var(--text); }
+    .feature-item p { font-size: var(--text-body); color: var(--text-dim); line-height: 1.65; max-width: 46ch; }
+    .feature-links { margin-top: 24px; }
 
     /* CATEGORIAS */
-    .cmd-categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-    .cat-card { background: var(--surface); padding: 24px 28px; text-decoration: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: background .15s var(--ease-out), box-shadow .15s var(--ease-out); }
+    .cmd-categories-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .cat-card { background: var(--surface); padding: 22px 26px; text-decoration: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: background .15s var(--ease-out), box-shadow .15s var(--ease-out); }
     .cat-card:hover, .cat-card:focus-visible { background: var(--surface-2); box-shadow: inset 3px 0 0 var(--signal-text); }
     .cat-card:active { background: var(--surface-3); }
-    .cat-card-title { font-weight: 700; color: var(--text); font-size: 1.05rem; }
-    .cat-card-meta { display: inline-flex; align-items: center; gap: 10px; }
-    .cat-card-count { font-family: 'IBM Plex Mono', monospace; font-size: .75rem; color: var(--text-mute); font-variant-numeric: tabular-nums; }
-    .cat-card-arrow { color: var(--text-mute); font-size: .95rem; transition: transform .15s var(--ease-out), color .15s; }
+    .cat-card-title { font-weight: 700; color: var(--text); font-size: 1.02rem; min-width: 0; }
+    .cat-card-meta { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; white-space: nowrap; }
+    .cat-card-count { font-size: var(--text-sm); color: var(--text-mute); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .cat-card-arrow { color: var(--text-mute); font-size: .95rem; transition: transform .15s var(--ease-out), color .15s var(--ease-out); }
     .cat-card:hover .cat-card-arrow, .cat-card:focus-visible .cat-card-arrow { color: var(--signal-text); transform: translateX(3px); }
-    .cmd-more { margin-top: 32px; }
+    .cmd-more { margin-top: 24px; }
 
     /* CTA FINAL */
-    .cta-final { text-align: center; padding: 90px 48px 110px; border-top: 1px solid var(--line); background: var(--surface); }
-    .cta-final h2 { font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -1px; margin-bottom: 18px; }
-    .cta-final p { color: var(--text-dim); margin-bottom: 36px; font-size: 1.1rem; }
+    .cta-final {
+      text-align: center;
+      padding: 88px 48px 96px;
+      border-top: 1px solid var(--line);
+      background:
+        radial-gradient(ellipse 60% 70% at 50% 100%, rgba(201, 48, 44, 0.1), transparent 72%),
+        var(--surface);
+    }
+    .cta-final h2 { font-size: clamp(2rem, 4vw, 2.75rem); letter-spacing: -0.03em; margin-bottom: 14px; }
+    .cta-final p { color: var(--text-dim); margin: 0 auto 30px; font-size: 1.05rem; max-width: 48ch; }
+    .cta-final-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
-    @media (max-width: 920px) {
-      .hero-grid { grid-template-columns: 1fr; padding: 70px 32px 80px; }
-      .stats { margin: 0 32px 80px; }
-      .section { padding: 0 32px 90px; }
+    @media (max-width: 960px) {
+      .hero-wrap { padding: 118px 32px 72px; }
+      .editorial-band { grid-template-columns: 1fr; padding: 64px 32px; gap: 36px; }
+      .section { padding: 72px 32px 0; }
+      .section-last { padding-bottom: 80px; }
     }
     @media (max-width: 768px) {
-      .hero-grid { padding: 50px 24px 60px; gap: 40px; }
-      .stats { flex-direction: column; margin: 0 24px 64px; }
-      .stat { border-right: none; border-bottom: 1px solid var(--line); }
-      .stat:last-child { border-bottom: none; }
-      .section { padding: 0 24px 72px; }
+      .hero-wrap { margin-top: -69px; padding: 112px 20px 56px; }
+      .hero-intro { margin-bottom: 32px; }
+      .stage-bar { padding: 0 8px; }
+      .stage-tabs { width: 100%; flex-wrap: wrap; overflow-x: visible; gap: 2px; }
+      .stage-tab { flex: 1 1 auto; justify-content: center; min-height: 44px; padding: 8px 10px; font-size: .84rem; }
+      .stage-panel { padding: 18px 16px; }
+      .stage-server-name { display: none; }
+      .editorial-band { padding: 56px 24px; }
+      .stats-clean { grid-template-columns: 1fr; }
+      .stat-col { border-right: none; border-bottom: 1px solid var(--line); padding: 20px 0; }
+      .stat-col:last-child { border-bottom: none; }
+      .section { padding: 64px 24px 0; }
+      .section-last { padding-bottom: 72px; }
       .feature-list { grid-template-columns: 1fr; }
-      .feature-item { padding: 28px 0; }
+      .feature-item { padding: 26px 0; }
       .feature-item:nth-child(odd) { border-right: none; padding-right: 0; }
       .feature-item:nth-child(even) { padding-left: 0; }
-      .cta-final { padding: 72px 24px 88px; }
-    }
-    @media (max-width: 520px) {
-      .demo-header-sep, .demo-topic { display: none; }
+      .cmd-categories-grid { grid-template-columns: 1fr; }
+      .cta-final { padding: 72px 24px 80px; }
     }
   </style>
 </head>
-<body>
+<body class="page-home">
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -158,113 +395,176 @@
   </nav>
 
   <main id="contenido">
-    <section class="hero-grid">
-      <div>
-        <p class="hero-kicker" data-nosnippet><strong data-i18n="heroKicker">RedBot, único y eterno.</strong></p>
-        <h1 data-nosnippet data-i18n="heroTitle">Administra tu servidor con total facilidad.</h1>
-        <p class="hero-desc" data-i18n="heroDesc">Imagina un bot simple e intuitivo. Sin configuraciones complejas y operativo desde la primera instalación.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://redbot.me/invite">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            <span data-i18n="ctaInvite">Autorizar en Servidor</span>
-          </a>
-          <a class="btn btn-secondary" href="https://discord.gg/sYdyS8Ez3s">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            <span data-i18n="ctaSupport">Servidor de Soporte</span>
-          </a>
+    <section class="hero-wrap">
+      <div class="hero-inner">
+        <div class="hero-intro">
+          <h1 data-nosnippet data-i18n="heroTitle">Administra tu servidor con total facilidad.</h1>
+          <p class="hero-desc" data-i18n="heroDesc">Moderación directa, IA multimodal sin límites y tickets con diseñador web en un solo bot gratuito para Discord.</p>
+          <div class="hero-cta-row">
+            <a class="btn btn-primary" href="https://redbot.me/invite" data-i18n="ctaInvite">Autorizar en Servidor</a>
+          </div>
         </div>
-      </div>
 
-      <div class="demo" aria-label="Registro de comandos UI" data-i18n-aria="demoAria">
-        <div class="demo-header" aria-hidden="true">
-          <span class="demo-hash">#</span>
-          <span class="demo-channel" data-i18n="demoChannel">general</span>
-          <span class="demo-header-sep"></span>
-          <span class="demo-topic" data-i18n="demoTopic">Moderación e IA sin configuración</span>
-        </div>
-        <div class="demo-body">
-          <div class="demo-msg">
-            <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" width="34" height="34" style="display: none;"></div>
-            <div class="demo-msg-body">
-              <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">6:43</span></div>
-              <span class="demo-cmd">.ban <span class="demo-mention">@Manlexo</span> spam</span>
+        <div class="stage" aria-label="Demostración interactiva de RedBot en Discord" data-i18n-aria="demoAria">
+          <div class="stage-bar">
+            <div class="stage-tabs" role="tablist" aria-label="Canales de demostración" data-i18n-aria="stageTabsAria">
+              <button type="button" class="stage-tab active" id="stageTabMod" role="tab" aria-selected="true" aria-controls="stagePanelMod" tabindex="0">
+                <span class="stage-tab-hash" aria-hidden="true">#</span>
+                <span data-i18n="tabMod">moderacion</span>
+              </button>
+              <button type="button" class="stage-tab" id="stageTabAi" role="tab" aria-selected="false" aria-controls="stagePanelAi" tabindex="-1">
+                <span class="stage-tab-hash" aria-hidden="true">#</span>
+                <span data-i18n="tabAi">inteligencia-ia</span>
+              </button>
+              <button type="button" class="stage-tab" id="stageTabTickets" role="tab" aria-selected="false" aria-controls="stagePanelTickets" tabindex="-1">
+                <span class="stage-tab-hash" aria-hidden="true">#</span>
+                <span data-i18n="tabTickets">tickets-v2</span>
+              </button>
+            </div>
+            <span class="stage-server-name" data-i18n="stageServer">Comunidad RedBot</span>
+          </div>
+
+          <div class="stage-panel" id="stagePanelMod" role="tabpanel" aria-labelledby="stageTabMod">
+            <div class="demo-msg">
+              <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" width="36" height="36" style="display: none;"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">18:42</span></div>
+                <span class="demo-cmd">.ban <span class="demo-mention">@Manlexo</span> spam</span>
+              </div>
+            </div>
+            <div class="demo-msg">
+              <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot" width="36" height="36"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M3 8.5L6.5 12L13.2 4.5"/></svg>APP</span><span class="demo-time">18:42</span></div>
+                <div class="demo-reply" data-i18n-html="demoReply1"><strong>Manlexo</strong> fue baneado · Caso registrado y auditado</div>
+              </div>
+            </div>
+            <div class="demo-msg">
+              <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" width="36" height="36" style="display: none;"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">18:43</span></div>
+                <span class="demo-cmd" data-i18n="demoAutomodCmd">/mod automod-ai Bloquear invitaciones de otros servidores</span>
+              </div>
+            </div>
+            <div class="demo-msg">
+              <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot" width="36" height="36"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M3 8.5L6.5 12L13.2 4.5"/></svg>APP</span><span class="demo-time">18:43</span></div>
+                <div class="demo-reply" data-i18n-html="demoAutomodReply"><strong>Regla AutoMod nativa creada</strong><div class="demo-reply-meta">Bloquea enlaces de invitación y envía alerta automática al canal de logs.</div></div>
+              </div>
             </div>
           </div>
-          <div class="demo-msg">
-            <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot" width="34" height="34"></div>
-            <div class="demo-msg-body">
-              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M3 8.5L6.5 12L13.2 4.5"/></svg>APP</span><span class="demo-time">6:43</span></div>
-              <div class="demo-reply" data-i18n-html="demoReply1"><strong>Manlexo</strong> fue baneado</div>
+
+          <div class="stage-panel" id="stagePanelAi" role="tabpanel" aria-labelledby="stageTabAi" hidden>
+            <div class="demo-msg">
+              <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" width="36" height="36" style="display: none;"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">16:07</span></div>
+                <span class="demo-cmd" data-i18n="demoCmd2">.ask explica en una línea para qué sirve /channel slowmode</span>
+              </div>
+            </div>
+            <div class="demo-msg">
+              <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot" width="36" height="36"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M3 8.5L6.5 12L13.2 4.5"/></svg>APP</span><span class="demo-time">16:07</span></div>
+                <div class="demo-reply" data-i18n="demoReply2">Limita cuántos mensajes puede enviar cada miembro por intervalo sin afectar a moderadores.</div>
+              </div>
+            </div>
+            <div class="demo-msg">
+              <div class="demo-avatar user"><img class="api-user-avatar" alt="Admin" width="36" height="36" style="display: none;"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">16:08</span></div>
+                <span class="demo-cmd" data-i18n="demoVoiceCmd">/ai transcribe nota-de-voz-reunion.ogg</span>
+              </div>
+            </div>
+            <div class="demo-msg">
+              <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot" width="36" height="36"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M3 8.5L6.5 12L13.2 4.5"/></svg>APP</span><span class="demo-time">16:08</span></div>
+                <div class="demo-reply" data-i18n-html="demoVoiceReply"><strong>Transcripción (0:14):</strong> «Chicos, movimos la reunión de staff a las 20:00 en voz.»</div>
+              </div>
             </div>
           </div>
-          <div class="demo-msg">
-            <div class="demo-avatar user"><img class="api-user-avatar" alt="Dev" width="34" height="34" style="display: none;"></div>
-            <div class="demo-msg-body">
-              <div class="demo-top"><span class="demo-name">carzo.</span><span class="demo-time">16:07</span></div>
-              <span class="demo-cmd" data-i18n="demoCmd2">.ask que se necesita para bailar la bamba</span>
-            </div>
-          </div>
-          <div class="demo-msg">
-            <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot" width="34" height="34"></div>
-            <div class="demo-msg-body">
-              <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M3 8.5L6.5 12L13.2 4.5"/></svg>APP</span><span class="demo-time">16:07</span></div>
-              <div class="demo-reply" data-i18n="demoReply2">Para bailar la bamba se necesita una poca de gracia</div>
+
+          <div class="stage-panel" id="stagePanelTickets" role="tabpanel" aria-labelledby="stageTabTickets" hidden>
+            <div class="demo-msg">
+              <div class="demo-avatar bot"><img src="/android-chrome-192x192.png" alt="RedBot" width="36" height="36"></div>
+              <div class="demo-msg-body">
+                <div class="demo-top"><span class="demo-name">RedBot</span><span class="demo-app-tag"><svg class="demo-app-check" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M3 8.5L6.5 12L13.2 4.5"/></svg>APP</span><span class="demo-time">19:15</span></div>
+                <div class="demo-reply">
+                  <strong data-i18n="demoTicketTitle">Soporte del Servidor · Components V2</strong>
+                  <div class="demo-reply-meta" data-i18n="demoTicketDesc">Selecciona una categoría para simular la apertura del ticket con enrutamiento por rol.</div>
+                  <div class="stage-ticket-controls">
+                    <select id="stageTicketSelect" class="stage-ticket-select" aria-label="Simular categoría de ticket" data-i18n-aria="demoTicketSelectAria">
+                      <option value="soporte" data-i18n="ticketOptSupport">Soporte General</option>
+                      <option value="reportes" data-i18n="ticketOptReports">Reportes</option>
+                      <option value="vip" data-i18n="ticketOptVip">Compras y VIP</option>
+                    </select>
+                    <a href="/tickets" class="text-link" data-i18n="demoTicketLink">Abrir diseñador completo →</a>
+                  </div>
+                  <div class="stage-ticket-live" id="stageTicketLive" role="status" aria-live="polite"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="stats" aria-label="Métricas del sistema" data-i18n-aria="statsAria">
-      <div class="stat"><span class="stat-num" id="stat-servers">120+</span><span class="stat-label" data-i18n="statServers">Servidores</span></div>
-      <div class="stat"><span class="stat-num" id="stat-users">145k</span><span class="stat-label" data-i18n="statUsers">Usuarios</span></div>
-      <div class="stat"><span class="stat-num" id="stat-commands">128</span><span class="stat-label" data-i18n="statCommands">Comandos</span></div>
-    </div>
+    <section class="editorial-band" aria-label="Alcance y comparativa" data-i18n-aria="statsAria">
+      <div class="editorial-copy">
+        <h2 data-i18n="bandTitle">Todo incluido gratis, sin suscripciones ni límites diarios</h2>
+        <p data-i18n="bandDesc">Logs pasivos, AutoMod con IA, roles automáticos, TagScript y tickets V2 disponibles desde la primera instalación, sin muros de pago ocultos.</p>
+        <a href="/vs" class="text-link" data-i18n="bandLink">Comparar frente a MEE6, Dyno y Carl-bot →</a>
+      </div>
+      <div class="stats-clean">
+        <div class="stat-col">
+          <span class="stat-num" id="stat-servers">120+</span>
+          <span class="stat-label" data-i18n="statServers">Servidores activos</span>
+        </div>
+        <div class="stat-col">
+          <span class="stat-num" id="stat-users">145k</span>
+          <span class="stat-label" data-i18n="statUsers">Usuarios protegidos</span>
+        </div>
+        <div class="stat-col">
+          <span class="stat-num" id="stat-commands">128</span>
+          <span class="stat-label" data-i18n="statCommands">Comandos en 10 categorías</span>
+        </div>
+      </div>
+    </section>
 
     <section class="section" id="features">
       <div class="section-head">
-        <h2 data-i18n="featHead">Arquitectura y Funciones</h2>
-        <p data-i18n="featSub">Herramientas construidas para ser sólidas y responder sin retrasos innecesarios.</p>
+        <h2 data-i18n="featHead">Arquitectura y funciones</h2>
+        <p data-i18n="featSub">Herramientas construidas para responder rápido en servidores activos y chats privados.</p>
       </div>
       <div class="feature-list">
         <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-          </div>
-          <h3 data-i18n="feat1Title">Memoria Conversacional</h3>
-          <p data-i18n="feat1Desc">Mantiene el estado y contexto de los hilos procesados mediante comandos de IA.</p>
+          <h3 data-i18n="feat1Title">Memoria conversacional</h3>
+          <p data-i18n="feat1Desc">Mantiene el estado y contexto de cada hilo hasta 10 turnos, además de usar las preguntas frecuentes que definas para tu servidor.</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          </div>
-          <h3 data-i18n="feat2Title">Sin límites de uso</h3>
-          <p data-i18n="feat2Desc">Consulta todo lo que quieras. La IA no tiene costo ni tope diario para tu servidor.</p>
+          <h3 data-i18n="feat2Title">IA multimodal sin API keys</h3>
+          <p data-i18n="feat2Desc">Consulta texto, analiza imágenes, extrae texto con OCR y transcribe notas de voz sin cuotas diarias ni configuraciones externas.</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
-          </div>
-          <h3 data-i18n="feat3Title">Infraestructura de Datos</h3>
-          <p data-i18n="feat3Desc">Registros de advertencias, sanciones y logs guardados en base de datos.</p>
+          <h3 data-i18n="feat3Title">Registros y casos persistentes</h3>
+          <p data-i18n="feat3Desc">Advertencias, sanciones, logs de auditoría y transcripciones exportables almacenados con integridad y baja latencia.</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          </div>
-          <h3 data-i18n="feat4Title">Autosuficiencia</h3>
-          <p data-i18n="feat4Desc">Sus comandos abarcan una amplia gama de campos sin requerir plugins externos.</p>
+          <h3 data-i18n="feat4Title">Directo en Discord o en la web</h3>
+          <p data-i18n="feat4Desc">Configura todo con comandos slash, prefijo rápido o menús contextuales, y diseña tus paneles de tickets desde el navegador.</p>
         </div>
       </div>
       <div class="feature-links">
-        <a class="btn btn-secondary" href="/ia" data-i18n="featLinkAi">Explorar Inteligencia Artificial →</a>
+        <a class="text-link" href="/ia" data-i18n="featLinkAi">Explorar suite de Inteligencia Artificial →</a>
       </div>
     </section>
 
-    <section class="section" id="comandos">
+    <section class="section section-last" id="comandos">
       <div class="section-head">
-        <h2 data-i18n="cmdHead">Directorio de Comandos</h2>
-        <p data-i18n="cmdSub">Selecciona una categoría para ver todos sus comandos.</p>
+        <h2 data-i18n="cmdHead">Directorio de comandos</h2>
+        <p data-i18n="cmdSub">Selecciona una categoría para consultar sus comandos, opciones y ejemplos.</p>
       </div>
       <div class="cmd-categories-grid" id="cmd-categories-grid">
         <a href="/commands?cat=utilidad" class="cat-card">
@@ -309,17 +609,17 @@
         </a>
       </div>
       <div class="cmd-more">
-        <a class="btn btn-secondary" href="/commands" data-i18n="cmdMore">Ver todos los comandos</a>
+        <a class="text-link" href="/commands" data-i18n="cmdMore">Ver los 128 comandos →</a>
       </div>
     </section>
 
     <section class="cta-final">
-      <h2 data-i18n="ctaFinalTitle">¿Listo para empezar?</h2>
-      <p data-i18n="ctaFinalDesc">Agrégalo al servidor y pruébalo con tu propia comunidad.</p>
-      <a class="btn btn-primary" href="https://redbot.me/invite">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-        <span data-i18n="ctaInvite">Autorizar en Servidor</span>
-      </a>
+      <h2 data-i18n="ctaFinalTitle">¿Listo para simplificar tu servidor?</h2>
+      <p data-i18n="ctaFinalDesc">Añádelo a Discord en segundos y pruébalo con tu propia comunidad.</p>
+      <div class="cta-final-actions">
+        <a class="btn btn-primary" href="https://redbot.me/invite" data-i18n="ctaInvite">Autorizar en Servidor</a>
+        <a class="text-link" href="https://discord.gg/sYdyS8Ez3s" data-i18n="ctaSupport">Unirse al servidor de soporte</a>
+      </div>
     </section>
   </main>
 
@@ -352,43 +652,121 @@
     window.REDBOT_I18N = {
       titleEn: "RedBot - Manage your Discord server effortlessly",
       en: {
-        heroKicker: "RedBot, unique and eternal.",
         heroTitle: "Manage your server with complete ease.",
-        heroDesc: "Imagine a simple, intuitive bot. Zero complex setup and ready from the very first install.",
+        heroDesc: "Direct moderation, unlimited multimodal AI, and a visual ticket designer in one free Discord bot.",
         ctaInvite: "Add to Server",
-        ctaSupport: "Support Server",
-        demoAria: "Command UI preview",
-        demoChannel: "general",
-        demoTopic: "Moderation & AI with zero setup",
-        demoReply1: "<strong>Manlexo</strong> was banned",
-        demoCmd2: ".ask explain quantum computing in one line",
-        demoReply2: "Quantum computers use qubits to explore many possibilities at once instead of one by one.",
-        statsAria: "System metrics",
-        statServers: "Servers",
-        statUsers: "Users",
-        statCommands: "Commands",
+        ctaSupport: "Join the support server",
+        demoAria: "Interactive RedBot Discord showcase",
+        stageTabsAria: "Demo channels",
+        tabMod: "moderation",
+        tabAi: "ai-suite",
+        tabTickets: "tickets-v2",
+        stageServer: "RedBot Community",
+        demoReply1: "<strong>Manlexo</strong> was banned · Case logged and audited",
+        demoAutomodCmd: "/mod automod-ai Block invite links from other servers",
+        demoAutomodReply: "<strong>Native AutoMod rule ready</strong><div class=\"demo-reply-meta\">Blocks external invite links and sends an automatic alert to your log channel.</div>",
+        demoCmd2: ".ask explain in one line what /channel slowmode does",
+        demoReply2: "Limits how often each member can send messages in the channel without slowing down moderators.",
+        demoVoiceCmd: "/ai transcribe staff-voice-note.ogg",
+        demoVoiceReply: "<strong>Transcript (0:14):</strong> \"Hey team, we moved today's staff sync to 20:00 in voice.\"",
+        demoTicketTitle: "Server Support · Components V2",
+        demoTicketDesc: "Pick a category to simulate opening a ticket routed to the assigned support role.",
+        demoTicketSelectAria: "Simulate ticket category",
+        ticketOptSupport: "General Support",
+        ticketOptReports: "Reports",
+        ticketOptVip: "Store & VIP",
+        demoTicketLink: "Open full designer →",
+        statsAria: "Reach and comparison",
+        bandTitle: "Everything free out of the box, zero paywalls",
+        bandDesc: "Audit logs, AI AutoMod, autoroles, TagScript automation, and V2 tickets unlocked from install with no daily caps.",
+        bandLink: "Compare against MEE6, Dyno & Carl-bot →",
+        statServers: "Active servers",
+        statUsers: "Protected users",
+        statCommands: "Commands in 10 categories",
         featHead: "Architecture & Features",
-        featSub: "Tools built to stay rock-solid and respond without unnecessary delays.",
-        feat1Title: "Conversational Memory",
-        feat1Desc: "Preserves state and thread context across AI commands.",
-        feat2Title: "No Usage Limits",
-        feat2Desc: "Ask as much as you want. Built-in AI has no fees or daily caps for your server.",
-        feat3Title: "Data Infrastructure",
-        feat3Desc: "Warnings, moderation actions, and audit logs stored safely in database.",
-        feat4Title: "All-in-One",
-        feat4Desc: "Commands covering moderation, roles, utilities, and AI with no external plugins required.",
+        featSub: "Built to respond fast across active communities and private chats.",
+        feat1Title: "Conversational memory",
+        feat1Desc: "Preserves thread context up to 10 turns and uses the server FAQ knowledge you configure.",
+        feat2Title: "Multimodal AI without API keys",
+        feat2Desc: "Ask questions, analyze images, extract text with OCR, and transcribe voice notes with no daily quotas.",
+        feat3Title: "Persistent logs and cases",
+        feat3Desc: "Warnings, sanctions, audit events, and exportable ticket transcripts stored cleanly with low latency.",
+        feat4Title: "Direct in Discord or on the web",
+        feat4Desc: "Run everything via slash commands, fast prefix triggers, or context menus, plus a visual ticket builder.",
         featLinkAi: "Explore AI Suite →",
         cmdHead: "Command Directory",
-        cmdSub: "Pick a category to browse all its commands.",
-        cmdMore: "View all commands",
-        ctaFinalTitle: "Ready to get started?",
-        ctaFinalDesc: "Add it to your server and try it with your own community."
+        cmdSub: "Pick a category to browse its commands, options, and examples.",
+        cmdMore: "Browse all 128 commands →",
+        ctaFinalTitle: "Ready to simplify your server?",
+        ctaFinalDesc: "Add RedBot to Discord in seconds and try it with your community."
       }
     };
   </script>
   <script src="/main.js"></script>
   <script>
     const { escapeHtml, fetchPublicApi, CATEGORY_LABELS } = window.RedBotUtils;
+
+    const STAGE_TICKET_SIM = {
+      es: {
+        soporte: "Ticket #0142 abierto · Categoría: Soporte General · Atiende @Equipo Soporte",
+        reportes: "Ticket #0143 abierto · Categoría: Reportes · Canal privado con @Moderadores",
+        vip: "Ticket #0144 abierto · Categoría: Compras y VIP · Enrutado a @Staff Tienda"
+      },
+      en: {
+        soporte: "Ticket #0142 opened · Category: General Support · Assigned to @Support Team",
+        reportes: "Ticket #0143 opened · Category: Reports · Private channel with @Moderators",
+        vip: "Ticket #0144 opened · Category: Store & VIP · Routed to @Store Staff"
+      }
+    };
+
+    function renderStageTicketSim() {
+      const sel = document.getElementById("stageTicketSelect");
+      const out = document.getElementById("stageTicketLive");
+      if (!sel || !out) return;
+      const lang = (window.RedBotI18n && window.RedBotI18n.getLang() === "en") ? "en" : "es";
+      const msg = (STAGE_TICKET_SIM[lang] && STAGE_TICKET_SIM[lang][sel.value]) || STAGE_TICKET_SIM.es.soporte;
+      out.innerHTML = `<strong>V2</strong> · ${escapeHtml(msg)}`;
+    }
+
+    function initStageTabs() {
+      const tabs = Array.from(document.querySelectorAll(".stage-tab"));
+      if (!tabs.length) return;
+
+      function activateStageTab(nextTab) {
+        tabs.forEach((tab) => {
+          const isCurrent = tab === nextTab;
+          tab.classList.toggle("active", isCurrent);
+          tab.setAttribute("aria-selected", String(isCurrent));
+          tab.setAttribute("tabindex", isCurrent ? "0" : "-1");
+          const panelId = tab.getAttribute("aria-controls");
+          const panel = panelId ? document.getElementById(panelId) : null;
+          if (panel) {
+            panel.hidden = !isCurrent;
+          }
+        });
+      }
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => activateStageTab(tab));
+        tab.addEventListener("keydown", (e) => {
+          let nextIdx = null;
+          if (e.key === "ArrowRight") nextIdx = (index + 1) % tabs.length;
+          else if (e.key === "ArrowLeft") nextIdx = (index - 1 + tabs.length) % tabs.length;
+          else if (e.key === "Home") nextIdx = 0;
+          else if (e.key === "End") nextIdx = tabs.length - 1;
+          if (nextIdx === null) return;
+          e.preventDefault();
+          activateStageTab(tabs[nextIdx]);
+          tabs[nextIdx].focus();
+        });
+      });
+
+      const ticketSelect = document.getElementById("stageTicketSelect");
+      if (ticketSelect) {
+        ticketSelect.addEventListener("change", renderStageTicketSim);
+      }
+      renderStageTicketSim();
+    }
 
     const FALLBACK_CATEGORIES = [
       { id: "utilidad", count: 15 },
@@ -507,10 +885,14 @@
       }
     }
 
-    document.addEventListener('redbot:langchange', renderCategoryCards);
+    document.addEventListener('redbot:langchange', () => {
+      renderCategoryCards();
+      renderStageTicketSim();
+    });
 
     // Inicializar cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
+      initStageTabs();
       renderCategoryCards();
       loadLiveStats();
       loadLiveCategories();

@@ -55,13 +55,13 @@
     .dash-featured {
       display: grid;
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
-      gap: 28px;
+      gap: 32px;
       align-items: stretch;
       background: var(--surface);
       border: 1px solid var(--line);
       box-shadow: inset 3px 0 0 var(--signal);
       padding: 32px;
-      margin-bottom: 48px;
+      margin-bottom: 52px;
     }
 
     .dash-featured-main {
@@ -71,63 +71,30 @@
       gap: 24px;
     }
 
-    .dash-featured-top {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .dash-card-icon {
-      width: 40px;
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--ink);
-      border: 1px solid var(--line-strong);
-      color: var(--signal-text);
-      flex-shrink: 0;
-    }
-
-    .dash-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: .72rem;
-      font-weight: 600;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      color: var(--signal-text);
-      background: var(--signal-wash);
-      border: 1px solid var(--signal-border);
-      padding: 4px 10px;
-    }
-
     .dash-featured-main h2 {
-      font-size: 1.55rem;
-      letter-spacing: -0.4px;
+      font-size: var(--text-heading);
+      letter-spacing: -0.025em;
       margin-bottom: 10px;
       color: var(--text);
     }
 
     .dash-featured-main p {
-      font-size: .95rem;
+      font-size: var(--text-body);
       color: var(--text-dim);
       line-height: 1.68;
-      max-width: 520px;
+      max-width: 52ch;
     }
 
     .dash-featured-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
     .dash-featured-specs {
-      background: var(--ink);
-      border: 1px solid var(--line);
-      padding: 20px 22px;
+      border-left: 1px solid var(--line);
+      padding-left: 28px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -154,27 +121,33 @@
     }
 
     .dash-spec-title {
-      font-size: .92rem;
+      font-size: .95rem;
       font-weight: 600;
       color: var(--text);
       margin-bottom: 3px;
     }
 
     .dash-spec-desc {
-      font-size: .83rem;
+      font-size: var(--text-sm);
       color: var(--text-dim);
       line-height: 1.5;
     }
 
     .dash-discord-head {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
+    }
+
+    .dash-discord-head h2 {
+      font-size: var(--text-heading);
+      letter-spacing: -0.025em;
+      margin-bottom: 8px;
     }
 
     .dash-discord-sub {
-      font-size: .92rem;
+      font-size: var(--text-body);
       color: var(--text-dim);
       line-height: 1.6;
-      max-width: 620px;
+      max-width: 60ch;
     }
 
     .dash-quick-grid {
@@ -186,7 +159,7 @@
     .dash-quick-card {
       background: var(--surface);
       border: 1px solid var(--line);
-      padding: 20px;
+      padding: 22px;
       text-decoration: none;
       color: inherit;
       display: flex;
@@ -207,22 +180,12 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .dash-quick-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: .7rem;
-      font-weight: 600;
-      color: var(--text-mute);
-      border: 1px solid var(--line);
-      padding: 2px 6px;
-      text-transform: uppercase;
-      letter-spacing: .4px;
+      margin-bottom: 8px;
     }
 
     .dash-card-cta-arrow {
       color: var(--text-mute);
+      flex-shrink: 0;
       transition: transform .15s var(--ease-out), color .15s var(--ease-out);
     }
 
@@ -233,20 +196,19 @@
     }
 
     .dash-quick-card h3 {
-      font-size: 1.02rem;
-      margin-bottom: 6px;
+      font-size: 1.05rem;
       color: var(--text);
     }
 
     .dash-quick-card p {
-      font-size: .85rem;
+      font-size: .88rem;
       color: var(--text-dim);
       line-height: 1.55;
     }
 
     .dash-quick-code {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: .78rem;
+      font-size: .8125rem;
       color: var(--text);
       background: var(--ink);
       border: 1px solid var(--line-strong);
@@ -258,6 +220,13 @@
       .dash-featured {
         grid-template-columns: 1fr;
         padding: 24px;
+        gap: 24px;
+      }
+      .dash-featured-specs {
+        border-left: none;
+        border-top: 1px solid var(--line);
+        padding-left: 0;
+        padding-top: 22px;
       }
     }
 
@@ -276,7 +245,8 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -291,7 +261,6 @@
   <main id="contenido" class="dash-wrap">
     <header class="dash-head">
       <div>
-        <p class="page-tag" data-i18n-html="kicker"><strong>RedBot</strong> · Panel de control</p>
         <h1 data-i18n="title">Dashboard</h1>
         <p class="dash-subtitle" data-i18n="subtitle">Selecciona un módulo para configurar y administrar las herramientas de RedBot directamente desde la web.</p>
       </div>
@@ -300,18 +269,12 @@
     <section class="dash-featured" aria-labelledby="dash-tickets-heading">
       <div class="dash-featured-main">
         <div>
-          <div class="dash-featured-top">
-            <span class="dash-card-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path><path d="M13 5v2"></path><path d="M13 17v2"></path><path d="M13 11v2"></path></svg>
-            </span>
-            <span class="dash-badge" data-i18n="ticketsBadge">MÓDULO WEB ACTIVO</span>
-          </div>
-          <h2 id="dash-tickets-heading" data-i18n="ticketsTitle">Tickets</h2>
+          <h2 id="dash-tickets-heading" data-i18n="ticketsTitle">Panel web de Tickets</h2>
           <p data-i18n="ticketsDesc">Configura categorías, canales de logs, rol de soporte y diseña paneles de apertura con botón o menú desplegable para publicarlos en tu servidor.</p>
         </div>
         <div class="dash-featured-actions">
           <a href="/tickets" class="btn btn-primary" data-i18n-html="ticketsBtn">Abrir panel de Tickets <span aria-hidden="true">→</span></a>
-          <a href="/commands?cat=tickets" class="btn btn-secondary" data-i18n="ticketsCmdBtn">Ver comandos</a>
+          <a href="/commands?cat=tickets" class="text-link" data-i18n="ticketsCmdBtn">Ver comandos de tickets</a>
         </div>
       </div>
 
@@ -333,7 +296,7 @@
         <div class="dash-spec-item">
           <svg class="dash-spec-icon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
           <div>
-            <div class="dash-spec-title" data-i18n="spec3Title">Logs y Transcripciones .html/.txt</div>
+            <div class="dash-spec-title" data-i18n="spec3Title">Logs y transcripciones .html/.txt</div>
             <div class="dash-spec-desc" data-i18n="spec3Desc">Exportación automática del historial completo directo al canal de registros del servidor.</div>
           </div>
         </div>
@@ -342,7 +305,7 @@
 
     <section aria-labelledby="dash-discord-heading">
       <div class="dash-discord-head">
-        <p class="cl-num" id="dash-discord-heading" data-i18n="discordTag">// CONFIGURACIÓN DIRECTA EN DISCORD</p>
+        <h2 id="dash-discord-heading" data-i18n="discordTag">Configuración directa en Discord</h2>
         <p class="dash-discord-sub" data-i18n="discordSub">El resto de sistemas del servidor se configuran directo en Discord con menús nativos y comandos sin fricción.</p>
       </div>
 
@@ -350,10 +313,9 @@
         <a href="/commands?cat=servidor" class="dash-quick-card">
           <div>
             <div class="dash-quick-top">
-              <span class="dash-quick-badge" data-i18n="inDiscordBadge">EN DISCORD</span>
+              <h3 data-i18n="q1Title">Servidor</h3>
               <span class="dash-card-cta-arrow" aria-hidden="true">→</span>
             </div>
-            <h3 data-i18n="q1Title">Servidor</h3>
             <p data-i18n="q1Desc">Prefijo, idioma, contexto FAQ para la IA y personalización de perfil.</p>
           </div>
           <code class="dash-quick-code">/server setup</code>
@@ -362,10 +324,9 @@
         <a href="/commands?cat=moderacion" class="dash-quick-card">
           <div>
             <div class="dash-quick-top">
-              <span class="dash-quick-badge" data-i18n="inDiscordBadge">EN DISCORD</span>
+              <h3 data-i18n="q2Title">AutoMod con IA</h3>
               <span class="dash-card-cta-arrow" aria-hidden="true">→</span>
             </div>
-            <h3 data-i18n="q2Title">AutoMod con IA</h3>
             <p data-i18n="q2Desc">Crea reglas nativas de Discord AutoMod desde lenguaje natural y configura logs.</p>
           </div>
           <code class="dash-quick-code">/mod automod-ai</code>
@@ -374,10 +335,9 @@
         <a href="/commands?cat=roles" class="dash-quick-card">
           <div>
             <div class="dash-quick-top">
-              <span class="dash-quick-badge" data-i18n="inDiscordBadge">EN DISCORD</span>
+              <h3 data-i18n="q3Title">Roles y reacciones</h3>
               <span class="dash-card-cta-arrow" aria-hidden="true">→</span>
             </div>
-            <h3 data-i18n="q3Title">Roles y Reacciones</h3>
             <p data-i18n="q3Desc">Paneles con botones o emojis, roles automáticos al entrar y roles por voz.</p>
           </div>
           <code class="dash-quick-code">/role reaction</code>
@@ -386,10 +346,9 @@
         <a href="/commands?cat=automatizacion" class="dash-quick-card">
           <div>
             <div class="dash-quick-top">
-              <span class="dash-quick-badge" data-i18n="inDiscordBadge">EN DISCORD</span>
+              <h3 data-i18n="q4Title">Automatización y feeds</h3>
               <span class="dash-card-cta-arrow" aria-hidden="true">→</span>
             </div>
-            <h3 data-i18n="q4Title">Automatización y Feeds</h3>
             <p data-i18n="q4Desc">Comandos custom TagScript, embeds, temporizadores y alertas sociales.</p>
           </div>
           <code class="dash-quick-code">/auto · /feeds</code>
@@ -427,23 +386,20 @@
     window.REDBOT_I18N = {
       titleEn: "RedBot - Dashboard",
       en: {
-        kicker: "<strong>RedBot</strong> · Control Panel",
         title: "Dashboard",
         subtitle: "Choose a module to configure and manage RedBot tools directly from the web.",
-        ticketsBadge: "ACTIVE WEB MODULE",
-        ticketsTitle: "Tickets",
+        ticketsTitle: "Tickets web panel",
         ticketsDesc: "Configure categories, log channels, support role, and design button or dropdown opening panels to publish in your server.",
         ticketsBtn: 'Open Tickets Panel <span aria-hidden="true">→</span>',
-        ticketsCmdBtn: "View commands",
+        ticketsCmdBtn: "View ticket commands",
         spec1Title: "Discord Components V2",
         spec1Desc: "Red button or dropdown menu panel supporting up to 25 categories and per-section roles.",
         spec2Title: "1:1 Live Preview",
         spec2Desc: "Simulate both the opening panel and inside-ticket view in real time before publishing.",
         spec3Title: "Logs & .html/.txt Transcripts",
         spec3Desc: "Automatic export of complete conversation history straight to your server's log channel.",
-        discordTag: "// DIRECT IN-DISCORD SETUP",
+        discordTag: "Direct in-Discord setup",
         discordSub: "All remaining server systems are configured right inside Discord with native menus and zero friction.",
-        inDiscordBadge: "IN DISCORD",
         q1Title: "Server",
         q1Desc: "Prefix, language, AI server FAQ context, and per-guild bot profile.",
         q2Title: "AI AutoMod",

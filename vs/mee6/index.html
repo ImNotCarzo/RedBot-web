@@ -80,7 +80,8 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -94,14 +95,13 @@
 
   <main id="contenido">
     <header class="page-header">
-      <p class="page-tag" data-i18n-html="tag"><a href="/vs" style="color: inherit; text-decoration: none;">Comparativas</a> · <strong>RedBot vs MEE6</strong></p>
+      <a class="breadcrumb-back" href="/vs" data-i18n="backVs">← Comparativas</a>
       <h1 class="page-title" data-i18n="title">La mejor alternativa gratuita a MEE6 en 2026</h1>
       <p class="page-subtitle" data-i18n="subtitle">Modera tu servidor con total potencia, asigna roles automáticos y aprovecha herramientas de IA sin pagar los $11.99 dólares mensuales de MEE6 Premium.</p>
     </header>
 
     <div class="content">
     <div class="cl">
-      <p class="cl-num" data-i18n="s1Num">// 01 · EL PROBLEMA CON MEE6</p>
       <h2 data-i18n="s1Title">¿Por qué los administradores están abandonando MEE6?</h2>
       <p data-i18n-html="s1p1">Durante años, MEE6 fue uno de los bots más populares en Discord. Sin embargo, con el paso del tiempo comenzó a limitar severamente su versión gratuita: funciones básicas como los registros de auditoría (logs de moderación), la música, la asignación automática de múltiples roles y los comandos de IA han sido bloqueados tras muros de pago que pueden costar hasta <strong>$11.99 USD al mes</strong> o más de $89 USD por servidor.</p>
       <p data-i18n-html="s1p2">Para comunidades pequeñas, creadores de contenido, streamers o servidores de amigos, pagar una mensualidad recurrente por herramientas que deberían ser estándar simplemente no tiene sentido. Aquí es donde <strong>RedBot</strong> destaca como la alternativa directa y definitiva.</p>
@@ -183,7 +183,6 @@
     </div>
 
     <div class="cl">
-      <p class="cl-num" data-i18n="s2Num">// 02 · VENTAJAS CLAVE DE REDBOT</p>
       <h2 data-i18n="s2Title">¿Por qué dar el salto de MEE6 a RedBot?</h2>
       
       <h3 data-i18n="v1h">1. Cero Paywalls, Cero Sorpresas</h3>
@@ -200,7 +199,6 @@
     </div>
 
     <div class="cl">
-      <p class="cl-num" data-i18n="s3Num">// 03 · GUÍA DE MIGRACIÓN</p>
       <h2 data-i18n="s3Title">Cómo migrar de MEE6 a RedBot en 3 pasos</h2>
 
       <div class="steps-list">
@@ -208,7 +206,7 @@
           <div class="step-num">1</div>
           <div class="step-content">
             <h4 data-i18n="st1h">Añade RedBot a tu servidor</h4>
-            <p data-i18n-html="st1p">Haz clic en <a href="https://redbot.me/invite" style="color: var(--signal-text); font-weight: 600;">Invitar a RedBot</a> y selecciona tu servidor. Asegúrate de otorgarle permisos de Administrador para gestionar roles y canales.</p>
+            <p data-i18n-html="st1p">Haz clic en <a href="https://redbot.me/invite">Invitar a RedBot</a> y selecciona tu servidor. Asegúrate de otorgarle permisos de Administrador para gestionar roles y canales.</p>
           </div>
         </div>
 
@@ -233,7 +231,6 @@
     </div>
 
     <div class="cl">
-      <p class="cl-num" data-i18n="s4Num">// 04 · PREGUNTAS FRECUENTES (FAQ)</p>
       <h2 data-i18n="s4Title">Preguntas Frecuentes sobre el cambio de MEE6 a RedBot</h2>
 
       <div class="faq-grid">
@@ -263,9 +260,9 @@
       <p data-i18n-html="ctaBox"><strong>Ahorra más de $140 USD al año por servidor.</strong> Pásate a RedBot hoy y disfruta de una moderación limpia, veloz y sin límites.</p>
     </div>
 
-    <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
+    <div class="cta-actions">
       <a class="btn btn-primary" href="https://redbot.me/invite" data-i18n="btnInvite">Añadir RedBot a Discord</a>
-      <a class="btn btn-secondary" href="/commands" data-i18n="btnCommands">Ver lista de comandos</a>
+      <a class="text-link" href="/commands" data-i18n="btnCommands">Ver lista de comandos →</a>
     </div>
     </div>
   </main>
@@ -299,10 +296,9 @@
     window.REDBOT_I18N = {
       titleEn: "RedBot vs MEE6: The Best Free MEE6 Alternative for Discord",
       en: {
-        tag: '<a href="/vs" style="color: inherit; text-decoration: none;">Compare</a> · <strong>RedBot vs MEE6</strong>',
+        backVs: "← Comparisons",
         title: "The best free alternative to MEE6 in 2026",
         subtitle: "Moderate your server at full power, assign automatic roles, and use built-in AI without paying $11.99/month for MEE6 Premium.",
-        s1Num: "// 01 · THE PROBLEM WITH MEE6",
         s1Title: "Why admins are leaving MEE6",
         s1p1: "For years, MEE6 was one of the most popular Discord bots. Over time, however, its free tier was heavily stripped down: basic features like audit logs, multiple autoroles, and AI commands were locked behind paywalls up to <strong>$11.99/month</strong> or $89+ per server.",
         s1p2: "For growing communities, creators, streamers, or friend servers, paying a recurring subscription for standard tools makes no sense. That's where <strong>RedBot</strong> stands out as a direct, free replacement.",
@@ -348,7 +344,6 @@
         r10Red: '<span class="check-icon">✔</span> Native Bilingual (ES/EN)',
         enFirst1: "English primary",
         enFirst2: "English primary",
-        s2Num: "// 02 · KEY ADVANTAGES OF REDBOT",
         s2Title: "Why make the jump from MEE6 to RedBot?",
         v1h: "1. Zero Paywalls, Zero Surprises",
         v1p: "Every moderation tool, warning log, role command, and AI utility is unlocked the moment you authorize the bot. No upgrade prompts or locked screens.",
@@ -358,16 +353,14 @@
         v3p: "MEE6 forces you into a slow web dashboard that often desyncs. With RedBot, everything runs directly inside Discord via slash commands (<code>/</code>) and fast prefix commands (<code>.</code>), with an optional web dashboard at <code>redbot.me/dashboard</code>.",
         v4h: "4. Built for bilingual communities",
         v4p: "Clear messages, embeds, and automatic language detection in Spanish and English right out of the box.",
-        s3Num: "// 03 · MIGRATION GUIDE",
         s3Title: "How to switch from MEE6 to RedBot in 3 steps",
         st1h: "Add RedBot to your server",
-        st1p: 'Click <a href="https://redbot.me/invite" style="color: var(--signal-text); font-weight: 600;">Invite RedBot</a> and select your server. Grant Administrator permissions so it can manage roles and channels.',
+        st1p: 'Click <a href="https://redbot.me/invite">Invite RedBot</a> and select your server. Grant Administrator permissions so it can manage roles and channels.',
         st2h: "Set your auto-role and log channel",
         st2p1: "In any text channel, run:",
         st2p2: "<code>.rolejoin @Member</code> to assign a join role.<br><code>.setlogs #mod-logs</code> to enable automatic moderation logs.",
         st3h: "Remove or disable MEE6",
         st3p: "Kick MEE6 or revoke its permissions so welcome messages and notifications don't duplicate. Done. Your server is fully set up at zero cost.",
-        s4Num: "// 04 · FREQUENTLY ASKED QUESTIONS",
         s4Title: "FAQ about switching from MEE6 to RedBot",
         q1: "Will RedBot charge in the future for features that are free today?",
         a1: "No. RedBot's core philosophy is keeping essential moderation, administration, roles, and AI tools free and accessible without abusive subscriptions.",
@@ -379,7 +372,7 @@
         a4: "RedBot integrates thread-memory chat, computer vision, and voice transcription without hidden daily quotas.",
         ctaBox: "<strong>Save $140+ USD per year per server.</strong> Switch to RedBot today for clean, fast, unlimited moderation.",
         btnInvite: "Add RedBot to Discord",
-        btnCommands: "View command list"
+        btnCommands: "View command list →"
       }
     };
   </script>

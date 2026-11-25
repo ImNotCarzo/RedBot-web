@@ -45,6 +45,11 @@
     .auth-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
     .guild-select-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .guild-controls-hidden { display: none; }
+    .guild-select-field { min-width: 220px; }
+    .is-hidden-field { display: none; }
+    .cat-count-wrap { font-size: .85rem; color: var(--text-dim); }
+    .dc-select-empty { padding: 10px 12px; font-size: .82rem; color: #949ba4; }
     .stats-strip { display: inline-flex; gap: 1px; background: var(--line); border: 1px solid var(--line); }
     .stat-mini { background: var(--ink); padding: 8px 14px; display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; }
     .stat-mini strong { color: var(--text); font-size: .95rem; font-variant-numeric: tabular-nums; }
@@ -68,7 +73,7 @@
     .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
     .field:last-child { margin-bottom: 0; }
     .field.full { grid-column: 1 / -1; }
-    .field label { font-size: .8rem; font-family: 'IBM Plex Mono', monospace; color: var(--text-dim); text-transform: uppercase; letter-spacing: .4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .field label { font-size: .84rem; font-weight: 500; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .field-hint { font-size: .78rem; color: var(--text-mute); line-height: 1.45; }
     #welcomeCounter, #catCountNum { font-variant-numeric: tabular-nums; }
 
@@ -128,7 +133,7 @@
     .preview-sticky { position: sticky; top: 88px; }
     .preview-shell { background: var(--surface); border: 1px solid var(--line); padding: 20px; }
     .preview-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-    .preview-label { font-family: 'IBM Plex Mono', monospace; font-size: .75rem; color: var(--text-mute); letter-spacing: .5px; text-transform: uppercase; }
+    .preview-label { font-family: 'IBM Plex Mono', monospace; font-size: .8125rem; color: var(--text-mute); font-weight: 500; }
     .preview-tabs { display: inline-flex; border: 1px solid var(--line-strong); background: var(--ink); }
     .preview-tab { background: transparent; border: none; color: var(--text-dim); min-height: 38px; padding: 6px 12px; display: inline-flex; align-items: center; font-family: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; touch-action: manipulation; border-right: 1px solid var(--line-strong); }
     .preview-tab:last-child { border-right: none; }
@@ -162,8 +167,8 @@
     .dc-select-opt:last-child { border-bottom: none; }
     .dc-select-opt:hover { background: #2b2d31; }
     .dc-select-opt-emoji { font-size: 1rem; line-height: 1.25; flex-shrink: 0; margin-top: 1px; }
-    .dc-select-opt-title { font-size: .86rem; font-weight: 600; color: #ffffff; }
-    .dc-select-opt-desc { font-size: .76rem; color: #949ba4; margin-top: 2px; }
+    .dc-select-opt-title { display: block; font-size: .86rem; font-weight: 600; color: #ffffff; }
+    .dc-select-opt-desc { display: block; font-size: .76rem; color: #949ba4; margin-top: 2px; }
 
     .dc-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
     .dc-btn { border: none; border-radius: 4px; padding: 7px 14px; font-family: inherit; font-size: .84rem; font-weight: 600; cursor: pointer; color: #fff; }
@@ -205,7 +210,7 @@
         border-top: 1px solid var(--line-strong);
         box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.5);
       }
-      .mobile-preview-meta { font-family: 'IBM Plex Mono', monospace; font-size: .74rem; color: var(--text-dim); letter-spacing: .4px; text-transform: uppercase; }
+      .mobile-preview-meta { font-family: 'IBM Plex Mono', monospace; font-size: .8125rem; color: var(--text-dim); }
     }
     @media (max-width: 1024px), (pointer: coarse) {
       .ctrl-input, .ctrl-select, .ctrl-textarea, .preview-cat-select { font-size: 1rem; }
@@ -228,7 +233,8 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -261,8 +267,8 @@
         </div>
       </div>
       <div class="auth-right">
-        <div class="guild-select-wrap" id="guildControls" style="display: none;">
-          <select id="guildSelect" class="ctrl-select" style="min-width: 220px;" aria-label="Seleccionar servidor" data-i18n-aria="guildSelectAria"></select>
+        <div class="guild-select-wrap guild-controls-hidden" id="guildControls">
+          <select id="guildSelect" class="ctrl-select guild-select-field" aria-label="Seleccionar servidor" data-i18n-aria="guildSelectAria"></select>
           <div class="stats-strip" id="statsStrip">
             <div class="stat-mini"><strong id="statOpen">0</strong><span data-i18n="statOpen">abiertos</span></div>
             <div class="stat-mini"><strong id="statClosed">0</strong><span data-i18n="statClosed">cerrados</span></div>
@@ -356,11 +362,11 @@
               <label for="panelPlaceholder" data-i18n="lblPlaceholder">Placeholder del menú</label>
               <input type="text" id="panelPlaceholder" class="ctrl-input" maxlength="100">
             </div>
-            <div class="field" id="buttonLabelField" style="display: none;">
+            <div class="field is-hidden-field" id="buttonLabelField">
               <label for="panelButtonLabel" data-i18n="lblBtnLabel">Texto del botón rojo</label>
               <input type="text" id="panelButtonLabel" class="ctrl-input" maxlength="80">
             </div>
-            <div class="field" id="buttonCatField" style="display: none;">
+            <div class="field is-hidden-field" id="buttonCatField">
               <label for="panelButtonCat" data-i18n="lblBtnCat">Categoría / Motivo</label>
               <input type="text" id="panelButtonCat" class="ctrl-input" maxlength="40" value="General">
             </div>
@@ -372,7 +378,7 @@
 
           <div id="menuCategoriesSection">
             <div class="cat-toolbar">
-              <span class="mono" style="font-size: .85rem; color: var(--text-dim);">
+              <span class="mono cat-count-wrap">
                 <span data-i18n="catCountLabel">Categorías del menú:</span> <strong id="catCountNum">0</strong>/25
               </span>
               <div class="cat-toolbar-actions">
@@ -413,7 +419,7 @@
       <aside id="previewAside" class="preview-sticky" aria-label="Vista previa en vivo de Discord" data-i18n-aria="previewAsideAria">
         <div class="preview-shell">
           <div class="preview-top">
-            <span class="preview-label" data-i18n="previewLabel">VISTA PREVIA · DISCORD V2</span>
+            <span class="preview-label" data-i18n="previewLabel">Vista previa · Discord V2</span>
             <div class="preview-tabs" role="tablist" aria-label="Vista de previsualización" data-i18n-aria="previewTabsAria">
               <button type="button" class="preview-tab active" id="tabPanelPreview" role="tab" aria-selected="true" aria-controls="previewPanelView" tabindex="0" data-i18n="tabPanel">Panel de apertura</button>
               <button type="button" class="preview-tab" id="tabTicketPreview" role="tab" aria-selected="false" aria-controls="previewTicketView" tabindex="-1" data-i18n="tabTicket">Dentro del ticket</button>
@@ -434,7 +440,7 @@
             <div id="previewPanelView" class="dc-v2-card" role="tabpanel" aria-labelledby="tabPanelPreview"></div>
 
             <!-- PREVIEW TICKET CONTROL -->
-            <div id="previewTicketView" class="dc-v2-card" role="tabpanel" aria-labelledby="tabTicketPreview" style="display: none;" hidden></div>
+            <div id="previewTicketView" class="dc-v2-card" role="tabpanel" aria-labelledby="tabTicketPreview" hidden></div>
           </div>
 
           <div class="ticket-sim-bar">
@@ -446,7 +452,7 @@
     </div>
 
     <div class="mobile-preview-bar" id="mobilePreviewBar" role="region" aria-label="Acceso rápido a vista previa" data-i18n-aria="mobilePreviewRegionAria">
-      <span class="mobile-preview-meta" data-i18n="previewLabel">VISTA PREVIA · DISCORD V2</span>
+      <span class="mobile-preview-meta" data-i18n="previewLabel">Vista previa · Discord V2</span>
       <button type="button" id="jumpPreviewBtn" class="btn btn-secondary btn-sm" data-i18n="mobilePreviewBtn">Ver vista previa</button>
     </div>
   </main>
@@ -522,7 +528,7 @@
         applyImportBtn: "Apply text",
         publishBtn: "Publish Panel to Discord",
         copySetupBtn: "Copy /tickets setup format",
-        previewLabel: "LIVE PREVIEW · DISCORD V2",
+        previewLabel: "Live preview · Discord V2",
         tabPanel: "Opening panel",
         tabTicket: "Inside ticket",
         dcTime: "Today at 12:00",
@@ -1284,8 +1290,8 @@
                 <button type="button" class="dc-select-opt" data-opt-id="${escapeHtml(id)}">
                   ${c.emoji ? `<span class="dc-select-opt-emoji">${renderEmojiHtml(c.emoji)}</span>` : ''}
                   <span>
-                    <span class="dc-select-opt-title" style="display:block">${escapeHtml(c.label.trim())}</span>
-                    ${c.description ? `<span class="dc-select-opt-desc" style="display:block">${escapeHtml(c.description.trim())}</span>` : ''}
+                    <span class="dc-select-opt-title">${escapeHtml(c.label.trim())}</span>
+                    ${c.description ? `<span class="dc-select-opt-desc">${escapeHtml(c.description.trim())}</span>` : ''}
                   </span>
                 </button>
               `;
@@ -1302,7 +1308,7 @@
                 <span>▾</span>
               </button>
               <div class="dc-select-menu${state.previewMenuOpen ? ' open' : ''}" id="dcSelectDropdown">
-                ${menuOptsHtml || `<div style="padding:10px 12px;font-size:.82rem;color:#949ba4;">${escapeHtml(t('Añade al menos 1 categoría para previsualizar el menú.', 'Add at least 1 category to preview the menu.'))}</div>`}
+                ${menuOptsHtml || `<div class="dc-select-empty">${escapeHtml(t('Añade al menos 1 categoría para previsualizar el menú.', 'Add at least 1 category to preview the menu.'))}</div>`}
               </div>
             </div>
           `;

@@ -41,7 +41,7 @@
     .search-box svg.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: var(--text-mute); pointer-events: none; }
     .search-input { width: 100%; height: 46px; box-sizing: border-box; background: var(--ink); border: 1px solid var(--line-strong); color: var(--text); padding: 0 46px 0 42px; font-family: 'IBM Plex Sans', sans-serif; font-size: .95rem; border-radius: 0; appearance: none; -webkit-appearance: none; }
     .search-input:focus { border-color: var(--signal-text); }
-    .search-kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: .75rem; color: var(--text-mute); background: var(--surface); border: 1px solid var(--line); padding: 2px 7px; pointer-events: none; }
+    .search-kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: .8125rem; color: var(--text-mute); background: var(--surface); border: 1px solid var(--line); padding: 2px 7px; pointer-events: none; }
     .search-input:focus ~ .search-kbd,
     .search-clear.visible ~ .search-kbd { display: none; }
     .search-clear { position: absolute; right: 3px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: transparent; border: none; color: var(--text-mute); font-size: 1.2rem; line-height: 1; cursor: pointer; display: none; align-items: center; justify-content: center; border-radius: 0; touch-action: manipulation; }
@@ -53,11 +53,11 @@
     .type-filter:focus { border-color: var(--signal-text); }
 
     .category-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .cat-btn { background: var(--ink); border: 1px solid var(--line); color: var(--text-dim); padding: 8px 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: .85rem; cursor: pointer; touch-action: manipulation; border-radius: 0; display: flex; align-items: center; gap: 8px; transition: background .15s, color .15s, border-color .15s; }
+    .cat-btn { background: var(--ink); border: 1px solid var(--line); color: var(--text-dim); padding: 8px 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: .88rem; cursor: pointer; touch-action: manipulation; border-radius: 0; display: flex; align-items: center; gap: 8px; transition: background .15s, color .15s, border-color .15s; }
     .cat-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--line-strong); }
     .cat-btn.active { background: var(--text); color: var(--ink); border-color: var(--text); font-weight: 600; }
-    .cat-count { background: var(--surface-2); color: var(--text-dim); padding: 2px 6px; font-size: .7rem; font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; border: 1px solid var(--line); }
-    .cat-btn.active .cat-count { background: var(--ink); color: var(--text); border-color: transparent; }
+    .cat-count { color: var(--text-mute); font-size: .8125rem; font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
+    .cat-btn.active .cat-count { color: var(--ink); opacity: .78; }
 
     .cmd-list { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); }
     .cmd-item { background: var(--surface); }
@@ -66,12 +66,12 @@
     .cmd-toggle { background: none; border: none; color: inherit; font: inherit; text-align: left; cursor: pointer; flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 24px; margin: 0; touch-action: manipulation; transition: background .15s; }
     .cmd-toggle:hover { background: var(--surface-2); }
     .cmd-toggle:focus-visible { outline: 2px solid var(--signal-text); outline-offset: -2px; }
-    .cmd-title-wrap { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .cmd-title-wrap { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
     .cmd-name { font-family: 'IBM Plex Mono', monospace; font-size: 1.05rem; font-weight: 600; color: var(--text); }
-    .cmd-cat-tag { font-size: .72rem; font-family: 'IBM Plex Mono', monospace; color: var(--text-mute); border: 1px solid var(--line); padding: 2px 6px; text-transform: uppercase; }
+    .cmd-cat-tag { font-size: .8125rem; color: var(--text-mute); font-weight: 500; }
     .cmd-chevron { color: var(--text-mute); flex-shrink: 0; transition: transform .2s var(--ease-out), color .15s; }
 
-    .cmd-copy { background: transparent; border: 1px solid var(--line-strong); color: var(--text-dim); min-height: 36px; padding: 6px 12px; margin-right: 24px; font-family: 'IBM Plex Sans', sans-serif; font-size: .8rem; cursor: pointer; touch-action: manipulation; border-radius: 0; display: flex; align-items: center; gap: 6px; flex-shrink: 0; transition: background .15s, border-color .15s, color .15s; }
+    .cmd-copy { background: transparent; border: 1px solid var(--line-strong); color: var(--text-dim); min-height: 36px; padding: 6px 12px; margin-right: 24px; font-family: 'IBM Plex Sans', sans-serif; font-size: .84rem; cursor: pointer; touch-action: manipulation; border-radius: 0; display: flex; align-items: center; gap: 6px; flex-shrink: 0; transition: background .15s, border-color .15s, color .15s; }
     .cmd-copy:hover { background: var(--ink); color: var(--text); border-color: var(--text-dim); }
     .cmd-copy:focus-visible { outline: 2px solid var(--signal-text); outline-offset: 2px; }
     .cmd-copy.success { background: rgba(46, 204, 113, 0.14); color: #4ade80; border-color: rgba(74, 222, 128, 0.45); }
@@ -83,17 +83,19 @@
     .cmd-item.expanded .cmd-chevron { transform: rotate(180deg); color: var(--signal-text); }
 
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
-    .detail-block h4 { font-size: .72rem; font-family: 'IBM Plex Mono', monospace; color: var(--text-mute); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-block h4 { font-size: .8125rem; font-weight: 600; color: var(--text-mute); margin-bottom: 8px; }
     .detail-block p { font-size: .95rem; color: var(--text-dim); line-height: 1.6; }
 
     .code-block { background: var(--surface); border: 1px solid var(--line); padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: .85rem; color: var(--text); display: inline-block; margin-top: 4px; word-break: break-all; }
 
-    .opt-tag { display: inline-block; background: var(--surface); border: 1px solid var(--line); padding: 4px 8px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: var(--text-dim); margin: 0 6px 6px 0; }
+    .opt-tag { display: inline-block; background: var(--surface); border: 1px solid var(--line); padding: 4px 8px; font-family: 'IBM Plex Mono', monospace; font-size: .8125rem; color: var(--text-dim); margin: 0 6px 6px 0; }
     .opt-req { border-left: 2px solid var(--signal-text); color: var(--text); }
 
     .no-results { padding: 48px 24px; text-align: center; background: var(--surface); border: 1px solid var(--line); color: var(--text-dim); font-size: 1rem; display: none; }
     .no-results p { margin-bottom: 16px; }
     .no-results button { font-size: .85rem; padding: 10px 18px; }
+    .no-results-reset { display: none; }
+    .commands-tickets-link { margin-top: 12px; }
 
     @media (max-width: 768px) {
       main { padding: 32px 24px 80px; }
@@ -119,7 +121,8 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -135,9 +138,7 @@
     <div class="page-header">
       <h1 data-i18n="title">Comandos</h1>
       <p data-i18n="subtitle">Encuentra toda la lista de comandos disponibles de RedBot. Explora las utilidades, herramientas de administración y opciones de IA.</p>
-      <div style="margin-top: 16px;">
-        <a href="/tickets" class="btn btn-secondary" style="padding: 9px 16px; font-size: .85rem;" data-i18n="ticketsPanelBtn">Ir al Panel Web de Tickets →</a>
-      </div>
+      <a href="/tickets" class="text-link commands-tickets-link" data-i18n="ticketsPanelBtn">Abrir panel web de Tickets →</a>
     </div>
 
     <div class="controls">
@@ -161,7 +162,7 @@
     <div class="cmd-list" id="commandList"></div>
     <div class="no-results" id="noResults" role="status" aria-live="polite">
       <p id="noResultsText">No se encontraron comandos coincidentes.</p>
-      <button type="button" class="btn btn-secondary" id="resetFiltersBtn" style="display: none;" onclick="resetToAllCategories()" data-i18n="resetBtn">
+      <button type="button" class="btn btn-secondary no-results-reset" id="resetFiltersBtn" onclick="resetToAllCategories()" data-i18n="resetBtn">
         Buscar en todas las categorías
       </button>
     </div>

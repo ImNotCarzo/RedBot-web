@@ -33,7 +33,8 @@
 
   <nav data-nosnippet>
     <a class="nav-logo" href="/" aria-label="Ir al inicio de RedBot">
-      <img src="/android-chrome-192x192.png" alt="RedBot" width="44" height="44">
+      <img src="/android-chrome-192x192.png" alt="" width="34" height="34" aria-hidden="true">
+      <span class="nav-brand">RedBot</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menú</button>
     <ul class="nav-links" id="nav-links">
@@ -47,14 +48,13 @@
 
   <main id="contenido">
     <div class="page-header">
-      <p class="page-tag" data-i18n-html="tag"><strong>Legal</strong> · Última actualización: Noviembre 2026</p>
       <h1 class="page-title" data-i18n="title">Términos de Servicio</h1>
       <p class="page-subtitle" data-i18n="subtitle">Condiciones de uso claras y directas para operar RedBot en tus servidores, chats privados y panel web.</p>
+      <p class="page-meta" data-i18n="updated">Última actualización: Noviembre 2026</p>
     </div>
 
     <div class="content">
       <div class="cl">
-        <div class="cl-num" data-i18n="s1Num">01 / Introducción</div>
         <h2 data-i18n="s1Title">Aceptación de los términos</h2>
         <p data-i18n="s1p1">Al invitar, autorizar como aplicación de usuario, acceder al panel web en redbot.me o usar cualquiera de los comandos de RedBot, aceptas estos Términos de Servicio, nuestra Política de Privacidad, los Términos de Servicio de Discord y las leyes aplicables.</p>
         <div class="box warn">
@@ -63,7 +63,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s2Num">02 / Servicio</div>
         <h2 data-i18n="s2Title">Descripción y alcance del servicio</h2>
         <p data-i18n="s2p1">RedBot es un bot multifunción para Discord (compatible con instalación en servidores y como aplicación de usuario) complementado con un panel de configuración web en redbot.me. Sus funciones incluyen:</p>
         <ul>
@@ -76,7 +75,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s3Num">03 / Responsabilidad</div>
         <h2 data-i18n="s3Title">Responsabilidad de administradores y usuarios</h2>
         <ul>
           <li data-i18n-html="s3l1"><strong>Gestión del servidor:</strong> los dueños y administradores de cada servidor son responsables de las configuraciones, permisos otorgados, sanciones ejecutadas (incluyendo AutoMod, autopurge, massban o mensajes privados masivos) y del contenido creado en comandos personalizados, plantillas o paneles.</li>
@@ -87,7 +85,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s4Num">04 / Conducta</div>
         <h2 data-i18n="s4Title">Uso aceptable</h2>
         <p data-i18n="s4p1">Queda estrictamente prohibido:</p>
         <ul>
@@ -100,7 +97,6 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s5Num">05 / Disponibilidad</div>
         <h2 data-i18n="s5Title">Disponibilidad, cambios y limitación de responsabilidad</h2>
         <div class="box">
           <p data-i18n-html="s5box">El software y el panel web se proporcionan <strong>"tal cual"</strong> y <strong>"según disponibilidad"</strong>, sin garantías implícitas de funcionamiento ininterrumpido o exactitud.</p>
@@ -110,9 +106,8 @@
       </div>
 
       <div class="cl">
-        <div class="cl-num" data-i18n="s6Num">06 / Modificaciones y contacto</div>
         <h2 data-i18n="s6Title">Actualizaciones y soporte</h2>
-        <p data-i18n-html="s6p1">Podemos actualizar estos Términos cuando cambien las funciones del bot o los requisitos legales. El uso continuado de RedBot tras su publicación implica la aceptación de la versión vigente. Si tienes dudas o reportes, contáctanos en nuestro <a href="https://discord.gg/sYdyS8Ez3s" style="color: var(--signal-text);">Servidor de Soporte oficial</a>.</p>
+        <p data-i18n-html="s6p1">Podemos actualizar estos Términos cuando cambien las funciones del bot o los requisitos legales. El uso continuado de RedBot tras su publicación implica la aceptación de la versión vigente. Si tienes dudas o reportes, contáctanos en nuestro <a href="https://discord.gg/sYdyS8Ez3s">Servidor de Soporte oficial</a>.</p>
       </div>
 
       <a class="back-link" href="/" data-i18n="backHome">Volver al inicio</a>
@@ -148,14 +143,12 @@
     window.REDBOT_I18N = {
       titleEn: "Terms of Service - RedBot",
       en: {
-        tag: "<strong>Legal</strong> · Last updated: November 2026",
         title: "Terms of Service",
         subtitle: "Clear and straightforward terms of use for operating RedBot in your servers, private chats, and web dashboard.",
-        s1Num: "01 / Introduction",
+        updated: "Last updated: November 2026",
         s1Title: "Acceptance of terms",
         s1p1: "By inviting RedBot, installing it as a user app, accessing the web dashboard at redbot.me, or using any RedBot command, you agree to these Terms of Service, our Privacy Policy, Discord's Terms of Service, and applicable laws.",
         s1box: "If you do not agree with these terms, stop using RedBot, log out of the web dashboard, and remove it from your server or account immediately.",
-        s2Num: "02 / Service",
         s2Title: "Service description and scope",
         s2p1: "RedBot is a multipurpose Discord bot (supporting both server installation and user app contexts) paired with a web dashboard at redbot.me. Its features include:",
         s2l1: "<strong>Moderation & security:</strong> sanctions, warnings, moderation cases, audit logs, automated filters (built-in AutoMod and AI-generated native Discord AutoMod rules), native anti-raid incident actions, and Drama Watcher alerts.",
@@ -163,13 +156,11 @@
         s2l3: "<strong>Support & community:</strong> ticket system with Discord or web-configured panels, exportable transcripts, welcome/goodbye messages, birthdays, and invite tracking.",
         s2l4: "<strong>Automation, roles & channels:</strong> custom commands, Embed templates, scheduled timers, event-based automation rules, social alerts (YouTube, Twitch, Kick, TikTok, and Reddit), auto/temp/voice/reaction roles, temporary channels, sticky messages, autopurge, snipe, and dynamic voice channel status.",
         s2l5: "<strong>Utilities & media:</strong> native polls, reminders, AFK status, translation, public media downloads, and per-server bot profile customization.",
-        s3Num: "03 / Responsibility",
         s3Title: "Administrator and user responsibilities",
         s3l1: "<strong>Server management:</strong> server owners and administrators are solely responsible for configurations, granted permissions, moderation actions (including AutoMod, autopurge, massban, or bulk DMs), and any content created in custom commands, templates, or panels.",
         s3l2: "<strong>Web dashboard access:</strong> using management modules on redbot.me requires Discord OAuth2 sign-in and Administrator or Manage Server (ManageGuild) permissions in the target server.",
         s3l3: "<strong>Third-party content & rights:</strong> when using media downloads, transcription, or file/link analysis, you warrant that you have the right to process that content and assume responsibility regarding copyrights and source platform terms.",
         s3l4: "<strong>AI-generated outputs:</strong> replies, summaries, search results, and AI-suggested rules are generated automatically and may contain inaccuracies. They must be reviewed by the user or staff and do not constitute legal, medical, or professional advice.",
-        s4Num: "04 / Conduct",
         s4Title: "Acceptable use",
         s4p1: "It is strictly prohibited to:",
         s4l1: "Exploit vulnerabilities, bypass rate limits, send abusive requests toward internal networks, or disrupt the bot or its API infrastructure.",
@@ -177,14 +168,12 @@
         s4l3: "Use AI features to generate, distribute, or process illegal or harmful content, or content violating our AI providers' usage policies.",
         s4l4: "Reverse-engineer the system without authorization, resell the service, or impersonate the official RedBot identity.",
         s4p2: "We reserve the right to restrict or block access for users or servers that violate these rules or threaten service stability.",
-        s5Num: "05 / Availability",
         s5Title: "Availability, changes, and limitation of liability",
         s5box: "The software and web dashboard are provided strictly <strong>\"as is\"</strong> and <strong>\"as available\"</strong>, without implied warranties of uninterrupted operation or accuracy.",
         s5p1: "Certain features rely on third-party services (such as the Discord API, AI providers, or external feed and media platforms) and may change, be rate-limited, or be discontinued without prior notice.",
         s5p2: "The developers assume no liability for data loss, service downtime, or misuse by server administrators or third parties.",
-        s6Num: "06 / Updates & contact",
         s6Title: "Changes and support",
-        s6p1: "We may update these Terms as bot features or legal requirements evolve. Continued use of RedBot after publication constitutes acceptance of the current version. For questions or reports, contact us on our <a href=\"https://discord.gg/sYdyS8Ez3s\" style=\"color: var(--signal-text);\">official Support Server</a>.",
+        s6p1: "We may update these Terms as bot features or legal requirements evolve. Continued use of RedBot after publication constitutes acceptance of the current version. For questions or reports, contact us on our <a href=\"https://discord.gg/sYdyS8Ez3s\">official Support Server</a>.",
         backHome: "Back to home"
       }
     };
