@@ -785,6 +785,8 @@ footer {
   color: var(--text);
   border: 1px solid var(--line-strong);
   padding: 2px 6px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .content p a:not(.btn),
@@ -900,6 +902,28 @@ footer {
 
 .comp-table tr:last-child td {
   border-bottom: none;
+}
+
+.comp-table code {
+  white-space: nowrap;
+}
+
+.cell-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: .78rem;
+  color: var(--text-mute);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.content .table-note,
+.table-note {
+  margin: -30px 0 36px;
+  font-size: var(--text-sm);
+  color: var(--text-mute);
+  max-width: none;
+  line-height: 1.5;
 }
 
 .badge-tag {

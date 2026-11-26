@@ -23,15 +23,15 @@ A diferencia de bots tradicionales como MEE6, Dyno o Carl-bot, RedBot es **100% 
 
 | Característica | RedBot | MEE6 | Dyno | Carl-bot |
 |---|---|---|---|---|
-| Precio base | 100% Gratis ($0) | Freemium agresivo ($11.99/mes) | Freemium ($5–$10/mes) | Freemium ($5–$10/mes) |
-| IA multimodal (`/ai ask`, visión, OCR, audio) | Sí, gratis y sin API keys | De pago (Premium) | No nativo | No nativo |
+| Precio por servidor | 100% Gratis ($0) | $11.99/mes ($49.99/año ren. · $89.99 lifetime) | $3.99–$10.99/mes (Standard / Premium / Custom) | $7.99/mes ($6.63/mes anual · packs 2–5 servers) |
+| IA multimodal (`/ai ask`, visión, OCR, audio) | Sí, gratis y sin API keys | De pago aparte ($4.99–$14.99/mes o desde $3.49/mes server; 10 `/write`/30d gratis; sin voz/OCR) | No nativo | No nativo |
 | Búsqueda semántica en mensajes (`/ai search`) | Sí (búsqueda nativa + IA) | No | No | No |
 | Discord AutoMod desde lenguaje natural (`/mod automod-ai`) | Sí (reglas nativas) | No | Manual | Manual |
-| Moderación, escalado y logs pasivos | Incluido gratis | Requiere Premium para logs | Incluido | Incluido |
-| Sistema de Tickets + diseñador web 1:1 | Gratis (hasta 25 categorías) | De pago | No nativo | Limitado |
-| Perfil del bot personalizado por servidor (`/server custombot`) | Gratis | De pago | De pago | De pago |
-| Automatización TagScript y alertas sociales (incl. Kick/TikTok) | Gratis (hasta 500 comandos/embeds) | De pago | Limitado | Limitado |
-| Idioma nativo | Español / Inglés | Inglés primario | Inglés | Inglés |
+| Moderación, warns y logs de auditoría | Incluido gratis | Requiere Premium | Gratis (10 msgs caché; 100 en Standard) | Gratis (100 weblogs; 500 en Premium) |
+| Sistema de Tickets + diseñador web 1:1 | Gratis (hasta 25 categorías) | De pago (0 embeds y sin transcripts gratis) | 1 panel gratis; ilimitado desde Standard ($3.99/mes) | No incluido |
+| Perfil del bot personalizado por servidor (`/server custombot`) | Gratis | Solo en Premium anual y Lifetime | Plan Custom ($10.99/mes) | Premium ($7.99/mes, avatar/banner sin cambiar nombre) |
+| Automatización TagScript y alertas sociales (incl. Kick/TikTok) | Gratis (500 comandos/embeds, 5 redes) | Premium (0 alertas sociales gratis; 500 cmds en pago) | Standard ($3.99/mes) comandos; Premium ($5.99/mes) alertas | 5 YT + 1–2 Twitch gratis (sin TikTok/Kick); Sticky/Autopurge en Premium |
+| Idioma y comandos | Español / Inglés (`/` + `.` + User App) | 10 idiomas incl. Español (Slash + Web) | 10 idiomas incl. `es-ES` (Solo Slash/mención; prefijo retirado oct. 2026) | Solo inglés (Solo Slash/mención; prefijo retirado oct. 2026) |
 | Panel web obligatorio | No (opcional: Discord + panel en redbot.me) | Sí | Sí | Sí |
 
 ---
