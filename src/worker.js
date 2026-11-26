@@ -16,7 +16,7 @@ export default {
     const isApi = url.pathname === "/api" || url.pathname.startsWith("/api/");
 
     if (isApi) {
-      const rawApiUrl = (env.REDBOT_API_URL || "").trim() || "https://redbot.hidenplay.net";
+      const rawApiUrl = (env.REDBOT_API_URL || "").trim() || "https://api.redbot.me";
       const base = rawApiUrl.replace(/\/+$/, "");
       const target = `${base}${url.pathname}${url.search}`;
 
